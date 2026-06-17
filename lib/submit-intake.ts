@@ -1,9 +1,15 @@
 import { supabase } from "@/lib/supabase";
 import {
-  submitIntakeAction,
+  validateIntakeAction,
   type IntakePayload,
 } from "@/app/actions/submit-intake";
 import type { IntakeFormData } from "@/types/intake";
+
+const PROFILE_MAP: Record<string, string> = {
+  business: "negocio",
+  leader: "lider_area",
+  entrepreneur: "emprendedor",
+};
 
 export type SubmitResult =
   | { success: true }
@@ -12,7 +18,6 @@ export type SubmitResult =
 export async function submitIntake(
   data: IntakeFormData
 ): Promise<SubmitResult> {
-  // Paso 1: validación server-side + inserción en `intakes`
   const payload: IntakePayload = {
     profile: data.profile,
     sector: data.sector,
@@ -30,19 +35,52 @@ export async function submitIntake(
     fileCount: data.files.length,
   };
 
-  const actionResult = await submitIntakeAction(payload);
-
-  if (!actionResult.success) {
-    return { success: false, error: actionResult.error };
+  // Paso 1: validación server-side (sin llamadas a Supabase)
+  const validation = await validateIntakeAction(payload);
+  if (!validation.valid) {
+    return { success: false, error: validation.error };
   }
 
-  const { intakeId } = actionResult;
+  // Paso 2: insert en `intakes` desde el cliente (anon key funciona correctamente aquí)
+  const respuestas_capacidad = {
+    painDetail: data.painDetail || null,
+    capacityQ1: data.capacityQ1 || null,
+    capacityQ2: data.capacityQ2 || null,
+    capacityQ3: data.capacityQ3 || null,
+  };
 
-  // Pasos 2 y 3: subir archivos + registrar en `intake_documentos`
+  const { data: intakeRow, error: intakeError } = await supabase
+    .from("intakes")
+    .insert({
+      perfil: data.profile ? PROFILE_MAP[data.profile] : null,
+      sector: data.sector,
+      alcance: data.scope,
+      correo: data.email,
+      dolor_declarado: data.painType,
+      to_be_objetivo: data.toBe,
+      to_be_nivel: data.maturityTarget ?? null,
+      tecnologia_visible: data.technology || null,
+      metrica_declarada: data.metric || null,
+      respuestas_capacidad,
+      estado: "recibido",
+    })
+    .select("id")
+    .single();
+
+  if (intakeError || !intakeRow) {
+    console.error("[YetiBI] Error al guardar en intakes:", intakeError?.message);
+    return {
+      success: false,
+      error: `No pudimos guardar tu información (${intakeError?.code ?? "error desconocido"}). Por favor intenta de nuevo.`,
+    };
+  }
+
+  const intakeId = intakeRow.id as string;
+
+  // Paso 3: subir archivos + registrar en `intake_documentos`
   const failedFiles: string[] = [];
 
   for (const uploaded of data.files) {
-    // Nombre seguro: timestamp + nombre original sanitizado
     const safeName = `${Date.now()}-${uploaded.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
     const storagePath = `${intakeId}/${safeName}`;
 
@@ -54,10 +92,7 @@ export async function submitIntake(
       });
 
     if (storageError) {
-      console.error(
-        `[YetiBI] Error al subir archivo "${uploaded.name}":`,
-        storageError.message
-      );
+      console.error(`[YetiBI] Error al subir "${uploaded.name}":`, storageError.message);
       failedFiles.push(uploaded.name);
       continue;
     }
@@ -71,10 +106,7 @@ export async function submitIntake(
     });
 
     if (docError) {
-      console.error(
-        `[YetiBI] Error al registrar documento "${uploaded.name}":`,
-        docError.message
-      );
+      console.error(`[YetiBI] Error al registrar doc "${uploaded.name}":`, docError.message);
       failedFiles.push(uploaded.name);
     }
   }
@@ -83,7 +115,6 @@ export async function submitIntake(
     return { success: true };
   }
 
-  // Error parcial o total en archivos — la fila en `intakes` SÍ se guardó
   if (failedFiles.length === data.files.length) {
     return {
       success: false,
