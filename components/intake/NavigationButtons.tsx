@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 interface NavigationButtonsProps {
   step: number;
   canProceed: boolean;
+  isSubmitting: boolean;
   onBack: () => void;
   onNext: () => void;
   onSubmit: () => void;
@@ -13,6 +14,7 @@ interface NavigationButtonsProps {
 export function NavigationButtons({
   step,
   canProceed,
+  isSubmitting,
   onBack,
   onNext,
   onSubmit,
@@ -63,9 +65,10 @@ export function NavigationButtons({
             <Button
               type="button"
               onClick={onSubmit}
-              className="bg-[#E07B30] text-white hover:bg-[#C96B22] font-semibold tracking-wide transition-colors"
+              disabled={isSubmitting}
+              className="bg-[#E07B30] text-white hover:bg-[#C96B22] disabled:opacity-60 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors min-w-[160px]"
             >
-              Enviar diagnóstico
+              {isSubmitting ? "Enviando…" : "Enviar diagnóstico"}
             </Button>
           )}
         </div>

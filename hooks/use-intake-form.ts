@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { IntakeFormData, FormStep, StepDirection } from "@/types/intake";
+import { submitIntake } from "@/lib/submit-intake";
 
 const initialData: IntakeFormData = {
   profile: null,
@@ -28,6 +29,8 @@ export function useIntakeForm() {
   const [data, setData] = useState<IntakeFormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function update<K extends keyof IntakeFormData>(
     field: K,
@@ -76,9 +79,19 @@ export function useIntakeForm() {
     setStep((prev) => (prev > 1 ? ((prev - 1) as FormStep) : prev));
   }
 
-  function submit() {
-    // Etapa 2: aquí irá el submit real vía n8n → YetibiEngine
-    console.log("[YetiBI Intake] Datos en memoria:", data);
+  async function submit() {
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const result = await submitIntake(data);
+
+    setIsSubmitting(false);
+
+    if (!result.success) {
+      setSubmitError(result.error);
+      return;
+    }
+
     setSubmitted(true);
   }
 
@@ -93,5 +106,7 @@ export function useIntakeForm() {
     submitted,
     canProceed,
     showErrors,
+    isSubmitting,
+    submitError,
   };
 }
