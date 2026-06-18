@@ -49,9 +49,13 @@ export async function submitIntake(
     capacityQ3: data.capacityQ3 || null,
   };
 
-  const { data: intakeRow, error: intakeError } = await supabase
+  // UUID generado en cliente — evita necesitar SELECT policy para el RETURNING
+  const intakeId = crypto.randomUUID();
+
+  const { error: intakeError } = await supabase
     .from("intakes")
     .insert({
+      id: intakeId,
       perfil: data.profile ? PROFILE_MAP[data.profile] : null,
       sector: data.sector,
       alcance: data.scope,
@@ -63,19 +67,15 @@ export async function submitIntake(
       metrica_declarada: data.metric || null,
       respuestas_capacidad,
       estado: "recibido",
-    })
-    .select("id")
-    .single();
+    });
 
-  if (intakeError || !intakeRow) {
+  if (intakeError) {
     console.error("[YetiBI] Error al guardar en intakes:", intakeError?.message);
     return {
       success: false,
-      error: `No pudimos guardar tu información (${intakeError?.code ?? "error desconocido"}). Por favor intenta de nuevo.`,
+      error: "No pudimos guardar tu información. Por favor intenta de nuevo en unos minutos.",
     };
   }
-
-  const intakeId = intakeRow.id as string;
 
   // Paso 3: subir archivos + registrar en `intake_documentos`
   const failedFiles: string[] = [];
