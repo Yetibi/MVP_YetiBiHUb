@@ -3,6 +3,7 @@ import {
   validateIntakeAction,
   type IntakePayload,
 } from "@/app/actions/submit-intake";
+import { notifyWebhookAction } from "@/app/actions/notify-webhook";
 import type { IntakeFormData } from "@/types/intake";
 
 const PROFILE_MAP: Record<string, string> = {
@@ -110,6 +111,30 @@ export async function submitIntake(
       failedFiles.push(uploaded.name);
     }
   }
+
+  // Paso 4: notificar a n8n — fire-and-forget, nunca bloquea ni cambia el resultado
+  notifyWebhookAction({
+    intakeId,
+    perfil: data.profile ? PROFILE_MAP[data.profile] : null,
+    sector: data.sector,
+    alcance: data.scope,
+    correo: data.email,
+    dolor_declarado: data.painType,
+    to_be_objetivo: data.toBe,
+    to_be_nivel: data.maturityTarget,
+    tecnologia_visible: data.technology || null,
+    metrica_declarada: data.metric || null,
+    respuestas_capacidad: {
+      painDetail: data.painDetail || null,
+      capacityQ1: data.capacityQ1 || null,
+      capacityQ2: data.capacityQ2 || null,
+      capacityQ3: data.capacityQ3 || null,
+    },
+    fileCount: data.files.length,
+    archivos: data.files.map((f) => f.name),
+  }).catch((err) =>
+    console.error("[YetiBI] notifyWebhookAction lanzó excepción inesperada:", err)
+  );
 
   if (failedFiles.length === 0) {
     return { success: true };
