@@ -29,9 +29,10 @@ export type MudaTipo =
 
 export interface DiagnosticoResult {
   suficiencia: {
+    evidencia_suficiente: boolean;
+    score_sustancialidad: number;
     nivel: "rica" | "intermedia" | "pobre";
-    score: number;
-    razon: string;
+    razonamiento: string;
   };
   cmmi: {
     nivel_actual_estimado: NivelCMMI;

@@ -7,27 +7,7 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-function evaluarSuficiencia(data: IntakeData): {
-  nivel: "rica" | "intermedia" | "pobre";
-  score: number;
-} {
-  let score = 0;
-
-  if (data.dolor_declarado && data.dolor_declarado.trim().length > 20) score += 2;
-  if (data.to_be_objetivo && data.to_be_objetivo.trim().length > 20) score += 2;
-  if (data.to_be_nivel !== null) score += 1;
-  if (data.tecnologia_visible && data.tecnologia_visible.trim().length > 0) score += 1;
-  if (data.metrica_declarada && data.metrica_declarada.trim().length > 0) score += 1;
-  if (data.respuestas_capacidad.painDetail && data.respuestas_capacidad.painDetail.trim().length > 20) score += 1;
-  if (data.respuestas_capacidad.capacityQ1 && data.respuestas_capacidad.capacityQ1.trim().length > 10) score += 1;
-  if (data.respuestas_capacidad.capacityQ2 && data.respuestas_capacidad.capacityQ2.trim().length > 10) score += 1;
-  if (data.respuestas_capacidad.capacityQ3 && data.respuestas_capacidad.capacityQ3.trim().length > 10) score += 1;
-
-  const nivel = score >= 8 ? "rica" : score >= 5 ? "intermedia" : "pobre";
-  return { nivel, score };
-}
-
-function buildPrompt(data: IntakeData, suficiencia: { nivel: string; score: number }): string {
+function buildPrompt(data: IntakeData): string {
   return `Eres un consultor experto en mejora de procesos organizacionales. Analiza el siguiente intake de diagnóstico empresarial y genera un resultado estructurado en JSON.
 
 DATOS DEL INTAKE:
@@ -44,11 +24,25 @@ DATOS DEL INTAKE:
 - Capacidad Q2: ${data.respuestas_capacidad.capacityQ2 ?? "no proporcionado"}
 - Capacidad Q3: ${data.respuestas_capacidad.capacityQ3 ?? "no proporcionado"}
 
-SUFICIENCIA DE EVIDENCIA PRE-CALCULADA:
-- Nivel: ${suficiencia.nivel} (score: ${suficiencia.score}/11)
+INSTRUCCIONES:
+
+Primero, evalúa la suficiencia de la evidencia disponible usando tu propio criterio como consultor:
+- ¿El dolor declarado es específico y diagnósticable, o es tan vago que no permite análisis?
+- ¿El objetivo To-Be es concreto y medible, o es aspiracional sin sustancia?
+- ¿Hay métricas reales que permitan cuantificar el problema y el éxito?
+- ¿Las respuestas de capacidad revelan contexto operativo real (recursos, datos, restricciones)?
+- ¿Hay suficiente información para hacer recomendaciones accionables, o solo hipótesis genéricas?
+
+Evalúa esto con criterio consultivo real: un texto largo pero vago no es evidencia rica. Una frase corta pero con una métrica concreta puede ser más valiosa que un párrafo de generalidades.
 
 Genera ÚNICAMENTE un objeto JSON válido (sin markdown, sin texto extra) con esta estructura exacta:
 {
+  "suficiencia": {
+    "evidencia_suficiente": <true si hay suficiente evidencia para diagnóstico accionable, false si no>,
+    "score_sustancialidad": <número 0-10 que tú derives basado en la calidad y especificidad de la evidencia, no en la cantidad de campos llenos>,
+    "nivel": <"rica" si score >= 7 y la evidencia permite diagnóstico preciso, "intermedia" si score 4-6 y permite hipótesis razonables, "pobre" si score <= 3 y solo permite suposiciones genéricas>,
+    "razonamiento": "<explicación específica de este caso: qué evidencia concreta está presente o ausente, por qué clasificas así — nunca una frase genérica>"
+  },
   "cmmi": {
     "nivel_actual_estimado": <número 1-5>,
     "nivel_objetivo": <número 1-5 o null>,
@@ -68,16 +62,7 @@ Genera ÚNICAMENTE un objeto JSON válido (sin markdown, sin texto extra) con es
 }
 
 export async function generarDiagnostico(data: IntakeData): Promise<DiagnosticoResult> {
-  const { nivel, score } = evaluarSuficiencia(data);
-
-  const suficienciaRazon =
-    nivel === "rica"
-      ? "El intake contiene datos detallados en dolor, objetivo, métricas y respuestas de capacidad."
-      : nivel === "intermedia"
-      ? "El intake tiene información básica pero faltan métricas o detalles de capacidad."
-      : "El intake carece de detalle suficiente para un diagnóstico preciso; se estimarán rangos amplios.";
-
-  const prompt = buildPrompt(data, { nivel, score });
+  const prompt = buildPrompt(data);
 
   const message = await client.messages.create({
     model: MODEL,
@@ -90,15 +75,12 @@ export async function generarDiagnostico(data: IntakeData): Promise<DiagnosticoR
   // Claude a veces envuelve el JSON en ```json ... ``` — lo extraemos
   const jsonText = rawText.replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/, "").trim();
 
-  let claudeResult: Omit<DiagnosticoResult, "suficiencia">;
+  let result: DiagnosticoResult;
   try {
-    claudeResult = JSON.parse(jsonText);
+    result = JSON.parse(jsonText);
   } catch {
     throw new Error(`Claude no devolvió JSON válido. Respuesta cruda:\n${rawText}`);
   }
 
-  return {
-    suficiencia: { nivel, score, razon: suficienciaRazon },
-    ...claudeResult,
-  };
+  return result;
 }
