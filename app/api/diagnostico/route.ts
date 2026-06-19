@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { generarDiagnostico } from "@/lib/diagnostico-engine";
+import { prepararDocumentos } from "@/lib/preparar-documentos";
 import type { IntakeData } from "@/types/diagnostico";
 
 const MODEL_USADO = "claude-sonnet-4-6";
@@ -74,12 +75,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 3. Mapear fila → IntakeData y llamar al engine
+  // 3. Descargar y preparar documentos adjuntos (fallo parcial no bloquea el flujo)
+  const { documentos, advertencias } = await prepararDocumentos(db, intakeId);
+
+  // 4. Mapear fila → IntakeData y llamar al engine con documentos
   const intakeData = mapRowToIntakeData(intake);
 
   let diagnostico;
   try {
-    diagnostico = await generarDiagnostico(intakeData);
+    diagnostico = await generarDiagnostico(intakeData, documentos);
   } catch (err) {
     return NextResponse.json(
       { error: "Error al generar diagnóstico con Claude", detail: String(err) },
@@ -87,7 +91,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 4. Insertar resultado en la tabla diagnosticos
+  // 5. Insertar resultado en la tabla diagnosticos
   const { data: inserted, error: insertError } = await db
     .from("diagnosticos")
     .insert({
@@ -110,9 +114,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 5. Respuesta exitosa
+  // 6. Respuesta exitosa — incluye advertencias si las hubo
   return NextResponse.json(
-    { ok: true, diagnosticoId: inserted.id, intakeId },
+    {
+      ok: true,
+      diagnosticoId: inserted.id,
+      intakeId,
+      documentosProcesados: documentos.length,
+      ...(advertencias.length > 0 && { advertencias }),
+    },
     { status: 200 }
   );
 }

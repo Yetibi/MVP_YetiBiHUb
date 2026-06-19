@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { IntakeData, DiagnosticoResult } from "@/types/diagnostico";
+import type { DocumentoPreparado } from "@/lib/preparar-documentos";
 
 const MODEL = "claude-sonnet-4-6";
 
@@ -7,8 +8,11 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-function buildPrompt(data: IntakeData): string {
-  return `Eres un consultor experto en mejora de procesos organizacionales. Analiza el siguiente intake de diagnóstico empresarial y genera un resultado estructurado en JSON.
+function buildContent(
+  data: IntakeData,
+  documentos?: DocumentoPreparado[]
+): string | Anthropic.MessageParam["content"] {
+  const textoIntake = `Eres un consultor experto en mejora de procesos organizacionales. Analiza el siguiente intake de diagnóstico empresarial y genera un resultado estructurado en JSON.
 
 DATOS DEL INTAKE:
 - Perfil: ${data.perfil}
@@ -22,7 +26,13 @@ DATOS DEL INTAKE:
 - Detalle del dolor: ${data.respuestas_capacidad.painDetail ?? "no proporcionado"}
 - Capacidad Q1: ${data.respuestas_capacidad.capacityQ1 ?? "no proporcionado"}
 - Capacidad Q2: ${data.respuestas_capacidad.capacityQ2 ?? "no proporcionado"}
-- Capacidad Q3: ${data.respuestas_capacidad.capacityQ3 ?? "no proporcionado"}
+- Capacidad Q3: ${data.respuestas_capacidad.capacityQ3 ?? "no proporcionado"}`;
+
+  const textoDocumentosIntro = documentos && documentos.length > 0
+    ? `\n\nDOCUMENTOS ADJUNTOS (${documentos.length} archivo${documentos.length > 1 ? "s" : ""}):\nA continuación se incluye el contenido real de los documentos adjuntos por el cliente. Considera este contenido como evidencia adicional al texto del formulario al evaluar la suficiencia y generar el diagnóstico.`
+    : "";
+
+  const textoInstrucciones = `
 
 INSTRUCCIONES:
 
@@ -32,6 +42,7 @@ Primero, evalúa la suficiencia de la evidencia disponible usando tu propio crit
 - ¿Hay métricas reales que permitan cuantificar el problema y el éxito?
 - ¿Las respuestas de capacidad revelan contexto operativo real (recursos, datos, restricciones)?
 - ¿Hay suficiente información para hacer recomendaciones accionables, o solo hipótesis genéricas?
+${documentos && documentos.length > 0 ? "- ¿El contenido de los documentos adjuntos aporta datos concretos (métricas, procesos, tablas, registros reales)? Si aportan, eleva el score de sustancialidad en consecuencia. Si no aportan contenido legible o relevante, no los uses para inflar el score." : ""}
 
 Evalúa esto con criterio consultivo real: un texto largo pero vago no es evidencia rica. Una frase corta pero con una métrica concreta puede ser más valiosa que un párrafo de generalidades.
 
@@ -59,15 +70,71 @@ Genera ÚNICAMENTE un objeto JSON válido (sin markdown, sin texto extra) con es
   },
   "resumen_ejecutivo": "<párrafo de 2-3 oraciones con el diagnóstico ejecutivo>"
 }`;
+
+  // Sin documentos: devuelve string simple (retrocompatible con Sub-etapa 1)
+  if (!documentos || documentos.length === 0) {
+    return textoIntake + textoInstrucciones;
+  }
+
+  // Con documentos: construye array de bloques de contenido
+  const bloques: Anthropic.MessageParam["content"] = [];
+
+  // Bloque 1: texto del intake + intro de documentos
+  bloques.push({
+    type: "text",
+    text: textoIntake + textoDocumentosIntro,
+  });
+
+  // Bloques intermedios: uno por documento
+  for (const doc of documentos) {
+    if (doc.tipo === "imagen") {
+      bloques.push({
+        type: "image",
+        source: {
+          type: "base64",
+          media_type: doc.media_type,
+          data: doc.base64,
+        },
+      });
+      bloques.push({ type: "text", text: `[Imagen: ${doc.nombre}]` });
+    } else if (doc.tipo === "pdf") {
+      bloques.push({
+        type: "document",
+        source: {
+          type: "base64",
+          media_type: "application/pdf",
+          data: doc.base64,
+        },
+      } as Anthropic.MessageParam["content"][number]);
+      bloques.push({ type: "text", text: `[PDF: ${doc.nombre}]` });
+    } else {
+      // texto plano: CSV, XLSX convertido, DOCX convertido
+      bloques.push({
+        type: "text",
+        text: `[Documento: ${doc.nombre}]\n${doc.contenido}`,
+      });
+    }
+  }
+
+  // Bloque final: instrucciones JSON
+  bloques.push({
+    type: "text",
+    text: textoInstrucciones,
+  });
+
+  return bloques;
 }
 
-export async function generarDiagnostico(data: IntakeData): Promise<DiagnosticoResult> {
-  const prompt = buildPrompt(data);
+export async function generarDiagnostico(
+  data: IntakeData,
+  documentos?: DocumentoPreparado[]
+): Promise<DiagnosticoResult> {
+  const content = buildContent(data, documentos);
 
   const message = await client.messages.create({
     model: MODEL,
     max_tokens: 2048,
-    messages: [{ role: "user", content: prompt }],
+    messages: [{ role: "user", content: content as Anthropic.MessageParam["content"] }],
   });
 
   const rawText = (message.content[0] as { type: string; text: string }).text.trim();
