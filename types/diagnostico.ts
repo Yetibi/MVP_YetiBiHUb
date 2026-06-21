@@ -49,4 +49,11 @@ export interface DiagnosticoResult {
     prioridad_sugerida: string;
   };
   resumen_ejecutivo: string;
+  interpretacion_ajuste?: string;
 }
+
+export type ContextoAjuste = {
+  versionAnterior: number;
+  diagnosticoAnterior: DiagnosticoResult;
+  indicacionAjuste: string;
+};

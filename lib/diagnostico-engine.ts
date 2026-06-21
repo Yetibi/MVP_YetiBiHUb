@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { IntakeData, DiagnosticoResult } from "@/types/diagnostico";
+import type { IntakeData, DiagnosticoResult, ContextoAjuste } from "@/types/diagnostico";
 import type { DocumentoPreparado } from "@/lib/preparar-documentos";
 
 const MODEL = "claude-sonnet-4-6";
@@ -8,13 +8,53 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+function buildContextoAjusteBloque(ctx: ContextoAjuste): string {
+  return `Eres un consultor experto en mejora de procesos organizacionales.
+
+CONTEXTO: REVISIÓN CON FEEDBACK HUMANO (versión ${ctx.versionAnterior + 1})
+
+Este no es un diagnóstico nuevo desde cero. Ya existe una versión previa
+(versión ${ctx.versionAnterior}) que fue revisada por el consultor responsable,
+quien dejó la siguiente indicación de ajuste:
+
+INDICACIÓN DE AJUSTE:
+"${ctx.indicacionAjuste}"
+
+DIAGNÓSTICO ANTERIOR (versión ${ctx.versionAnterior}) — referencia para el ajuste:
+${JSON.stringify(ctx.diagnosticoAnterior, null, 2)}
+
+INSTRUCCIÓN:
+Genera una nueva versión del diagnóstico incorporando explícitamente el
+feedback anterior. No ignores el trabajo previo — toma como base lo que
+ya estaba bien, y ajusta específicamente lo que la indicación señala.
+Si el feedback pide cambiar el enfoque de una recomendación, cámbialo.
+Si pide agregar un elemento que faltaba, agrégalo. Si pide bajar el tono
+en alguna sección, hazlo. El resultado debe ser coherente con el diagnóstico
+anterior en lo que no fue cuestionado, y notablemente diferente en lo que sí.
+
+Si la indicación de ajuste es ambigua o no especifica claramente
+qué cambiar (por ejemplo, "hazlo más corto" sin decir qué sección
+recortar, o "mejóralo" sin precisar en qué sentido), DEBES declarar
+explícitamente cómo la interpretaste en un campo nuevo
+"interpretacion_ajuste" dentro de tu respuesta JSON — describe en
+1-2 oraciones qué entendiste de la indicación y qué decisión
+tomaste al respecto. Si la indicación fue clara y no requirió
+interpretación, ese campo puede decir "Indicación clara, sin
+ambigüedad relevante".
+
+`;
+}
+
 function buildContent(
   data: IntakeData,
-  documentos?: DocumentoPreparado[]
+  documentos?: DocumentoPreparado[],
+  contextoAjuste?: ContextoAjuste
 ): string | Anthropic.MessageParam["content"] {
-  const textoIntake = `Eres un consultor experto en mejora de procesos organizacionales. Analiza el siguiente intake de diagnóstico empresarial y genera un resultado estructurado en JSON.
+  const encabezado = contextoAjuste
+    ? buildContextoAjusteBloque(contextoAjuste)
+    : "Eres un consultor experto en mejora de procesos organizacionales. Analiza el siguiente intake de diagnóstico empresarial y genera un resultado estructurado en JSON.\n\n";
 
-DATOS DEL INTAKE:
+  const textoIntake = `${encabezado}DATOS DEL INTAKE:
 - Perfil: ${data.perfil}
 - Sector: ${data.sector}
 - Alcance: ${data.alcance}
@@ -30,6 +70,11 @@ DATOS DEL INTAKE:
 
   const textoDocumentosIntro = documentos && documentos.length > 0
     ? `\n\nDOCUMENTOS ADJUNTOS (${documentos.length} archivo${documentos.length > 1 ? "s" : ""}):\nA continuación se incluye el contenido real de los documentos adjuntos por el cliente. Considera este contenido como evidencia adicional al texto del formulario al evaluar la suficiencia y generar el diagnóstico.`
+    : "";
+
+  // El schema JSON incluye interpretacion_ajuste solo en modo ajuste
+  const campoInterpretacion = contextoAjuste
+    ? `  "interpretacion_ajuste": "<cómo interpretaste la indicación y qué decidiste — o 'Indicación clara, sin ambigüedad relevante'>",\n`
     : "";
 
   const textoInstrucciones = `
@@ -48,7 +93,7 @@ Evalúa esto con criterio consultivo real: un texto largo pero vago no es eviden
 
 Genera ÚNICAMENTE un objeto JSON válido (sin markdown, sin texto extra) con esta estructura exacta:
 {
-  "suficiencia": {
+${campoInterpretacion}  "suficiencia": {
     "evidencia_suficiente": <true si hay suficiente evidencia para diagnóstico accionable, false si no>,
     "score_sustancialidad": <número 0-10 que tú derives basado en la calidad y especificidad de la evidencia, no en la cantidad de campos llenos>,
     "nivel": <"rica" si score >= 7 y la evidencia permite diagnóstico preciso, "intermedia" si score 4-6 y permite hipótesis razonables, "pobre" si score <= 3 y solo permite suposiciones genéricas>,
@@ -79,57 +124,37 @@ Genera ÚNICAMENTE un objeto JSON válido (sin markdown, sin texto extra) con es
   // Con documentos: construye array de bloques de contenido
   const bloques: Anthropic.MessageParam["content"] = [];
 
-  // Bloque 1: texto del intake + intro de documentos
-  bloques.push({
-    type: "text",
-    text: textoIntake + textoDocumentosIntro,
-  });
+  bloques.push({ type: "text", text: textoIntake + textoDocumentosIntro });
 
-  // Bloques intermedios: uno por documento
   for (const doc of documentos) {
     if (doc.tipo === "imagen") {
       bloques.push({
         type: "image",
-        source: {
-          type: "base64",
-          media_type: doc.media_type,
-          data: doc.base64,
-        },
+        source: { type: "base64", media_type: doc.media_type, data: doc.base64 },
       });
       bloques.push({ type: "text", text: `[Imagen: ${doc.nombre}]` });
     } else if (doc.tipo === "pdf") {
       bloques.push({
         type: "document",
-        source: {
-          type: "base64",
-          media_type: "application/pdf",
-          data: doc.base64,
-        },
+        source: { type: "base64", media_type: "application/pdf", data: doc.base64 },
       } as Anthropic.MessageParam["content"][number]);
       bloques.push({ type: "text", text: `[PDF: ${doc.nombre}]` });
     } else {
-      // texto plano: CSV, XLSX convertido, DOCX convertido
-      bloques.push({
-        type: "text",
-        text: `[Documento: ${doc.nombre}]\n${doc.contenido}`,
-      });
+      bloques.push({ type: "text", text: `[Documento: ${doc.nombre}]\n${doc.contenido}` });
     }
   }
 
-  // Bloque final: instrucciones JSON
-  bloques.push({
-    type: "text",
-    text: textoInstrucciones,
-  });
+  bloques.push({ type: "text", text: textoInstrucciones });
 
   return bloques;
 }
 
 export async function generarDiagnostico(
   data: IntakeData,
-  documentos?: DocumentoPreparado[]
+  documentos?: DocumentoPreparado[],
+  contextoAjuste?: ContextoAjuste
 ): Promise<DiagnosticoResult> {
-  const content = buildContent(data, documentos);
+  const content = buildContent(data, documentos, contextoAjuste);
 
   const message = await client.messages.create({
     model: MODEL,
