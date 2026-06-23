@@ -122,7 +122,7 @@ ${campoInterpretacion}  "suficiencia": {
   }
 
   // Con documentos: construye array de bloques de contenido
-  const bloques: Anthropic.MessageParam["content"] = [];
+  const bloques: Anthropic.ContentBlockParam[] = [];
 
   bloques.push({ type: "text", text: textoIntake + textoDocumentosIntro });
 
