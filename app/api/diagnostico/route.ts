@@ -120,6 +120,7 @@ export async function POST(req: NextRequest) {
       ok: true,
       diagnosticoId: inserted.id,
       intakeId,
+      diagnosticoResumido: diagnostico.resumen_ejecutivo,
       documentosProcesados: documentos.length,
       ...(advertencias.length > 0 && { advertencias }),
     },
