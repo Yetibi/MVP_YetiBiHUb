@@ -137,7 +137,7 @@ ${campoInterpretacion}  "suficiencia": {
       bloques.push({
         type: "document",
         source: { type: "base64", media_type: "application/pdf", data: doc.base64 },
-      } as Anthropic.MessageParam["content"][number]);
+      });
       bloques.push({ type: "text", text: `[PDF: ${doc.nombre}]` });
     } else {
       bloques.push({ type: "text", text: `[Documento: ${doc.nombre}]\n${doc.contenido}` });
