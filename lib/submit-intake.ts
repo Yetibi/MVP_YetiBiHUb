@@ -56,7 +56,7 @@ export async function submitIntake(
   // UUID generado en cliente — evita necesitar SELECT policy para el RETURNING
   const intakeId = crypto.randomUUID();
 
-  const dolorDeclarado = data.painType ? (PAIN_LABEL[data.painType] ?? data.painType) : null;
+  const dolorDeclarado = PAIN_LABEL[data.painType] ?? data.painType ?? "";
 
   const { error: intakeError } = await supabase
     .from("intakes")
