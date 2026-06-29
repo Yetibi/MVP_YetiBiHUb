@@ -4,6 +4,7 @@ import {
   type IntakePayload,
 } from "@/app/actions/submit-intake";
 import { notifyWebhookAction } from "@/app/actions/notify-webhook";
+import { PAIN_OPTIONS } from "@/lib/copy";
 import type { IntakeFormData } from "@/types/intake";
 
 const PROFILE_MAP: Record<string, string> = {
@@ -11,6 +12,8 @@ const PROFILE_MAP: Record<string, string> = {
   leader: "lider_area",
   entrepreneur: "emprendedor",
 };
+
+const PAIN_LABEL = Object.fromEntries(PAIN_OPTIONS.map((o) => [o.value, o.label]));
 
 export type SubmitResult =
   | { success: true }
@@ -53,6 +56,8 @@ export async function submitIntake(
   // UUID generado en cliente — evita necesitar SELECT policy para el RETURNING
   const intakeId = crypto.randomUUID();
 
+  const dolorDeclarado = data.painType ? (PAIN_LABEL[data.painType] ?? data.painType) : null;
+
   const { error: intakeError } = await supabase
     .from("intakes")
     .insert({
@@ -61,7 +66,7 @@ export async function submitIntake(
       sector: data.sector,
       alcance: data.scope,
       correo: data.email,
-      dolor_declarado: data.painType,
+      dolor_declarado: dolorDeclarado,
       to_be_objetivo: data.toBe,
       to_be_nivel: data.maturityTarget ?? null,
       tecnologia_visible: data.technology || null,
@@ -119,7 +124,7 @@ export async function submitIntake(
     sector: data.sector,
     alcance: data.scope,
     correo: data.email,
-    dolor_declarado: data.painType,
+    dolor_declarado: dolorDeclarado,
     to_be_objetivo: data.toBe,
     to_be_nivel: data.maturityTarget,
     tecnologia_visible: data.technology || null,
