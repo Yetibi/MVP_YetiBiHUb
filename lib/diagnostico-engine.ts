@@ -158,7 +158,7 @@ export async function generarDiagnostico(
 
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 2048,
+    max_tokens: 4000,
     messages: [{ role: "user", content: content as Anthropic.MessageParam["content"] }],
   });
 
@@ -171,7 +171,12 @@ export async function generarDiagnostico(
   try {
     result = JSON.parse(jsonText);
   } catch {
-    throw new Error(`Claude no devolvió JSON válido. Respuesta cruda:\n${rawText}`);
+    const truncado = message.stop_reason === "max_tokens" || !jsonText.trimEnd().endsWith("}");
+    throw new Error(
+      truncado
+        ? `Respuesta truncada — aumentar max_tokens (stop_reason: ${message.stop_reason})`
+        : `Claude no devolvió JSON válido. Respuesta cruda:\n${rawText}`
+    );
   }
 
   return result;
