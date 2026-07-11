@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { fadeUp, listContainer } from "@/lib/motion";
 
@@ -266,16 +267,16 @@ export function HowItWorks() {
           }}
         >
           {STEPS.map((step, i) => (
-            <>
-              <motion.div key={step.id} variants={rm ? undefined : fadeUp}>
+            <React.Fragment key={step.id}>
+              <motion.div variants={rm ? undefined : fadeUp}>
                 <StepCard step={step} reduced={rm} />
               </motion.div>
               {i < STEPS.length - 1 && (
-                <motion.div key={`conn-${step.id}`} variants={rm ? undefined : fadeUp}>
+                <motion.div variants={rm ? undefined : fadeUp}>
                   <HorizontalConnector />
                 </motion.div>
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
 
