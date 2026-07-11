@@ -22,7 +22,7 @@ export function ValueFlow() {
   }, [isInView])
 
   return (
-    <section id="el-enfoque" ref={ref} style={{ padding: 'clamp(60px,10vw,120px) clamp(16px,5vw,40px)', background: '#2E2640', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <section id="el-enfoque" ref={ref} style={{ padding: 'clamp(60px,10vw,120px) clamp(16px,5vw,40px)', background: '#1A1428', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {/* Título */}
       <div style={{ marginBottom: 64, width: '100%' }}>
         <p style={{
@@ -63,7 +63,7 @@ export function ValueFlow() {
         aria-label="Flujo de valor Yeti BI"
       >
         {FLOW_STEPS.map((step, i) => (
-          <li key={step.label} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          <li key={step.label} aria-label={`Paso ${i + 1}: ${step.label}`} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '20px 0' }}>
               {/* Conector vertical */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>

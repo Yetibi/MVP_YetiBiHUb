@@ -71,15 +71,6 @@ function GearIcon({ reduced }: { reduced: boolean }) {
         transformOrigin: "center",
       }}
     >
-      <style>{`
-        @keyframes gear-spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .gear-animated { animation: none !important; }
-        }
-      `}</style>
       {/* Engranaje estilo Lucide/settings-2 con dientes reales */}
       <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
       <path d="M19.622 10.395l-1.097-2.65L20 6l-2-2-1.735 1.483-2.707-1.113L12.935 2h-1.954l-.623 2.377-2.707 1.113L6 4 4 6l1.453 1.789-1.08 2.616L2 11v2l2.373.595 1.08 2.616L4 18l2 2 1.765-1.483 2.707 1.113.623 2.37h1.954l.623-2.37 2.707-1.113L18 20l2-2-1.453-1.789 1.08-2.616L22 13v-2l-2.378-.605Z"/>
@@ -324,13 +315,14 @@ export function HowItWorks() {
           }}
         >
           <div
-            className="flex-col sm:flex-row"
             style={{
               display: "flex",
+              flexDirection: "column",
               justifyContent: "space-between",
               alignItems: "flex-start",
               gap: 32,
             }}
+            className="sm:flex-row"
           >
             {/* Izquierda */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -363,6 +355,7 @@ export function HowItWorks() {
             >
               <a
                 href="/contacto"
+                className="hover:opacity-90 transition-opacity cursor-pointer"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -383,12 +376,13 @@ export function HowItWorks() {
                 href="https://mvp-yeti-bi-h-ub.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity cursor-pointer"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "rgba(255,255,255,0.4)",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "rgba(255,255,255,0.5)",
+                  border: "1px solid rgba(255,255,255,0.18)",
                   fontSize: 13,
                   padding: "10px 24px",
                   borderRadius: 4,

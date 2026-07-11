@@ -144,6 +144,11 @@ section[id] { scroll-margin-top: 80px; }
   to { transform: rotate(360deg); }
 }
 
+@keyframes gear-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 @keyframes heroScaleIn {
   from { transform: scale(0.5); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
