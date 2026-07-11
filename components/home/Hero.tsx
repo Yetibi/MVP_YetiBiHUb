@@ -477,7 +477,7 @@ export function Hero() {
           display:         "flex",
           flexDirection:   "column",
           justifyContent:  "space-between",
-          paddingTop:      "clamp(90px,14vh,130px)",
+          paddingTop:      "clamp(40px,6vh,72px)",
           paddingBottom:   60,
           paddingLeft:     "clamp(20px,5vw,60px)",
           paddingRight:    "clamp(20px,5vw,60px)",
@@ -505,16 +505,15 @@ export function Hero() {
         {/* Kicker */}
         <div style={{ position: "relative", zIndex: 1, marginBottom: 32, ...an("heroSlideUp", "0.5s", "0.2s") }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div aria-hidden style={{ width: 32, height: 1, background: "#E07B30", flexShrink: 0 }} />
-            <span style={{ fontSize: 10, color: "#E07B30", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "var(--font-sans)" }}>
+            <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
+            <span style={{ fontSize: 13, color: "#E07B30", letterSpacing: "2.5px", textTransform: "uppercase", fontFamily: "var(--font-sans)", fontWeight: 600 }}>
               DIAGNÓSTICO DE MADUREZ OPERACIONAL
             </span>
           </div>
-          {/* FIX #12: contraste kicker de 0.3 → 0.6 para pasar WCAG AA */}
           <p style={{
-            fontSize: 12, color: "rgba(255,255,255,0.6)",
+            fontSize: "clamp(14px, 1.4vw, 17px)", color: "rgba(255,255,255,0.7)",
             fontFamily: "var(--font-sans)", fontStyle: "normal", fontWeight: 400,
-            marginTop: 6, marginLeft: 44, maxWidth: 520, lineHeight: 1.5,
+            marginTop: 10, marginLeft: 44, maxWidth: 560, lineHeight: 1.6,
           }}>
             Evalúa si tu operación tiene las condiciones habilitadoras para desplegar IA o automatización con éxito.
           </p>
