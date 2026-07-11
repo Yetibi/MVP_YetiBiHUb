@@ -118,7 +118,7 @@ export function CtaFinal() {
           <div style={{ width: "100%", maxWidth: 560, height: 1, backgroundColor: "#FFFFFF14" }} />
           <p
             className="text-center"
-            style={{ color: "#8E83A6", fontSize: 13, letterSpacing: "0.05em" }}
+            style={{ color: "#A89DC0", fontSize: 13, letterSpacing: "0.05em" }}
           >
             ¿Tienes una pregunta antes de empezar?
           </p>

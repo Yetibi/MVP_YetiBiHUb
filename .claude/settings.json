@@ -51,7 +51,15 @@
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"navigation landmark heading hierarchy skip link focus keyboard\" --domain ux -n 10)",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"mobile responsive touch target fixed nav\" --domain ux -n 6)",
       "Read(//mnt/user-data/outputs/**)",
-      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"landing page marketing dark mobile responsive\" --domain ux -n 8)"
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"landing page marketing dark mobile responsive\" --domain ux -n 8)",
+      "Bash(find \"/Users/julianag\" -name \"SKILL.md\" 2>/dev/null | head -20)",
+      "Read(//Users/julianag/**)",
+      "Bash(find \"/Users/julianag\" -path \"*/skills/user/*\" -name \"SKILL.md\" 2>/dev/null | head -20 *)",
+      "Read(//Users/julianag/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/641b4244-314b-4475-b562-0a76a05bc8d9/d924e725-17f9-4183-b860-9fe77ca52620/skills/design-critique/**)",
+      "Read(//Users/julianag/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/641b4244-314b-4475-b562-0a76a05bc8d9/d924e725-17f9-4183-b860-9fe77ca52620/skills/intopia-web-accessibility/**)",
+      "Read(//Users/julianag/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/641b4244-314b-4475-b562-0a76a05bc8d9/d924e725-17f9-4183-b860-9fe77ca52620/skills/web-design-guidelines/**)",
+      "Read(//Users/julianag/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/641b4244-314b-4475-b562-0a76a05bc8d9/d924e725-17f9-4183-b860-9fe77ca52620/skills/yetibi-brainstorming/**)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md\")"
     ],
     "additionalDirectories": [
       "/tmp",

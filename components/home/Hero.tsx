@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useReducedMotion } from "motion/react";
 
 // ─── animation helper ─────────────────────────────────────────────────────────
@@ -37,7 +37,33 @@ const NAV_LINKS = [
 
 function Nav({ noAnim }: { noAnim: boolean }) {
   const [open, setOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const style = noAnim ? {} : a("heroFadeIn", "0.4s", "0s");
+
+  // Focus trap: keep Tab inside drawer while open; Escape closes
+  useEffect(() => {
+    if (!open) return;
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+    const focusable = drawer.querySelectorAll<HTMLElement>(
+      'a[href], button, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    first?.focus();
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key !== "Tab") return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last?.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first?.focus(); }
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <>
@@ -188,6 +214,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
       {/* Mobile drawer */}
       {open && (
         <div
+          ref={drawerRef}
           className="flex md:hidden flex-col"
           style={{
             backgroundColor: "#221B31",
@@ -380,6 +407,7 @@ export function Hero() {
             color: "#FFFFFF",
             maxWidth: "100%",
             margin: "20px 0 0",
+            textWrap: "balance" as React.CSSProperties["textWrap"],
           }}
         >
           <span style={{ display: "block", ...an("heroSlideUp", "0.55s", "0.35s") }}>

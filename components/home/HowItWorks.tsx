@@ -47,7 +47,7 @@ export function HowItWorks() {
           <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
           <span
             className="font-normal uppercase tracking-[0.3em]"
-            style={{ color: "#8E83A6", fontSize: 12 }}
+            style={{ color: "#A89DC0", fontSize: 12 }}
           >
             CÓMO FUNCIONA
           </span>
@@ -60,13 +60,13 @@ export function HowItWorks() {
         >
           <span
             className="font-bold"
-            style={{ color: "#FFFFFF", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15 }}
+            style={{ color: "#FFFFFF", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15, textWrap: "balance" as React.CSSProperties["textWrap"] }}
           >
             Tres pasos.
           </span>
           <span
             className="font-bold italic"
-            style={{ color: "#FFFFFF", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15 }}
+            style={{ color: "#FFFFFF", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15, textWrap: "balance" as React.CSSProperties["textWrap"] }}
           >
             Cero reuniones de venta.
           </span>
@@ -114,7 +114,7 @@ export function HowItWorks() {
                   {title}
                 </h3>
                 {/* Descripción en Geist 400 gris */}
-                <p style={{ color: "#8E83A6", fontSize: 15, lineHeight: 1.6 }}>
+                <p style={{ color: "#A89DC0", fontSize: 15, lineHeight: 1.6 }}>
                   {desc}
                 </p>
               </div>

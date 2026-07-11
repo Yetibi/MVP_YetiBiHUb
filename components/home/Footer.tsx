@@ -21,7 +21,7 @@ export function Footer() {
           </Link>
           <p
             className="uppercase tracking-[0.22em]"
-            style={{ color: "#8E83A6", fontSize: 11, fontWeight: 400 }}
+            style={{ color: "#A89DC0", fontSize: 11, fontWeight: 400 }}
           >
             DATA &amp; ANALYTICS · MEDELLÍN
           </p>
@@ -33,17 +33,19 @@ export function Footer() {
         <nav aria-label="Pie de página" className="flex flex-col" style={{ gap: 16 }}>
           <p
             className="uppercase tracking-[0.28em]"
-            style={{ color: "#8E83A6", fontSize: 11, fontWeight: 400 }}
+            style={{ color: "#A89DC0", fontSize: 11, fontWeight: 400 }}
           >
             NAVEGACIÓN
           </p>
-          <Link
+          <a
             href="/diagnostico"
+            target="_blank"
+            rel="noopener noreferrer"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
             Diagnóstico
-          </Link>
+          </a>
           <Link
             href="#contacto-form"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
@@ -57,7 +59,7 @@ export function Footer() {
         <div className="flex flex-col" style={{ gap: 16 }}>
           <p
             className="uppercase tracking-[0.28em]"
-            style={{ color: "#8E83A6", fontSize: 11, fontWeight: 400 }}
+            style={{ color: "#A89DC0", fontSize: 11, fontWeight: 400 }}
           >
             CONTACTO
           </p>
@@ -75,7 +77,7 @@ export function Footer() {
       <div style={{ backgroundColor: "#453960", height: 1, width: "100%", marginBottom: 24 }} />
 
       {/* Legal */}
-      <p style={{ color: "#8E83A6", fontSize: 12 }}>
+      <p style={{ color: "#A89DC0", fontSize: 12 }}>
         © Yeti BI 2026 · Medellín, Colombia
       </p>
     </footer>

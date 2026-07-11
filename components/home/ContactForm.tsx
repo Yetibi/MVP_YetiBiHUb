@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, type FormEvent, type ChangeEvent } from "react";
+import { useState, useRef, type ChangeEvent } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { formContainer, fieldReveal, fadeIn } from "@/lib/motion";
 
@@ -48,11 +48,11 @@ const inputBase: React.CSSProperties = {
   width: "100%",
   outline: "none",
   boxShadow: "none",
-  transition: "border-bottom-color 0.15s",
+  transition: "border-bottom-color 0.15s, box-shadow 0.15s",
 };
 
 const labelStyle: React.CSSProperties = {
-  color: "#8E83A6",
+  color: "#A89DC0",
   fontSize: 11,
   fontWeight: 400,
   letterSpacing: "0.2em",
@@ -106,7 +106,7 @@ export function ContactForm() {
     return "rgba(255,255,255,0.15)";
   }
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const errs = validate(fields);
     if (Object.keys(errs).length > 0) {
@@ -150,6 +150,8 @@ export function ContactForm() {
         {formState === "success" ? (
           <motion.div
             key="success"
+            role="status"
+            aria-live="polite"
             variants={rm ? undefined : fadeIn}
             initial={rm ? false : "initial"}
             animate="animate"
@@ -213,11 +215,9 @@ export function ContactForm() {
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => (e.target.style.borderBottomColor = "#E07B30")}
-                  onBlur={(e) =>
-                    (e.target.style.borderBottomColor = bottomBorderColor("nombre", false))
-                  }
-                  placeholder="Tu nombre"
+                  onFocus={(e) => { e.target.style.borderBottomColor = "#E07B30"; e.target.style.boxShadow = "0 2px 0 0 #E07B30"; }}
+                  onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("nombre", false); e.target.style.boxShadow = "none"; }}
+                  placeholder="Ej: Ana García"
                 />
               </Field>
 
@@ -238,11 +238,10 @@ export function ContactForm() {
                       ? "#E07B30"
                       : "rgba(255,255,255,0.15)",
                   }}
+                  spellCheck={false}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => (e.target.style.borderBottomColor = "#E07B30")}
-                  onBlur={(e) =>
-                    (e.target.style.borderBottomColor = bottomBorderColor("correo", false))
-                  }
+                  onFocus={(e) => { e.target.style.borderBottomColor = "#E07B30"; e.target.style.boxShadow = "0 2px 0 0 #E07B30"; }}
+                  onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("correo", false); e.target.style.boxShadow = "none"; }}
                   placeholder="tu@empresa.co"
                 />
               </Field>
@@ -265,11 +264,9 @@ export function ContactForm() {
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => (e.target.style.borderBottomColor = "#E07B30")}
-                  onBlur={(e) =>
-                    (e.target.style.borderBottomColor = bottomBorderColor("empresa", false))
-                  }
-                  placeholder="Nombre de tu empresa"
+                  onFocus={(e) => { e.target.style.borderBottomColor = "#E07B30"; e.target.style.boxShadow = "0 2px 0 0 #E07B30"; }}
+                  onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("empresa", false); e.target.style.boxShadow = "none"; }}
+                  placeholder="Ej: Acme S.A.S."
                 />
               </Field>
             </motion.div>
@@ -293,11 +290,9 @@ export function ContactForm() {
                     resize: "none",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => (e.target.style.borderBottomColor = "#E07B30")}
-                  onBlur={(e) =>
-                    (e.target.style.borderBottomColor = bottomBorderColor("mensaje", false))
-                  }
-                  placeholder="¿En qué estás trabajando o qué quieres entender?"
+                  onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = "#E07B30"; (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #E07B30"; }}
+                  onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = bottomBorderColor("mensaje", false); (e.target as HTMLTextAreaElement).style.boxShadow = "none"; }}
+                  placeholder="¿En qué estás trabajando o qué quieres entender?…"
                 />
               </Field>
             </motion.div>
@@ -305,6 +300,7 @@ export function ContactForm() {
             {/* Error global */}
             {formState === "error" && (
               <motion.div
+                role="alert"
                 variants={rm ? undefined : fadeIn}
                 initial={rm ? false : "initial"}
                 animate="animate"

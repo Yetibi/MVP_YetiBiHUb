@@ -1,12 +1,21 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
-import { useInView } from 'motion/react'
+import { useInView, useReducedMotion } from 'motion/react'
+
+const FLOW_STEPS = [
+  { label: 'PROCESO', sub: 'claro y sano', pct: null },
+  { label: 'DATO', sub: 'confiable', pct: null },
+  { label: 'AUTOMATIZACIÓN', sub: 'RPA · SOPs · Flujos', pct: '70–80%' },
+  { label: 'IA QUE DECIDE', sub: 'Modelos · Decisión', pct: '15–20%' },
+  { label: 'ROI MEDIBLE', sub: 'el único resultado', pct: null },
+]
 
 export function ValueFlow() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
   const [animate, setAnimate] = useState(false)
+  const rm = useReducedMotion()
 
   useEffect(() => {
     if (isInView) setAnimate(true)
@@ -47,8 +56,52 @@ export function ValueFlow() {
         </h2>
       </div>
 
-      {/* SVG Tubería */}
+      {/* Fallback mobile — visible solo en <640px, oculto en md+ */}
+      <ol
+        className="flex flex-col w-full sm:hidden"
+        style={{ gap: 0, listStyle: 'none', margin: '0 0 48px', padding: 0 }}
+        aria-label="Flujo de valor Yeti BI"
+      >
+        {FLOW_STEPS.map((step, i) => (
+          <li key={step.label} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '20px 0' }}>
+              {/* Conector vertical */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                <div style={{
+                  width: 10, height: 10, borderRadius: '50%',
+                  background: step.pct ? 'rgba(224,123,48,0.5)' : '#E07B30',
+                  border: '1.5px solid #E07B30', flexShrink: 0,
+                  opacity: animate ? 1 : (rm ? 1 : 0),
+                  transition: rm ? 'none' : `opacity 0.3s ease-out ${i * 0.15}s`,
+                }} />
+                {i < FLOW_STEPS.length - 1 && (
+                  <div style={{ width: 1, flex: 1, minHeight: 20, background: 'rgba(224,123,48,0.2)', marginTop: 4 }} />
+                )}
+              </div>
+              <div style={{ paddingBottom: 8 }}>
+                <p style={{ fontSize: 12, fontWeight: 700, color: '#fff', letterSpacing: '0.5px', margin: 0 }}>
+                  {step.label}
+                </p>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: '2px 0 0' }}>
+                  {step.sub}
+                </p>
+                {step.pct && (
+                  <p style={{ fontSize: 13, fontWeight: 700, color: '#E07B30', margin: '4px 0 0' }}>
+                    {step.pct}
+                  </p>
+                )}
+              </div>
+            </div>
+            {i < FLOW_STEPS.length - 1 && (
+              <div style={{ height: 1, background: 'rgba(255,255,255,0.05)', width: '100%' }} />
+            )}
+          </li>
+        ))}
+      </ol>
+
+      {/* SVG Tubería — oculto en mobile, visible en sm+ */}
       <svg
+        className="hidden sm:block"
         width="100%"
         viewBox="0 0 680 300"
         role="img"
@@ -125,6 +178,10 @@ export function ValueFlow() {
             }
             .pulse-ring {
               animation: pulseRing 1.8s ease-out infinite;
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .pulse-ring { animation: none; }
+              .pipe-flow { transition: none !important; }
             }
           `}</style>
         </defs>

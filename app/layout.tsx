@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     "Evalúa la madurez analítica de tu negocio en 5 capas y descubre qué necesitas antes de adoptar IA.",
 };
 
+export const viewport: Viewport = {
+  themeColor: "#2E2640",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,6 +38,7 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
+      style={{ colorScheme: "dark" }}
     >
       <body className={`${playfair.variable} min-h-full flex flex-col`}>
         <a

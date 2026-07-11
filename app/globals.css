@@ -130,6 +130,16 @@
   }
 }
 
+/* ── Global touch & interaction ─────────────────────────────── */
+a, button { touch-action: manipulation; }
+
+/* ── Scroll margin for anchors (nav height ~68px + buffer) ──── */
+section[id] { scroll-margin-top: 80px; }
+
+/* ── Section padding utility ────────────────────────────────── */
+.section-pad { padding-left: clamp(20px, 5vw, 80px); padding-right: clamp(20px, 5vw, 80px); }
+
+/* ── Keyframes ──────────────────────────────────────────────── */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -149,4 +159,13 @@
 @keyframes heroFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+/* ── Reduced motion: disable all decorative animations ──────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -33,7 +33,7 @@ export function Problem() {
           <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
           <span
             className="font-normal uppercase tracking-[0.3em]"
-            style={{ color: "#8E83A6", fontSize: 12 }}
+            style={{ color: "#A89DC0", fontSize: 12 }}
           >
             EL PROBLEMA
           </span>
@@ -45,6 +45,7 @@ export function Problem() {
             color: "#FFFFFF",
             fontSize: "clamp(28px, 4vw, 44px)",
             lineHeight: 1.15,
+            textWrap: "balance" as React.CSSProperties["textWrap"],
           }}
         >
           ¿Te identificas con esto?
