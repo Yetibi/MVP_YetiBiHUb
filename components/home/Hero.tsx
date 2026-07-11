@@ -245,7 +245,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
       {open && (
         <div
           ref={drawerRef}
-          className="flex md:hidden flex-col"
+          className="flex flex-col"
           style={{
             position: "fixed",
             top: 68,
