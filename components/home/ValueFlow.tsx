@@ -36,7 +36,7 @@ export function ValueFlow() {
           gap: 12
         }}>
           <span style={{ width: 32, height: 1, background: '#E07B30', display: 'inline-block' }}/>
-          EL FLUJO DE VALOR
+          EL DIAGNÓSTICO EVALÚA EL GAP
         </p>
         <h2 style={{
           fontSize: 'clamp(32px, 4vw, 52px)',
@@ -51,7 +51,7 @@ export function ValueFlow() {
             fontStyle: 'italic',
             color: '#E07B30'
           }}>
-            La claridad es la condición para el éxito.
+            Primero vienen las condiciones.
           </span>
         </h2>
       </div>
@@ -187,8 +187,8 @@ export function ValueFlow() {
         </defs>
 
         {/* Labels de etapa */}
-        <text className="lbl-section" x="55"  y="18" textAnchor="middle">LOS CIMIENTOS</text>
-        <text className="lbl-section" x="370" y="18" textAnchor="middle">LA BIFURCACIÓN</text>
+        <text className="lbl-section" x="55"  y="18" textAnchor="middle">AS-IS HOY</text>
+        <text className="lbl-section" x="370" y="18" textAnchor="middle">TO-BE HABILITADO</text>
         <text className="lbl-section" x="615" y="18" textAnchor="middle">ROI</text>
 
         {/* Divisores */}
@@ -327,7 +327,7 @@ export function ValueFlow() {
           borderLeft: '2px solid rgba(224,123,48,0.3)',
           paddingLeft: 20
         }}>
-          El enfoque tradicional compra la tecnología y luego busca el problema.
+          Sin proceso sano y dato confiable, la IA falla — no por la herramienta, sino por lo que hay antes.
         </p>
         <p style={{
           fontSize: 'clamp(16px, 2vw, 22px)',
@@ -336,7 +336,7 @@ export function ValueFlow() {
           fontStyle: 'italic',
           lineHeight: 1.5
         }}>
-          El nuestro encuentra la fuga de valor y te dice cuál camino la cierra — a veces ni siquiera es IA.
+          Medimos el gap entre tu As-Is y el To-Be necesario. Tú eliges la ruta: automatizar o desplegar IA.
         </p>
       </div>
     </section>
