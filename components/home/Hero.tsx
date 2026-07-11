@@ -148,7 +148,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
 
         {/* Desktop: center links */}
         <div
-          className="hidden md:flex"
+          className="hidden lg:flex"
           style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: 36 }}
         >
           {NAV_LINKS.map(({ label, href }) => (
@@ -168,7 +168,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
           href="/diagnostico"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
+          className="hidden lg:inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
           style={{
             backgroundColor: "#E07B30",
             color: "#1c1426",
@@ -185,9 +185,9 @@ function Nav({ noAnim }: { noAnim: boolean }) {
         </a>
 
         {/* Mobile: spacer + hamburger */}
-        <div className="flex md:hidden" style={{ flex: 1 }} />
+        <div className="flex lg:hidden" style={{ flex: 1 }} />
         <button
-          className="flex md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+          className="flex lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
@@ -245,7 +245,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
       {open && (
         <div
           ref={drawerRef}
-          className="flex md:hidden flex-col"
+          className="flex lg:hidden flex-col"
           style={{
             position: "fixed",
             top: 68,
