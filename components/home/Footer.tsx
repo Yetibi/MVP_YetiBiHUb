@@ -23,7 +23,7 @@ export function Footer() {
             className="uppercase tracking-[0.22em]"
             style={{ color: "#A89DC0", fontSize: 11, fontWeight: 400 }}
           >
-            DATA &amp; ANALYTICS · MEDELLÍN
+            PROCESS &amp; ANALYTICS · MEDELLÍN
           </p>
         </div>
 

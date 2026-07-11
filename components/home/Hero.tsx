@@ -336,7 +336,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
               textTransform: "uppercase",
               lineHeight: 1,
             }}>
-              DATA &amp; ANALYTICS
+              PROCESS &amp; ANALYTICS
             </span>
           </span>
         </Link>
