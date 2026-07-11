@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { useReducedMotion } from "motion/react";
 
@@ -24,7 +25,6 @@ const CHAIN: { label: string; accent: boolean }[] = [
   { label: "Impacto financiero medible", accent: true  },
 ];
 
-const LOGO_LINES = ["▬▬", "▬▬▬", "▬▬"] as const;
 
 const NAV_LINKS = [
   { label: "El problema",   href: "#el-problema" },
@@ -306,23 +306,14 @@ function Nav({ noAnim }: { noAnim: boolean }) {
           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
           style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}
         >
-          <span
-            aria-hidden
-            style={{
-              width: 36, height: 36, borderRadius: "50%",
-              border: "1.5px solid rgba(224,123,48,0.6)",
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center",
-              gap: 3, flexShrink: 0,
-            }}
-          >
-            {LOGO_LINES.map((_, i) => (
-              <span key={i} style={{
-                display: "block", height: 1.5, borderRadius: 2,
-                background: "#E07B30", width: i === 1 ? 16 : 10,
-              }} />
-            ))}
-          </span>
+          <Image
+            src="/yeti-logo.png"
+            alt="Yeti BI"
+            width={44}
+            height={44}
+            style={{ flexShrink: 0, objectFit: "contain" }}
+            priority
+          />
 
           <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
             <span style={{ color: "#FFFFFF", fontSize: 14, fontWeight: 700, letterSpacing: "0.18em", lineHeight: 1 }}>
