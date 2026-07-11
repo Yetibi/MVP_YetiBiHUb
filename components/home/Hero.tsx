@@ -474,22 +474,90 @@ export function Hero() {
           paddingRight:    "clamp(20px,5vw,60px)",
         }}
       >
-        {/* Semicírculos decorativos */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        {/* Metaballs decorativos */}
+        <svg aria-hidden style={{ position: "absolute", width: 0, height: 0 }}>
+          <defs>
+            <filter id="goo-yeti" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur"/>
+              <feColorMatrix in="blur" mode="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 18 -6" result="goo"/>
+              <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+            </filter>
+          </defs>
+        </svg>
+
+        {/* Desktop: esquina top-right */}
+        <div aria-hidden className="hidden sm:block" style={{
+          position: "absolute", top: 0, right: 0,
+          width: "45%", height: "100%",
+          filter: "url(#goo-yeti)",
+          pointerEvents: "none", zIndex: 0, overflow: "hidden",
+          opacity: rm ? 0.3 : 0.55,
+        }}>
+          {/* Blob 1 naranja — ancla superior derecha */}
           <div style={{
-            position: "absolute", top: -120, right: -120, width: 420, height: 420,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(224,123,48,0.22) 0%, rgba(224,123,48,0.08) 40%, transparent 70%)",
+            position: "absolute", top: -40, right: -30, width: 300, height: 200,
+            borderRadius: "62% 38% 71% 29% / 45% 55% 45% 55%",
+            background: "radial-gradient(ellipse at 35% 40%, rgba(224,123,48,0.85) 0%, rgba(180,80,20,0.45) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB1 8s ease-in-out infinite",
+          }} />
+          {/* Blob 2 púrpura — toca blob 1 por la izquierda */}
+          <div style={{
+            position: "absolute", top: 30, right: 110, width: 240, height: 170,
+            borderRadius: "38% 62% 45% 55% / 60% 40% 60% 40%",
+            background: "radial-gradient(ellipse at 55% 35%, rgba(120,60,160,0.75) 0%, rgba(80,30,120,0.4) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB2 10s ease-in-out infinite",
+          }} />
+          {/* Blob 3 dorado — toca blob 2 por abajo */}
+          <div style={{
+            position: "absolute", top: 150, right: 80, width: 210, height: 155,
+            borderRadius: "55% 45% 30% 70% / 50% 65% 35% 50%",
+            background: "radial-gradient(ellipse at 45% 55%, rgba(240,160,60,0.72) 0%, rgba(200,120,30,0.4) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB3 12s ease-in-out infinite",
+          }} />
+          {/* Blob 4 magenta — toca blob 2 por arriba-izq */}
+          <div style={{
+            position: "absolute", top: -10, right: 240, width: 175, height: 125,
+            borderRadius: "70% 30% 55% 45% / 40% 60% 40% 60%",
+            background: "radial-gradient(ellipse at 60% 40%, rgba(180,60,100,0.65) 0%, rgba(140,30,80,0.35) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB4 9s ease-in-out infinite",
+          }} />
+          {/* Blob 5 índigo — toca blob 3 por abajo-izq */}
+          <div style={{
+            position: "absolute", top: 230, right: 200, width: 220, height: 160,
+            borderRadius: "45% 55% 65% 35% / 55% 45% 55% 45%",
+            background: "radial-gradient(ellipse at 40% 50%, rgba(60,40,140,0.65) 0%, rgba(40,20,100,0.35) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB5 11s ease-in-out infinite",
+          }} />
+        </div>
+
+        {/* Mobile: fondo completo muy tenue */}
+        <div aria-hidden className="block sm:hidden" style={{
+          position: "absolute", inset: 0,
+          opacity: 0.18,
+          filter: "url(#goo-yeti)",
+          pointerEvents: "none", zIndex: 0, overflow: "hidden",
+        }}>
+          <div style={{
+            position: "absolute", top: -40, right: -30, width: 260, height: 180,
+            borderRadius: "62% 38% 71% 29% / 45% 55% 45% 55%",
+            background: "radial-gradient(ellipse at 35% 40%, rgba(224,123,48,0.85) 0%, rgba(180,80,20,0.5) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB1 8s ease-in-out infinite",
           }} />
           <div style={{
-            position: "absolute", bottom: -140, left: -100, width: 340, height: 340,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(224,123,48,0.12) 0%, rgba(120,60,140,0.08) 50%, transparent 70%)",
+            position: "absolute", top: 20, right: 10, width: 220, height: 150,
+            borderRadius: "38% 62% 45% 55% / 60% 40% 60% 40%",
+            background: "radial-gradient(ellipse at 55% 35%, rgba(120,60,160,0.75) 0%, rgba(80,30,120,0.4) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB2 10s ease-in-out infinite",
           }} />
           <div style={{
-            position: "absolute", top: "30%", right: "8%", width: 180, height: 180,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
+            position: "absolute", top: 200, right: -10, width: 190, height: 135,
+            borderRadius: "55% 45% 30% 70% / 50% 65% 35% 50%",
+            background: "radial-gradient(ellipse at 45% 55%, rgba(240,160,60,0.72) 0%, rgba(200,120,30,0.4) 55%, transparent 78%)",
+            animation: rm ? "none" : "moveB3 12s ease-in-out infinite",
           }} />
         </div>
 
