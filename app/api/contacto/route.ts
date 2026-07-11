@@ -17,17 +17,18 @@ export async function POST(req: NextRequest) {
   if (
     typeof body !== "object" ||
     body === null ||
-    typeof (body as Record<string, unknown>).nombre !== "string" ||
-    typeof (body as Record<string, unknown>).correo !== "string" ||
+    typeof (body as Record<string, unknown>).nombre  !== "string" ||
+    typeof (body as Record<string, unknown>).correo  !== "string" ||
     typeof (body as Record<string, unknown>).mensaje !== "string"
   ) {
     return NextResponse.json({ error: "missing_fields" }, { status: 400 });
   }
 
-  const { nombre, correo, mensaje } = body as {
-    nombre: string;
-    correo: string;
-    mensaje: string;
+  const { nombre, correo, empresa, mensaje } = body as {
+    nombre:   string;
+    correo:   string;
+    empresa?: string;
+    mensaje:  string;
   };
 
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,8 +37,9 @@ export async function POST(req: NextRequest) {
   }
 
   const { error } = await supabase.from("contactos").insert({
-    nombre: nombre.trim(),
-    correo: correo.trim(),
+    nombre:  nombre.trim(),
+    correo:  correo.trim(),
+    empresa: empresa?.trim() ?? null,
     mensaje: mensaje.trim(),
   });
 

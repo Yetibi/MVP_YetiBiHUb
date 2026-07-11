@@ -1,356 +1,289 @@
-"use client";
+'use client'
 
-import { useRef, type ReactNode } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
-import { Settings2, Database, Workflow, Brain, TrendingUp, Compass } from "lucide-react";
-import { nodeReveal, pathDraw, pctPop, listContainer, fadeUp } from "@/lib/motion";
-
-// ─── types ───────────────────────────────────────────────────────────────────
-
-type AnimState = "hidden" | "show";
-
-interface NodeProps {
-  tag: string;
-  title: string;
-  desc: string;
-  icon: ReactNode;
-  pct?: string;
-  variant?: "default" | "destination" | "external";
-  delay: number;
-  anim: AnimState;
-  rm: boolean;
-  width?: number | string;
-}
-
-// ─── DiagramNode ─────────────────────────────────────────────────────────────
-
-function DiagramNode({ tag, title, desc, icon, pct, variant = "default", delay, anim, rm, width }: NodeProps) {
-  const state: AnimState = rm ? "show" : anim;
-
-  const bgColor =
-    variant === "destination" ? "#E07B30" :
-    variant === "external"    ? "transparent" : "#372E4D";
-
-  const borderStyle =
-    variant === "destination" ? "none" :
-    variant === "external"    ? "1px dashed #E07B3066" : "1px solid #453960";
-
-  const tagColor  = variant === "destination" ? "#1c142699" : "#A89EC0";
-  const titleColor = variant === "destination" ? "#1c1426"  : "#FFFFFF";
-  const descColor  = variant === "destination" ? "#1c142699" : "#C3B9D6";
-  const iconColor  = variant === "destination" ? "#1c1426"  : "#C3B9D6";
-
-  return (
-    <motion.div
-      variants={nodeReveal}
-      initial={rm ? "show" : "hidden"}
-      animate={state}
-      transition={rm ? { duration: 0 } : { delay, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="flex flex-col"
-      style={{
-        backgroundColor: bgColor,
-        borderRadius: 6,
-        padding: 24,
-        gap: 10,
-        border: borderStyle,
-        width: width ?? "auto",
-        flexShrink: 0,
-      }}
-    >
-      <span aria-hidden style={{ color: iconColor, width: 22, height: 22, display: "block" }}>
-        {icon}
-      </span>
-      <p className="font-normal uppercase tracking-[0.22em]" style={{ color: tagColor, fontSize: 10 }}>
-        {tag}
-      </p>
-      <p className="font-semibold" style={{ color: titleColor, fontSize: 17, lineHeight: 1.3 }}>
-        {title}
-      </p>
-      <p style={{ color: descColor, fontSize: 13, lineHeight: 1.5 }}>{desc}</p>
-
-      {pct !== undefined && (
-        <motion.p
-          variants={pctPop}
-          initial={rm ? "show" : "hidden"}
-          animate={state}
-          transition={rm ? { duration: 0 } : { delay: delay + 0.4, duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-          className="font-bold"
-          style={{ color: variant === "destination" ? "#1c1426" : "#E07B30", fontSize: 30 }}
-        >
-          {pct}
-        </motion.p>
-      )}
-    </motion.div>
-  );
-}
-
-// ─── Pipe connector ──────────────────────────────────────────────────────────
-
-function Pipe({ anim, rm }: { anim: AnimState; rm: boolean }) {
-  const state: AnimState = rm ? "show" : anim;
-  const td = rm ? { duration: 0 } : undefined;
-
-  return (
-    <svg aria-hidden width="38" height="16" viewBox="0 0 38 16" fill="none" style={{ flexShrink: 0 }}>
-      <motion.circle cx="4" cy="8" r="4" fill="#453960"
-        variants={nodeReveal} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 0.3, duration: 0.2 }} />
-      <motion.rect x="8" y="7" width="22" height="2" fill="#453960"
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 0.35, duration: 0.3, ease: "easeInOut" }} />
-      <motion.circle cx="34" cy="8" r="4" fill="#453960"
-        variants={nodeReveal} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 0.55, duration: 0.2 }} />
-    </svg>
-  );
-}
-
-// ─── Fork SVG ────────────────────────────────────────────────────────────────
-
-function Fork({ anim, rm }: { anim: AnimState; rm: boolean }) {
-  const state: AnimState = rm ? "show" : anim;
-  const td = rm ? { duration: 0 } : undefined;
-  const common = { stroke: "#E07B30", strokeWidth: 2, fill: "none" as const, strokeLinecap: "round" as const };
-
-  return (
-    <svg aria-hidden width="60" height="320" viewBox="0 0 60 320" style={{ flexShrink: 0 }}>
-      <motion.path d="M 0 160 L 22 160" {...common}
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 0.85, duration: 0.25, ease: "easeInOut" }} />
-      <motion.path d="M 22 160 C 44 160 60 80 60 80" {...common}
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 1.05, duration: 0.55, ease: "easeInOut" }} />
-      <motion.path d="M 22 160 C 44 160 60 240 60 240" {...common}
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 1.05, duration: 0.55, ease: "easeInOut" }} />
-    </svg>
-  );
-}
-
-// ─── Converge SVG ────────────────────────────────────────────────────────────
-
-function Converge({ anim, rm }: { anim: AnimState; rm: boolean }) {
-  const state: AnimState = rm ? "show" : anim;
-  const td = rm ? { duration: 0 } : undefined;
-  const common = { stroke: "#E07B30", strokeWidth: 2, fill: "none" as const, strokeLinecap: "round" as const };
-
-  return (
-    <svg aria-hidden width="60" height="320" viewBox="0 0 60 320" style={{ flexShrink: 0 }}>
-      <motion.path d="M 0 80 C 0 80 16 160 38 160" {...common}
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 1.85, duration: 0.55, ease: "easeInOut" }} />
-      <motion.path d="M 0 240 C 0 240 16 160 38 160" {...common}
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 1.85, duration: 0.55, ease: "easeInOut" }} />
-      <motion.path d="M 38 160 L 60 160" {...common}
-        variants={pathDraw} initial={rm ? "show" : "hidden"} animate={state}
-        transition={td ?? { delay: 2.35, duration: 0.25, ease: "easeInOut" }} />
-    </svg>
-  );
-}
-
-// ─── ColumnLabel ─────────────────────────────────────────────────────────────
-
-function ColumnLabel({ children }: { children: ReactNode }) {
-  return (
-    <p className="font-normal uppercase tracking-[0.28em]" style={{ color: "#8E83A6", fontSize: 10, marginBottom: 16 }}>
-      {children}
-    </p>
-  );
-}
-
-// ─── ValueFlow ───────────────────────────────────────────────────────────────
+import { useRef, useEffect, useState } from 'react'
+import { useInView } from 'motion/react'
 
 export function ValueFlow() {
-  const diagramRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(diagramRef, { once: true, margin: "-100px" });
-  const rm = useReducedMotion() === true;
-  const anim: AnimState = isInView ? "show" : "hidden";
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    if (isInView) setAnimate(true)
+  }, [isInView])
 
   return (
-    <section
-      className="w-full overflow-hidden px-5 md:px-10 lg:px-20"
-      style={{ backgroundColor: "#221B31", paddingTop: 100, paddingBottom: 100 }}
-    >
-      {/* Header */}
-      <motion.div
-        variants={rm ? undefined : listContainer}
-        initial={rm ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        className="flex flex-col"
-        style={{ gap: 16, marginBottom: 70 }}
-      >
-        <motion.p
-          variants={rm ? undefined : fadeUp}
-          className="font-normal uppercase tracking-[0.3em]"
-          style={{ color: "#A89EC0", fontSize: 12 }}
-        >
+    <section ref={ref} style={{ padding: '120px 40px', background: '#2E2640', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {/* Título */}
+      <div style={{ marginBottom: 64, width: '100%' }}>
+        <p style={{
+          fontSize: 11,
+          letterSpacing: '3px',
+          color: 'rgba(255,255,255,0.35)',
+          textTransform: 'uppercase',
+          marginBottom: 16,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12
+        }}>
+          <span style={{ width: 32, height: 1, background: '#E07B30', display: 'inline-block' }}/>
           EL FLUJO DE VALOR
-        </motion.p>
-        <motion.h2
-          variants={rm ? undefined : fadeUp}
-          className="flex flex-wrap items-baseline font-[family-name:var(--font-heading)]"
-          style={{ gap: 14 }}
-        >
-          <span className="font-bold" style={{ color: "#FFFFFF", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15 }}>
-            No todo es IA.
-          </span>
-          <span className="font-bold italic" style={{ color: "#E07B30", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15 }}>
+        </p>
+        <h2 style={{
+          fontSize: 'clamp(32px, 4vw, 52px)',
+          fontWeight: 700,
+          color: '#fff',
+          lineHeight: 1.1,
+          maxWidth: 700
+        }}>
+          No todo es IA.{' '}
+          <span style={{
+            fontFamily: 'var(--font-playfair)',
+            fontStyle: 'italic',
+            color: '#E07B30'
+          }}>
             La claridad es la condición para el éxito.
           </span>
-        </motion.h2>
-      </motion.div>
-
-      {/* Diagram */}
-      <div
-        ref={diagramRef}
-        role="img"
-        aria-label="Diagrama del flujo de valor: Proceso claro y sano → Dato confiable → dos caminos: Optimización/automatización simple (70–80%) o IA que decide (15–20%) → Impacto financiero medible. Factor externo: problemas de modelo de negocio (5–10%)."
-        className="w-full overflow-x-auto"
-        style={{ marginBottom: 8 }}
-      >
-        <p className="text-right text-xs pb-2 md:hidden" style={{ color: "#8E83A6" }} aria-hidden>
-          ← desliza para ver el diagrama →
-        </p>
-
-        {/* Column labels row */}
-        <div className="flex items-end" style={{ minWidth: 1150, gap: 0, paddingBottom: 0 }}>
-          {/* Label: LOS CIMIENTOS */}
-          <div style={{ width: 235 + 38 + 235, flexShrink: 0 }}>
-            <ColumnLabel>LOS CIMIENTOS OBLIGATORIOS</ColumnLabel>
-          </div>
-          {/* spacer: fork */}
-          <div style={{ width: 60, flexShrink: 0 }} />
-          {/* Label: LA BIFURCACIÓN */}
-          <div style={{ width: 330, flexShrink: 0 }}>
-            <ColumnLabel>LA BIFURCACIÓN ESTRATÉGICA</ColumnLabel>
-          </div>
-          {/* spacer: converge */}
-          <div style={{ width: 60, flexShrink: 0 }} />
-          {/* Label: EL DESTINO */}
-          <div style={{ flex: 1 }}>
-            <ColumnLabel>EL DESTINO INEVITABLE</ColumnLabel>
-          </div>
-        </div>
-
-        {/* Diagram nodes row */}
-        <div className="flex items-center" style={{ gap: 0, minWidth: 1150 }}>
-
-          {/* Node 1 */}
-          <DiagramNode
-            tag="PASO 1"
-            title="Proceso claro y sano"
-            desc="Se elimina la variabilidad y los cuellos de botella antes de cualquier cosa."
-            icon={<Settings2 size={22} />}
-            delay={0}
-            anim={anim}
-            rm={rm}
-            width={235}
-          />
-
-          <Pipe anim={anim} rm={rm} />
-
-          {/* Node 2 */}
-          <DiagramNode
-            tag="PASO 2"
-            title="Dato confiable"
-            desc="No se fabrica: es el subproducto natural de un proceso estandarizado."
-            icon={<Database size={22} />}
-            delay={0.6}
-            anim={anim}
-            rm={rm}
-            width={235}
-          />
-
-          <Fork anim={anim} rm={rm} />
-
-          {/* Two branch paths */}
-          <div className="flex flex-col" style={{ gap: 36, width: 330, flexShrink: 0 }}>
-            <DiagramNode
-              tag="CAMINO 1"
-              title="Optimización y automatización simple"
-              desc="RPA, SOPs, automatización de flujos. La ruta más rápida y económica hacia el ROI."
-              icon={<Workflow size={22} />}
-              pct="70–80%"
-              delay={1.3}
-              anim={anim}
-              rm={rm}
-            />
-            <DiagramNode
-              tag="CAMINO 2"
-              title="IA que decide"
-              desc="Modelos de decisión, aplicados solo cuando el diagnóstico lo justifica."
-              icon={<Brain size={22} />}
-              pct="15–20%"
-              delay={1.3}
-              anim={anim}
-              rm={rm}
-            />
-          </div>
-
-          <Converge anim={anim} rm={rm} />
-
-          {/* Destination + External stacked */}
-          <div className="flex flex-col" style={{ gap: 16, flex: 1, minWidth: 230 }}>
-            <DiagramNode
-              tag="ETAPA 3"
-              title="Impacto financiero medible"
-              desc="El único resultado aceptable."
-              icon={<TrendingUp size={22} />}
-              variant="destination"
-              delay={2.55}
-              anim={anim}
-              rm={rm}
-            />
-            <DiagramNode
-              tag="FACTOR EXTERNO · 5–10%"
-              title="Modelo de negocio"
-              desc="Problemas de modelo de negocio, no tecnológicos. El diagnóstico también te lo dice."
-              icon={<Compass size={22} />}
-              variant="external"
-              delay={2.8}
-              anim={anim}
-              rm={rm}
-            />
-          </div>
-        </div>
+        </h2>
       </div>
 
-      {/* Bottom copy */}
-      <motion.div
-        variants={rm ? undefined : listContainer}
-        initial={rm ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-60px" }}
-        className="flex w-full flex-col md:flex-row md:items-start"
-        style={{ gap: 80, marginTop: 70 }}
+      {/* SVG Tubería */}
+      <svg
+        width="100%"
+        viewBox="0 0 680 300"
+        role="img"
+        aria-label="Diagrama de tubería animada del flujo de valor Yeti BI"
+        style={{ overflow: 'visible', width: '100%', display: 'block' }}
       >
-        {/* Margin note */}
-        <motion.div
-          variants={rm ? undefined : fadeUp}
-          style={{ borderLeft: "2px solid #453960", paddingLeft: 20, width: 360, flexShrink: 0 }}
-        >
-          <p style={{ color: "#A89EC0", fontSize: 13, lineHeight: 1.6 }}>
-            Un 5–10% de los problemas son de modelo de negocio, no tecnológicos.
-            El diagnóstico también te lo dice.
-          </p>
-        </motion.div>
+        <title>Flujo de valor Yeti BI</title>
+        <desc>
+          Proceso sano y Dato confiable se bifurcan en
+          Automatización (70-80%) e IA que decide (15-20%),
+          convergiendo en ROI Medible.
+        </desc>
 
-        {/* Closing copy */}
-        <motion.div
-          variants={rm ? undefined : fadeUp}
-          className="flex flex-col font-[family-name:var(--font-heading)]"
-          style={{ gap: 8, flex: 1 }}
-        >
-          <p className="italic" style={{ color: "#C3B9D6", fontSize: "clamp(18px, 2vw, 24px)", lineHeight: 1.5 }}>
-            El enfoque tradicional compra la tecnología y luego busca el problema.
-          </p>
-          <p className="font-bold italic" style={{ color: "#E07B30", fontSize: "clamp(18px, 2vw, 24px)", lineHeight: 1.5 }}>
-            El nuestro encuentra la fuga de valor y te dice cuál camino la cierra — a veces ni siquiera es IA.
-          </p>
-        </motion.div>
-      </motion.div>
+        <defs>
+          <style>{`
+            .pipe-base {
+              stroke: rgba(255,255,255,0.06);
+              stroke-width: 6;
+              fill: none;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+            }
+            .pipe-track {
+              stroke: rgba(224,123,48,0.12);
+              stroke-width: 4;
+              fill: none;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+            }
+            .pipe-flow {
+              stroke: #E07B30;
+              stroke-width: 3;
+              fill: none;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-dasharray: 1000;
+              stroke-dashoffset: 1000;
+              transition: stroke-dashoffset 0.7s ease-in-out;
+            }
+            .lbl-section {
+              font-size: 9px;
+              fill: rgba(255,255,255,0.3);
+              letter-spacing: 2.5px;
+              font-family: var(--font-geist-sans);
+            }
+            .lbl-title {
+              font-size: 10px;
+              fill: rgba(255,255,255,0.9);
+              font-weight: 700;
+              font-family: var(--font-geist-sans);
+              letter-spacing: 0.5px;
+            }
+            .lbl-sub {
+              font-size: 8px;
+              fill: rgba(255,255,255,0.4);
+              font-family: var(--font-geist-sans);
+            }
+            .lbl-pct {
+              font-size: 11px;
+              font-weight: 700;
+              fill: #E07B30;
+              font-family: var(--font-geist-sans);
+            }
+            .lbl-pct-dim {
+              font-size: 10px;
+              font-weight: 600;
+              fill: rgba(224,123,48,0.55);
+              font-family: var(--font-geist-sans);
+            }
+
+            @keyframes pulseRing {
+              0%   { r: 14; opacity: 0.6; }
+              100% { r: 26; opacity: 0; }
+            }
+            .pulse-ring {
+              animation: pulseRing 1.8s ease-out infinite;
+            }
+          `}</style>
+        </defs>
+
+        {/* Labels de etapa */}
+        <text className="lbl-section" x="55"  y="18" textAnchor="middle">LOS CIMIENTOS</text>
+        <text className="lbl-section" x="370" y="18" textAnchor="middle">LA BIFURCACIÓN</text>
+        <text className="lbl-section" x="615" y="18" textAnchor="middle">ROI</text>
+
+        {/* Divisores */}
+        <line x1="230" y1="24" x2="230" y2="270" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
+        <line x1="510" y1="24" x2="510" y2="270" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
+
+        {/* TRACKS base */}
+        <path className="pipe-base" d="M 60 155 L 200 155"/>
+        <path className="pipe-track" d="M 60 155 L 200 155"/>
+        <path className="pipe-base" d="M 255 155 Q 295 155 325 100"/>
+        <path className="pipe-track" d="M 255 155 Q 295 155 325 100"/>
+        <path className="pipe-base" d="M 255 155 Q 295 155 325 210"/>
+        <path className="pipe-track" d="M 255 155 Q 295 155 325 210"/>
+        <path className="pipe-base" d="M 435 100 Q 485 100 520 155"/>
+        <path className="pipe-track" d="M 435 100 Q 485 100 520 155"/>
+        <path className="pipe-base" d="M 435 210 Q 485 210 520 155"/>
+        <path className="pipe-track" d="M 435 210 Q 485 210 520 155"/>
+
+        {/* FLUJO ANIMADO */}
+        <path className="pipe-flow" d="M 22 155 L 200 155"
+          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '0.2s' }}/>
+        <path className="pipe-flow" d="M 255 155 Q 295 155 325 100"
+          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '0.9s' }}/>
+        <path className="pipe-flow" d="M 255 155 Q 295 155 325 210"
+          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '0.9s' }}/>
+        <path className="pipe-flow" d="M 435 100 Q 485 100 520 155"
+          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '1.4s' }}/>
+        <path className="pipe-flow" d="M 435 210 Q 485 210 520 155"
+          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '1.4s' }}/>
+
+        {/* NODO 1 — Proceso sano */}
+        <g style={{
+          opacity: animate ? 1 : 0,
+          transform: animate ? 'scale(1)' : 'scale(0.5)',
+          transformOrigin: '46px 155px',
+          transition: 'opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s'
+        }}>
+          <circle cx="46" cy="155" r="22" fill="#2E2640" stroke="#E07B30" strokeWidth="1.5"/>
+          <circle cx="46" cy="155" r="14" fill="rgba(224,123,48,0.1)" stroke="rgba(224,123,48,0.35)" strokeWidth="1"/>
+          <circle cx="46" cy="155" r="5"  fill="#E07B30"/>
+          <text className="lbl-title" x="46" y="186" textAnchor="middle">PROCESO</text>
+          <text className="lbl-sub"   x="46" y="196" textAnchor="middle">claro y sano</text>
+        </g>
+
+        {/* NODO 2 — Dato confiable */}
+        <g style={{
+          opacity: animate ? 1 : 0,
+          transform: animate ? 'scale(1)' : 'scale(0.5)',
+          transformOrigin: '228px 155px',
+          transition: 'opacity 0.3s ease-out 0.8s, transform 0.3s ease-out 0.8s'
+        }}>
+          <circle cx="228" cy="155" r="22" fill="#2E2640" stroke="#E07B30" strokeWidth="1.5"/>
+          <circle cx="228" cy="155" r="14" fill="rgba(224,123,48,0.1)" stroke="rgba(224,123,48,0.35)" strokeWidth="1"/>
+          <circle cx="228" cy="155" r="5"  fill="#E07B30"/>
+          <text className="lbl-title" x="228" y="186" textAnchor="middle">DATO</text>
+          <text className="lbl-sub"   x="228" y="196" textAnchor="middle">confiable</text>
+        </g>
+
+        {/* Fork dot */}
+        <circle cx="255" cy="155" r="4" fill="#E07B30"
+          style={{ opacity: animate ? 0.5 : 0, transition: 'opacity 0.3s ease-out 0.85s' }}/>
+
+        {/* NODO 3 — Automatización */}
+        <g style={{
+          opacity: animate ? 1 : 0,
+          transform: animate ? 'scale(1)' : 'scale(0.5)',
+          transformOrigin: '380px 100px',
+          transition: 'opacity 0.3s ease-out 1.3s, transform 0.3s ease-out 1.3s'
+        }}>
+          <rect x="326" y="68" width="108" height="64" rx="7"
+            fill="#2E2640" stroke="rgba(224,123,48,0.55)" strokeWidth="1.2"/>
+          <rect x="331" y="73" width="98"  height="54" rx="5"
+            fill="rgba(224,123,48,0.05)"/>
+          <text className="lbl-title" x="380" y="91"  textAnchor="middle">AUTOMATIZACIÓN</text>
+          <text className="lbl-sub"   x="380" y="103" textAnchor="middle">RPA · SOPs · Flujos</text>
+          <text className="lbl-pct"   x="380" y="122" textAnchor="middle"
+            style={{ opacity: animate ? 1 : 0, transition: 'opacity 0.4s ease-out 1.6s' }}>
+            70–80%
+          </text>
+        </g>
+
+        {/* NODO 4 — IA que decide */}
+        <g style={{
+          opacity: animate ? 1 : 0,
+          transform: animate ? 'scale(1)' : 'scale(0.5)',
+          transformOrigin: '380px 210px',
+          transition: 'opacity 0.3s ease-out 1.3s, transform 0.3s ease-out 1.3s'
+        }}>
+          <rect x="326" y="178" width="108" height="64" rx="7"
+            fill="#2E2640" stroke="rgba(224,123,48,0.3)" strokeWidth="1"/>
+          <rect x="331" y="183" width="98"  height="54" rx="5"
+            fill="rgba(224,123,48,0.03)"/>
+          <text className="lbl-title" x="380" y="201" textAnchor="middle">IA QUE DECIDE</text>
+          <text className="lbl-sub"   x="380" y="213" textAnchor="middle">Modelos · Decisión</text>
+          <text className="lbl-pct-dim" x="380" y="232" textAnchor="middle"
+            style={{ opacity: animate ? 1 : 0, transition: 'opacity 0.4s ease-out 1.8s' }}>
+            15–20%
+          </text>
+        </g>
+
+        {/* NODO 5 — ROI Medible */}
+        <g style={{
+          opacity: animate ? 1 : 0,
+          transform: animate ? 'scale(1)' : 'scale(0.5)',
+          transformOrigin: '600px 155px',
+          transition: 'opacity 0.4s ease-out 2.0s, transform 0.4s ease-out 2.0s'
+        }}>
+          {animate && (
+            <circle className="pulse-ring" cx="600" cy="155" r="14"
+              fill="none" stroke="#E07B30" strokeWidth="1"/>
+          )}
+          <circle cx="600" cy="155" r="38" fill="rgba(224,123,48,0.1)"
+            stroke="rgba(224,123,48,0.25)" strokeWidth="1"/>
+          <circle cx="600" cy="155" r="28" fill="rgba(224,123,48,0.15)"
+            stroke="#E07B30" strokeWidth="1.5"/>
+          <circle cx="600" cy="155" r="10" fill="#E07B30"/>
+          <text className="lbl-title" x="600" y="202" textAnchor="middle">ROI</text>
+          <text className="lbl-title" x="600" y="214" textAnchor="middle">MEDIBLE</text>
+          <text className="lbl-sub"   x="600" y="225" textAnchor="middle">el único resultado</text>
+        </g>
+      </svg>
+
+      {/* Texto de cierre */}
+      <div style={{
+        marginTop: 80,
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 48,
+        width: '100%'
+      }}>
+        <p style={{
+          fontSize: 14,
+          color: 'rgba(255,255,255,0.4)',
+          fontStyle: 'italic',
+          lineHeight: 1.7,
+          borderLeft: '2px solid rgba(224,123,48,0.3)',
+          paddingLeft: 20
+        }}>
+          El enfoque tradicional compra la tecnología y luego busca el problema.
+        </p>
+        <p style={{
+          fontSize: 'clamp(16px, 2vw, 22px)',
+          color: '#E07B30',
+          fontFamily: 'var(--font-playfair)',
+          fontStyle: 'italic',
+          lineHeight: 1.5
+        }}>
+          El nuestro encuentra la fuga de valor y te dice cuál camino la cierra — a veces ni siquiera es IA.
+        </p>
+      </div>
     </section>
-  );
+  )
 }
+
+

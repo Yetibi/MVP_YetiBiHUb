@@ -128,3 +128,33 @@ export const formContainer: Variants = {
     },
   },
 };
+
+// ValueFlow: trazado de path SVG (pathLength 0→1) con ease orgánico.
+export const flowPath: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  animate: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+  },
+};
+
+// ValueFlow: aparición de nodo (escala + fade).
+export const flowNode: Variants = {
+  hidden: { scale: 0, opacity: 0 },
+  animate: {
+    scale: 1,
+    opacity: 1,
+    transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
+  },
+};
+
+// ValueFlow: labels de porcentaje (fade + slide sutil).
+export const flowLabel: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};

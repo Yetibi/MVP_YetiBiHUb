@@ -1,203 +1,434 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
-import { heroContainer, heroItem } from "@/lib/motion";
+import { useReducedMotion } from "motion/react";
 
-const CHAIN = [
-  "Proceso sano",
-  "Dato confiable",
-  "La ruta correcta",
-  "Impacto financiero medible",
-] as const;
+// ─── animation helper ─────────────────────────────────────────────────────────
+
+function a(
+  name: string,
+  duration: string,
+  delay: string,
+  easing = "ease-out",
+): React.CSSProperties {
+  return { animation: `${name} ${duration} ${easing} ${delay} both` };
+}
+
+// ─── data ─────────────────────────────────────────────────────────────────────
+
+const CHAIN: { label: string; accent: boolean }[] = [
+  { label: "Proceso sano",               accent: false },
+  { label: "Dato confiable",             accent: false },
+  { label: "La ruta correcta",           accent: false },
+  { label: "Impacto financiero medible", accent: true  },
+];
+
+// Three decorative lines next to the logo (matching reference)
+const LOGO_LINES = ["▬▬", "▬▬▬", "▬▬"] as const;
+
+// ─── Nav ─────────────────────────────────────────────────────────────────────
+
+function Nav({ noAnim }: { noAnim: boolean }) {
+  const style = noAnim ? {} : a("heroFadeIn", "0.4s", "0s");
+  return (
+    <nav
+      aria-label="Navegación principal"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        padding: "20px 40px",
+        backgroundColor: "#2E2640",
+        position: "relative",
+        zIndex: 10,
+        gap: 0,
+        ...style,
+      }}
+    >
+      {/* Logo block */}
+      <Link
+        href="/"
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          textDecoration: "none",
+          flexShrink: 0,
+        }}
+      >
+        {/* Icon: circle with three horizontal bars */}
+        <span
+          aria-hidden
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            border: "1.5px solid rgba(224,123,48,0.6)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 3,
+            flexShrink: 0,
+          }}
+        >
+          {LOGO_LINES.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                display: "block",
+                height: 1.5,
+                borderRadius: 2,
+                background: "#E07B30",
+                width: i === 1 ? 16 : 10,
+              }}
+            />
+          ))}
+        </span>
+
+        {/* Wordmark + tagline */}
+        <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <span
+            style={{
+              color: "#FFFFFF",
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: "0.18em",
+              lineHeight: 1,
+            }}
+          >
+            YETI·BI
+          </span>
+          <span
+            style={{
+              color: "rgba(255,255,255,0.35)",
+              fontSize: 8,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              lineHeight: 1,
+            }}
+          >
+            DATA &amp; ANALYTICS
+          </span>
+        </span>
+      </Link>
+
+      {/* Center links */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 36,
+        }}
+      >
+        {[
+          { label: "El problema",    href: "#diagnostico" },
+          { label: "Cómo funciona",  href: "#como-funciona" },
+          { label: "El enfoque",     href: "#flujo-de-valor" },
+          { label: "Contacto",       href: "#contacto" },
+        ].map(({ label, href }) => (
+          <Link
+            key={label}
+            href={href}
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <a
+        href="https://mvp-yeti-bi-h-ub.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
+        style={{
+          backgroundColor: "#E07B30",
+          color: "#1c1426",
+          fontSize: 14,
+          fontWeight: 600,
+          padding: "12px 24px",
+          borderRadius: 6,
+          textDecoration: "none",
+          whiteSpace: "nowrap",
+          flexShrink: 0,
+        }}
+      >
+        Diagnostica tu proceso — gratis
+      </Link>
+    </nav>
+  );
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export function Hero() {
   const rm = useReducedMotion();
+  const an = rm ? () => ({} as React.CSSProperties) : a;
 
   return (
     <>
-      {/* Nav */}
-      <nav
-        aria-label="Navegación principal"
-        className="relative z-10 flex w-full items-center"
-        style={{ backgroundColor: "#2E2640", padding: "20px 20px" }}
-      >
-        <Link
-          href="/"
-          className="font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#2E2640] rounded"
-          style={{ fontSize: 18, letterSpacing: 3 }}
-        >
-          YETI BI
-        </Link>
-
-        <span className="flex-1" />
-
-        <div className="flex items-center" style={{ gap: 32 }}>
-          <Link
-            href="#diagnostico"
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-            style={{ color: "#C3B9D6", fontSize: 14 }}
-          >
-            Diagnóstico
-          </Link>
-          <Link
-            href="#contacto"
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-            style={{ color: "#C3B9D6", fontSize: 14 }}
-          >
-            Contacto
-          </Link>
-        </div>
-
-        <span className="flex-1" />
-
-        <Link
-          href="/diagnostico"
-          className="rounded-md font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
-          style={{
-            backgroundColor: "#E07B30",
-            color: "#1c1426",
-            fontSize: 13,
-            padding: "10px 20px",
-            boxShadow: "0 4px 16px -4px #E07B3066",
-          }}
-        >
-          Haz tu diagnóstico
-        </Link>
-      </nav>
+      <Nav noAnim={!!rm} />
 
       <section
         id="diagnostico"
         aria-labelledby="hero-heading"
-        className="relative w-full overflow-hidden"
-        style={{ backgroundColor: "#2E2640", minHeight: "100vh" }}
+        style={{
+          backgroundColor: "#2E2640",
+          minHeight: "calc(100vh - 76px)",
+          position: "relative",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "48px 40px 48px",
+        }}
       >
-        {/* Semicírculo de firma — fondo naranja difuso */}
+        {/* Subtle grid background */}
         <div
           aria-hidden
           style={{
             position: "absolute",
-            top: "-10%",
-            right: "-15%",
-            width: "clamp(300px, 40vw, 600px)",
-            height: "clamp(300px, 40vw, 600px)",
-            borderRadius: "50%",
-            background: "#E07B30",
-            opacity: 0.12,
-            filter: "blur(1px)",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
             pointerEvents: "none",
             zIndex: 0,
           }}
         />
 
-        {/* Body */}
-        <motion.div
-          variants={rm ? undefined : heroContainer}
-          initial={rm ? false : "hidden"}
-          animate={rm ? false : "show"}
-          className="relative flex w-full flex-col justify-center px-5 md:px-10 lg:px-20"
-          style={{ paddingTop: 80, paddingBottom: 80, minHeight: "100vh", gap: 32, zIndex: 1 }}
-        >
-          {/* Kicker con línea naranja */}
-          <motion.div
-            variants={rm ? undefined : heroItem}
-            className="flex items-center"
-            style={{ gap: 12 }}
-          >
-            <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
-            <span
-              className="font-normal tracking-[0.28em] uppercase"
-              style={{ color: "#8E83A6", fontSize: 12 }}
-            >
-              DIAGNÓSTICO DE MADUREZ IA
-            </span>
-          </motion.div>
+        {/* Orange glow top-left */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: -120,
+            left: -80,
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            background: "rgba(224,123,48,0.08)",
+            filter: "blur(60px)",
+            pointerEvents: "none",
+            zIndex: 0,
+            ...an("heroScaleIn", "1.4s", "0.1s"),
+          }}
+        />
 
-          {/* Headline — Playfair Display italic bold */}
-          <motion.div variants={rm ? undefined : heroItem} className="flex w-full flex-col" style={{ gap: 0 }}>
-            <h1
-              id="hero-heading"
-              className="w-full font-bold italic leading-[1.08]"
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontSize: "clamp(56px, 8vw, 96px)",
-                color: "#FFFFFF",
-              }}
-            >
-              La mayoría de tus problemas{" "}
-              <span style={{ color: "#FFFFFF" }}>
-                {/* "no" en naranja, resto blanco */}
-                <span style={{ color: "#E07B30" }}>no</span>
-                {" "}necesitan IA.
-              </span>
-              <br />
-              Necesitan claridad.
-            </h1>
-          </motion.div>
+        {/* Purple glow bottom-right */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: -100,
+            right: -60,
+            width: 500,
+            height: 500,
+            borderRadius: "50%",
+            background: "rgba(100,60,160,0.18)",
+            filter: "blur(80px)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        {/* Watermark "claridad." — far right, very faint */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            right: -40,
+            top: "50%",
+            transform: "translateY(-50%)",
+            fontFamily: "var(--font-playfair)",
+            fontStyle: "italic",
+            fontWeight: 900,
+            fontSize: "clamp(120px, 18vw, 260px)",
+            color: "rgba(255,255,255,0.04)",
+            lineHeight: 1,
+            pointerEvents: "none",
+            userSelect: "none",
+            zIndex: 0,
+            whiteSpace: "nowrap",
+          }}
+        >
+          claridad.
+        </div>
+
+        {/* Kicker */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            ...an("heroSlideUp", "0.5s", "0.2s"),
+          }}
+        >
+          <div
+            aria-hidden
+            style={{ width: 32, height: 1, background: "#E07B30", flexShrink: 0 }}
+          />
+          <span
+            style={{
+              fontSize: 10,
+              color: "#E07B30",
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              fontFamily: "var(--font-sans)",
+            }}
+          >
+            Diagnóstico de AI Readiness &nbsp;·&nbsp; Yeti BI
+          </span>
+        </div>
+
+        {/* Headline */}
+        <h1
+          id="hero-heading"
+          style={{
+            position: "relative",
+            zIndex: 1,
+            fontFamily: "var(--font-playfair)",
+            fontWeight: 900,
+            fontStyle: "italic",
+            fontSize: "clamp(56px, 8.5vw, 112px)",
+            lineHeight: 1.0,
+            color: "#FFFFFF",
+            maxWidth: "72%",
+            margin: "24px 0 0",
+          }}
+        >
+          <span
+            style={{
+              display: "block",
+              ...an("heroSlideUp", "0.55s", "0.35s"),
+            }}
+          >
+            La mayoría de
+          </span>
+          <span
+            style={{
+              display: "block",
+              ...an("heroSlideUp", "0.55s", "0.5s"),
+            }}
+          >
+            tus problemas
+          </span>
+          <span
+            style={{
+              display: "block",
+              color: "#E07B30",
+              ...an("heroSlideUp", "0.55s", "0.65s"),
+            }}
+          >
+            no necesitan IA.
+          </span>
+          <span
+            style={{
+              display: "block",
+              color: "#FFFFFF",
+              ...an("heroSlideUp", "0.55s", "0.8s"),
+            }}
+          >
+            Necesitan claridad.
+          </span>
+        </h1>
+
+        {/* Bottom row: chain + support + CTAs */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+            marginTop: 40,
+          }}
+        >
+          {/* Horizon line */}
+          <div
+            aria-hidden
+            style={{
+              height: 1,
+              background: "rgba(255,255,255,0.10)",
+              transformOrigin: "left",
+              ...an("heroDrawLine", "0.9s", "0.9s"),
+            }}
+          />
 
           {/* Value chain */}
-          <motion.div
-            variants={rm ? undefined : heroItem}
-            className="flex flex-wrap items-center"
-            style={{ gap: 12 }}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 0,
+              ...an("heroFadeIn", "0.5s", "1.1s"),
+            }}
           >
-            {CHAIN.map((label, i) => (
-              <span key={label} className="flex items-center" style={{ gap: 12 }}>
-                <span className="font-medium" style={{ color: "#C3B9D6", fontSize: 15 }}>
+            {CHAIN.map(({ label, accent }, i) => (
+              <span key={label} style={{ display: "flex", alignItems: "center" }}>
+                <span
+                  style={{
+                    fontSize: 14,
+                    fontFamily: "var(--font-sans)",
+                    color: accent ? "#E07B30" : "#FFFFFF",
+                    fontWeight: accent ? 600 : 400,
+                  }}
+                >
                   {label}
                 </span>
                 {i < CHAIN.length - 1 && (
-                  <span aria-hidden style={{ color: "#8E83A6", fontSize: 15 }}>→</span>
+                  <span
+                    aria-hidden
+                    style={{
+                      color: "#E07B30",
+                      margin: "0 12px",
+                      fontSize: 14,
+                    }}
+                  >
+                    →
+                  </span>
                 )}
               </span>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Support copy */}
-          <motion.p
-            variants={rm ? undefined : heroItem}
-            style={{ color: "#C3B9D6", fontSize: 16, lineHeight: 1.6, maxWidth: 520 }}
+          {/* Support copy — CTA de texto, sin botones */}
+          <p
+            style={{
+              fontSize: "clamp(16px, 1.6vw, 20px)",
+              fontFamily: "var(--font-sans)",
+              color: "#FFFFFF",
+              lineHeight: 1.6,
+              margin: 0,
+              maxWidth: 560,
+              ...an("heroFadeIn", "0.5s", "1.2s"),
+            }}
           >
-            El diagnóstico Yeti BI te dice cuál es tu ruta antes de que inviertas
-            un peso en tecnología.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            variants={rm ? undefined : heroItem}
-            className="flex items-center flex-wrap"
-            style={{ gap: 16 }}
-          >
-            <Link
-              href="/diagnostico"
-              className="flex items-center rounded-md font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+            El diagnóstico Yeti BI te dice cuál es tu ruta{" "}
+            <a
+              href="https://mvp-yeti-bi-h-ub.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
               style={{
-                backgroundColor: "#E07B30",
-                color: "#1c1426",
-                fontSize: 16,
-                padding: "16px 28px",
-                gap: 10,
-                boxShadow: "0 8px 30px -8px #E07B3099",
+                color: "#E07B30",
+                textDecoration: "underline",
+                textUnderlineOffset: 3,
+                fontWeight: 600,
               }}
             >
-              Haz tu diagnóstico — gratis
-              <span aria-hidden>→</span>
+              antes de que inviertas un peso en tecnología →
             </Link>
-
-            <Link
-              href="/roi"
-              className="rounded-md font-medium transition-colors hover:border-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
-              style={{
-                color: "#FFFFFF",
-                fontSize: 16,
-                padding: "16px 28px",
-                border: "1px solid #FFFFFF2E",
-              }}
-            >
-              Calcula tu ROI
-            </Link>
-          </motion.div>
-        </motion.div>
+          </p>
+        </div>
       </section>
     </>
   );

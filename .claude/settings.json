@@ -49,7 +49,8 @@
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark mode contrast animation loading\" --stack nextjs -n 6)",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"dark landing page B2B SaaS Latin America\" --design-system -p \"YetiBi Hub Landing\" -f markdown)",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"navigation landmark heading hierarchy skip link focus keyboard\" --domain ux -n 10)",
-      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"mobile responsive touch target fixed nav\" --domain ux -n 6)"
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"mobile responsive touch target fixed nav\" --domain ux -n 6)",
+      "Read(//mnt/user-data/outputs/**)"
     ],
     "additionalDirectories": [
       "/tmp",
