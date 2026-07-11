@@ -241,23 +241,24 @@ function Nav({ noAnim }: { noAnim: boolean }) {
         </button>
       </nav>
 
-      {/* Mobile drawer — position fixed para no empujar contenido en landscape */}
+      {/* Mobile drawer — compacto, solo visible en <md */}
       {open && (
         <div
           ref={drawerRef}
-          className="flex flex-col"
+          className="flex md:hidden flex-col"
           style={{
             position: "fixed",
             top: 68,
             left: 0,
             right: 0,
-            bottom: 0,
-            overflowY: "auto",
-            backgroundColor: "#1A1428",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            padding: "20px",
-            gap: 0,
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            backgroundColor: "rgba(26, 20, 40, 0.88)",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            padding: "16px 20px 24px",
             zIndex: 99,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
           }}
         >
           {NAV_LINKS.map(({ label, href }) => (
@@ -266,12 +267,13 @@ function Nav({ noAnim }: { noAnim: boolean }) {
               href={href}
               onClick={() => setOpen(false)}
               style={{
-                color: "rgba(255,255,255,0.7)",
+                color: "rgba(255,255,255,0.75)",
                 fontSize: 16,
                 textDecoration: "none",
-                padding: "14px 0",
+                padding: "13px 0",
                 borderBottom: "1px solid rgba(255,255,255,0.06)",
-                display: "block",
+                display: "flex",
+                alignItems: "center",
               }}
             >
               {label}
@@ -283,8 +285,10 @@ function Nav({ noAnim }: { noAnim: boolean }) {
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             style={{
-              display: "block",
-              marginTop: 20,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 16,
               backgroundColor: "#E07B30",
               color: "#1c1426",
               fontSize: 15,
@@ -292,7 +296,6 @@ function Nav({ noAnim }: { noAnim: boolean }) {
               padding: "14px 20px",
               borderRadius: 8,
               textDecoration: "none",
-              textAlign: "center",
             }}
           >
             Diagnostica tu proceso — gratis
