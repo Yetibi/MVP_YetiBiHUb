@@ -23,6 +23,7 @@ export function Problem() {
 
   return (
     <section
+      id="el-problema"
       className="w-full overflow-hidden px-5 md:px-10 lg:px-20"
       style={{ backgroundColor: "#221B31", paddingTop: "clamp(56px,8vw,100px)", paddingBottom: "clamp(56px,8vw,100px)" }}
     >

@@ -22,7 +22,7 @@ export function ValueFlow() {
   }, [isInView])
 
   return (
-    <section ref={ref} style={{ padding: 'clamp(60px,10vw,120px) clamp(16px,5vw,40px)', background: '#2E2640', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <section id="el-enfoque" ref={ref} style={{ padding: 'clamp(60px,10vw,120px) clamp(16px,5vw,40px)', background: '#2E2640', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {/* Título */}
       <div style={{ marginBottom: 64, width: '100%' }}>
         <p style={{

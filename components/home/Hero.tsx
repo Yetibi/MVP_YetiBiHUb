@@ -27,9 +27,9 @@ const CHAIN: { label: string; accent: boolean }[] = [
 const LOGO_LINES = ["▬▬", "▬▬▬", "▬▬"] as const;
 
 const NAV_LINKS = [
-  { label: "El problema",   href: "#diagnostico" },
+  { label: "El problema",   href: "#el-problema" },
   { label: "Cómo funciona", href: "#como-funciona" },
-  { label: "El enfoque",    href: "#flujo-de-valor" },
+  { label: "El enfoque",    href: "#el-enfoque" },
   { label: "Contacto",      href: "#contacto" },
 ];
 
