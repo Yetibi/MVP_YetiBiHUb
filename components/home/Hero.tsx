@@ -39,7 +39,7 @@ const ROTATING_WORDS = ["claridad.", "diagnóstico.", "fuga cerrada.", "madurez.
 const ROTATING_LINE2 = [
   "Nadie pregunta si sus procesos",
   "Pocos saben si sus procesos",
-  "¿Alguien verificó si sus procesos",
+  "¿Alguien verificó si sus procesos?",
 ] as const;
 const FLIP = "transform 0.56s cubic-bezier(0.4, 0, 0.2, 1)";
 
@@ -57,13 +57,18 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
   // measure widest word (box), SSR-safe: estado inicial 280, recalcula en cliente
   const sizerRef = useRef<HTMLSpanElement>(null);
   const [frameWidth, setFrameWidth] = useState<number>(280);
+  // measure width of "Necesitan" word for L4 box capping
+  const necesitanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     function calculate() {
       if (!sizerRef.current) return;
       const textW = sizerRef.current.offsetWidth;
-      const maxW = window.innerWidth - 48;
-      setFrameWidth(Math.min(textW + 44, maxW));
+      const necesitanW = necesitanRef.current ? necesitanRef.current.offsetWidth : 0;
+      const gapPx = 14;
+      const sectionPad = Math.max(20, Math.min(window.innerWidth * 0.05, 60)) * 2;
+      const maxW = window.innerWidth - sectionPad - necesitanW - gapPx;
+      setFrameWidth(Math.min(textW + 44, Math.max(maxW, 80)));
     }
     calculate();
     window.addEventListener("resize", calculate);
@@ -129,100 +134,138 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
     transformOrigin: "top center",
   });
 
-  const trackFlipStyle = (state: "idle" | "out" | "in"): React.CSSProperties => ({
-    transition: state !== "idle" ? FLIP : undefined,
-    transform:
-      state === "out" ? "translateY(-100%) rotateX(90deg)" :
-      state === "in"  ? "translateY(0%) rotateX(0deg)" :
-      "none",
-    opacity: state === "out" ? 0 : 1,
-    transformOrigin: "top center",
-    display: "inline-block",
-    whiteSpace: "nowrap",
-  });
-
-  const baseStyle: React.CSSProperties = {
-    position: "relative",
-    zIndex: 1,
-    fontFamily: "var(--font-playfair)",
-    fontWeight: 900,
-    fontStyle: "italic",
-    fontSize: "clamp(28px, 7vw, 62px)",
-    lineHeight: 1.12,
-    margin: "20px 0 0",
-    paddingLeft: "0.25em",
+  const trackFlipStyle = (state: "idle" | "out" | "in"): React.CSSProperties => {
+    const base: React.CSSProperties = {
+      opacity: state === "out" ? 0 : 1,
+      transformOrigin: "top center",
+    };
+    if (state !== "idle") {
+      base.transition = FLIP;
+      base.transform =
+        state === "out" ? "translateY(-100%) rotateX(90deg)" : "translateY(0%) rotateX(0deg)";
+    }
+    return base;
   };
+
+  // Shared font size for all 4 lines
+  const FS = "clamp(30px, 7vw, 68px)";
+
+  // L1 & L3 — Geist Sans (misma var que el kicker)
+  const staticLineStyle: React.CSSProperties = {
+    display: "block",
+    fontFamily: "var(--font-sans)",
+    fontWeight: 900,
+    fontStyle: "normal",
+    fontSize: FS,
+    lineHeight: 1.05,
+  };
+
+  // L2 items — Playfair italic white
+  // Font-size más pequeño para que la frase más larga quepa en una línea
+  const l2ItemStyle: React.CSSProperties = {
+    fontFamily: "var(--font-playfair)",
+    fontWeight: 700,
+    fontStyle: "italic",
+    fontSize: "clamp(19px, 4.5vw, 52px)",
+    color: "#fff",
+    whiteSpace: "nowrap",
+    lineHeight: 1.1,
+    display: "block",
+  };
+
+  const l2FadeStyle = (state: "idle" | "out" | "in"): React.CSSProperties => ({
+    transition: state !== "idle" ? "opacity 0.3s ease, transform 0.3s ease" : undefined,
+    opacity: state === "out" ? 0 : 1,
+    transform: state === "out" ? "translateY(-8px)" : "translateY(0)",
+  });
 
   return (
     <>
-      {/* Hidden measurers — misma fuente/tamaño que baseStyle */}
+      {/* Hidden measurers */}
       <span aria-hidden style={{ position: "absolute", visibility: "hidden", pointerEvents: "none",
-        fontFamily: "var(--font-playfair)", fontWeight: 900, fontStyle: "italic",
-        fontSize: "clamp(22px, 5.5vw, 62px)", whiteSpace: "nowrap", lineHeight: 1.12 }}>
+        fontFamily: "var(--font-playfair)", fontWeight: 700, fontStyle: "italic",
+        fontSize: FS, whiteSpace: "nowrap", lineHeight: 1.1 }}>
         <span ref={sizerRef}>fuga cerrada.</span>
+      </span>
+      {/* "Necesitan" width measurer */}
+      <span aria-hidden style={{ position: "absolute", visibility: "hidden", pointerEvents: "none",
+        fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontStyle: "normal",
+        fontSize: FS, whiteSpace: "nowrap" }}>
+        <span ref={necesitanRef}>Necesitan</span>
       </span>
 
       {/* Phase 1 */}
       {phase === 0 && (
-        <h1 id="hero-heading" style={{ ...baseStyle, color: "#E07B30" }}>
-          <span style={flipStyle(flip)}>Todos quieren IA.</span>
+        <h1 id="hero-heading" style={{ margin: "20px 0 0", paddingLeft: "0.25em" }}>
+          <span style={{ ...staticLineStyle, color: "#E07B30", ...flipStyle(flip) }}>
+            Todos quieren IA.
+          </span>
         </h1>
       )}
 
       {/* Phase 2 */}
       {phase === 1 && (
-        <h1 id="hero-heading" style={{ ...baseStyle, color: "#FFFFFF" }}>
-          <span style={flipStyle(flip)}>Pocos saben si sus procesos</span>
+        <h1 id="hero-heading" style={{ margin: "20px 0 0", paddingLeft: "0.25em" }}>
+          <span style={{ ...l2ItemStyle, ...flipStyle(flip) }}>
+            Pocos saben si sus procesos
+          </span>
         </h1>
       )}
 
       {/* Phase 3 */}
       {phase === 2 && (
-        <h1 id="hero-heading" style={{ ...baseStyle, color: "#FFFFFF" }}>
-          <span style={flipStyle(flip)}>están listos para usarla.</span>
+        <h1 id="hero-heading" style={{ margin: "20px 0 0", paddingLeft: "0.25em" }}>
+          <span style={{ ...staticLineStyle, color: "#fff", ...flipStyle(flip) }}>
+            están listos para usarla.
+          </span>
         </h1>
       )}
 
       {/* Phase 4 — permanent: 4 lines */}
       {phase === 3 && (
-        <h1 id="hero-heading" style={{ ...baseStyle, display: "flex", flexDirection: "column", gap: "0.1em" }}>
-          {/* Line 1 — static, naranja */}
+        <h1
+          id="hero-heading"
+          style={{
+            margin: "20px 0 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.1em",
+          }}
+        >
+          {/* L1 — Geist 900 normal naranja */}
           <span style={{
-            display: "block",
+            ...staticLineStyle,
             color: "#E07B30",
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0s both",
           }}>
             Todos quieren IA.
           </span>
 
-          {/* Line 2 — rotating. width:100% + whiteSpace:normal permite wrap en mobile */}
+          {/* L2 — fade+slide, Playfair italic blanca */}
           <span style={{
             display: "block",
-            width: "100%",
-            overflow: "hidden",
-            color: "#FFFFFF",
-            fontSize: "clamp(22px, 5.5vw, 62px)",
+            overflow: "visible",
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.06s both",
-            perspective: 800,
           }}>
-            <span style={rm
-              ? { display: "inline-block", whiteSpace: "normal", maxWidth: "100%" }
-              : { ...trackFlipStyle(line2Flip), whiteSpace: "normal", maxWidth: "100%" }
-            }>
-              {ROTATING_LINE2[line2Idx]}
-            </span>
+            {rm ? (
+              <span style={l2ItemStyle}>{ROTATING_LINE2[0]}</span>
+            ) : (
+              <span style={{ ...l2ItemStyle, ...l2FadeStyle(line2Flip) }}>
+                {ROTATING_LINE2[line2Idx]}
+              </span>
+            )}
           </span>
 
-          {/* Line 3 — static, blanca */}
+          {/* L3 — Geist 900 normal blanca */}
           <span style={{
-            display: "block",
-            color: "#FFFFFF",
+            ...staticLineStyle,
+            color: "#fff",
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.12s both",
           }}>
             están listos para usarla.
           </span>
 
-          {/* Line 4 — "Necesitan" + rotating box */}
+          {/* L4 — "Necesitan" Geist 900 + recuadro rotativo */}
           <span style={{
             display: "flex",
             alignItems: "center",
@@ -230,15 +273,24 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
             gap: "0.18em",
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.18s both",
           }}>
-            <span style={{ color: "#FFFFFF" }}>Necesitan</span>
-            {/* Rotating word box */}
+            {/* "Necesitan" — Geist 900 normal blanco */}
+            <span style={{
+              ...staticLineStyle,
+              color: "#fff",
+              flexShrink: 0,
+              display: "inline",
+            }}>
+              Necesitan
+            </span>
+
+            {/* Rotating word box — animaciones intactas */}
             <span style={{
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
               position: "relative",
               minWidth: frameWidth,
-              padding: "8px 28px",
+              padding: "2px 28px",
               background: "linear-gradient(135deg, #4A3570 0%, #7B3F8C 35%, #C45A2A 70%, #E07B30 100%)",
               borderRadius: 12,
               boxShadow: "0 0 40px rgba(224,123,48,0.25)",
@@ -246,10 +298,19 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
               perspective: 800,
             }}>
               <span style={{
-                color: "#FFFFFF", fontStyle: "italic", fontWeight: 900,
                 ...trackFlipStyle(rm ? "idle" : wordFlip),
+                fontFamily: "var(--font-playfair)",
+                fontStyle: "italic",
+                fontWeight: 700,
+                fontSize: FS,
+                color: "#FFFFFF",
+                width: "100%",
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}>
-                {ROTATING_WORDS[wordIdx]}
+                {rm ? ROTATING_WORDS[0] : ROTATING_WORDS[wordIdx]}
               </span>
             </span>
           </span>
@@ -552,10 +613,10 @@ export function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          paddingTop: "clamp(60px,10vh,90px)",
-          paddingBottom: 60,
-          paddingLeft: "clamp(20px,5vw,80px)",
-          paddingRight: "clamp(20px,5vw,80px)",
+          paddingTop: "clamp(80px,12vh,120px)",
+          paddingBottom: 48,
+          paddingLeft: "clamp(20px,5vw,60px)",
+          paddingRight: "clamp(20px,5vw,60px)",
         }}
       >
         {/* Wrapper para semicírculos — overflow:hidden aquí, no en el section */}
