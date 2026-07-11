@@ -196,7 +196,6 @@ function Nav({ noAnim }: { noAnim: boolean }) {
             border: "none",
             cursor: "pointer",
             padding: "8px",
-            display: "flex",
             flexDirection: "column",
             gap: 5,
             minWidth: 44,
@@ -245,8 +244,9 @@ function Nav({ noAnim }: { noAnim: boolean }) {
       {open && (
         <div
           ref={drawerRef}
-          className="flex lg:hidden flex-col"
+          className="lg:hidden flex-col"
           style={{
+            display: "flex",
             position: "fixed",
             top: 68,
             left: 0,
