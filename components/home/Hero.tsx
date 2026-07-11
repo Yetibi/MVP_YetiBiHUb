@@ -54,13 +54,22 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
   // rotating line 2
   const [line2Idx, setLine2Idx] = useState(0);
   const [line2Flip, setLine2Flip] = useState<"idle" | "out" | "in">("idle");
-  // measure widest word (box)
+  // measure widest word (box), capped to viewport width
   const measureBoxRef = useRef<HTMLSpanElement>(null);
   const [boxWidth, setBoxWidth] = useState<number | undefined>(undefined);
 
-  // measure on mount
   useEffect(() => {
-    if (measureBoxRef.current) setBoxWidth(measureBoxRef.current.offsetWidth);
+    function recalculate() {
+      if (!measureBoxRef.current) return;
+      const frameWidth = Math.min(
+        measureBoxRef.current.offsetWidth + 44,
+        window.innerWidth - 96,
+      );
+      setBoxWidth(frameWidth);
+    }
+    recalculate();
+    window.addEventListener("resize", recalculate);
+    return () => window.removeEventListener("resize", recalculate);
   }, []);
 
   // sequence phases 0→1→2→3
@@ -140,7 +149,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
     fontFamily: "var(--font-playfair)",
     fontWeight: 900,
     fontStyle: "italic",
-    fontSize: "clamp(32px, 6vw, 72px)",
+    fontSize: "clamp(28px, 7vw, 62px)",
     lineHeight: 1.12,
     margin: "20px 0 0",
     perspective: 800,
@@ -152,7 +161,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
       {/* Hidden measurers — misma fuente/tamaño que baseStyle */}
       <span aria-hidden style={{ position: "absolute", visibility: "hidden", pointerEvents: "none",
         fontFamily: "var(--font-playfair)", fontWeight: 900, fontStyle: "italic",
-        fontSize: "clamp(32px, 6vw, 72px)", whiteSpace: "nowrap", lineHeight: 1.12 }}>
+        fontSize: "clamp(28px, 7vw, 62px)", whiteSpace: "nowrap", lineHeight: 1.12 }}>
         <span ref={measureBoxRef}>fuga cerrada.</span>
       </span>
 
@@ -541,7 +550,7 @@ export function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "clamp(28px,5vw,48px) clamp(20px,5vw,40px) clamp(32px,5vw,48px) clamp(36px,6vw,72px)",
+          padding: "clamp(28px,5vw,48px) clamp(20px,5vw,80px) clamp(32px,5vw,48px) clamp(20px,5vw,80px)",
         }}
       >
         {/* Grid background */}
