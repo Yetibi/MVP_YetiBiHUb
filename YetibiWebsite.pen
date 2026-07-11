@@ -1,0 +1,58 @@
+{
+  "version": "2.13",
+  "children": [],
+  "variables": {
+    "surface-primary": {
+      "type": "color",
+      "value": "#2E2640"
+    },
+    "surface-elevated": {
+      "type": "color",
+      "value": "#3A3150"
+    },
+    "surface-card": {
+      "type": "color",
+      "value": "#362D4A"
+    },
+    "accent": {
+      "type": "color",
+      "value": "#E07B30"
+    },
+    "accent-hover": {
+      "type": "color",
+      "value": "#C96A25"
+    },
+    "fg-primary": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "fg-secondary": {
+      "type": "color",
+      "value": "#B8B0C8"
+    },
+    "fg-muted": {
+      "type": "color",
+      "value": "#8A7FA0"
+    },
+    "fg-inverse": {
+      "type": "color",
+      "value": "#1A1430"
+    },
+    "border-subtle": {
+      "type": "color",
+      "value": "#4A4060"
+    },
+    "rounded-sm": {
+      "type": "number",
+      "value": 4
+    },
+    "rounded-md": {
+      "type": "number",
+      "value": 6
+    },
+    "rounded-lg": {
+      "type": "number",
+      "value": 8
+    }
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "name": "Diagnostico - Aprobacion Humana (Workflow 1)",
+  "nodes": [
+    {
+      "id": "http-diagnostico",
+      "name": "Llamar a Diagnostico Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 500],
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3000/api/diagnostico",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"intakeId\": $json.body.intakeId } }}",
+        "options": { "timeout": 60000 }
+      }
+    },
+    {
+      "id": "if-diagnostico-ok",
+      "name": "Diagnostico exitoso?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [480, 500],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "telegram-alerta-fallo",
+      "name": "Alertar fallo de diagnostico",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [720, 700],
+      "parameters": {
+        "chatId": "AQUI_TU_CHAT_ID",
+        "text": "=⚠️ Diagnostico fallido\n\nIntake: {{ $('Webhook Intake').item.json.body.intakeId }}\nCorreo: {{ $('Webhook Intake').item.json.body.correo }}\nError: {{ $json.error || 'Sin detalle' }}\n\nRevisar manualmente, el cliente NO recibio diagnostico."
+      },
+      "credentials": {
+        "telegramApi": { "id": "", "name": "Reutilizar credencial de Telegram" }
+      }
+    },
+    {
+      "id": "set-intentos",
+      "name": "Inicializar contador",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [720, 400],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "diagnosticoId", "type": "string", "value": "={{ $json.diagnosticoId }}" },
+            { "id": "2", "name": "intakeId", "type": "string", "value": "={{ $json.intakeId }}" },
+            { "id": "3", "name": "intentoActual", "type": "number", "value": 1 }
+          ]
+        }
+      }
+    },
+    {
+      "id": "telegram-send-wait",
+      "name": "Solicitar aprobacion (Send and Wait)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [960, 400],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendAndWait",
+        "chatId": "AQUI_TU_CHAT_ID",
+        "message": "=🐺 Diagnostico listo para revision (intento {{ $json.intentoActual }}/3)\n\nID: {{ $json.diagnosticoId }}\n\n{{ $('Llamar a Diagnostico Engine').item.json.diagnosticoResumido || 'Ver detalle en Supabase' }}\n\nPara AJUSTAR, responde en este chat con:\n/ajustar {{ $json.diagnosticoId }} tu indicacion aqui",
+        "responseType": "approval",
+        "approvalOptions": {
+          "values": {
+            "approveLabel": "✅ Aprobar",
+            "disapproveLabel": "✏️ Necesita ajuste"
+          }
+        },
+        "limitWaitTime": true,
+        "resumeAmount": 2,
+        "resumeUnit": "hours"
+      },
+      "credentials": {
+        "telegramApi": { "id": "", "name": "Reutilizar credencial de Telegram" }
+      }
+    },
+    {
+      "id": "if-aprobado",
+      "name": "Aprobado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1200, 400],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "if-timeout",
+      "name": "Hubo timeout (sin data)?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1200, 600],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.data }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "empty" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "http-aprobar",
+      "name": "Llamar a /aprobar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1440, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3000/api/diagnostico/aprobar",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $('Inicializar contador').item.json.diagnosticoId } }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "email-cliente",
+      "name": "Enviar diagnostico al cliente",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [1680, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Webhook Intake').item.json.body.correo }}",
+        "subject": "🐺 Tu diagnostico de madurez analitica — Yeti BI",
+        "bodyContent": "={{ $json.diagnosticoResumido }}",
+        "bodyContentType": "text"
+      },
+      "credentials": {
+        "microsoftOutlookOAuth2Api": { "id": "", "name": "Reutilizar credencial de Outlook" }
+      }
+    },
+    {
+      "id": "http-marcar-enviado",
+      "name": "Marcar como enviado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1920, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3000/api/diagnostico/marcar-enviado",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $('Inicializar contador').item.json.diagnosticoId } }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "set-incrementar-intento",
+      "name": "Incrementar intento",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1440, 600],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "diagnosticoId", "type": "string", "value": "={{ $('Inicializar contador').item.json.diagnosticoId }}" },
+            { "id": "2", "name": "intakeId", "type": "string", "value": "={{ $('Inicializar contador').item.json.intakeId }}" },
+            { "id": "3", "name": "intentoActual", "type": "number", "value": "={{ $('Inicializar contador').item.json.intentoActual + 1 }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "if-limite-intentos",
+      "name": "Se agotaron los 3 intentos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1680, 600],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.intentoActual }}",
+              "rightValue": 3,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "http-revision-manual-timeout",
+      "name": "Marcar revision manual (timeout)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1920, 700],
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3000/api/diagnostico/marcar-revision-manual",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $json.diagnosticoId } }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "telegram-alerta-revision-manual",
+      "name": "Alertar revision manual pendiente",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2160, 700],
+      "parameters": {
+        "chatId": "AQUI_TU_CHAT_ID",
+        "text": "=🔴 Revision manual pendiente\n\nDiagnostico {{ $('Marcar revision manual (timeout)').item.json.diagnosticoId }} quedo sin respuesta despues de 3 intentos. NO se envio al cliente. Revisalo manualmente cuando puedas."
+      },
+      "credentials": {
+        "telegramApi": { "id": "", "name": "Reutilizar credencial de Telegram" }
+      }
+    }
+  ],
+  "connections": {
+    "Llamar a Diagnostico Engine": { "main": [[{ "node": "Diagnostico exitoso?", "type": "main", "index": 0 }]] },
+    "Diagnostico exitoso?": {
+      "main": [
+        [{ "node": "Inicializar contador", "type": "main", "index": 0 }],
+        [{ "node": "Alertar fallo de diagnostico", "type": "main", "index": 0 }]
+      ]
+    },
+    "Inicializar contador": { "main": [[{ "node": "Solicitar aprobacion (Send and Wait)", "type": "main", "index": 0 }]] },
+    "Solicitar aprobacion (Send and Wait)": {
+      "main": [[{ "node": "Aprobado?", "type": "main", "index": 0 }, { "node": "Hubo timeout (sin data)?", "type": "main", "index": 0 }]]
+    },
+    "Aprobado?": {
+      "main": [
+        [{ "node": "Llamar a /aprobar", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Hubo timeout (sin data)?": {
+      "main": [
+        [{ "node": "Incrementar intento", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Llamar a /aprobar": { "main": [[{ "node": "Enviar diagnostico al cliente", "type": "main", "index": 0 }]] },
+    "Enviar diagnostico al cliente": { "main": [[{ "node": "Marcar como enviado", "type": "main", "index": 0 }]] },
+    "Incrementar intento": { "main": [[{ "node": "Se agotaron los 3 intentos?", "type": "main", "index": 0 }]] },
+    "Se agotaron los 3 intentos?": {
+      "main": [
+        [{ "node": "Marcar revision manual (timeout)", "type": "main", "index": 0 }],
+        [{ "node": "Solicitar aprobacion (Send and Wait)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Marcar revision manual (timeout)": { "main": [[{ "node": "Alertar revision manual pendiente", "type": "main", "index": 0 }]] }
+  }
+}

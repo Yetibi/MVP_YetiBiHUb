@@ -1,0 +1,146 @@
+{
+  "name": "YetibiEngine - Diagnostico y correo al cliente",
+  "nodes": [
+    {
+      "id": "http-diagnostico",
+      "name": "Llamar a Diagnostico Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 500],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/diagnostico",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"intakeId\": $json.body.intakeId } }}",
+        "options": {
+          "timeout": 60000
+        }
+      }
+    },
+    {
+      "id": "if-diagnostico-ok",
+      "name": "Diagnostico exitoso?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [480, 500],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "email-cliente",
+      "name": "Enviar diagnostico al cliente",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [720, 420],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "toRecipients": "={{ $('Webhook Intake').item.json.body.correo }}",
+        "subject": "🐺 Tu diagnostico de madurez analitica — Yeti BI",
+        "bodyContent": "={{ $json.diagnosticoResumido }}",
+        "bodyContentType": "text"
+      },
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "Reutilizar credencial de Outlook ya configurada en Etapa 3"
+        }
+      }
+    },
+    {
+      "id": "http-marcar-enviado",
+      "name": "Marcar como enviado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 420],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/diagnostico/marcar-enviado",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $('Llamar a Diagnostico Engine').item.json.diagnosticoId } }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "telegram-alerta-fallo",
+      "name": "Alertar fallo de diagnostico",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [720, 600],
+      "parameters": {
+        "chatId": "AQUI_TU_CHAT_ID",
+        "text": "=⚠️ *Diagnostico fallido*\n\nIntake: {{ $('Webhook Intake').item.json.body.intakeId }}\nCorreo del interesado: {{ $('Webhook Intake').item.json.body.correo }}\nError: {{ $('Llamar a Diagnostico Engine').item.json.error || 'Sin detalle' }}\n\nRevisar manualmente en Supabase, el cliente NO recibio diagnostico.",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Reutilizar credencial de Telegram ya configurada en Etapa 3"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Llamar a Diagnostico Engine": {
+      "main": [
+        [
+          {
+            "node": "Diagnostico exitoso?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Diagnostico exitoso?": {
+      "main": [
+        [
+          {
+            "node": "Enviar diagnostico al cliente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alertar fallo de diagnostico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar diagnostico al cliente": {
+      "main": [
+        [
+          {
+            "node": "Marcar como enviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

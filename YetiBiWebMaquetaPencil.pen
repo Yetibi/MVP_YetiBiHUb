@@ -1,0 +1,1820 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "V6VnI",
+      "x": 0,
+      "y": 0,
+      "name": "S1 Hero",
+      "clip": true,
+      "width": 1440,
+      "height": 960,
+      "fill": "$bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "ucrpE",
+          "layoutPosition": "absolute",
+          "x": 240,
+          "y": 0,
+          "name": "VGrid 1",
+          "fill": "#FFFFFF08",
+          "width": 1,
+          "height": 960
+        },
+        {
+          "type": "rectangle",
+          "id": "p6jRC",
+          "layoutPosition": "absolute",
+          "x": 480,
+          "y": 0,
+          "name": "VGrid 2",
+          "fill": "#FFFFFF08",
+          "width": 1,
+          "height": 960
+        },
+        {
+          "type": "rectangle",
+          "id": "PSyug",
+          "layoutPosition": "absolute",
+          "x": 720,
+          "y": 0,
+          "name": "VGrid 3",
+          "fill": "#FFFFFF08",
+          "width": 1,
+          "height": 960
+        },
+        {
+          "type": "rectangle",
+          "id": "wk8Hg",
+          "layoutPosition": "absolute",
+          "x": 960,
+          "y": 0,
+          "name": "VGrid 4",
+          "fill": "#FFFFFF08",
+          "width": 1,
+          "height": 960
+        },
+        {
+          "type": "rectangle",
+          "id": "U9zvt",
+          "layoutPosition": "absolute",
+          "x": 1200,
+          "y": 0,
+          "name": "VGrid 5",
+          "fill": "#FFFFFF08",
+          "width": 1,
+          "height": 960
+        },
+        {
+          "type": "rectangle",
+          "id": "NcbrC",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 240,
+          "name": "HGrid 1",
+          "fill": "#FFFFFF08",
+          "width": 1440,
+          "height": 1
+        },
+        {
+          "type": "rectangle",
+          "id": "B5W9eb",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 480,
+          "name": "HGrid 2",
+          "fill": "#FFFFFF08",
+          "width": 1440,
+          "height": 1
+        },
+        {
+          "type": "rectangle",
+          "id": "T45oBE",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 720,
+          "name": "HGrid 3",
+          "fill": "#FFFFFF08",
+          "width": 1440,
+          "height": 1
+        },
+        {
+          "type": "ellipse",
+          "id": "oIiiR",
+          "layoutPosition": "absolute",
+          "x": 850,
+          "y": -250,
+          "name": "Glow",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "radial",
+            "enabled": true,
+            "rotation": 0,
+            "size": {
+              "width": 1,
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#E07B301A",
+                "position": 0
+              },
+              {
+                "color": "#E07B3000",
+                "position": 1
+              }
+            ]
+          },
+          "width": 800,
+          "height": 800
+        },
+        {
+          "type": "frame",
+          "id": "SbAAd",
+          "name": "Nav",
+          "width": "fill_container",
+          "padding": [
+            20,
+            80
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "p8T3Nb",
+              "name": "Logo",
+              "fill": "$text-primary",
+              "content": "YETI BI",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 18,
+              "fontWeight": "700",
+              "letterSpacing": 3
+            },
+            {
+              "type": "frame",
+              "id": "hbcOW",
+              "name": "Spacer L",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "GwXPU",
+              "name": "Nav Center",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NcjaW",
+                  "name": "Link Diagnóstico",
+                  "fill": "$text-secondary",
+                  "content": "Diagnóstico",
+                  "fontFamily": "Archivo",
+                  "fontSize": 14
+                },
+                {
+                  "type": "text",
+                  "id": "gsNkS",
+                  "name": "Link Contacto",
+                  "fill": "$text-secondary",
+                  "content": "Contacto",
+                  "fontFamily": "Archivo",
+                  "fontSize": 14
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "v8feL",
+              "name": "Spacer R",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "gW75G",
+              "name": "Nav CTA",
+              "fill": "$accent",
+              "cornerRadius": 6,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#E07B3066",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16,
+                "spread": -4
+              },
+              "padding": [
+                10,
+                20
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GhqJw",
+                  "name": "Nav CTA Label",
+                  "fill": "$cta-text",
+                  "content": "Haz tu diagnóstico",
+                  "fontFamily": "Archivo",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ibVhr",
+          "name": "Hero Body",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            0,
+            80,
+            80,
+            80
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Y7Zcgv",
+              "name": "Kicker",
+              "fill": "$text-muted",
+              "content": "DIAGNÓSTICO DE MADUREZ IA",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 12,
+              "letterSpacing": 4
+            },
+            {
+              "type": "frame",
+              "id": "M5wAx",
+              "name": "Headline",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "fSjNg",
+                  "name": "Headline Main",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "La mayoría de tus problemas no necesitan IA.",
+                  "lineHeight": 1.05,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 72,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "t1VDtj",
+                  "name": "Punchline",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mqUKU",
+                      "name": "Necesitan",
+                      "fill": "$text-primary",
+                      "content": "Necesitan",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 72,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "eX7Iy",
+                      "name": "Claridad",
+                      "fill": "$accent",
+                      "content": "claridad.",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 72,
+                      "fontWeight": "700",
+                      "fontStyle": "italic"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "P80Vmw",
+              "name": "Chain",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WDY4e",
+                  "name": "C Proceso sano",
+                  "fill": "$text-secondary",
+                  "content": "Proceso sano",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "HNfwG",
+                  "name": "Arrow 1",
+                  "fill": "$text-muted",
+                  "content": "→",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "hwD1v",
+                  "name": "C Dato confiable",
+                  "fill": "$text-secondary",
+                  "content": "Dato confiable",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "OyozY",
+                  "name": "Arrow 2",
+                  "fill": "$text-muted",
+                  "content": "→",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "SUYHw",
+                  "name": "C La ruta correcta",
+                  "fill": "$text-secondary",
+                  "content": "La ruta correcta",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "xOQiQ",
+                  "name": "Arrow 3",
+                  "fill": "$text-muted",
+                  "content": "→",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "FybW3",
+                  "name": "C Impacto financiero medible",
+                  "fill": "$text-secondary",
+                  "content": "Impacto financiero medible",
+                  "fontFamily": "Archivo",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "MCTZx",
+              "name": "Support",
+              "fill": "$text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 520,
+              "content": "El diagnóstico Yeti BI te dice cuál es tu ruta antes de que inviertas un peso en tecnología.",
+              "lineHeight": 1.6,
+              "fontFamily": "Archivo",
+              "fontSize": 16
+            },
+            {
+              "type": "frame",
+              "id": "PUIXy",
+              "name": "CTAs",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OGaAP",
+                  "name": "Primary CTA",
+                  "fill": "$accent",
+                  "cornerRadius": 6,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#E07B3099",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 30,
+                    "spread": -8
+                  },
+                  "gap": 10,
+                  "padding": [
+                    16,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ejKea",
+                      "name": "CTA Label",
+                      "fill": "$cta-text",
+                      "content": "Haz tu diagnóstico — gratis",
+                      "fontFamily": "Archivo",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "bUpuH",
+                      "name": "CTA Arrow",
+                      "fill": "$cta-text",
+                      "content": "→",
+                      "fontFamily": "Archivo",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "j0lNc2",
+                  "name": "Ghost CTA",
+                  "cornerRadius": 6,
+                  "stroke": "#FFFFFF2E",
+                  "strokeWidth": 1,
+                  "padding": [
+                    16,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MDADN",
+                      "name": "Ghost Label",
+                      "fill": "$text-primary",
+                      "content": "Calcula tu ROI",
+                      "fontFamily": "Archivo",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "b0LUgu",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Badge Slot",
+                  "enabled": false,
+                  "width": 1,
+                  "height": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "m3ft3T",
+      "x": 0,
+      "y": 960,
+      "name": "S2 El Problema",
+      "clip": true,
+      "width": 1440,
+      "fill": "$bg-alt",
+      "layout": "vertical",
+      "gap": 60,
+      "padding": [
+        100,
+        80
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "VFWpV",
+          "name": "S2 Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "F3vxVS",
+              "name": "S2 Label",
+              "fill": "$text-muted",
+              "content": "EL PROBLEMA",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 12,
+              "letterSpacing": 4
+            },
+            {
+              "type": "text",
+              "id": "ihiYy",
+              "name": "S2 Title",
+              "fill": "$text-primary",
+              "content": "¿Te identificas con esto?",
+              "fontFamily": "Playfair Display",
+              "fontSize": 44,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "utvkV",
+          "name": "Problems",
+          "width": "fill_container",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "rdMuH",
+              "name": "Div 01",
+              "fill": "$border-subtle",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "K9BH4",
+              "name": "Row 01",
+              "width": "fill_container",
+              "gap": 40,
+              "padding": [
+                40,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "K3J484",
+                  "name": "Num 01",
+                  "fill": "$accent",
+                  "content": "01",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 96
+                },
+                {
+                  "type": "text",
+                  "id": "Zqs5W",
+                  "name": "Txt 01",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Compraste dashboards que nadie usa para decidir.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 26,
+                  "fontStyle": "italic"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "x4ab6T",
+              "name": "Div 02",
+              "fill": "$border-subtle",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "hkHQs",
+              "name": "Row 02",
+              "width": "fill_container",
+              "gap": 40,
+              "padding": [
+                40,
+                0,
+                40,
+                100
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "rohCz",
+                  "name": "Num 02",
+                  "fill": "$accent",
+                  "content": "02",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 96
+                },
+                {
+                  "type": "text",
+                  "id": "H25Lz",
+                  "name": "Txt 02",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Tus datos viven en Excel y en la cabeza de dos personas.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 26,
+                  "fontStyle": "italic"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "gLNxs",
+              "name": "Div 03",
+              "fill": "$border-subtle",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "s1MAYV",
+              "name": "Row 03",
+              "width": "fill_container",
+              "gap": 40,
+              "padding": [
+                40,
+                0,
+                40,
+                200
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "g12eD",
+                  "name": "Num 03",
+                  "fill": "$accent",
+                  "content": "03",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 96
+                },
+                {
+                  "type": "text",
+                  "id": "jXgvp",
+                  "name": "Txt 03",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Todos te ofrecen IA, pero nadie te dice si tu operación está lista para usarla.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 26,
+                  "fontStyle": "italic"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "XXFyz",
+              "name": "Div Final",
+              "fill": "$border-subtle",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "e66wSn",
+      "x": 0,
+      "y": 1939,
+      "name": "S3 Cómo Funciona",
+      "clip": true,
+      "width": 1440,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 70,
+      "padding": [
+        100,
+        80
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "MvGPf",
+          "name": "S3 Header",
+          "width": "fill_container",
+          "gap": 40,
+          "alignItems": "end",
+          "children": [
+            {
+              "type": "frame",
+              "id": "D6DFZj",
+              "name": "S3 Header Left",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WZ5p0",
+                  "name": "S3 Label",
+                  "fill": "$text-muted",
+                  "content": "CÓMO FUNCIONA",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 12,
+                  "letterSpacing": 4
+                },
+                {
+                  "type": "frame",
+                  "id": "S1LjYO",
+                  "name": "S3 Title Row",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MPSLC",
+                      "name": "S3 Title A",
+                      "fill": "$text-primary",
+                      "content": "Tres pasos.",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 44,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "npsaA",
+                      "name": "S3 Title B",
+                      "fill": "$text-primary",
+                      "content": "Cero reuniones de venta.",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 44,
+                      "fontWeight": "700",
+                      "fontStyle": "italic"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e2bnIv",
+          "name": "Steps",
+          "width": "fill_container",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "UnR8C",
+              "name": "Step Wrap 1",
+              "width": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "pVV0Q",
+                  "name": "Step 1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "o2EHR",
+                      "name": "SNum 1",
+                      "opacity": 0.45,
+                      "fill": "$text-muted",
+                      "content": "1",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 120
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "bcYJS",
+                      "name": "SLine 1",
+                      "fill": "$border-subtle",
+                      "width": 48,
+                      "height": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "dakLc",
+                      "name": "STitle 1",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Responde el diagnóstico",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Archivo",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "oT1jy",
+                      "name": "SDesc 1",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "10 minutos, en línea.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Archivo",
+                      "fontSize": 15
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "n1Fva",
+              "name": "Step Wrap 2",
+              "width": "fill_container",
+              "layout": "vertical",
+              "padding": [
+                60,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ceklE",
+                  "name": "Step 2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "k3URZx",
+                      "name": "SNum 2",
+                      "opacity": 0.45,
+                      "fill": "$text-muted",
+                      "content": "2",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 120
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "L8n0A2",
+                      "name": "SLine 2",
+                      "fill": "$border-subtle",
+                      "width": 48,
+                      "height": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "IwTzO",
+                      "name": "STitle 2",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "YetibiEngine analiza tu madurez",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Archivo",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "yFMZs",
+                      "name": "SDesc 2",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "En 5 capas: proceso, dato, caso de uso, capacidad y ROI.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Archivo",
+                      "fontSize": 15
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JzmNR",
+              "name": "Step Wrap 3",
+              "width": "fill_container",
+              "layout": "vertical",
+              "padding": [
+                120,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "l21wP",
+                  "name": "Step 3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DZNaV",
+                      "name": "SNum 3",
+                      "opacity": 0.45,
+                      "fill": "$text-muted",
+                      "content": "3",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 120
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "aZJHG",
+                      "name": "SLine 3",
+                      "fill": "$border-subtle",
+                      "width": 48,
+                      "height": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "yiUWw",
+                      "name": "STitle 3",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Recibes tu reporte por correo",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Archivo",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "A70lu",
+                      "name": "SDesc 3",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Y decides los próximos pasos.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Archivo",
+                      "fontSize": 15
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "c4e57",
+          "name": "S3 CTA Row",
+          "width": "fill_container",
+          "children": [
+            {
+              "type": "frame",
+              "id": "as6IG",
+              "name": "S3 CTA",
+              "fill": "$accent",
+              "cornerRadius": 6,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#E07B3099",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 30,
+                "spread": -8
+              },
+              "gap": 10,
+              "padding": [
+                16,
+                28
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Tucdj",
+                  "name": "S3 CTA Label",
+                  "fill": "$cta-text",
+                  "content": "Haz tu diagnóstico — gratis",
+                  "fontFamily": "Archivo",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "z30IM5",
+                  "name": "S3 CTA Arrow",
+                  "fill": "$cta-text",
+                  "content": "→",
+                  "fontFamily": "Archivo",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rbzrX",
+      "x": 0,
+      "y": 2811,
+      "name": "S4 Flujo de Valor",
+      "clip": true,
+      "width": 1440,
+      "fill": "$bg-alt",
+      "layout": "vertical",
+      "gap": 70,
+      "padding": [
+        100,
+        80
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "s3yst",
+          "name": "S4 Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "ELBP9",
+              "name": "S4 Label",
+              "fill": "$text-muted",
+              "content": "EL FLUJO DE VALOR",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 12,
+              "letterSpacing": 4
+            },
+            {
+              "type": "frame",
+              "id": "IbolF",
+              "name": "S4 Title Row",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CUStO",
+                  "name": "S4 Title A",
+                  "fill": "$text-primary",
+                  "content": "No todo es IA.",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 44,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "Y0Ppa",
+                  "name": "S4 Title B",
+                  "fill": "$accent",
+                  "content": "La claridad es la condición para el éxito.",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 44,
+                  "fontWeight": "700",
+                  "fontStyle": "italic"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "btwCj",
+          "name": "Diagram",
+          "width": "fill_container",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "at9nn",
+              "name": "Node Proceso claro y sano",
+              "width": 235,
+              "fill": "$card-bg",
+              "cornerRadius": 6,
+              "stroke": "$border-subtle",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "S6cwK5",
+                  "name": "Icon Proceso claro y sano",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "settings-2",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                },
+                {
+                  "type": "text",
+                  "id": "Y53Mf",
+                  "name": "NLabel Proceso claro y sano",
+                  "fill": "$text-muted",
+                  "content": "CIMIENTO 01",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 10,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2.5
+                },
+                {
+                  "type": "text",
+                  "id": "dcrVK",
+                  "name": "NTitle Proceso claro y sano",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Proceso claro y sano",
+                  "lineHeight": 1.3,
+                  "fontFamily": "Archivo",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "t2ngw",
+                  "name": "NDesc Proceso claro y sano",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Se elimina la variabilidad y los cuellos de botella antes de cualquier cosa.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Archivo",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bipin",
+              "name": "Pipe",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "vFHX4",
+                  "name": "Valve A",
+                  "fill": "$border-subtle",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "rectangle",
+                  "id": "flcPo",
+                  "name": "Pipe Line",
+                  "fill": "$border-subtle",
+                  "width": 22,
+                  "height": 2
+                },
+                {
+                  "type": "ellipse",
+                  "id": "QaFkK",
+                  "name": "Valve B",
+                  "fill": "$border-subtle",
+                  "width": 8,
+                  "height": 8
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MiqzT",
+              "name": "Node Dato confiable",
+              "width": 235,
+              "fill": "$card-bg",
+              "cornerRadius": 6,
+              "stroke": "$border-subtle",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "YRw2q",
+                  "name": "Icon Dato confiable",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "database",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                },
+                {
+                  "type": "text",
+                  "id": "r22xAr",
+                  "name": "NLabel Dato confiable",
+                  "fill": "$text-muted",
+                  "content": "CIMIENTO 02",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 10,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2.5
+                },
+                {
+                  "type": "text",
+                  "id": "h8LDD",
+                  "name": "NTitle Dato confiable",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dato confiable",
+                  "lineHeight": 1.3,
+                  "fontFamily": "Archivo",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "avrLt",
+                  "name": "NDesc Dato confiable",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "No se fabrica: es el subproducto natural de un proceso estandarizado.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Archivo",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "path",
+              "id": "eKc3u",
+              "name": "Fork",
+              "geometry": "M0 180c30 0 30-110 60-110m-60 110c30 0 30 110 60 110",
+              "viewBox": [
+                0,
+                0,
+                60,
+                360
+              ],
+              "width": 60,
+              "height": 360,
+              "stroke": "$border-subtle",
+              "strokeWidth": 2
+            },
+            {
+              "type": "frame",
+              "id": "w8RtZ",
+              "name": "Branches",
+              "width": 330,
+              "layout": "vertical",
+              "gap": 36,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "K72Q1",
+                  "name": "Node Optimización y automatización simple",
+                  "width": "fill_container",
+                  "fill": "$card-bg",
+                  "cornerRadius": 6,
+                  "stroke": "$border-subtle",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "EAmbW",
+                      "name": "Icon Optimización y automatización simple",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "workflow",
+                      "library": "lucide",
+                      "fill": "$text-secondary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "bICEo",
+                      "name": "NLabel Optimización y automatización simple",
+                      "fill": "$text-muted",
+                      "content": "CAMINO 01",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 2.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "hsrte",
+                      "name": "NTitle Optimización y automatización simple",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Optimización y automatización simple",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Archivo",
+                      "fontSize": 17,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xDzI9",
+                      "name": "NDesc Optimización y automatización simple",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "RPA, SOPs, automatización de flujos. La ruta más rápida y económica hacia el ROI.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Archivo",
+                      "fontSize": 13
+                    },
+                    {
+                      "type": "text",
+                      "id": "R7O7Z",
+                      "name": "NPct Optimización y automatización simple",
+                      "fill": "$accent",
+                      "content": "70–80%",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 30,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UNkDt",
+                  "name": "Node IA que decide",
+                  "width": "fill_container",
+                  "fill": "$card-bg",
+                  "cornerRadius": 6,
+                  "stroke": "$border-subtle",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "E0meC",
+                      "name": "Icon IA que decide",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "brain",
+                      "library": "lucide",
+                      "fill": "$text-secondary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZMtQM",
+                      "name": "NLabel IA que decide",
+                      "fill": "$text-muted",
+                      "content": "CAMINO 02",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 2.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "k3oTi1",
+                      "name": "NTitle IA que decide",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "IA que decide",
+                      "lineHeight": 1.3,
+                      "fontFamily": "Archivo",
+                      "fontSize": 17,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "o5QPqK",
+                      "name": "NDesc IA que decide",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Modelos de decisión, aplicados solo cuando el diagnóstico lo justifica.",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Archivo",
+                      "fontSize": 13
+                    },
+                    {
+                      "type": "text",
+                      "id": "Uk0kn",
+                      "name": "NPct IA que decide",
+                      "fill": "$accent",
+                      "content": "15–20%",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 30,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "path",
+              "id": "X8drW",
+              "name": "Converge",
+              "geometry": "M0 70c30 0 30 110 60 110m-60 110c30 0 30-110 60-110",
+              "viewBox": [
+                0,
+                0,
+                60,
+                360
+              ],
+              "width": 60,
+              "height": 360,
+              "stroke": "$border-subtle",
+              "strokeWidth": 2
+            },
+            {
+              "type": "frame",
+              "id": "A3o5Sj",
+              "name": "Node Impacto financiero medible",
+              "width": 250,
+              "fill": "$card-bg",
+              "cornerRadius": 6,
+              "stroke": "$accent",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "GrL0u",
+                  "name": "Icon Impacto financiero medible",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "trending-up",
+                  "library": "lucide",
+                  "fill": "$text-secondary"
+                },
+                {
+                  "type": "text",
+                  "id": "L2RezM",
+                  "name": "NLabel Impacto financiero medible",
+                  "fill": "$text-muted",
+                  "content": "EL DESTINO",
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 10,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2.5
+                },
+                {
+                  "type": "text",
+                  "id": "h13Tnd",
+                  "name": "NTitle Impacto financiero medible",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Impacto financiero medible",
+                  "lineHeight": 1.3,
+                  "fontFamily": "Archivo",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "s1dtqt",
+                  "name": "NDesc Impacto financiero medible",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "El único resultado aceptable.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Archivo",
+                  "fontSize": 13
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kKWqe",
+          "name": "S4 Bottom",
+          "width": "fill_container",
+          "gap": 80,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Pjbmh",
+              "name": "Margin Note",
+              "width": 360,
+              "stroke": "$border-subtle",
+              "strokeWidth": {
+                "left": 2
+              },
+              "layout": "vertical",
+              "padding": [
+                0,
+                0,
+                0,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Om2CE",
+                  "name": "Note Text",
+                  "fill": "$text-muted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Un 5-10% de los problemas son de modelo de negocio, no tecnológicos. El diagnóstico también te lo dice.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Archivo",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RwKhh",
+              "name": "S4 Closing",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ylq8v",
+                  "name": "Closing Contrast",
+                  "fill": "$text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "El enfoque tradicional compra la tecnología y luego busca el problema.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 24,
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "text",
+                  "id": "ZnPhu",
+                  "name": "Closing Punch",
+                  "fill": "$accent",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "El nuestro encuentra la fuga de valor y te dice cuál camino la cierra — a veces ni siquiera es IA.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                  "fontStyle": "italic"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "GYcBe",
+      "x": 0,
+      "y": 3866,
+      "name": "S5 CTA Final",
+      "clip": true,
+      "width": 1440,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": [
+        120,
+        80
+      ],
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "khzLA",
+          "name": "S5 Title",
+          "fill": "$text-primary",
+          "textGrowth": "fixed-width",
+          "width": 700,
+          "content": "Empieza ahora. El diagnóstico no tiene costo.",
+          "lineHeight": 1.2,
+          "textAlign": "center",
+          "fontFamily": "Playfair Display",
+          "fontSize": 40,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "DQqlQ",
+          "name": "S5 Microcopy",
+          "fill": "$text-secondary",
+          "content": "Sin compromisos. Sin llamadas de venta. Tu reporte llega a tu correo.",
+          "textAlign": "center",
+          "fontFamily": "Archivo",
+          "fontSize": 16
+        },
+        {
+          "type": "frame",
+          "id": "rOltE",
+          "name": "S5 CTA",
+          "fill": "$accent",
+          "cornerRadius": 6,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#E07B3099",
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "blur": 30,
+            "spread": -8
+          },
+          "gap": 10,
+          "padding": [
+            18,
+            36
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "dMQgq",
+              "name": "S5 CTA Label",
+              "fill": "$cta-text",
+              "content": "Haz tu diagnóstico",
+              "fontFamily": "Archivo",
+              "fontSize": 18,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "o09KI9",
+              "name": "S5 CTA Arrow",
+              "fill": "$cta-text",
+              "content": "→",
+              "fontFamily": "Archivo",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "HHF5c",
+      "x": 0,
+      "y": 4323,
+      "name": "S6 Footer",
+      "clip": true,
+      "width": 1440,
+      "fill": "$bg-alt",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": [
+        40,
+        80
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "cNGW3",
+          "name": "Footer Main",
+          "width": "fill_container",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Da4F3",
+              "name": "Footer Logo",
+              "fill": "$text-primary",
+              "content": "YETI BI",
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 16,
+              "fontWeight": "700",
+              "letterSpacing": 3
+            },
+            {
+              "type": "frame",
+              "id": "qqazY",
+              "name": "Footer Spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "FuFeT",
+              "name": "Footer Links",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "dwiwq",
+                  "name": "FLink Diagnóstico",
+                  "fill": "$text-secondary",
+                  "content": "Diagnóstico",
+                  "fontFamily": "Archivo",
+                  "fontSize": 14
+                },
+                {
+                  "type": "text",
+                  "id": "x5XBU",
+                  "name": "FLink Contacto",
+                  "fill": "$text-secondary",
+                  "content": "Contacto",
+                  "fontFamily": "Archivo",
+                  "fontSize": 14
+                },
+                {
+                  "type": "text",
+                  "id": "RfzDf",
+                  "name": "FLink Email",
+                  "fill": "$text-muted",
+                  "content": "data@yetibi.co",
+                  "fontFamily": "Archivo",
+                  "fontSize": 14
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "BnmTr",
+          "name": "Footer Divider",
+          "fill": "$border-subtle",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "text",
+          "id": "lWaZ9",
+          "name": "Footer Legal",
+          "fill": "$text-muted",
+          "content": "© Yeti BI 2026 · Medellín, Colombia",
+          "fontFamily": "Archivo",
+          "fontSize": 12
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#2E2640"
+    },
+    "accent": {
+      "type": "color",
+      "value": "#E07B30"
+    },
+    "text-primary": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "text-secondary": {
+      "type": "color",
+      "value": "#C3B9D6"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#8E83A6"
+    },
+    "border-subtle": {
+      "type": "color",
+      "value": "#453960"
+    },
+    "surface-elevated": {
+      "type": "color",
+      "value": "#382E50"
+    },
+    "card-bg": {
+      "type": "color",
+      "value": "#372E4D"
+    },
+    "bg-alt": {
+      "type": "color",
+      "value": "#221B31"
+    },
+    "cta-text": {
+      "type": "color",
+      "value": "#1c1426"
+    }
+  },
+  "fileToken": "166e7e13-69a9-4925-a230-fde53ab94d6a"
+}

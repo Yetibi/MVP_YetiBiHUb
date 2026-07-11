@@ -1,0 +1,18 @@
+AÑO,ID,OPERADOR,SERVICIO,LINEA_PORTAFOLIO,SECTOR,ETAPA_EMPRESARIAL,TAMANO_EMPRESA,HORAS,ESTADO,VALOR_PRESUPUESTADO,MUNICIPIO
+2021,1,CREAME,Consultorias,Gestión Comercial,Construcción e Interiorismo,NA,No definido,20,Finalizado,,Medellín
+2021,5,CREAME,Consultorias,Gestión Comercial,Mascotas & Cuidado animal,Aceleración,Pequeña o Mediana,18,Finalizado,,Medellín
+2021,9,CREAME,Consultorias,Internacionalización,Tecnología e Innovación,Aceleración,Pequeña o Mediana,10,Finalizado,,Medellín
+2022,12,CREAME,Consultorias,Internacionalización,Tecnología e Innovación,Escalamiento,NA,9,Finalizado,,Medellín
+2022,13,CREAME,Consultorias,Testeo de Negocios,Tecnología e Innovación,Incubación,Microempresa,19,Finalizado,,Medellín
+2022,21,CREAME,Consultorias,Gestión Comercial,Comunicación & Contenidos,Aceleración,Micro + Pyme,4,Finalizado,,Acacias / Meta
+2022,64,CREAME,Consultorias,Internacionalización,Tecnología e Innovación,Aceleración,Pequeña o Mediana,8,Finalizado,,Medellín
+2022,70,Globalista,Consultorias,Internacionalización,Construcción e Interiorismo,Escalamiento,Pequeña o Mediana,10,Finalizado,,Rionegro
+2022,73,Globalista,Consultorias,Internacionalización,Tecnología e Innovación,Escalamiento,Pequeña o Mediana,20,Finalizado,,Medellín
+2022,83,Globalista,Proyectos,Internacionalización,NA,NA,Entidad,20,Finalizado,,Medellín
+2023,92,CREAME,Consultorias,Gestión Comercial,Tecnología e Innovación,Aceleración,Pequeña o Mediana,10,Finalizado,,Bogotá
+2023,95,CREAME,Consultorias,Internacionalización,Tecnología e Innovación,Aceleración,Pequeña o Mediana,10,Finalizado,,Medellín
+2023,97,CREAME,Consultorias,Internacionalización,Agroindustria & Alimentos,Aceleración,Pequeña o Mediana,18,Finalizado,,Medellín
+2024,134,CREAME,Consultorias,Estrategia de empresa,Agroindustria & Alimentos,Aceleración,Pequeña o Mediana,6,Finalizado,,Cali
+2024,138,CREAME,Consultorias,Estrategia de empresa,Tecnología e Innovación,Aceleración,Pequeña o Mediana,6,Finalizado,,Medellín
+2024,146,Fábricas de Productividad,Consultorias,Gestión Comercial,Mascotas & Cuidado animal,Aceleración,Pequeña o Mediana,60,Finalizado,,Medellín
+2024,147,Fábricas de Productividad,Consultorias,Gestión Comercial,Construcción e Interiorismo,Aceleración,Pequeña o Mediana,60,Finalizado,,Medellín

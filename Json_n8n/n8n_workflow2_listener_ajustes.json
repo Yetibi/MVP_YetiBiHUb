@@ -1,0 +1,133 @@
+{
+  "name": "Diagnostico - Listener de Ajustes (Workflow 2)",
+  "nodes": [
+    {
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 400],
+      "parameters": {
+        "updates": ["message"]
+      },
+      "credentials": {
+        "telegramApi": { "id": "", "name": "Reutilizar credencial de Telegram" }
+      }
+    },
+    {
+      "id": "if-es-comando-ajustar",
+      "name": "Es comando /ajustar?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [480, 400],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.message.text }}",
+              "rightValue": "/ajustar",
+              "operator": { "type": "string", "operation": "startsWith" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "code-parsear-comando",
+      "name": "Parsear diagnosticoId e indicacion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 350],
+      "parameters": {
+        "jsCode": "const texto = $input.item.json.message.text;\nconst sinComando = texto.replace(/^\\/ajustar\\s+/i, '');\nconst partes = sinComando.split(/\\s+/);\nconst diagnosticoId = partes[0];\nconst indicacionAjuste = sinComando.slice(diagnosticoId.length).trim();\n\nconst uuidValido = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(diagnosticoId);\n\nreturn [\n  {\n    json: {\n      diagnosticoId,\n      indicacionAjuste,\n      uuidValido,\n      chatId: $input.item.json.message.chat.id\n    }\n  }\n];"
+      }
+    },
+    {
+      "id": "if-uuid-valido",
+      "name": "UUID valido y hay indicacion?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [960, 350],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.uuidValido }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            },
+            {
+              "leftValue": "={{ $json.indicacionAjuste }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "http-ajustar",
+      "name": "Llamar a /ajustar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3000/api/diagnostico/ajustar",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $json.diagnosticoId, \"indicacionAjuste\": $json.indicacionAjuste } }}",
+        "options": { "timeout": 60000 }
+      }
+    },
+    {
+      "id": "telegram-confirmar-ajuste",
+      "name": "Confirmar ajuste recibido",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1440, 280],
+      "parameters": {
+        "chatId": "={{ $('Parsear diagnosticoId e indicacion').item.json.chatId }}",
+        "text": "=✏️ Ajuste aplicado. Nueva version: {{ $json.version }}\n\nTe va a llegar una nueva notificacion para revisar el resultado actualizado."
+      },
+      "credentials": {
+        "telegramApi": { "id": "", "name": "Reutilizar credencial de Telegram" }
+      }
+    },
+    {
+      "id": "telegram-formato-invalido",
+      "name": "Avisar formato invalido",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1200, 450],
+      "parameters": {
+        "chatId": "={{ $('Parsear diagnosticoId e indicacion').item.json.chatId }}",
+        "text": "⚠️ Formato no reconocido. Usa exactamente:\n/ajustar <diagnosticoId> <tu indicacion>\n\nCopia el ID tal como aparece en el mensaje de revision."
+      },
+      "credentials": {
+        "telegramApi": { "id": "", "name": "Reutilizar credencial de Telegram" }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": { "main": [[{ "node": "Es comando /ajustar?", "type": "main", "index": 0 }]] },
+    "Es comando /ajustar?": {
+      "main": [
+        [{ "node": "Parsear diagnosticoId e indicacion", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Parsear diagnosticoId e indicacion": { "main": [[{ "node": "UUID valido y hay indicacion?", "type": "main", "index": 0 }]] },
+    "UUID valido y hay indicacion?": {
+      "main": [
+        [{ "node": "Llamar a /ajustar", "type": "main", "index": 0 }],
+        [{ "node": "Avisar formato invalido", "type": "main", "index": 0 }]
+      ]
+    },
+    "Llamar a /ajustar": { "main": [[{ "node": "Confirmar ajuste recibido", "type": "main", "index": 0 }]] }
+  }
+}

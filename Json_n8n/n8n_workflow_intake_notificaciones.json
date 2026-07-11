@@ -1,0 +1,144 @@
+{
+  "name": "Intake YetiBI — Notificaciones",
+  "nodes": [
+    {
+      "id": "webhook-intake",
+      "name": "Webhook Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intake",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "set-mensaje",
+      "name": "Formatear mensaje",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [480, 300],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "mensaje-texto",
+              "name": "mensajeTexto",
+              "type": "string",
+              "value": "=🐺 *Nuevo intake — Yeti BI*\n\n👤 *Perfil:* {{$json.body.perfil}}\n🏢 *Sector:* {{$json.body.sector}}\n🎯 *Alcance:* {{$json.body.alcance}}\n📧 *Correo:* {{$json.body.correo}}\n\n😣 *Dolor declarado:* {{$json.body.dolor_declarado}}\n\n🚀 *To-Be (objetivo):* {{$json.body.to_be_objetivo}}\n📊 *Nivel To-Be:* {{$json.body.to_be_nivel}}\n\n🛠️ *Tecnología visible:* {{$json.body.tecnologia_visible}}\n📈 *Métrica declarada:* {{$json.body.metrica_declarada}}\n\n📎 *Documentos adjuntos:* {{$json.body.fileCount}}\n📄 *Archivos:* {{$json.body.archivos ? $json.body.archivos.join(', ') : 'N/A'}}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "telegram-notify",
+      "name": "Notificar Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [720, 180],
+      "parameters": {
+        "chatId": "AQUI_TU_CHAT_ID",
+        "text": "={{$json.mensajeTexto}}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": "Configurar credencial de Telegram aquí"
+        }
+      }
+    },
+    {
+      "id": "email-notify",
+      "name": "Notificar Outlook",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [720, 420],
+      "parameters": {
+        "fromEmail": "AQUI_TU_CORREO@outlook.com",
+        "toEmail": "AQUI_TU_CORREO@outlook.com",
+        "subject": "=Nuevo intake recibido — {{$json.body.sector}} ({{$json.body.perfil}})",
+        "text": "={{$json.mensajeTexto}}",
+        "options": {}
+      },
+      "credentials": {
+        "smtp": {
+          "id": "",
+          "name": "Configurar credencial SMTP de Outlook aquí"
+        }
+      }
+    },
+    {
+      "id": "respond-webhook",
+      "name": "Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [960, 300],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"received\": true } }}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Intake": {
+      "main": [
+        [
+          {
+            "node": "Formatear mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear mensaje": {
+      "main": [
+        [
+          {
+            "node": "Notificar Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notificar Outlook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Telegram": {
+      "main": [
+        [
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Outlook": {
+      "main": [
+        [
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
