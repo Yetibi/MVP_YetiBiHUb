@@ -150,8 +150,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
     fontSize: "clamp(28px, 7vw, 62px)",
     lineHeight: 1.12,
     margin: "20px 0 0",
-    perspective: 800,
-    paddingLeft: "0.12em",
+    paddingLeft: "0.25em",
   };
 
   return (
@@ -550,64 +549,54 @@ export function Hero() {
           backgroundColor: "#2E2640",
           minHeight: "calc(100svh - 68px)",
           position: "relative",
-          overflow: "hidden",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          paddingTop: 100,
+          paddingTop: "clamp(80px,15vh,120px)",
           paddingBottom: 60,
           paddingLeft: "clamp(20px,5vw,80px)",
           paddingRight: "clamp(20px,5vw,80px)",
         }}
       >
-
-        {/* Semicírculo 1 — top-right principal */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: -120,
-            right: -120,
-            width: 420,
-            height: 420,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(224,123,48,0.22) 0%, rgba(224,123,48,0.08) 40%, transparent 70%)",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
-
-        {/* Semicírculo 2 — bottom-left sutil */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            bottom: -140,
-            left: -100,
-            width: 340,
-            height: 340,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(224,123,48,0.12) 0%, rgba(120,60,140,0.08) 50%, transparent 70%)",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
-
-        {/* Semicírculo 3 — derecha-centro textura mínima */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: "30%",
-            right: "8%",
-            width: 180,
-            height: 180,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
+        {/* Wrapper para semicírculos — overflow:hidden aquí, no en el section */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+          {/* Semicírculo 1 — top-right principal */}
+          <div
+            style={{
+              position: "absolute",
+              top: -120,
+              right: -120,
+              width: 420,
+              height: 420,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(224,123,48,0.22) 0%, rgba(224,123,48,0.08) 40%, transparent 70%)",
+            }}
+          />
+          {/* Semicírculo 2 — bottom-left sutil */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: -140,
+              left: -100,
+              width: 340,
+              height: 340,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(224,123,48,0.12) 0%, rgba(120,60,140,0.08) 50%, transparent 70%)",
+            }}
+          />
+          {/* Semicírculo 3 — derecha-centro textura mínima */}
+          <div
+            style={{
+              position: "absolute",
+              top: "30%",
+              right: "8%",
+              width: 180,
+              height: 180,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
+            }}
+          />
+        </div>
 
         {/* Kicker */}
         <div
