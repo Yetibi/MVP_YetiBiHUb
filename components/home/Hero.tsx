@@ -229,13 +229,13 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
             margin: "20px 0 0",
             display: "flex",
             flexDirection: "column",
-            gap: "0.1em",
           }}
         >
           {/* L1 — Geist 900 normal naranja */}
           <span style={{
             ...staticLineStyle,
             color: "#E07B30",
+            marginBottom: 8,
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0s both",
           }}>
             Todos quieren IA.
@@ -245,6 +245,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
           <span style={{
             display: "block",
             overflow: "visible",
+            marginBottom: 8,
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.06s both",
           }}>
             {rm ? (
@@ -260,6 +261,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
           <span style={{
             ...staticLineStyle,
             color: "#fff",
+            marginBottom: 12,
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.12s both",
           }}>
             están listos para usarla.
@@ -268,9 +270,10 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
           {/* L4 — "Necesitan" Geist 900 + recuadro rotativo */}
           <span style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "baseline",
             flexWrap: "wrap",
-            gap: "0.18em",
+            gap: "16px",
+            marginTop: 4,
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.18s both",
           }}>
             {/* "Necesitan" — Geist 900 normal blanco */}
@@ -613,8 +616,8 @@ export function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          paddingTop: "clamp(80px,12vh,120px)",
-          paddingBottom: 48,
+          paddingTop: "clamp(90px,14vh,130px)",
+          paddingBottom: 60,
           paddingLeft: "clamp(20px,5vw,60px)",
           paddingRight: "clamp(20px,5vw,60px)",
         }}
@@ -664,6 +667,7 @@ export function Hero() {
           style={{
             position: "relative",
             zIndex: 1,
+            marginBottom: 32,
             ...an("heroSlideUp", "0.5s", "0.2s"),
           }}
         >
