@@ -39,7 +39,7 @@ const ROTATING_WORDS = ["claridad.", "diagnóstico.", "fuga cerrada.", "madurez.
 const ROTATING_LINE2 = [
   "Nadie pregunta si sus procesos",
   "Pocos saben si sus procesos",
-  "¿Alguien verificó si sus procesos?",
+  "¿Alguien verificó si sus procesos",
 ] as const;
 const FLIP = "transform 0.56s cubic-bezier(0.4, 0, 0.2, 1)";
 
@@ -238,7 +238,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
               justifyContent: "center",
               position: "relative",
               minWidth: frameWidth,
-              padding: "0.1em 22px",
+              padding: "8px 28px",
               background: "linear-gradient(135deg, #4A3570 0%, #7B3F8C 35%, #C45A2A 70%, #E07B30 100%)",
               borderRadius: 12,
               boxShadow: "0 0 40px rgba(224,123,48,0.25)",
@@ -552,7 +552,7 @@ export function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          paddingTop: "clamp(80px,15vh,120px)",
+          paddingTop: "clamp(60px,10vh,90px)",
           paddingBottom: 60,
           paddingLeft: "clamp(20px,5vw,80px)",
           paddingRight: "clamp(20px,5vw,80px)",
@@ -653,7 +653,7 @@ export function Hero() {
             display: "flex",
             flexDirection: "column",
             gap: 16,
-            marginTop: 32,
+            marginTop: 28,
           }}
         >
           {/* Horizon line */}
