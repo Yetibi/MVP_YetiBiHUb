@@ -37,15 +37,13 @@ export function Footer() {
           >
             NAVEGACIÓN
           </p>
-          <a
-            href="https://mvp-yeti-bi-h-ub.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/diagnostico"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
             Diagnóstico
-          </a>
+          </Link>
           <Link
             href="#contacto-form"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"

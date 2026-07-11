@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { listContainer, fadeUp } from "@/lib/motion";
 import { ContactForm } from "@/components/home/ContactForm";
@@ -92,7 +91,7 @@ export function CtaFinal() {
         {/* CTA con glow amplificado */}
         <motion.div variants={rm ? undefined : fadeUp}>
           <a
-            href="https://mvp-yeti-bi-h-ub.vercel.app"
+            href="/diagnostico"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center rounded-md font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
@@ -107,7 +106,7 @@ export function CtaFinal() {
           >
             Diagnostica tu proceso
             <span aria-hidden>→</span>
-          </Link>
+          </a>
         </motion.div>
 
         {/* Divisor + texto intro */}

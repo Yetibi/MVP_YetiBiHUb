@@ -142,7 +142,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
 
       {/* CTA */}
       <a
-        href="https://mvp-yeti-bi-h-ub.vercel.app"
+        href="/diagnostico"
         target="_blank"
         rel="noopener noreferrer"
         className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
@@ -159,7 +159,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
         }}
       >
         Diagnostica tu proceso — gratis
-      </Link>
+      </a>
     </nav>
   );
 }
@@ -414,7 +414,7 @@ export function Hero() {
           >
             El diagnóstico Yeti BI te dice cuál es tu ruta{" "}
             <a
-              href="https://mvp-yeti-bi-h-ub.vercel.app"
+              href="/diagnostico"
               target="_blank"
               rel="noopener noreferrer"
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
@@ -426,7 +426,7 @@ export function Hero() {
               }}
             >
               antes de que inviertas un peso en tecnología →
-            </Link>
+            </a>
           </p>
         </div>
       </section>

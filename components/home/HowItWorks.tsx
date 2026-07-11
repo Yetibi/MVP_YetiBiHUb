@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { listContainer, listItem, fadeUp } from "@/lib/motion";
 
@@ -133,7 +132,7 @@ export function HowItWorks() {
         viewport={{ once: true, margin: "-40px" }}
       >
         <a
-          href="https://mvp-yeti-bi-h-ub.vercel.app"
+          href="/diagnostico"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center rounded-md font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
@@ -148,7 +147,7 @@ export function HowItWorks() {
         >
           Diagnostica tu proceso
           <span aria-hidden>→</span>
-        </Link>
+        </a>
       </motion.div>
     </section>
   );
