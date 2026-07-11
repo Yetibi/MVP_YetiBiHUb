@@ -205,24 +205,59 @@ function Nav({ noAnim }: { noAnim: boolean }) {
             justifyContent: "center",
           }}
         >
-          <span style={{ width: 22, height: 1.5, background: open ? "rgba(255,255,255,0.4)" : "#E07B30", borderRadius: 2, transition: "background 0.2s", transform: open ? "rotate(45deg) translate(5px,5px)" : "none" }} />
-          <span style={{ width: 22, height: 1.5, background: "#E07B30", borderRadius: 2, opacity: open ? 0 : 1, transition: "opacity 0.2s" }} />
-          <span style={{ width: 22, height: 1.5, background: open ? "rgba(255,255,255,0.4)" : "#E07B30", borderRadius: 2, transition: "background 0.2s", transform: open ? "rotate(-45deg) translate(5px,-5px)" : "none" }} />
+          {/* Línea 1 — rota a / cuando abierto */}
+          <span style={{
+            display: "block",
+            width: 22,
+            height: 1.5,
+            background: "#E07B30",
+            borderRadius: 2,
+            transformOrigin: "center",
+            transition: "transform 0.22s ease, opacity 0.22s ease",
+            transform: open ? "translateY(6.5px) rotate(45deg)" : "none",
+          }} />
+          {/* Línea 2 — desaparece cuando abierto */}
+          <span style={{
+            display: "block",
+            width: 22,
+            height: 1.5,
+            background: "#E07B30",
+            borderRadius: 2,
+            transformOrigin: "center",
+            transition: "opacity 0.22s ease",
+            opacity: open ? 0 : 1,
+          }} />
+          {/* Línea 3 — rota a \ cuando abierto */}
+          <span style={{
+            display: "block",
+            width: 22,
+            height: 1.5,
+            background: "#E07B30",
+            borderRadius: 2,
+            transformOrigin: "center",
+            transition: "transform 0.22s ease, opacity 0.22s ease",
+            transform: open ? "translateY(-6.5px) rotate(-45deg)" : "none",
+          }} />
         </button>
       </nav>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — position fixed para no empujar contenido en landscape */}
       {open && (
         <div
           ref={drawerRef}
           className="flex md:hidden flex-col"
           style={{
-            backgroundColor: "#221B31",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            position: "fixed",
+            top: 68,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            overflowY: "auto",
+            backgroundColor: "#1A1428",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
             padding: "20px",
             gap: 0,
-            position: "relative",
-            zIndex: 9,
+            zIndex: 99,
           }}
         >
           {NAV_LINKS.map(({ label, href }) => (
