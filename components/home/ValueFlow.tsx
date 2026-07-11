@@ -13,7 +13,7 @@ export function ValueFlow() {
   }, [isInView])
 
   return (
-    <section ref={ref} style={{ padding: '120px 40px', background: '#2E2640', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <section ref={ref} style={{ padding: 'clamp(60px,10vw,120px) clamp(16px,5vw,40px)', background: '#2E2640', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {/* Título */}
       <div style={{ marginBottom: 64, width: '100%' }}>
         <p style={{
@@ -256,10 +256,10 @@ export function ValueFlow() {
 
       {/* Texto de cierre */}
       <div style={{
-        marginTop: 80,
+        marginTop: 'clamp(40px,6vw,80px)',
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 48,
+        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+        gap: 'clamp(24px,4vw,48px)',
         width: '100%'
       }}>
         <p style={{

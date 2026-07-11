@@ -27,7 +27,7 @@ export function HowItWorks() {
   return (
     <section
       className="w-full overflow-hidden px-5 md:px-10 lg:px-20"
-      style={{ backgroundColor: "#2E2640", paddingTop: 100, paddingBottom: 100 }}
+      style={{ backgroundColor: "#2E2640", paddingTop: "clamp(56px,8vw,100px)", paddingBottom: "clamp(56px,8vw,100px)" }}
     >
       {/* Header */}
       <motion.div
@@ -89,7 +89,7 @@ export function HowItWorks() {
             <motion.div
               variants={rm ? undefined : listItem}
               className="flex items-center"
-              style={{ gap: 40, padding: "40px 0" }}
+              style={{ gap: 24, padding: "clamp(20px,4vw,40px) 0" }}
             >
               {/* Número en Playfair Display bold — gris oscuro para diferenciar de S2 */}
               <span

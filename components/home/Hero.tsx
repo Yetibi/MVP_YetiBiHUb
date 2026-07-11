@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 // ─── animation helper ─────────────────────────────────────────────────────────
@@ -23,144 +24,220 @@ const CHAIN: { label: string; accent: boolean }[] = [
   { label: "Impacto financiero medible", accent: true  },
 ];
 
-// Three decorative lines next to the logo (matching reference)
 const LOGO_LINES = ["▬▬", "▬▬▬", "▬▬"] as const;
+
+const NAV_LINKS = [
+  { label: "El problema",   href: "#diagnostico" },
+  { label: "Cómo funciona", href: "#como-funciona" },
+  { label: "El enfoque",    href: "#flujo-de-valor" },
+  { label: "Contacto",      href: "#contacto" },
+];
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
 function Nav({ noAnim }: { noAnim: boolean }) {
+  const [open, setOpen] = useState(false);
   const style = noAnim ? {} : a("heroFadeIn", "0.4s", "0s");
+
   return (
-    <nav
-      aria-label="Navegación principal"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "20px 40px",
-        backgroundColor: "#2E2640",
-        position: "relative",
-        zIndex: 10,
-        gap: 0,
-        ...style,
-      }}
-    >
-      {/* Logo block */}
-      <Link
-        href="/"
-        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+    <>
+      <nav
+        aria-label="Navegación principal"
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 10,
-          textDecoration: "none",
-          flexShrink: 0,
+          padding: "16px 20px",
+          backgroundColor: "#2E2640",
+          position: "relative",
+          zIndex: 10,
+          ...style,
         }}
       >
-        {/* Icon: circle with three horizontal bars */}
-        <span
-          aria-hidden
+        {/* Logo block */}
+        <Link
+          href="/"
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
           style={{
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            border: "1.5px solid rgba(224,123,48,0.6)",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            gap: 3,
+            gap: 10,
+            textDecoration: "none",
             flexShrink: 0,
           }}
         >
-          {LOGO_LINES.map((_, i) => (
+          <span
+            aria-hidden
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: "1.5px solid rgba(224,123,48,0.6)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 3,
+              flexShrink: 0,
+            }}
+          >
+            {LOGO_LINES.map((_, i) => (
+              <span
+                key={i}
+                style={{
+                  display: "block",
+                  height: 1.5,
+                  borderRadius: 2,
+                  background: "#E07B30",
+                  width: i === 1 ? 16 : 10,
+                }}
+              />
+            ))}
+          </span>
+
+          <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
             <span
-              key={i}
               style={{
-                display: "block",
-                height: 1.5,
-                borderRadius: 2,
-                background: "#E07B30",
-                width: i === 1 ? 16 : 10,
+                color: "#FFFFFF",
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: "0.18em",
+                lineHeight: 1,
               }}
-            />
+            >
+              YETI·BI
+            </span>
+            <span
+              style={{
+                color: "rgba(255,255,255,0.35)",
+                fontSize: 8,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                lineHeight: 1,
+              }}
+            >
+              DATA &amp; ANALYTICS
+            </span>
+          </span>
+        </Link>
+
+        {/* Desktop: center links */}
+        <div
+          className="hidden md:flex"
+          style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: 36 }}
+        >
+          {NAV_LINKS.map(({ label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+              style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}
+            >
+              {label}
+            </Link>
           ))}
-        </span>
+        </div>
 
-        {/* Wordmark + tagline */}
-        <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <span
+        {/* Desktop: CTA */}
+        <a
+          href="/diagnostico"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
+          style={{
+            backgroundColor: "#E07B30",
+            color: "#1c1426",
+            fontSize: 13,
+            fontWeight: 600,
+            padding: "10px 20px",
+            borderRadius: 6,
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
+          }}
+        >
+          Diagnostica tu proceso — gratis
+        </a>
+
+        {/* Mobile: spacer + hamburger */}
+        <div className="flex md:hidden" style={{ flex: 1 }} />
+        <button
+          className="flex md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "8px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+            minWidth: 44,
+            minHeight: 44,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span style={{ width: 22, height: 1.5, background: open ? "rgba(255,255,255,0.4)" : "#E07B30", borderRadius: 2, transition: "background 0.2s", transform: open ? "rotate(45deg) translate(5px,5px)" : "none" }} />
+          <span style={{ width: 22, height: 1.5, background: "#E07B30", borderRadius: 2, opacity: open ? 0 : 1, transition: "opacity 0.2s" }} />
+          <span style={{ width: 22, height: 1.5, background: open ? "rgba(255,255,255,0.4)" : "#E07B30", borderRadius: 2, transition: "background 0.2s", transform: open ? "rotate(-45deg) translate(5px,-5px)" : "none" }} />
+        </button>
+      </nav>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div
+          className="flex md:hidden flex-col"
+          style={{
+            backgroundColor: "#221B31",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            padding: "20px",
+            gap: 0,
+            position: "relative",
+            zIndex: 9,
+          }}
+        >
+          {NAV_LINKS.map(({ label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              onClick={() => setOpen(false)}
+              style={{
+                color: "rgba(255,255,255,0.7)",
+                fontSize: 16,
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                display: "block",
+              }}
+            >
+              {label}
+            </Link>
+          ))}
+          <a
+            href="/diagnostico"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
             style={{
-              color: "#FFFFFF",
-              fontSize: 14,
+              display: "block",
+              marginTop: 20,
+              backgroundColor: "#E07B30",
+              color: "#1c1426",
+              fontSize: 15,
               fontWeight: 700,
-              letterSpacing: "0.18em",
-              lineHeight: 1,
+              padding: "14px 20px",
+              borderRadius: 8,
+              textDecoration: "none",
+              textAlign: "center",
             }}
           >
-            YETI·BI
-          </span>
-          <span
-            style={{
-              color: "rgba(255,255,255,0.35)",
-              fontSize: 8,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              lineHeight: 1,
-            }}
-          >
-            DATA &amp; ANALYTICS
-          </span>
-        </span>
-      </Link>
-
-      {/* Center links */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 36,
-        }}
-      >
-        {[
-          { label: "El problema",    href: "#diagnostico" },
-          { label: "Cómo funciona",  href: "#como-funciona" },
-          { label: "El enfoque",     href: "#flujo-de-valor" },
-          { label: "Contacto",       href: "#contacto" },
-        ].map(({ label, href }) => (
-          <Link
-            key={label}
-            href={href}
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-            style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}
-          >
-            {label}
-          </Link>
-        ))}
-      </div>
-
-      {/* CTA */}
-      <a
-        href="/diagnostico"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
-        style={{
-          backgroundColor: "#E07B30",
-          color: "#1c1426",
-          fontSize: 14,
-          fontWeight: 600,
-          padding: "12px 24px",
-          borderRadius: 6,
-          textDecoration: "none",
-          whiteSpace: "nowrap",
-          flexShrink: 0,
-        }}
-      >
-        Diagnostica tu proceso — gratis
-      </a>
-    </nav>
+            Diagnostica tu proceso — gratis
+          </a>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -179,16 +256,16 @@ export function Hero() {
         aria-labelledby="hero-heading"
         style={{
           backgroundColor: "#2E2640",
-          minHeight: "calc(100vh - 76px)",
+          minHeight: "calc(100svh - 68px)",
           position: "relative",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "48px 40px 48px",
+          padding: "clamp(28px,5vw,48px) clamp(20px,5vw,40px) clamp(32px,5vw,48px)",
         }}
       >
-        {/* Subtle grid background */}
+        {/* Grid background */}
         <div
           aria-hidden
           style={{
@@ -237,9 +314,10 @@ export function Hero() {
           }}
         />
 
-        {/* Watermark "claridad." — far right, very faint */}
+        {/* Watermark — hidden on mobile to avoid overflow */}
         <div
           aria-hidden
+          className="hidden sm:block"
           style={{
             position: "absolute",
             right: -40,
@@ -248,7 +326,7 @@ export function Hero() {
             fontFamily: "var(--font-playfair)",
             fontStyle: "italic",
             fontWeight: 900,
-            fontSize: "clamp(120px, 18vw, 260px)",
+            fontSize: "clamp(100px, 18vw, 260px)",
             color: "rgba(255,255,255,0.04)",
             lineHeight: 1,
             pointerEvents: "none",
@@ -279,12 +357,12 @@ export function Hero() {
             style={{
               fontSize: 10,
               color: "#E07B30",
-              letterSpacing: "3px",
+              letterSpacing: "2px",
               textTransform: "uppercase",
               fontFamily: "var(--font-sans)",
             }}
           >
-            Diagnóstico de AI Readiness &nbsp;·&nbsp; Yeti BI
+            Diagnóstico de AI Readiness · Yeti BI
           </span>
         </div>
 
@@ -297,58 +375,36 @@ export function Hero() {
             fontFamily: "var(--font-playfair)",
             fontWeight: 900,
             fontStyle: "italic",
-            fontSize: "clamp(56px, 8.5vw, 112px)",
-            lineHeight: 1.0,
+            fontSize: "clamp(40px, 8.5vw, 112px)",
+            lineHeight: 1.05,
             color: "#FFFFFF",
-            maxWidth: "72%",
-            margin: "24px 0 0",
+            maxWidth: "100%",
+            margin: "20px 0 0",
           }}
         >
-          <span
-            style={{
-              display: "block",
-              ...an("heroSlideUp", "0.55s", "0.35s"),
-            }}
-          >
+          <span style={{ display: "block", ...an("heroSlideUp", "0.55s", "0.35s") }}>
             La mayoría de
           </span>
-          <span
-            style={{
-              display: "block",
-              ...an("heroSlideUp", "0.55s", "0.5s"),
-            }}
-          >
+          <span style={{ display: "block", ...an("heroSlideUp", "0.55s", "0.5s") }}>
             tus problemas
           </span>
-          <span
-            style={{
-              display: "block",
-              color: "#E07B30",
-              ...an("heroSlideUp", "0.55s", "0.65s"),
-            }}
-          >
+          <span style={{ display: "block", color: "#E07B30", ...an("heroSlideUp", "0.55s", "0.65s") }}>
             no necesitan IA.
           </span>
-          <span
-            style={{
-              display: "block",
-              color: "#FFFFFF",
-              ...an("heroSlideUp", "0.55s", "0.8s"),
-            }}
-          >
+          <span style={{ display: "block", color: "#FFFFFF", ...an("heroSlideUp", "0.55s", "0.8s") }}>
             Necesitan claridad.
           </span>
         </h1>
 
-        {/* Bottom row: chain + support + CTAs */}
+        {/* Bottom row */}
         <div
           style={{
             position: "relative",
             zIndex: 1,
             display: "flex",
             flexDirection: "column",
-            gap: 20,
-            marginTop: 40,
+            gap: 16,
+            marginTop: 32,
           }}
         >
           {/* Horizon line */}
@@ -362,13 +418,13 @@ export function Hero() {
             }}
           />
 
-          {/* Value chain */}
+          {/* Value chain — scrollable on very narrow screens */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               flexWrap: "wrap",
-              gap: 0,
+              gap: "4px 0",
               ...an("heroFadeIn", "0.5s", "1.1s"),
             }}
           >
@@ -376,7 +432,7 @@ export function Hero() {
               <span key={label} style={{ display: "flex", alignItems: "center" }}>
                 <span
                   style={{
-                    fontSize: 14,
+                    fontSize: "clamp(11px, 2.5vw, 14px)",
                     fontFamily: "var(--font-sans)",
                     color: accent ? "#E07B30" : "#FFFFFF",
                     fontWeight: accent ? 600 : 400,
@@ -387,11 +443,7 @@ export function Hero() {
                 {i < CHAIN.length - 1 && (
                   <span
                     aria-hidden
-                    style={{
-                      color: "#E07B30",
-                      margin: "0 12px",
-                      fontSize: 14,
-                    }}
+                    style={{ color: "#E07B30", margin: "0 8px", fontSize: 12 }}
                   >
                     →
                   </span>
@@ -400,10 +452,10 @@ export function Hero() {
             ))}
           </div>
 
-          {/* Support copy — CTA de texto, sin botones */}
+          {/* Support copy */}
           <p
             style={{
-              fontSize: "clamp(16px, 1.6vw, 20px)",
+              fontSize: "clamp(15px, 1.6vw, 20px)",
               fontFamily: "var(--font-sans)",
               color: "#FFFFFF",
               lineHeight: 1.6,

@@ -11,7 +11,7 @@ export function CtaFinal() {
     <section
       id="contacto"
       className="relative w-full overflow-hidden px-5 md:px-10 lg:px-20"
-      style={{ backgroundColor: "#2E2640", paddingTop: 140, paddingBottom: 160 }}
+      style={{ backgroundColor: "#2E2640", paddingTop: "clamp(72px,10vw,140px)", paddingBottom: "clamp(80px,12vw,160px)" }}
     >
       {/* Semicírculo invertido — entra desde abajo */}
       <div
