@@ -54,22 +54,20 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
   // rotating line 2
   const [line2Idx, setLine2Idx] = useState(0);
   const [line2Flip, setLine2Flip] = useState<"idle" | "out" | "in">("idle");
-  // measure widest word (box), capped to viewport width
-  const measureBoxRef = useRef<HTMLSpanElement>(null);
-  const [boxWidth, setBoxWidth] = useState<number | undefined>(undefined);
+  // measure widest word (box), SSR-safe: estado inicial 280, recalcula en cliente
+  const sizerRef = useRef<HTMLSpanElement>(null);
+  const [frameWidth, setFrameWidth] = useState<number>(280);
 
   useEffect(() => {
-    function recalculate() {
-      if (!measureBoxRef.current) return;
-      const frameWidth = Math.min(
-        measureBoxRef.current.offsetWidth + 44,
-        window.innerWidth - 96,
-      );
-      setBoxWidth(frameWidth);
+    function calculate() {
+      if (!sizerRef.current) return;
+      const textW = sizerRef.current.offsetWidth;
+      const maxW = window.innerWidth - 48;
+      setFrameWidth(Math.min(textW + 44, maxW));
     }
-    recalculate();
-    window.addEventListener("resize", recalculate);
-    return () => window.removeEventListener("resize", recalculate);
+    calculate();
+    window.addEventListener("resize", calculate);
+    return () => window.removeEventListener("resize", calculate);
   }, []);
 
   // sequence phases 0→1→2→3
@@ -161,8 +159,8 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
       {/* Hidden measurers — misma fuente/tamaño que baseStyle */}
       <span aria-hidden style={{ position: "absolute", visibility: "hidden", pointerEvents: "none",
         fontFamily: "var(--font-playfair)", fontWeight: 900, fontStyle: "italic",
-        fontSize: "clamp(28px, 7vw, 62px)", whiteSpace: "nowrap", lineHeight: 1.12 }}>
-        <span ref={measureBoxRef}>fuga cerrada.</span>
+        fontSize: "clamp(22px, 5.5vw, 62px)", whiteSpace: "nowrap", lineHeight: 1.12 }}>
+        <span ref={sizerRef}>fuga cerrada.</span>
       </span>
 
       {/* Phase 1 */}
@@ -198,14 +196,20 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
             Todos quieren IA.
           </span>
 
-          {/* Line 2 — rotating. Sin width fijo ni clipPath para que Playfair italic no se corte */}
+          {/* Line 2 — rotating. width:100% + whiteSpace:normal permite wrap en mobile */}
           <span style={{
             display: "block",
+            width: "100%",
+            overflow: "hidden",
             color: "#FFFFFF",
+            fontSize: "clamp(22px, 5.5vw, 62px)",
             animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.06s both",
             perspective: 800,
           }}>
-            <span style={rm ? { display: "inline-block", whiteSpace: "nowrap" } : trackFlipStyle(line2Flip)}>
+            <span style={rm
+              ? { display: "inline-block", whiteSpace: "normal", maxWidth: "100%" }
+              : { ...trackFlipStyle(line2Flip), whiteSpace: "normal", maxWidth: "100%" }
+            }>
               {ROTATING_LINE2[line2Idx]}
             </span>
           </span>
@@ -234,7 +238,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
               alignItems: "center",
               justifyContent: "center",
               position: "relative",
-              minWidth: boxWidth ?? "auto",
+              minWidth: frameWidth,
               padding: "0.1em 22px",
               background: "linear-gradient(135deg, #4A3570 0%, #7B3F8C 35%, #C45A2A 70%, #E07B30 100%)",
               borderRadius: 12,
@@ -550,22 +554,12 @@ export function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "clamp(28px,5vw,48px) clamp(20px,5vw,80px) clamp(32px,5vw,48px) clamp(20px,5vw,80px)",
+          paddingTop: 100,
+          paddingBottom: 60,
+          paddingLeft: "clamp(20px,5vw,80px)",
+          paddingRight: "clamp(20px,5vw,80px)",
         }}
       >
-        {/* Grid background */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
 
         {/* Semicírculo 1 — top-right principal */}
         <div
