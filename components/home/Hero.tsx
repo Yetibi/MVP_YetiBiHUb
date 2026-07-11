@@ -317,7 +317,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
 
           <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
             <span style={{ color: "#FFFFFF", fontSize: 14, fontWeight: 700, letterSpacing: "0.18em", lineHeight: 1 }}>
-              YETI·BI
+              YETI·<span style={{ color: "#E07B30" }}>BI</span>
             </span>
             {/* FIX #4: logo subtítulo de 8px → 10px */}
             <span style={{
@@ -327,7 +327,7 @@ function Nav({ noAnim }: { noAnim: boolean }) {
               textTransform: "uppercase",
               lineHeight: 1,
             }}>
-              PROCESS &amp; ANALYTICS
+              PROCESS &amp; <span style={{ color: "#E07B30" }}>ANALYTICS</span>
             </span>
           </span>
         </Link>

@@ -26,14 +26,14 @@ export function Footer() {
               style={{ objectFit: "contain" }}
             />
             <span className="font-bold" style={{ color: "#FFFFFF", fontSize: 16, letterSpacing: 3 }}>
-              YETI·BI
+              YETI·<span style={{ color: "#E07B30" }}>BI</span>
             </span>
           </Link>
           <p
             className="uppercase tracking-[0.22em]"
             style={{ color: "#A89DC0", fontSize: 11, fontWeight: 400 }}
           >
-            PROCESS &amp; ANALYTICS · MEDELLÍN
+            PROCESS &amp; <span style={{ color: "#E07B30" }}>ANALYTICS</span> · MEDELLÍN
           </p>
         </div>
 
