@@ -33,6 +33,220 @@ const NAV_LINKS = [
   { label: "Contacto",      href: "#contacto" },
 ];
 
+// ─── Headline sequence ────────────────────────────────────────────────────────
+
+const ROTATING_WORDS = ["claridad.", "diagnóstico.", "fuga cerrada.", "madurez.", "decisión."] as const;
+const ROTATING_LINE2 = [
+  "Nadie pregunta si sus procesos",
+  "Pocos saben si sus procesos",
+  "¿Alguien verificó si sus procesos?",
+] as const;
+const FLIP = "transform 0.56s cubic-bezier(0.4, 0, 0.2, 1)";
+
+function HeadlineSequence({ rm }: { rm: boolean }) {
+  // fase permanente: siempre arranca en 3 (4 líneas visibles desde el inicio)
+  const [phase, setPhase] = useState<0 | 1 | 2 | 3>(3);
+  // flip state for phase transitions
+  const [flip, setFlip] = useState<"idle" | "out" | "in">("idle");
+  // rotating word box (line 4)
+  const [wordIdx, setWordIdx] = useState(0);
+  const [wordFlip, setWordFlip] = useState<"idle" | "out" | "in">("idle");
+  // rotating line 2
+  const [line2Idx, setLine2Idx] = useState(0);
+  const [line2Flip, setLine2Flip] = useState<"idle" | "out" | "in">("idle");
+  // measure widest word (box)
+  const measureBoxRef = useRef<HTMLSpanElement>(null);
+  const [boxWidth, setBoxWidth] = useState<number | undefined>(undefined);
+
+  // measure on mount
+  useEffect(() => {
+    if (measureBoxRef.current) setBoxWidth(measureBoxRef.current.offsetWidth);
+  }, []);
+
+  // sequence phases 0→1→2→3
+  useEffect(() => {
+    if (rm || phase === 3) return;
+    const showDuration = phase === 0 ? 1800 : 1400;
+    const showTimer = setTimeout(() => {
+      setFlip("out");
+      const outTimer = setTimeout(() => {
+        setPhase((p) => (p < 3 ? ((p + 1) as 0 | 1 | 2 | 3) : 3));
+        setFlip("in");
+        const inTimer = setTimeout(() => setFlip("idle"), 560);
+        return () => clearTimeout(inTimer);
+      }, 560);
+      return () => clearTimeout(outTimer);
+    }, showDuration);
+    return () => clearTimeout(showTimer);
+  }, [phase, rm]);
+
+  // word rotation in phase 4 — box words
+  useEffect(() => {
+    if (phase !== 3) return;
+    const interval = setInterval(() => {
+      setWordFlip("out");
+      setTimeout(() => {
+        setWordIdx((i) => (i + 1) % ROTATING_WORDS.length);
+        setWordFlip("in");
+        setTimeout(() => setWordFlip("idle"), 560);
+      }, 560);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [phase]);
+
+  // line2 rotation in phase 4 — offset by 2000ms so it doesn't sync with box
+  useEffect(() => {
+    if (phase !== 3) return;
+    const initial = setTimeout(() => {
+      const interval = setInterval(() => {
+        setLine2Flip("out");
+        setTimeout(() => {
+          setLine2Idx((i) => (i + 1) % ROTATING_LINE2.length);
+          setLine2Flip("in");
+          setTimeout(() => setLine2Flip("idle"), 560);
+        }, 560);
+      }, 4000);
+      return () => clearInterval(interval);
+    }, 2000);
+    return () => clearTimeout(initial);
+  }, [phase]);
+
+  const flipStyle = (state: "idle" | "out" | "in"): React.CSSProperties => ({
+    display: "block",
+    transition: state !== "idle" ? FLIP : undefined,
+    transform:
+      state === "out" ? "translateY(-110%) rotateX(90deg)" :
+      state === "in"  ? "translateY(0%) rotateX(0deg)" :
+      "none",
+    opacity: state === "out" ? 0 : 1,
+    transformOrigin: "top center",
+  });
+
+  const trackFlipStyle = (state: "idle" | "out" | "in"): React.CSSProperties => ({
+    transition: state !== "idle" ? FLIP : undefined,
+    transform:
+      state === "out" ? "translateY(-100%) rotateX(90deg)" :
+      state === "in"  ? "translateY(0%) rotateX(0deg)" :
+      "none",
+    opacity: state === "out" ? 0 : 1,
+    transformOrigin: "top center",
+    display: "inline-block",
+    whiteSpace: "nowrap",
+  });
+
+  const baseStyle: React.CSSProperties = {
+    position: "relative",
+    zIndex: 1,
+    fontFamily: "var(--font-playfair)",
+    fontWeight: 900,
+    fontStyle: "italic",
+    fontSize: "clamp(32px, 6vw, 72px)",
+    lineHeight: 1.12,
+    margin: "20px 0 0",
+    perspective: 800,
+    paddingLeft: "0.12em",
+  };
+
+  return (
+    <>
+      {/* Hidden measurers — misma fuente/tamaño que baseStyle */}
+      <span aria-hidden style={{ position: "absolute", visibility: "hidden", pointerEvents: "none",
+        fontFamily: "var(--font-playfair)", fontWeight: 900, fontStyle: "italic",
+        fontSize: "clamp(32px, 6vw, 72px)", whiteSpace: "nowrap", lineHeight: 1.12 }}>
+        <span ref={measureBoxRef}>fuga cerrada.</span>
+      </span>
+
+      {/* Phase 1 */}
+      {phase === 0 && (
+        <h1 id="hero-heading" style={{ ...baseStyle, color: "#E07B30" }}>
+          <span style={flipStyle(flip)}>Todos quieren IA.</span>
+        </h1>
+      )}
+
+      {/* Phase 2 */}
+      {phase === 1 && (
+        <h1 id="hero-heading" style={{ ...baseStyle, color: "#FFFFFF" }}>
+          <span style={flipStyle(flip)}>Pocos saben si sus procesos</span>
+        </h1>
+      )}
+
+      {/* Phase 3 */}
+      {phase === 2 && (
+        <h1 id="hero-heading" style={{ ...baseStyle, color: "#FFFFFF" }}>
+          <span style={flipStyle(flip)}>están listos para usarla.</span>
+        </h1>
+      )}
+
+      {/* Phase 4 — permanent: 4 lines */}
+      {phase === 3 && (
+        <h1 id="hero-heading" style={{ ...baseStyle, display: "flex", flexDirection: "column", gap: "0.1em" }}>
+          {/* Line 1 — static, naranja */}
+          <span style={{
+            display: "block",
+            color: "#E07B30",
+            animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0s both",
+          }}>
+            Todos quieren IA.
+          </span>
+
+          {/* Line 2 — rotating. Sin width fijo ni clipPath para que Playfair italic no se corte */}
+          <span style={{
+            display: "block",
+            color: "#FFFFFF",
+            animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.06s both",
+            perspective: 800,
+          }}>
+            <span style={rm ? { display: "inline-block", whiteSpace: "nowrap" } : trackFlipStyle(line2Flip)}>
+              {ROTATING_LINE2[line2Idx]}
+            </span>
+          </span>
+
+          {/* Line 3 — static, blanca */}
+          <span style={{
+            display: "block",
+            color: "#FFFFFF",
+            animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.12s both",
+          }}>
+            están listos para usarla.
+          </span>
+
+          {/* Line 4 — "Necesitan" + rotating box */}
+          <span style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "0.18em",
+            animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.18s both",
+          }}>
+            <span style={{ color: "#FFFFFF" }}>Necesitan</span>
+            {/* Rotating word box */}
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              minWidth: boxWidth ?? "auto",
+              padding: "0.1em 22px",
+              background: "linear-gradient(135deg, #4A3570 0%, #7B3F8C 35%, #C45A2A 70%, #E07B30 100%)",
+              borderRadius: 12,
+              boxShadow: "0 0 40px rgba(224,123,48,0.25)",
+              overflow: "hidden",
+              perspective: 800,
+            }}>
+              <span style={{
+                color: "#FFFFFF", fontStyle: "italic", fontWeight: 900,
+                ...trackFlipStyle(rm ? "idle" : wordFlip),
+              }}>
+                {ROTATING_WORDS[wordIdx]}
+              </span>
+            </span>
+          </span>
+        </h1>
+      )}
+    </>
+  );
+}
+
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
 function Nav({ noAnim }: { noAnim: boolean }) {
@@ -327,7 +541,7 @@ export function Hero() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "clamp(28px,5vw,48px) clamp(20px,5vw,40px) clamp(32px,5vw,48px)",
+          padding: "clamp(28px,5vw,48px) clamp(20px,5vw,40px) clamp(32px,5vw,48px) clamp(36px,6vw,72px)",
         }}
       >
         {/* Grid background */}
@@ -344,123 +558,100 @@ export function Hero() {
           }}
         />
 
-        {/* Orange glow top-left */}
+        {/* Semicírculo 1 — top-right principal */}
         <div
           aria-hidden
           style={{
             position: "absolute",
             top: -120,
-            left: -80,
-            width: 400,
-            height: 400,
+            right: -120,
+            width: 420,
+            height: 420,
             borderRadius: "50%",
-            background: "rgba(224,123,48,0.08)",
-            filter: "blur(60px)",
-            pointerEvents: "none",
-            zIndex: 0,
-            ...an("heroScaleIn", "1.4s", "0.1s"),
-          }}
-        />
-
-        {/* Purple glow bottom-right */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            bottom: -100,
-            right: -60,
-            width: 500,
-            height: 500,
-            borderRadius: "50%",
-            background: "rgba(100,60,160,0.18)",
-            filter: "blur(80px)",
+            background: "radial-gradient(circle, rgba(224,123,48,0.22) 0%, rgba(224,123,48,0.08) 40%, transparent 70%)",
             pointerEvents: "none",
             zIndex: 0,
           }}
         />
 
-        {/* Watermark — hidden on mobile to avoid overflow */}
+        {/* Semicírculo 2 — bottom-left sutil */}
         <div
           aria-hidden
-          className="hidden sm:block"
           style={{
             position: "absolute",
-            right: -40,
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontFamily: "var(--font-playfair)",
-            fontStyle: "italic",
-            fontWeight: 900,
-            fontSize: "clamp(100px, 18vw, 260px)",
-            color: "rgba(255,255,255,0.04)",
-            lineHeight: 1,
+            bottom: -140,
+            left: -100,
+            width: 340,
+            height: 340,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(224,123,48,0.12) 0%, rgba(120,60,140,0.08) 50%, transparent 70%)",
             pointerEvents: "none",
-            userSelect: "none",
             zIndex: 0,
-            whiteSpace: "nowrap",
           }}
-        >
-          claridad.
-        </div>
+        />
+
+        {/* Semicírculo 3 — derecha-centro textura mínima */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "30%",
+            right: "8%",
+            width: 180,
+            height: 180,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
 
         {/* Kicker */}
         <div
           style={{
             position: "relative",
             zIndex: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
             ...an("heroSlideUp", "0.5s", "0.2s"),
           }}
         >
-          <div
-            aria-hidden
-            style={{ width: 32, height: 1, background: "#E07B30", flexShrink: 0 }}
-          />
-          <span
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div
+              aria-hidden
+              style={{ width: 32, height: 1, background: "#E07B30", flexShrink: 0 }}
+            />
+            <span
+              style={{
+                fontSize: 10,
+                color: "#E07B30",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                fontFamily: "var(--font-sans)",
+              }}
+            >
+              DIAGNÓSTICO DE MADUREZ OPERACIONAL
+            </span>
+          </div>
+          <p
             style={{
-              fontSize: 10,
-              color: "#E07B30",
-              letterSpacing: "2px",
-              textTransform: "uppercase",
+              fontSize: 12,
+              color: "rgba(255,255,255,0.3)",
               fontFamily: "var(--font-sans)",
+              fontStyle: "normal",
+              fontWeight: 400,
+              marginTop: 6,
+              marginLeft: 44,
+              maxWidth: 520,
+              lineHeight: 1.5,
             }}
           >
-            Diagnóstico de AI Readiness · Yeti BI
-          </span>
+            Evalúa si tu operación tiene las condiciones habilitadoras para desplegar IA o automatización con éxito.
+          </p>
         </div>
 
-        {/* Headline */}
-        <h1
-          id="hero-heading"
-          style={{
-            position: "relative",
-            zIndex: 1,
-            fontFamily: "var(--font-playfair)",
-            fontWeight: 900,
-            fontStyle: "italic",
-            fontSize: "clamp(40px, 8.5vw, 112px)",
-            lineHeight: 1.05,
-            color: "#FFFFFF",
-            maxWidth: "100%",
-            margin: "20px 0 0",
-            textWrap: "balance" as React.CSSProperties["textWrap"],
-          }}
-        >
-          <span style={{ display: "block", ...an("heroSlideUp", "0.55s", "0.35s") }}>
-            La mayoría de
-          </span>
-          <span style={{ display: "block", ...an("heroSlideUp", "0.55s", "0.5s") }}>
-            tus problemas
-          </span>
-          <span style={{ display: "block", color: "#E07B30", ...an("heroSlideUp", "0.55s", "0.65s") }}>
-            no necesitan IA.
-          </span>
-          <span style={{ display: "block", color: "#FFFFFF", ...an("heroSlideUp", "0.55s", "0.8s") }}>
-            Necesitan claridad.
-          </span>
-        </h1>
+        {/* Headline — secuencia animada */}
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <HeadlineSequence rm={!!rm} />
+        </div>
 
         {/* Bottom row */}
         <div
@@ -530,21 +721,7 @@ export function Hero() {
               ...an("heroFadeIn", "0.5s", "1.2s"),
             }}
           >
-            El diagnóstico Yeti BI te dice cuál es tu ruta{" "}
-            <a
-              href="/diagnostico"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-              style={{
-                color: "#E07B30",
-                textDecoration: "underline",
-                textUnderlineOffset: 3,
-                fontWeight: 600,
-              }}
-            >
-              antes de que inviertas un peso en tecnología →
-            </a>
+            Medimos el gap entre tu operación hoy y lo que necesita ser para automatizar o desplegar IA con éxito.
           </p>
         </div>
       </section>
