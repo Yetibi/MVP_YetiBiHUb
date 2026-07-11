@@ -35,11 +35,17 @@ const STEPS = [
   {
     id: 3,
     icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="rgba(224,123,48,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="8" width="14" height="10" rx="2"/>
-        <path d="M7 8V6a3 3 0 0 1 6 0v2"/>
-        <line x1="10" y1="12" x2="10" y2="14"/>
-        <circle cx="10" cy="12" r="1" fill="rgba(224,123,48,0.9)" stroke="none"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(224,123,48,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        {/* Caja del regalo */}
+        <rect x="3" y="10" width="18" height="12" rx="1.5"/>
+        {/* Tapa */}
+        <rect x="2" y="7" width="20" height="4" rx="1"/>
+        {/* Lazo vertical */}
+        <line x1="12" y1="7" x2="12" y2="22"/>
+        {/* Lazo izquierdo */}
+        <path d="M12 7C12 7 9 4 7 5c-1.5.75-1.5 2.25 0 2.5C9.5 8 12 7 12 7Z"/>
+        {/* Lazo derecho */}
+        <path d="M12 7C12 7 15 4 17 5c1.5.75 1.5 2.25 0 2.5C14.5 8 12 7 12 7Z"/>
       </svg>
     ),
     title: "Recibes tu reporte por correo",
@@ -54,10 +60,10 @@ function GearIcon({ reduced }: { reduced: boolean }) {
     <svg
       width="20"
       height="20"
-      viewBox="0 0 20 20"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="rgba(224,123,48,0.9)"
-      strokeWidth="1.5"
+      strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
       style={{
@@ -71,11 +77,12 @@ function GearIcon({ reduced }: { reduced: boolean }) {
           to   { transform: rotate(360deg); }
         }
         @media (prefers-reduced-motion: reduce) {
-          svg { animation: none !important; }
+          .gear-animated { animation: none !important; }
         }
       `}</style>
-      <circle cx="10" cy="10" r="3"/>
-      <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42"/>
+      {/* Engranaje estilo Lucide/settings-2 con dientes reales */}
+      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+      <path d="M19.622 10.395l-1.097-2.65L20 6l-2-2-1.735 1.483-2.707-1.113L12.935 2h-1.954l-.623 2.377-2.707 1.113L6 4 4 6l1.453 1.789-1.08 2.616L2 11v2l2.373.595 1.08 2.616L4 18l2 2 1.765-1.483 2.707 1.113.623 2.37h1.954l.623-2.37 2.707-1.113L18 20l2-2-1.453-1.789 1.08-2.616L22 13v-2l-2.378-.605Z"/>
     </svg>
   );
 }
