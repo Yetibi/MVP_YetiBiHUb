@@ -39,7 +39,7 @@ const ROTATING_WORDS = ["claridad.", "diagnóstico.", "fuga cerrada.", "madurez.
 const ROTATING_LINE2 = [
   "Nadie pregunta si sus procesos",
   "Pocos saben si sus procesos",
-  "¿Alguien verificó si sus procesos",
+  "¿Alguien verificó si sus procesos?",
 ] as const; // C3: sin "?" al final — ya estaba correcto en este array
 const FLIP = "transform 0.56s cubic-bezier(0.4, 0, 0.2, 1)";
 
@@ -545,19 +545,16 @@ export function Hero() {
             position: "absolute", top: -40, right: -30, width: 260, height: 180,
             borderRadius: "62% 38% 71% 29% / 45% 55% 45% 55%",
             background: "radial-gradient(ellipse at 35% 40%, rgba(224,123,48,0.85) 0%, rgba(180,80,20,0.5) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB1 8s ease-in-out infinite",
           }} />
           <div style={{
             position: "absolute", top: 20, right: 10, width: 220, height: 150,
             borderRadius: "38% 62% 45% 55% / 60% 40% 60% 40%",
             background: "radial-gradient(ellipse at 55% 35%, rgba(120,60,160,0.75) 0%, rgba(80,30,120,0.4) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB2 10s ease-in-out infinite",
           }} />
           <div style={{
             position: "absolute", top: 200, right: -10, width: 190, height: 135,
             borderRadius: "55% 45% 30% 70% / 50% 65% 35% 50%",
             background: "radial-gradient(ellipse at 45% 55%, rgba(240,160,60,0.72) 0%, rgba(200,120,30,0.4) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB3 12s ease-in-out infinite",
           }} />
         </div>
 
