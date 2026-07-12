@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     console.error("[YetiBI] Supabase error:", dbError.message);
   }
 
-  // Notificación interna a Julián
+  // Notificación interna — best-effort, no bloquea si Resend falla
   const { error: notifError } = await resend.emails.send({
     from: "Yeti BI <notificaciones@yetibi.com>",
     to: "data@yetibi.com",
@@ -113,8 +113,8 @@ export async function POST(req: NextRequest) {
   });
 
   if (notifError) {
-    console.error("[YetiBI] Resend notif error:", notifError);
-    return NextResponse.json({ error: "email_error" }, { status: 500 });
+    // Logueamos pero no bloqueamos — el contacto ya quedó en Supabase
+    console.error("[YetiBI] Resend notif error:", JSON.stringify(notifError));
   }
 
   // Confirmación al usuario (best-effort — no bloquea)
