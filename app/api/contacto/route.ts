@@ -1,6 +1,29 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  nombre:  z.string().min(2).max(100).trim(),
+  correo:  z.string().email().max(200).trim(),
+  empresa: z.string().max(200).trim().optional(),
+  mensaje: z.string().min(10).max(2000).trim(),
+  website: z.string().optional(), // honeypot
+});
+
+const rateLimit = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const limit = rateLimit.get(ip);
+  if (!limit || now > limit.resetAt) {
+    rateLimit.set(ip, { count: 1, resetAt: now + 60_000 });
+    return true;
+  }
+  if (limit.count >= 3) return false;
+  limit.count++;
+  return true;
+}
 
 // Inicialización lazy — evita error en build-time cuando las env vars no están disponibles
 function getResend() {
@@ -14,41 +37,45 @@ function getSupabase() {
   );
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 export async function POST(req: NextRequest) {
-  let body: unknown;
+  const ip =
+    req.headers.get("x-forwarded-for") ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Demasiadas solicitudes. Intenta en un minuto." },
+      { status: 429 }
+    );
+  }
+
+  let rawBody: unknown;
   try {
-    body = await req.json();
+    rawBody = await req.json();
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  if (
-    typeof body !== "object" ||
-    body === null ||
-    typeof (body as Record<string, unknown>).nombre  !== "string" ||
-    typeof (body as Record<string, unknown>).correo  !== "string" ||
-    typeof (body as Record<string, unknown>).mensaje !== "string"
-  ) {
-    return NextResponse.json({ error: "missing_fields" }, { status: 400 });
+  const parsed = contactSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Datos inválidos", details: parsed.error.flatten() },
+      { status: 400 }
+    );
   }
 
-  const { nombre, correo, empresa, mensaje } = body as {
-    nombre:   string;
-    correo:   string;
-    empresa?: string;
-    mensaje:  string;
-  };
+  const { nombre, correo, empresa, mensaje, website } = parsed.data;
 
-  const n = nombre.trim();
-  const c = correo.trim();
-  const e = empresa?.trim() ?? null;
-  const m = mensaje.trim();
-
-  if (!n || !c || !m || !EMAIL_RE.test(c)) {
-    return NextResponse.json({ error: "invalid_fields" }, { status: 422 });
+  // Honeypot — bot llenó el campo oculto
+  if (website) {
+    return NextResponse.json({ ok: true }, { status: 200 });
   }
+
+  const n = nombre;
+  const c = correo;
+  const e = empresa ?? null;
+  const m = mensaje;
 
   const resend = getResend();
   const supabase = getSupabase();

@@ -4,6 +4,20 @@ import { generarDiagnostico } from "@/lib/diagnostico-engine";
 import { prepararDocumentos } from "@/lib/preparar-documentos";
 import type { IntakeData } from "@/types/diagnostico";
 
+const rateLimit = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const limit = rateLimit.get(ip);
+  if (!limit || now > limit.resetAt) {
+    rateLimit.set(ip, { count: 1, resetAt: now + 60_000 });
+    return true;
+  }
+  if (limit.count >= 5) return false;
+  limit.count++;
+  return true;
+}
+
 const MODEL_USADO = "claude-sonnet-4-6";
 
 function supabaseAdmin() {
@@ -42,6 +56,18 @@ function mapRowToIntakeData(row: Record<string, unknown>): IntakeData {
 }
 
 export async function POST(req: NextRequest) {
+  const ip =
+    req.headers.get("x-forwarded-for") ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Demasiadas solicitudes. Intenta en un minuto." },
+      { status: 429 }
+    );
+  }
+
   // 1. Leer y validar el body
   let intakeId: string;
   try {

@@ -77,7 +77,12 @@
       "Bash(python3.11 -m ensurepip)",
       "Bash(node -e ' *)",
       "Bash(node -e \"require\\('sharp'\\)\")",
-      "Bash(node -e \"const sharp = require\\('sharp'\\); sharp\\('/Users/julianag/iCloud Drive \\(archivo\\) - 1/Documents/•YetiBi•/MVP Yeti Bi Hub/public/yeti-logo.png'\\).metadata\\(\\).then\\(m => console.log\\('channels:', m.channels, 'hasAlpha:', m.hasAlpha, 'size:', m.width+'x'+m.height\\)\\);\")"
+      "Bash(node -e \"const sharp = require\\('sharp'\\); sharp\\('/Users/julianag/iCloud Drive \\(archivo\\) - 1/Documents/•YetiBi•/MVP Yeti Bi Hub/public/yeti-logo.png'\\).metadata\\(\\).then\\(m => console.log\\('channels:', m.channels, 'hasAlpha:', m.hasAlpha, 'size:', m.width+'x'+m.height\\)\\);\")",
+      "Bash(ls /mnt/user-data/uploads/Yetti_1-Photoroom.png 2>/dev/null && echo \"EXISTS\" || echo \"NOT FOUND\")",
+      "Read(//mnt/user-data/uploads/**)",
+      "Bash(find /mnt/user-data/uploads/ -name \"*Yetti*\" -o -name \"*yetti*\" -o -name \"*yeti*\" 2>/dev/null | head -10)",
+      "Read(//mnt/user-data/**)",
+      "Bash(ls /mnt/user-data/uploads/ 2>/dev/null | head -20 || echo \"directory not accessible\")"
     ],
     "additionalDirectories": [
       "/tmp",
