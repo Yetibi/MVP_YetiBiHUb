@@ -13,6 +13,7 @@ interface Fields {
   correo: string;
   empresa: string;
   mensaje: string;
+  website: string; // honeypot — must stay empty
 }
 
 interface FieldError {
@@ -89,7 +90,7 @@ export function ContactForm() {
   const rm = useReducedMotion();
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
-  const [fields, setFields]     = useState<Fields>({ nombre: "", correo: "", empresa: "", mensaje: "" });
+  const [fields, setFields]     = useState<Fields>({ nombre: "", correo: "", empresa: "", mensaje: "", website: "" });
   const [errors, setErrors]     = useState<FieldError>({});
   const [formState, setFormState] = useState<FormState>("idle");
 
@@ -116,6 +117,12 @@ export function ContactForm() {
       return;
     }
 
+    // Honeypot — si el campo oculto tiene valor, es un bot; simular éxito
+    if (fields.website) {
+      setFormState("success");
+      return;
+    }
+
     setFormState("submitting");
     try {
       const res = await fetch("/api/contacto", {
@@ -126,11 +133,12 @@ export function ContactForm() {
           correo:  fields.correo.trim(),
           empresa: fields.empresa.trim(),
           mensaje: fields.mensaje.trim(),
+          website: fields.website,
         }),
       });
       if (!res.ok) throw new Error("non-ok");
       setFormState("success");
-      setFields({ nombre: "", correo: "", empresa: "", mensaje: "" });
+      setFields({ nombre: "", correo: "", empresa: "", mensaje: "", website: "" });
     } catch {
       setFormState("error");
     }
@@ -328,6 +336,18 @@ export function ContactForm() {
                 </button>
               </motion.div>
             )}
+
+            {/* Honeypot — oculto para humanos, visible para bots */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={fields.website}
+              onChange={handleChange}
+              style={{ display: "none" }}
+            />
 
             {/* Submit */}
             <motion.div variants={rm ? undefined : fieldReveal}>
