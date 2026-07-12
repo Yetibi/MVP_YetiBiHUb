@@ -39,8 +39,8 @@ const ROTATING_WORDS = ["claridad.", "diagnóstico.", "fuga cerrada.", "madurez.
 const ROTATING_LINE2 = [
   "Nadie pregunta si sus procesos",
   "Pocos saben si sus procesos",
-  "¿Alguien verificó si sus procesos?",
-] as const; // C3: sin "?" al final — ya estaba correcto en este array
+  "¿Alguien verificó si sus procesos",
+] as const;
 const FLIP = "transform 0.56s cubic-bezier(0.4, 0, 0.2, 1)";
 
 // FIX #7: fase arranca directo en 3, código de fases 0-2 eliminado (era dead code)
@@ -63,7 +63,8 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
       const gapPx      = 16;
       const sectionPad = Math.max(20, Math.min(window.innerWidth * 0.05, 60)) * 2;
       const maxW       = window.innerWidth - sectionPad - necesitanW - gapPx;
-      setFrameWidth(Math.min(textW + 44, Math.max(maxW, 80)));
+      // Cap at maxW so the box never overflows the viewport on mobile
+      setFrameWidth(Math.min(textW + 44, maxW));
     }
     calculate();
     window.addEventListener("resize", calculate);
@@ -122,9 +123,9 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
     transform:  state === "out" ? "translateY(-8px)" : "translateY(0)",
   });
 
-  // C4: escala unificada para L1/L2/L3/L4-static; recuadro ligeramente menor
-  const FS    = "clamp(28px, 4.5vw, 58px)";
-  const FSBox = "clamp(26px, 4vw, 54px)";
+  // C4: mobile-first — 22px mínimo para proporcionalidad en 390px
+  const FS    = "clamp(22px, 5.5vw, 58px)";
+  const FSBox = "clamp(20px, 5vw, 54px)";
 
   // FIX #6: lineHeight 1.15 en lugar de 1.05 para evitar colisión de descendentes
   const staticLineStyle: React.CSSProperties = {
@@ -142,7 +143,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
     fontStyle:  "italic",
     fontSize:   FS,
     color:      "#fff",
-    whiteSpace: "nowrap",
+    whiteSpace: "normal",
     lineHeight: 1.15,
     display:    "block",
   };
@@ -226,6 +227,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
             justifyContent: "center",
             position:       "relative",
             minWidth:       frameWidth,
+            maxWidth:       "100%",
             padding:        "4px 20px",
             background:     "linear-gradient(135deg, #4A3570 0%, #7B3F8C 35%, #C45A2A 70%, #E07B30 100%)",
             borderRadius:   8,
