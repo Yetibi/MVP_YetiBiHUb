@@ -178,11 +178,11 @@ export function ContactForm() {
               <p style={{ color: "#C3B9D6", fontSize: 14, lineHeight: 1.6 }}>
                 Te respondemos a{" "}
                 <a
-                  href="mailto:data@yetibi.co"
+                  href="mailto:data@yetibi.com"
                   className="underline hover:text-white transition-colors"
                   style={{ color: "#E07B30" }}
                 >
-                  data@yetibi.co
+                  data@yetibi.com
                 </a>{" "}
                 en las próximas horas.
               </p>
@@ -322,8 +322,8 @@ export function ContactForm() {
               >
                 <p style={{ color: "#C3B9D6", fontSize: 13 }}>
                   Algo salió mal. Escríbenos a{" "}
-                  <a href="mailto:data@yetibi.co" className="underline" style={{ color: "#E07B30" }}>
-                    data@yetibi.co
+                  <a href="mailto:data@yetibi.com" className="underline" style={{ color: "#E07B30" }}>
+                    data@yetibi.com
                   </a>.
                 </p>
                 <button

@@ -74,11 +74,11 @@ export function Footer() {
             CONTACTO
           </p>
           <a
-            href="mailto:data@yetibi.co"
+            href="mailto:data@yetibi.com"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
-            data@yetibi.co
+            data@yetibi.com
           </a>
         </div>
       </div>

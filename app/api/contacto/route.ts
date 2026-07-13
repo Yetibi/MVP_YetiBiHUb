@@ -43,7 +43,8 @@ export async function POST(req: NextRequest) {
     req.headers.get("x-real-ip") ??
     "unknown";
 
-  if (!checkRateLimit(ip)) {
+  // Solo aplica rate limit por IP cuando la IP es identificable
+  if (ip !== "unknown" && !checkRateLimit(ip)) {
     return NextResponse.json(
       { error: "Demasiadas solicitudes. Intenta en un minuto." },
       { status: 429 }
@@ -70,6 +71,14 @@ export async function POST(req: NextRequest) {
   // Honeypot — bot llenó el campo oculto
   if (website) {
     return NextResponse.json({ ok: true }, { status: 200 });
+  }
+
+  // Rate limit por correo como segunda capa (cubre mobile con IP unknown)
+  if (!checkRateLimit(`email:${correo.toLowerCase()}`)) {
+    return NextResponse.json(
+      { error: "Demasiadas solicitudes. Intenta en un minuto." },
+      { status: 429 }
+    );
   }
 
   const n = nombre;
