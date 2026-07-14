@@ -7,7 +7,7 @@ const contactSchema = z.object({
   nombre:  z.string().min(2).max(100).trim(),
   correo:  z.string().email().max(200).trim(),
   empresa: z.string().max(200).trim().optional(),
-  mensaje: z.string().min(10).max(2000).trim(),
+  mensaje: z.string().min(2).max(2000).trim(),
   website: z.string().optional(), // honeypot
 });
 
@@ -58,7 +58,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
+  console.log("[YetiBI/contacto] Body recibido:", JSON.stringify(rawBody));
+  console.log("[YetiBI/contacto] RESEND_API_KEY exists:", !!process.env.RESEND_API_KEY);
+  console.log("[YetiBI/contacto] SUPABASE_URL exists:", !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+
   const parsed = contactSchema.safeParse(rawBody);
+  console.log("[YetiBI/contacto] Zod success:", parsed.success, parsed.success ? "" : JSON.stringify((parsed as { error: { flatten: () => unknown } }).error.flatten()));
   if (!parsed.success) {
     return NextResponse.json(
       { error: "Datos inválidos", details: parsed.error.flatten() },
