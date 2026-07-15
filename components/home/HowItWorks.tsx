@@ -243,7 +243,7 @@ export function HowItWorks() {
             color: "#E07B30",
             lineHeight: 1.15,
           }}>
-            Cero reuniones de venta.
+             El diagnóstico llega a tu correo.
           </span>
         </motion.h2>
       </motion.div>
@@ -354,7 +354,7 @@ export function HowItWorks() {
               }}
             >
               <a
-                href="/contacto"
+                href="#contacto"
                 className="hover:opacity-90 transition-opacity cursor-pointer"
                 style={{
                   display: "inline-flex",
@@ -371,26 +371,6 @@ export function HowItWorks() {
                 }}
               >
                 Solicitar asesoría →
-              </a>
-              <a
-                href="https://mvp-yeti-bi-h-ub.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity cursor-pointer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "rgba(255,255,255,0.5)",
-                  border: "1px solid rgba(255,255,255,0.18)",
-                  fontSize: 13,
-                  padding: "10px 24px",
-                  borderRadius: 4,
-                  textDecoration: "none",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Primero quiero mi diagnóstico
               </a>
             </div>
           </div>
