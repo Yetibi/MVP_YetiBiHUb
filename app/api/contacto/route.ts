@@ -109,8 +109,8 @@ export async function POST(req: NextRequest) {
     } else {
       const resend = getResend();
 
-      // Notificación interna
-      resend.emails.send({
+      // Notificación interna — awaited para que Vercel no mate la promesa
+      await resend.emails.send({
         from: "Yeti BI <notificaciones@yetibi.com>",
         to: "data@yetibi.com",
         replyTo: c,
@@ -159,8 +159,8 @@ export async function POST(req: NextRequest) {
     `,
       }).catch((err) => console.error("[YetiBI] Resend notif error:", err));
 
-      // Confirmación al usuario
-      resend.emails.send({
+      // Confirmación al usuario — awaited para que Vercel no mate la promesa
+      await resend.emails.send({
         from: "Yeti BI <notificaciones@yetibi.com>",
         to: c,
         subject: "Recibimos tu mensaje — Yeti BI",

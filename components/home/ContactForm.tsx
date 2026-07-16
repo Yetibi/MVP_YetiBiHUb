@@ -91,6 +91,7 @@ export function ContactForm() {
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
   const [fields, setFields]     = useState<Fields>({ nombre: "", correo: "", empresa: "", mensaje: "", website: "" });
+  const [submittedEmail, setSubmittedEmail] = useState("");
   const [errors, setErrors]     = useState<FieldError>({});
   const [formState, setFormState] = useState<FormState>("idle");
 
@@ -137,6 +138,7 @@ export function ContactForm() {
         }),
       });
       if (!res.ok) throw new Error("non-ok");
+      setSubmittedEmail(fields.correo.trim());
       setFormState("success");
       setFields({ nombre: "", correo: "", empresa: "", mensaje: "", website: "" });
     } catch {
@@ -178,11 +180,11 @@ export function ContactForm() {
               <p style={{ color: "#C3B9D6", fontSize: 14, lineHeight: 1.6 }}>
                 Te respondemos a{" "}
                 <a
-                  href="mailto:data@yetibi.com"
+                  href={`mailto:${submittedEmail}`}
                   className="underline hover:text-white transition-colors"
                   style={{ color: "#E07B30" }}
                 >
-                  data@yetibi.com
+                  {submittedEmail}
                 </a>{" "}
                 en las próximas horas.
               </p>
