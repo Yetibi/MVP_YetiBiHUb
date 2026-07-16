@@ -353,8 +353,11 @@ export function HowItWorks() {
                 flexShrink: 0,
               }}
             >
-              <a
-                href="#contacto"
+              <button
+                type="button"
+                onClick={() =>
+                  document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" })
+                }
                 className="hover:opacity-90 transition-opacity cursor-pointer"
                 style={{
                   display: "inline-flex",
@@ -366,12 +369,12 @@ export function HowItWorks() {
                   fontSize: 14,
                   padding: "12px 24px",
                   borderRadius: 4,
-                  textDecoration: "none",
+                  border: "none",
                   whiteSpace: "nowrap",
                 }}
               >
                 Solicitar asesoría →
-              </a>
+              </button>
             </div>
           </div>
         </motion.div>
