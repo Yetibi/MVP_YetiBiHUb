@@ -91,7 +91,6 @@ export async function POST(req: NextRequest) {
   const e = empresa ?? null;
   const m = mensaje;
 
-  const resend = getResend();
   const supabase = getSupabase();
 
   // Guardar en Supabase — no bloquea si falla
@@ -103,13 +102,20 @@ export async function POST(req: NextRequest) {
     console.error("[YetiBI] Supabase error:", dbError.message);
   }
 
-  // Notificación interna — best-effort, no bloquea si Resend falla
-  const { error: notifError } = await resend.emails.send({
-    from: "Yeti BI <notificaciones@yetibi.com>",
-    to: "data@yetibi.com",
-    replyTo: c,
-    subject: `Nuevo contacto: ${n}${e ? ` — ${e}` : ""}`,
-    html: `
+  // Resend — completamente best-effort, nunca bloquea ni causa 500
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn("[YetiBI] RESEND_API_KEY no configurada — mail omitido, lead guardado en Supabase");
+    } else {
+      const resend = getResend();
+
+      // Notificación interna
+      resend.emails.send({
+        from: "Yeti BI <notificaciones@yetibi.com>",
+        to: "data@yetibi.com",
+        replyTo: c,
+        subject: `Nuevo contacto: ${n}${e ? ` — ${e}` : ""}`,
+        html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
         background:#2E2640;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
@@ -151,19 +157,14 @@ export async function POST(req: NextRequest) {
         </div>
       </div>
     `,
-  });
+      }).catch((err) => console.error("[YetiBI] Resend notif error:", err));
 
-  if (notifError) {
-    // Logueamos pero no bloqueamos — el contacto ya quedó en Supabase
-    console.error("[YetiBI] Resend notif error:", JSON.stringify(notifError));
-  }
-
-  // Confirmación al usuario (best-effort — no bloquea)
-  resend.emails.send({
-    from: "Yeti BI <notificaciones@yetibi.com>",
-    to: c,
-    subject: "Recibimos tu mensaje — Yeti BI",
-    html: `
+      // Confirmación al usuario
+      resend.emails.send({
+        from: "Yeti BI <notificaciones@yetibi.com>",
+        to: c,
+        subject: "Recibimos tu mensaje — Yeti BI",
+        html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
         background:#2E2640;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
@@ -196,7 +197,12 @@ export async function POST(req: NextRequest) {
         </div>
       </div>
     `,
-  }).catch((err) => console.error("[YetiBI] Resend confirm error:", err));
+      }).catch((err) => console.error("[YetiBI] Resend confirm error:", err));
+    }
+  } catch (err) {
+    // Resend falló completamente — logueamos pero el lead ya está en Supabase
+    console.error("[YetiBI] Resend excepción:", err);
+  }
 
   return NextResponse.json({ ok: true }, { status: 200 });
 }
