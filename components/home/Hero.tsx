@@ -127,12 +127,12 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
   const FS    = "clamp(22px, 5.5vw, 58px)";
   const FSBox = "clamp(20px, 5vw, 54px)";
 
-  // FIX #6: lineHeight 1.15 en lugar de 1.05 para evitar colisión de descendentes
+  // Serif display para L1/L3/L4 — mismo sistema que L2
   const staticLineStyle: React.CSSProperties = {
     display:    "block",
-    fontFamily: "var(--font-sans)",
-    fontWeight: 900,
-    fontStyle:  "normal",
+    fontFamily: "var(--font-dm-serif)",
+    fontWeight: 400,
+    fontStyle:  "italic",
     fontSize:   FS,
     lineHeight: 1.15,
   };
@@ -160,7 +160,7 @@ function HeadlineSequence({ rm }: { rm: boolean }) {
       </span>
       <span aria-hidden style={{
         position: "absolute", visibility: "hidden", pointerEvents: "none",
-        fontFamily: "var(--font-sans)", fontWeight: 900, fontStyle: "normal",
+        fontFamily: "var(--font-dm-serif)", fontWeight: 400, fontStyle: "italic",
         fontSize: FS, whiteSpace: "nowrap",
       }}>
         <span ref={necesitanRef}>Necesitan</span>
