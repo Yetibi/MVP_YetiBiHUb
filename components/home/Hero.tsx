@@ -564,7 +564,7 @@ export function Hero() {
         <div style={{ position: "relative", zIndex: 1, marginBottom: 32, ...an("heroSlideUp", "0.5s", "0.2s") }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
-            <span style={{ fontSize: 13, color: "#E07B30", letterSpacing: "2.5px", textTransform: "uppercase", fontFamily: "var(--font-sans)", fontWeight: 600 }}>
+            <span style={{ fontSize: 13, color: "#E07B30", letterSpacing: "2.5px", textTransform: "uppercase", fontFamily: "var(--font-geist-mono)", fontWeight: 400 }}>
               DIAGNÓSTICO DE MADUREZ OPERACIONAL
             </span>
           </div>
