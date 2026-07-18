@@ -812,13 +812,21 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activePain, setActivePain] = useState(0);
   const [reduced, setReduced] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = () => setReduced(mq.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mqMobile  = window.matchMedia("(max-width: 767px)");
+    setReduced(mqReduced.matches);
+    setIsMobile(mqMobile.matches);
+    const onReduced = () => setReduced(mqReduced.matches);
+    const onMobile  = () => setIsMobile(mqMobile.matches);
+    mqReduced.addEventListener("change", onReduced);
+    mqMobile.addEventListener("change", onMobile);
+    return () => {
+      mqReduced.removeEventListener("change", onReduced);
+      mqMobile.removeEventListener("change", onMobile);
+    };
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -844,7 +852,7 @@ export default function Hero() {
   // Memoized no-op to avoid unnecessary DrumRoll useEffect re-runs
   const noop = useCallback(() => {}, []);
 
-  if (reduced) {
+  if (reduced || isMobile) {
     return (
       <div id="el-problema" style={{ background: "#0E0B14" }}>
         <Navbar />

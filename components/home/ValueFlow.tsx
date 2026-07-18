@@ -83,18 +83,19 @@ export function ValueFlow() {
       </div>
 
       {/* ── SVG principal ──
-          viewBox 760×490 — todo el contenido cabe en una pantalla.
+          viewBox 760×400 — diagrama sin CTA narrativo (movido a HTML debajo).
+          Callouts: width=172 height=80 para los 3.
           N1 PROCESO: x=16..148 (width=132)
-          N2 DATO: x=180..304 (width=124) — 32px de separación desde N1
-          P1 track: M148,270 L180,270 (32px visible)
+          N2 DATO: x=180..304 (width=124) — 32px gap desde N1
       */}
       <svg
         width="100%"
-        viewBox="0 0 760 490"
+        viewBox="0 0 760 400"
+        preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-labelledby={`${titleId} ${descId}`}
         focusable="false"
-        style={{ display: 'block', overflow: 'visible' }}
+        style={{ display: 'block', maxWidth: '100%', overflowX: 'hidden' }}
       >
         <title id={titleId}>Flujo de valor Yeti BI</title>
         <desc id={descId}>
@@ -116,49 +117,45 @@ export function ValueFlow() {
         <text x="650" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)" letterSpacing="2">IMPACTO MEDIBLE</text>
 
         {/* Divisores */}
-        <line x1="320" y1="30" x2="320" y2="430" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-        <line x1="520" y1="30" x2="520" y2="430" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        <line x1="320" y1="30" x2="320" y2="380" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        <line x1="520" y1="30" x2="520" y2="380" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
 
         {/* ════════════════════════════════
-            CALLOUTS
+            CALLOUTS — width=172 height=80 para los 3 (mismo tamaño)
             ════════════════════════════════ */}
 
-        {/* CALLOUT 1 — Fundamentos
-            Flecha llega hasta N1 en y=242 */}
-        <rect x="12" y="32" width="180" height="80" rx="6"
+        {/* CALLOUT 1 — Fundamentos */}
+        <rect x="12" y="32" width="172" height="80" rx="6"
           fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
         <text x="22" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">NUESTRO DIFERENCIAL</text>
         <text x="22" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Los procesos se degradan y</text>
-        <text x="22" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">quedan obsoletos. Antes de</text>
-        <text x="22" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">tecnología, los habilitamos</text>
-        <text x="22" y="101" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">para automatizar o IA.</text>
+        <text x="22" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">quedan obsoletos. Habilitamos</text>
+        <text x="22" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">antes de automatizar o IA.</text>
         {/* flecha — llega al borde superior de N1 (y=242) */}
-        <line x1="100" y1="112" x2="100" y2="234" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
-        <polygon points="96,234 100,242 104,234" fill="rgba(224,123,48,0.5)" />
+        <line x1="98" y1="112" x2="98" y2="234" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="94,234 98,242 102,234" fill="rgba(224,123,48,0.5)" />
 
         {/* CALLOUT 2 — Automatización */}
-        <rect x="312" y="32" width="216" height="110" rx="6"
+        <rect x="324" y="32" width="172" height="80" rx="6"
           fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
-        <text x="324" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">ANTES DE LA IA</text>
-        <text x="324" y="63"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Sin automatización sólida,</text>
-        <text x="324" y="76"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">la IA no tiene datos limpios</text>
-        <text x="324" y="89"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">ni procesos estandarizados</text>
-        <text x="324" y="102" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">para aprender.</text>
+        <text x="334" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">ANTES DE LA IA</text>
+        <text x="334" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Sin automatización sólida,</text>
+        <text x="334" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">la IA no tiene datos limpios</text>
+        <text x="334" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">ni procesos para aprender.</text>
         {/* flecha */}
-        <line x1="420" y1="142" x2="420" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
-        <polygon points="416,194 420,202 424,194" fill="rgba(224,123,48,0.5)" />
+        <line x1="410" y1="112" x2="410" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="406,194 410,202 414,194" fill="rgba(224,123,48,0.5)" />
 
         {/* CALLOUT 3 — ROI */}
-        <rect x="552" y="32" width="196" height="80" rx="6"
+        <rect x="566" y="32" width="172" height="80" rx="6"
           fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.35)" strokeWidth=".8" />
-        <text x="564" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">PROPÓSITO SISTÉMICO</text>
-        <text x="564" y="63"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Si no impacta el ROI,</text>
-        <text x="564" y="76"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">el proyecto no cumple</text>
-        <text x="564" y="89"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">su propósito.</text>
-        <text x="564" y="103" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill={C_ORANGE}>Medimos relaciones, no eventos.</text>
+        <text x="576" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">PROPÓSITO SISTÉMICO</text>
+        <text x="576" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Si no impacta el ROI,</text>
+        <text x="576" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">el proyecto no cumple</text>
+        <text x="576" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">su propósito.</text>
         {/* flecha */}
-        <line x1="650" y1="112" x2="650" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
-        <polygon points="646,194 650,202 654,194" fill="rgba(224,123,48,0.5)" />
+        <line x1="652" y1="112" x2="652" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="648,194 652,202 656,194" fill="rgba(224,123,48,0.5)" />
 
         {/* ════════════════════════════════
             TRACKS BASE
@@ -166,7 +163,7 @@ export function ValueFlow() {
             N2 cx_right=304
             N3 x=358..482, cy=230
             ════════════════════════════════ */}
-        {/* P1: N1→N2 — 32px gap, ahora visible */}
+        {/* P1: N1→N2 — 32px gap */}
         <path d="M148,270 L180,270" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
         {/* P2: N2→N3 */}
         <path d="M304,270 C340,270 340,230 358,230" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
@@ -238,11 +235,11 @@ export function ValueFlow() {
         <text x="436" y="292" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(255,255,255,0.50)">solo si el diagnóstico</text>
         <text x="436" y="304" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(255,255,255,0.50)">lo justifica</text>
 
-        {/* Leyenda de color — UNA SOLA LÍNEA, centrada */}
-        <circle cx="220" cy="398" r="4" fill={C_ORANGE} />
-        <text x="230" y="402" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Ruta principal (automatización → ROI)</text>
-        <circle cx="460" cy="398" r="4" fill={C_PURPLE} />
-        <text x="470" y="402" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Ruta opcional (IA, si el diagnóstico lo justifica)</text>
+        {/* Leyenda de color — una sola línea, centrada */}
+        <circle cx="220" cy="390" r="4" fill={C_ORANGE} />
+        <text x="230" y="394" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Ruta principal (automatización → ROI)</text>
+        <circle cx="460" cy="390" r="4" fill={C_PURPLE} />
+        <text x="470" y="394" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Ruta opcional (IA, si el diagnóstico lo justifica)</text>
 
         {/* N5 — ROI MEDIBLE */}
         {shouldAnimate && (
@@ -260,14 +257,38 @@ export function ValueFlow() {
         <text x="630" y="322" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">ROI MEDIBLE</text>
         <text x="630" y="336" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">el único resultado</text>
         <circle cx="584" cy="270" r="3" fill={C_ORANGE} />
-
-        {/* ── CTA narrativo ── */}
-        <line x1="40" y1="415" x2="720" y2="415" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-        <text x="380" y="434" textAnchor="middle" fontSize="14" fontWeight="400" fontFamily="var(--font-sans)" fill="rgba(255,255,255,0.70)">El vacío del mercado no es tecnológico,</text>
-        <text x="380" y="451" textAnchor="middle" fontSize="14" fontWeight="700" fontFamily="var(--font-sans)" fill={C_ORANGE}>es operativo.</text>
-        <text x="380" y="469" textAnchor="middle" fontSize="16" fontWeight="700" fontFamily="var(--font-playfair)" fontStyle="italic" fill="rgba(255,255,255,0.90)">Antes de buscar inteligencia artificial,</text>
-        <text x="380" y="486" textAnchor="middle" fontSize="16" fontWeight="700" fontFamily="var(--font-playfair)" fontStyle="italic" fill={C_ORANGE}>busca procesos inteligentes.</text>
       </svg>
+
+      {/* ── CTA narrativo — HTML para escala correcta en mobile ── */}
+      <div style={{
+        marginTop: 24,
+        padding: '0 4px',
+        textAlign: 'center',
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-geist-sans)',
+          fontSize: 'clamp(12px, 3vw, 14px)',
+          color: 'rgba(255,255,255,0.70)',
+          lineHeight: 1.6,
+          marginBottom: 6,
+          fontWeight: 400,
+        }}>
+          El vacío del mercado no es tecnológico,{' '}
+          <span style={{ color: C_ORANGE, fontWeight: 700 }}>es operativo.</span>
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-playfair)',
+          fontSize: 'clamp(14px, 3.5vw, 18px)',
+          fontWeight: 700,
+          fontStyle: 'italic',
+          color: 'rgba(255,255,255,0.90)',
+          lineHeight: 1.5,
+          margin: 0,
+        }}>
+          Antes de buscar inteligencia artificial,{' '}
+          <span style={{ color: C_ORANGE }}>busca procesos inteligentes.</span>
+        </p>
+      </div>
 
     </section>
   )
