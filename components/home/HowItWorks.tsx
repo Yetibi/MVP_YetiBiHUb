@@ -528,7 +528,7 @@ export function HowItWorks() {
 
   useEffect(() => {
     const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mqMobile  = window.matchMedia("(max-width: 767px)");
+    const mqMobile  = window.matchMedia("(max-width: 1023px)");
 
     setReduced(mqReduced.matches);
     setIsMobile(mqMobile.matches);

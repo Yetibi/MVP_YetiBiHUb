@@ -816,7 +816,7 @@ export default function Hero() {
 
   useEffect(() => {
     const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mqMobile  = window.matchMedia("(max-width: 767px)");
+    const mqMobile  = window.matchMedia("(max-width: 1023px)");
     setReduced(mqReduced.matches);
     setIsMobile(mqMobile.matches);
     const onReduced = () => setReduced(mqReduced.matches);
