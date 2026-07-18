@@ -364,14 +364,11 @@ export function ContactForm() {
                 type="submit"
                 disabled={formState === "submitting"}
                 aria-busy={formState === "submitting"}
-                className="inline-flex items-center rounded-md font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary inline-flex disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
-                  backgroundColor: "#E07B30",
-                  color: "#1c1426",
                   fontSize: 15,
                   padding: "14px 28px",
                   gap: 10,
-                  boxShadow: "0 8px 24px -6px #E07B3099",
                 }}
               >
                 {formState === "submitting" ? (

@@ -14,7 +14,7 @@ const STEPS = [
   {
     num: "01",
     title: "Responde el diagnóstico",
-    desc: "10 minutos, en línea. Preguntas sobre tu proceso y operación actual.",
+    desc: "Preguntas sobre tu proceso y operación actual.",
     tag: "10 min · en línea",
     alert: {
       title: "TEN UN DOCUMENTO LISTO",
@@ -81,7 +81,6 @@ function IconBox() {
 function StepsSection({ reduced }: { reduced: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState(0);
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -131,7 +130,10 @@ function StepsSection({ reduced }: { reduced: boolean }) {
               Tres pasos.{" "}
             </span>
             <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#E07B30" }}>
-              El diagnóstico llega a tu correo.
+            Resultado en tu correo.{" "}
+            </span>
+            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 800, color: "#FFFFFF" }}>
+            Sin costo, sin compromiso.
             </span>
           </h2>
         </div>
@@ -334,36 +336,10 @@ function StepsSection({ reduced }: { reduced: boolean }) {
           <div style={{ display: "flex", gap: 10, flexShrink: 0, alignItems: "center" }}>
             <a
               href="#contacto-form"
-              style={{
-                background: "linear-gradient(110deg,#E07B30 0%,#E07B30 30%,#FFA558 45%,#FFD4A8 50%,#FFA558 55%,#E07B30 70%,#E07B30 100%)",
-                backgroundSize: "200% 100%",
-                animation: "background-shine 2s linear infinite",
-                color: "#0E0B14",
-                fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 12,
-                textTransform: "uppercase" as const, letterSpacing: "1px",
-                padding: "14px 28px", borderRadius: 2,
-                textDecoration: "none", display: "inline-block",
-                whiteSpace: "nowrap" as const, minHeight: 44,
-              }}
+              className="btn-primary"
+              style={{ padding: "14px 28px", borderRadius: 2, fontSize: 12, letterSpacing: "1px" }}
             >
               SOLICITAR ASESORÍA <span aria-hidden>→</span>
-            </a>
-            <a
-              href="/diagnostico"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "rgba(255,255,255,0.70)",
-                border: "1px solid rgba(255,255,255,0.25)",
-                fontFamily: "var(--font-geist-sans)", fontSize: 12,
-                textTransform: "uppercase" as const, letterSpacing: "1px",
-                padding: "14px 28px", borderRadius: 2,
-                textDecoration: "none", display: "inline-block",
-                whiteSpace: "nowrap" as const, minHeight: 44,
-              }}
-            >
-              MI DIAGNÓSTICO PRIMERO
-              <span className="sr-only"> (abre en nueva pestaña)</span>
             </a>
           </div>
         </div>
@@ -428,7 +404,10 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
               Tres pasos.{" "}
             </span>
             <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#E07B30" }}>
-              El diagnóstico llega a tu correo.
+            Resultado en tu correo.{" "}
+            </span>
+            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 800, color: "#FFFFFF" }}>
+            Sin costo, sin compromiso.
             </span>
           </h2>
         </div>
@@ -566,34 +545,10 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
           <a
             href="#contacto-form"
-            style={{
-              background: "linear-gradient(110deg,#E07B30 0%,#E07B30 30%,#FFA558 45%,#FFD4A8 50%,#FFA558 55%,#E07B30 70%,#E07B30 100%)",
-              backgroundSize: "200% 100%",
-              animation: "background-shine 2s linear infinite",
-              color: "#0E0B14",
-              fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 12,
-              textTransform: "uppercase" as const, letterSpacing: "1px",
-              padding: "14px 24px", borderRadius: 2,
-              textDecoration: "none", display: "inline-block", minHeight: 44,
-            }}
+            className="btn-primary"
+            style={{ padding: "14px 24px", borderRadius: 2, fontSize: 12, letterSpacing: "1px" }}
           >
             SOLICITAR ASESORÍA <span aria-hidden>→</span>
-          </a>
-          <a
-            href="/diagnostico"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "rgba(255,255,255,0.70)",
-              border: "1px solid rgba(255,255,255,0.25)",
-              fontFamily: "var(--font-geist-sans)", fontSize: 12,
-              textTransform: "uppercase" as const, letterSpacing: "1px",
-              padding: "14px 24px", borderRadius: 2,
-              textDecoration: "none", display: "inline-block", minHeight: 44,
-            }}
-          >
-            PRIMERO QUIERO MI DIAGNÓSTICO
-            <span className="sr-only"> (abre en nueva pestaña)</span>
           </a>
         </div>
       </section>
@@ -627,9 +582,11 @@ export function HowItWorks() {
     };
   }, []);
 
-  // Renderizar la versión desktop hasta que el cliente confirme el breakpoint
-  // para evitar hydration mismatch (servidor y primera renderización cliente = mismo resultado)
-  if (!mounted || (!isMobile && !reduced)) {
+  // Hasta que el cliente confirme el breakpoint, no renderizar nada
+  // (evita que StepsSection monte useScroll con ref no hidratado en mobile)
+  if (!mounted) return null;
+
+  if (!isMobile && !reduced) {
     return (
       <div id="como-funciona">
         <StepsSection reduced={reduced} />

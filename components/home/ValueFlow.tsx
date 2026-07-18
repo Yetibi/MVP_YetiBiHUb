@@ -97,7 +97,11 @@ export function ValueFlow() {
       aria-labelledby="vf-section-title"
       style={{
         background: C_BG,
-        padding: 'clamp(48px,7vw,80px) clamp(16px,5vw,40px) clamp(48px,7vw,80px)',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '24px 48px',
       }}
     >
       {/* ── Kicker ── */}
@@ -115,9 +119,9 @@ export function ValueFlow() {
       <h2
         id="vf-section-title"
         style={{
-          fontSize: 'clamp(24px,3vw,38px)', fontWeight: 900,
+          fontSize: 'clamp(18px,2.5vw,28px)', fontWeight: 900,
           fontFamily: 'var(--font-sans)', color: '#fff',
-          lineHeight: 1.12, margin: '0 0 clamp(24px,4vw,40px)',
+          lineHeight: 1.12, margin: '0 0 16px',
         }}
       >
         No todo es IA.{' '}
@@ -140,6 +144,7 @@ export function ValueFlow() {
       </p>
 
       {/* ── SVG diagrama ── */}
+      <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       <svg
         width="100%"
         viewBox="0 0 760 400"
@@ -147,7 +152,7 @@ export function ValueFlow() {
         role="img"
         aria-labelledby={`${titleId} ${descId}`}
         focusable="false"
-        style={{ display: 'block', maxWidth: '100%', overflowX: 'hidden' }}
+        style={{ display: 'block', width: '100%', maxWidth: '860px', margin: '0 auto', overflowX: 'hidden' }}
       >
         <title id={titleId}>Flujo de valor Yeti BI</title>
         <desc id={descId}>
@@ -169,13 +174,15 @@ export function ValueFlow() {
         {/* ── CALLOUTS — width=172 height=80 los 3 ── */}
 
         {/* CALLOUT 1 */}
-        <rect x="12" y="32" width="172" height="80" rx="6"
+        <rect x="12" y="32" width="172" height="96" rx="6"
           fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
-        <text x="22" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">NUESTRO DIFERENCIAL</text>
-        <text x="22" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Los procesos se degradan y</text>
-        <text x="22" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">quedan obsoletos. Habilitamos</text>
-        <text x="22" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">antes de automatizar o IA.</text>
-        <line x1="98" y1="112" x2="98" y2="234" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <text x="22" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">★ NUESTRO DIFERENCIAL</text>
+        <text x="22" y="61"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">Los procesos se degradan y</text>
+        <text x="22" y="73"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">quedan obsoletos. Mejorar</text>
+        <text x="22" y="85"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">esta base ya genera resultados</text>
+        <text x="22" y="97"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">— sin tecnología.</text>
+        <text x="22" y="110" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(224,123,48,0.7)">Habilitamos antes de automatizar.</text>
+        <line x1="98" y1="128" x2="98" y2="234" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
         <polygon points="94,234 98,242 102,234" fill="rgba(224,123,48,0.5)" />
 
         {/* CALLOUT 2 */}
@@ -279,18 +286,18 @@ export function ValueFlow() {
         <text x="630" y="336" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">el único resultado</text>
         <circle cx="584" cy="270" r="3" fill={C_ORANGE} />
       </svg>
+      </div>
 
       {/* ── CTA con ScrambleText debajo del diagrama ── */}
       <div style={{
-        marginTop: 24,
-        padding: '0 48px',
+        marginTop: 16,
         borderTop: '1px solid rgba(255,255,255,0.06)',
-        paddingTop: 24,
+        paddingTop: 16,
       }}>
         <p style={{
           fontFamily: 'var(--font-playfair)',
           fontStyle: 'italic',
-          fontSize: 'clamp(16px,2.5vw,22px)',
+          fontSize: 'clamp(13px,1.8vw,17px)',
           fontWeight: 700,
           color: 'rgba(255,255,255,0.9)',
           lineHeight: 1.5,

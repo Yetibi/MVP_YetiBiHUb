@@ -23,7 +23,6 @@ const NAV_LINKS = [
 const WORDS = [
   "claridad",
   "diagnóstico",
-  "fuga cerrada",
   "madurez",
   "decisión",
 ] as const;
@@ -83,28 +82,18 @@ const PAINS = [
   { num: "03", title: "Aprobaciones lentas",     desc: "Decisiones sin trazabilidad que bloquean la operación." },
   { num: "04", title: "Reportes tardíos",        desc: "Visibilidad cuando el problema ya ocurrió." },
   { num: "05", title: "Automatización aislada",  desc: "Flujos que no se conectan entre áreas." },
-  { num: "06", title: "IA sin gobierno",         desc: "IA sin procesos base ni métricas de impacto." },
+  { num: "06", title: "IA sin gobierno",         desc: "IA desplegada sin proceso habilitado ni gobernanza genera deuda, no valor." },
 ] as const;
 
-// ─── shine style ──────────────────────────────────────────────────────────────
+// ─── navbar CTA extra styles (sobre .btn-primary) ─────────────────────────────
 
-const SHINE: React.CSSProperties = {
-  background:
-    "linear-gradient(110deg,#E07B30 0%,#E07B30 30%,#FFA558 45%,#FFD4A8 50%,#FFA558 55%,#E07B30 70%,#E07B30 100%)",
-  backgroundSize: "200% 100%",
-  animation: "background-shine 2s linear infinite",
-  color: "#0E0B14",
-  fontFamily: "var(--font-geist-sans)",
-  fontWeight: 700,
+const NAVBAR_BTN_EXTRA: React.CSSProperties = {
   fontSize: 11,
   letterSpacing: "0.08em",
-  textTransform: "uppercase" as const,
-  whiteSpace: "nowrap" as const,
-  textDecoration: "none",
+  padding: "10px 16px",
   borderRadius: 2,
   display: "inline-flex",
   alignItems: "center",
-  padding: "10px 16px",
   minHeight: 44,
 };
 
@@ -349,9 +338,10 @@ function Navbar() {
         href="/diagnostico"
         target="_blank"
         rel="noopener noreferrer"
-        style={SHINE}
+        className="btn-primary"
+        style={NAVBAR_BTN_EXTRA}
       >
-        DIAGNOSTICA TU PROCESO
+        DIAGNÓSTICA TU PROCESO
         <span className="sr-only"> (abre en nueva pestaña)</span>
       </a>
     </nav>
@@ -661,7 +651,7 @@ function LeftPanel({
             marginTop: 80,
           }}>
             {[
-              { label: "Proceso sano", accent: false },
+              { label: "Proceso habilitado para desplegar tecnología", accent: false },
               { label: "Dato confiable", accent: false },
               { label: "La ruta correcta", accent: false },
               { label: "Impacto financiero medible", accent: true },
@@ -987,7 +977,7 @@ export default function Hero() {
           {/* Cadena de valor — vertical en mobile */}
           <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
             {[
-              { label: "Proceso sano", accent: false },
+              { label: "Proceso habilitado para desplegar tecnología", accent: false },
               { label: "Dato confiable", accent: false },
               { label: "La ruta correcta", accent: false },
               { label: "Impacto financiero medible", accent: true },
