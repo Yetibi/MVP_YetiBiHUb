@@ -1,384 +1,558 @@
 "use client";
 
-import React from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { fadeUp, listContainer } from "@/lib/motion";
+import { useRef, useState, useEffect } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "motion/react";
+
+// ─── datos ────────────────────────────────────────────────────────────────────
 
 const STEPS = [
   {
-    id: 1,
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="rgba(224,123,48,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="2" width="12" height="16" rx="2"/>
-        <line x1="7" y1="7" x2="13" y2="7"/>
-        <line x1="7" y1="10" x2="13" y2="10"/>
-        <line x1="7" y1="13" x2="10" y2="13"/>
-      </svg>
-    ),
+    num: "01",
     title: "Responde el diagnóstico",
     desc: "10 minutos, en línea. Preguntas sobre tu proceso y operación actual.",
+    tag: "10 min · en línea",
     alert: {
-      heading: "TEN UN DOCUMENTO LISTO",
-      body: "El formulario pedirá un archivo de tu operación. Entre más contexto real, más preciso es el diagnóstico.",
+      title: "TEN UN DOCUMENTO LISTO",
+      text: "El formulario pedirá un archivo de tu operación.",
       formats: "Excel · CSV · PDF · reporte de proceso",
     },
-    tag: "10 min · en línea",
   },
   {
-    id: 2,
-    icon: null, // gear — rendered separately with animation
+    num: "02",
     title: "YetibiEngine evalúa el gap",
     desc: "Medimos el As-Is vs. To-Be en 5 capas: proceso, dato, caso de uso, capacidad y habilitación tecnológica.",
-    alert: null,
     tag: "Automático · metodología + IA",
+    alert: undefined,
   },
   {
-    id: 3,
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(224,123,48,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        {/* Caja del regalo */}
-        <rect x="3" y="10" width="18" height="12" rx="1.5"/>
-        {/* Tapa */}
-        <rect x="2" y="7" width="20" height="4" rx="1"/>
-        {/* Lazo vertical */}
-        <line x1="12" y1="7" x2="12" y2="22"/>
-        {/* Lazo izquierdo */}
-        <path d="M12 7C12 7 9 4 7 5c-1.5.75-1.5 2.25 0 2.5C9.5 8 12 7 12 7Z"/>
-        {/* Lazo derecho */}
-        <path d="M12 7C12 7 15 4 17 5c1.5.75 1.5 2.25 0 2.5C14.5 8 12 7 12 7Z"/>
-      </svg>
-    ),
+    num: "03",
     title: "Recibes tu reporte por correo",
-    desc: "Tu diagnóstico de madurez operacional con el gap identificado y la ruta recomendada: automatizar o desplegar IA.",
-    alert: null,
+    desc: "Tu diagnóstico de madurez operacional con el gap identificado y la ruta recomendada.",
     tag: "Reporte · tu ruta clara",
+    alert: undefined,
   },
-] as const;
+];
 
-function GearIcon({ reduced }: { reduced: boolean }) {
+// ─── íconos — como componentes, no JSX pre-instanciado ───────────────────────
+
+function IconClipboard() {
   return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="rgba(224,123,48,0.9)"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      style={{
-        animation: reduced ? "none" : "gear-spin 6s linear infinite",
-        transformOrigin: "center",
-      }}
-    >
-      {/* Engranaje estilo Lucide/settings-2 con dientes reales */}
-      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-      <path d="M19.622 10.395l-1.097-2.65L20 6l-2-2-1.735 1.483-2.707-1.113L12.935 2h-1.954l-.623 2.377-2.707 1.113L6 4 4 6l1.453 1.789-1.08 2.616L2 11v2l2.373.595 1.08 2.616L4 18l2 2 1.765-1.483 2.707 1.113.623 2.37h1.954l.623-2.37 2.707-1.113L18 20l2-2-1.453-1.789 1.08-2.616L22 13v-2l-2.378-.605Z"/>
+    <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="#E07B30" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+      <rect x="9" y="3" width="6" height="4" rx="1"/>
+      <path d="M9 12h6M9 16h4"/>
     </svg>
   );
 }
 
-function StepCard({ step, reduced }: { step: typeof STEPS[number]; reduced: boolean }) {
+function IconGear({ reduced }: { reduced: boolean }) {
   return (
-    <div style={{
-      position: "relative",
-      borderTop: "1px solid rgba(255,255,255,0.06)",
-      paddingTop: 24,
-      paddingBottom: 8,
-      display: "flex",
-      flexDirection: "column",
-      gap: 16,
-    }}>
-      {/* Número decorativo fondo */}
-      <span aria-hidden style={{
-        position: "absolute",
-        top: 12,
-        right: 0,
-        fontFamily: "var(--font-playfair)",
-        fontStyle: "italic",
-        fontWeight: 700,
-        fontSize: 96,
-        lineHeight: 1,
-        color: "rgba(255,255,255,0.10)",
-        userSelect: "none",
-        pointerEvents: "none",
-      }}>
-        {step.id}
-      </span>
-
-      {/* Ícono circular */}
-      <div style={{
-        width: 40,
-        height: 40,
-        borderRadius: "50%",
-        border: "1px solid rgba(224,123,48,0.3)",
-        background: "rgba(224,123,48,0.1)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-      }}>
-        {step.id === 2 ? <GearIcon reduced={reduced} /> : step.icon}
-      </div>
-
-      {/* Título */}
-      <p style={{ fontSize: 15, fontWeight: 700, color: "#fff", margin: 0 }}>
-        {step.title}
-      </p>
-
-      {/* Descripción */}
-      <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.6, margin: 0 }}>
-        {step.desc}
-      </p>
-
-      {/* Bloque alerta (solo paso 1) */}
-      {"alert" in step && step.alert && (
-        <div style={{
-          borderLeft: "2px solid #E07B30",
-          background: "rgba(224,123,48,0.06)",
-          borderRadius: "0 4px 4px 0",
-          padding: "10px 12px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-        }}>
-          <p style={{ fontSize: 10, color: "#E07B30", textTransform: "uppercase", letterSpacing: "1px", fontWeight: 700, margin: 0 }}>
-            {step.alert.heading}
-          </p>
-          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", lineHeight: 1.5, margin: 0 }}>
-            {step.alert.body}
-          </p>
-          <p style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", margin: 0 }}>
-            {step.alert.formats}
-          </p>
-        </div>
-      )}
-
-      {/* Tag */}
-      <span style={{
-        display: "inline-block",
-        fontSize: 10,
-        color: "#E07B30",
-        textTransform: "uppercase",
-        letterSpacing: "1.5px",
-        fontWeight: 600,
-      }}>
-        {step.tag}
-      </span>
-    </div>
-  );
-}
-
-function HorizontalConnector() {
-  return (
-    <div className="hidden sm:flex" style={{ paddingTop: 32, alignItems: "center", flexShrink: 0 }}>
-      <div style={{
-        width: 40,
-        height: 1,
-        background: "linear-gradient(90deg, rgba(224,123,48,0.6), rgba(224,123,48,0.2))",
-        position: "relative",
-      }}>
-        <div style={{
-          position: "absolute",
-          right: -5,
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: 0,
-          height: 0,
-          borderTop: "4px solid transparent",
-          borderBottom: "4px solid transparent",
-          borderLeft: "5px solid rgba(224,123,48,0.5)",
-        }} />
-      </div>
-    </div>
-  );
-}
-
-function VerticalConnector() {
-  return (
-    <div className="flex sm:hidden" style={{ flexDirection: "column", alignItems: "flex-start", padding: "8px 0", marginLeft: 12 }}>
-      <div style={{ width: 1, height: 24, background: "linear-gradient(180deg, rgba(224,123,48,0.5), rgba(224,123,48,0.1))" }} />
-    </div>
-  );
-}
-
-export function HowItWorks() {
-  const rm = useReducedMotion() ?? false;
-
-  return (
-    <section
-      id="como-funciona"
-      className="w-full"
+    <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="#E07B30" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
       style={{
-        backgroundColor: "#2E2640",
-        padding: "clamp(56px,8vw,100px) clamp(20px,5vw,80px)",
-      }}
-    >
-      {/* Header */}
-      <motion.div
-        variants={rm ? undefined : listContainer}
-        initial={rm ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        style={{ marginBottom: 56, display: "flex", flexDirection: "column", gap: 16 }}
-      >
-        {/* Label */}
-        <motion.div variants={rm ? undefined : fadeUp} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
-          <span style={{ fontSize: 11, letterSpacing: "3px", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
-            CÓMO FUNCIONA
-          </span>
-        </motion.div>
+        animation: reduced ? "none" : "spin 6s linear infinite",
+        transformOrigin: "center center",
+      }}>
+      <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+    </svg>
+  );
+}
 
-        {/* Título */}
-        <motion.h2 variants={rm ? undefined : fadeUp} style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: 12, margin: 0 }}>
-          <span style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: "#fff", lineHeight: 1.15 }}>
-            Tres pasos.
-          </span>
-          <span style={{
-            fontSize: "clamp(28px,4vw,44px)",
-            fontFamily: "var(--font-playfair)",
-            fontStyle: "italic",
-            fontWeight: 700,
-            color: "#E07B30",
-            lineHeight: 1.15,
-          }}>
-             El diagnóstico llega a tu correo.
-          </span>
-        </motion.h2>
-      </motion.div>
+function IconBox() {
+  return (
+    <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="#E07B30" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 12V22H4V12"/>
+      <path d="M22 7H2v5h20V7z"/>
+      <path d="M12 22V7"/>
+    </svg>
+  );
+}
 
-      {/* Grid pasos */}
-      <motion.div
-        variants={rm ? undefined : listContainer}
-        initial={rm ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-60px" }}
-      >
-        {/* Desktop: grid 1fr auto 1fr auto 1fr */}
-        <div
-          className="hidden sm:grid"
-          style={{
-            gridTemplateColumns: "1fr auto 1fr auto 1fr",
-            gap: "0 24px",
-            marginBottom: 48,
-          }}
-        >
-          {STEPS.map((step, i) => (
-            <React.Fragment key={step.id}>
-              <motion.div variants={rm ? undefined : fadeUp}>
-                <StepCard step={step} reduced={rm} />
-              </motion.div>
-              {i < STEPS.length - 1 && (
-                <motion.div variants={rm ? undefined : fadeUp}>
-                  <HorizontalConnector />
-                </motion.div>
-              )}
-            </React.Fragment>
-          ))}
+// ─── Sección 1: pasos con scroll ──────────────────────────────────────────────
+
+function StepsSection({ reduced }: { reduced: boolean }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (v < 0.33) setActiveStep(0);
+    else if (v < 0.66) setActiveStep(1);
+    else setActiveStep(2);
+  });
+
+  const ICONS = [
+    <IconClipboard key={0} />,
+    <IconGear key={1} reduced={reduced} />,
+    <IconBox key={2} />,
+  ];
+
+  return (
+    <div ref={containerRef} style={{ height: "400vh", position: "relative" }}>
+      <div style={{
+        position: "sticky",
+        top: 0,
+        height: "100vh",
+        overflow: "hidden",
+        background: "#0E0B14",
+        display: "flex",
+        flexDirection: "column",
+        paddingTop: 32,
+      }}>
+
+        {/* Header */}
+        <div style={{ flexShrink: 0, marginBottom: 24, paddingLeft: 48, paddingRight: 48 }}>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
+            <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30" }} />
+            <span style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: 10,
+              color: "rgba(255,255,255,0.35)",
+              letterSpacing: "3px",
+              textTransform: "uppercase" as const,
+            }}>
+              CÓMO FUNCIONA
+            </span>
+          </div>
+          <h2 style={{ margin: 0, fontSize: "clamp(22px,3vw,38px)", lineHeight: 1.1 }}>
+            <span style={{ fontWeight: 900, color: "#fff", fontFamily: "var(--font-geist-sans)" }}>
+              Tres pasos.{" "}
+            </span>
+            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#E07B30" }}>
+              El diagnóstico llega a tu correo.
+            </span>
+          </h2>
         </div>
 
-        {/* Mobile: columna única */}
-        <div className="flex flex-col sm:hidden" style={{ marginBottom: 48 }}>
-          {STEPS.map((step, i) => (
-            <div key={step.id}>
-              <motion.div variants={rm ? undefined : fadeUp}>
-                <StepCard step={step} reduced={rm} />
-              </motion.div>
-              {i < STEPS.length - 1 && <VerticalConnector />}
-            </div>
-          ))}
-        </div>
-
-        {/* Conector vertical hacia bloque de continuación */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: 12, marginBottom: 0 }}>
-          <div style={{ width: 1, height: 32, background: "linear-gradient(180deg, rgba(224,123,48,0.5), rgba(224,123,48,0.15))" }} />
-          <div style={{
-            width: 8,
-            height: 8,
-            borderRadius: "50%",
-            border: "1px solid #E07B30",
-            background: "rgba(224,123,48,0.4)",
-            marginLeft: -3.5,
-          }} />
-        </div>
-
-        {/* Bloque de continuación */}
-        <motion.div
-          variants={rm ? undefined : fadeUp}
-          style={{
-            border: "1px solid rgba(224,123,48,0.2)",
-            borderRadius: 8,
-            padding: "28px 32px",
-            background: "rgba(224,123,48,0.04)",
-            marginTop: 0,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              gap: 32,
-            }}
-            className="sm:flex-row"
-          >
-            {/* Izquierda */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <span style={{ fontSize: 10, color: "#E07B30", textTransform: "uppercase", letterSpacing: "2px", fontWeight: 700 }}>
-                ¿QUIERES IR MÁS LEJOS?
-              </span>
-              <h3 style={{ fontSize: 20, fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.3 }}>
-                Asesoría personalizada{" "}
-                <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#E07B30" }}>
-                  para ampliar tu diagnóstico.
-                </span>
-              </h3>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: 480, margin: 0 }}>
-                El reporte te da la claridad. La asesoría te da el plan. Si tu diagnóstico revela oportunidades
-                concretas de automatización o despliegue de IA, podemos acompañarte en el diseño de la ruta de
-                implementación — sin compromisos previos.
-              </p>
-            </div>
-
-            {/* Derecha — botones */}
-            <div
-              className="w-full sm:w-auto"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "stretch",
-                gap: 10,
-                flexShrink: 0,
-              }}
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="hover:opacity-90 transition-opacity cursor-pointer"
+        {/* Pasos */}
+        <div style={{
+          flex: 7,
+          display: "flex",
+          alignItems: "stretch",
+          minHeight: 0,
+          gap: 16,
+          padding: "0 48px",
+        }}>
+          {STEPS.map((step, i) => {
+            const isActive = i === activeStep;
+            return (
+              <motion.div
+                key={i}
+                animate={{
+                  opacity: isActive ? 1 : 0.5,
+                  filter: reduced ? "none" : (isActive ? "blur(0px)" : "blur(1px)"),
+                  scale: reduced ? 1 : (isActive ? 1 : 0.92),
+                }}
+                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "#E07B30",
-                  color: "#2E2640",
-                  fontWeight: 700,
-                  fontSize: 14,
-                  padding: "12px 24px",
-                  borderRadius: 4,
-                  border: "none",
-                  whiteSpace: "nowrap",
+                  height: "100%",
+                  // Avoid animating flex/width — use fixed width for inactive
+                  width: isActive ? undefined : 180,
+                  flex: isActive ? 1 : undefined,
+                  flexShrink: isActive ? 1 : 0,
+                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  padding: "28px 28px 24px 0",
+                  position: "relative",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
               >
-                Solicitar asesoría →
-              </button>
-            </div>
+                {/* Número de fondo decorativo */}
+                <span aria-hidden style={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                  fontFamily: "var(--font-geist-sans)",
+                  fontWeight: 900,
+                  fontSize: isActive ? "clamp(160px,20vw,240px)" : 80,
+                  lineHeight: 0.8,
+                  color: "rgba(224,123,48,0.25)",
+                  userSelect: "none",
+                  pointerEvents: "none",
+                }}>
+                  {step.num}
+                </span>
+
+                {isActive ? (
+                  <>
+                    {/* Bloque TOP */}
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: "50%",
+                        border: "1px solid rgba(224,123,48,0.3)",
+                        background: "rgba(224,123,48,0.07)",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        marginBottom: 20,
+                      }}>
+                        {ICONS[i]}
+                      </div>
+                      <p style={{
+                        fontFamily: "var(--font-geist-sans)",
+                        fontSize: 28, fontWeight: 700, color: "#ffffff",
+                        margin: "0 0 16px", lineHeight: 1.2,
+                      }}>
+                        {step.title}
+                      </p>
+                      {/* key única por paso para que AnimatePresence anime el cambio */}
+                      <AnimatePresence mode="wait">
+                        <motion.p
+                          key={step.num}
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.3 }}
+                          style={{
+                            fontFamily: "var(--font-geist-sans)",
+                            fontSize: 16,
+                            color: "rgba(255,255,255,0.65)",
+                            lineHeight: 1.7,
+                            margin: 0,
+                          }}
+                        >
+                          {step.desc}
+                        </motion.p>
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Alerta paso 1 */}
+                    {step.alert && (
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={`alert-${step.num}`}
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.3, delay: 0.05 }}
+                          style={{
+                            borderLeft: "2px solid #E07B30",
+                            background: "rgba(224,123,48,0.06)",
+                            padding: "12px 14px",
+                            position: "relative", zIndex: 1,
+                          }}
+                        >
+                          <p style={{ fontSize: 12, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: "1px", fontWeight: 700, margin: "0 0 6px" }}>
+                            {step.alert.title}
+                          </p>
+                          {/* contraste mejorado: 0.5 → 0.75 */}
+                          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.6, margin: "0 0 4px" }}>
+                            {step.alert.text}
+                          </p>
+                          {/* contraste mejorado: 0.25 → 0.65 */}
+                          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.65)", margin: 0 }}>
+                            {step.alert.formats}
+                          </p>
+                        </motion.div>
+                      </AnimatePresence>
+                    )}
+
+                    {/* Tag */}
+                    <span style={{
+                      fontFamily: "var(--font-geist-mono)",
+                      fontSize: 13, color: "#E07B30",
+                      textTransform: "uppercase" as const, letterSpacing: "2px",
+                      position: "relative", zIndex: 1,
+                    }}>
+                      {step.tag}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      <p style={{
+                        fontFamily: "var(--font-geist-sans)",
+                        fontSize: 16, fontWeight: 700,
+                        color: "rgba(255,255,255,0.7)",
+                        margin: 0, lineHeight: 1.3,
+                      }}>
+                        {step.title}
+                      </p>
+                    </div>
+                    <span style={{
+                      fontFamily: "var(--font-geist-mono)",
+                      fontSize: 11, color: "#E07B30",
+                      textTransform: "uppercase" as const, letterSpacing: "1px",
+                      position: "relative", zIndex: 1,
+                    }}>
+                      {step.tag}
+                    </span>
+                  </>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Banner asesoría */}
+        <div style={{
+          flex: 3, minHeight: 0,
+          padding: "0 48px",
+          borderTop: "1px solid rgba(224,123,48,0.18)",
+          background: "#150D20",
+          display: "flex", justifyContent: "space-between", alignItems: "center", gap: 32,
+        }}>
+          <div style={{ flex: 1 }}>
+            <p style={{
+              fontFamily: "var(--font-geist-mono)", fontSize: 13, color: "#E07B30",
+              textTransform: "uppercase" as const, letterSpacing: "2px", fontWeight: 700,
+              margin: "0 0 8px",
+            }}>
+              ¿QUIERES IR MÁS LEJOS?
+            </p>
+            <p style={{
+              fontFamily: "var(--font-geist-sans)", fontSize: 26, fontWeight: 700,
+              color: "#fff", margin: "0 0 10px", lineHeight: 1.2,
+            }}>
+              Asesoría personalizada{" "}
+              <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#E07B30" }}>
+                para ampliar tu diagnóstico.
+              </span>
+            </p>
+            <p style={{
+              fontFamily: "var(--font-geist-sans)", fontSize: 17,
+              color: "rgba(255,255,255,0.6)", lineHeight: 1.6,
+              margin: 0, maxWidth: 560,
+            }}>
+              El reporte te da la claridad. La asesoría te da el plan.
+              Si tu diagnóstico revela oportunidades concretas,
+              podemos acompañarte — sin compromisos previos.
+            </p>
           </div>
-        </motion.div>
-      </motion.div>
-    </section>
+          <div style={{ display: "flex", gap: 10, flexShrink: 0, alignItems: "center" }}>
+            <a
+              href="#contacto-form"
+              style={{
+                background: "linear-gradient(110deg,#E07B30 0%,#E07B30 30%,#FFA558 45%,#FFD4A8 50%,#FFA558 55%,#E07B30 70%,#E07B30 100%)",
+                backgroundSize: "200% 100%",
+                animation: "background-shine 2s linear infinite",
+                color: "#0E0B14",
+                fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 12,
+                textTransform: "uppercase" as const, letterSpacing: "1px",
+                padding: "14px 28px", borderRadius: 2,
+                textDecoration: "none", display: "inline-block",
+                whiteSpace: "nowrap" as const, minHeight: 44,
+              }}
+            >
+              SOLICITAR ASESORÍA <span aria-hidden>→</span>
+            </a>
+            <a
+              href="/diagnostico"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "rgba(255,255,255,0.70)",
+                border: "1px solid rgba(255,255,255,0.25)",
+                fontFamily: "var(--font-geist-sans)", fontSize: 12,
+                textTransform: "uppercase" as const, letterSpacing: "1px",
+                padding: "14px 28px", borderRadius: 2,
+                textDecoration: "none", display: "inline-block",
+                whiteSpace: "nowrap" as const, minHeight: 44,
+              }}
+            >
+              MI DIAGNÓSTICO PRIMERO
+              <span className="sr-only"> (abre en nueva pestaña)</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
   );
+}
+
+// ─── Mobile fallback ──────────────────────────────────────────────────────────
+
+function MobileLayout({ reduced }: { reduced: boolean }) {
+  return (
+    <>
+      <section
+        id="como-funciona"
+        style={{ background: "#0E0B14", padding: "56px 24px 40px" }}
+      >
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
+            <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30" }} />
+            <span style={{
+              fontFamily: "var(--font-geist-mono)", fontSize: 10,
+              color: "rgba(255,255,255,0.35)", letterSpacing: "3px",
+              textTransform: "uppercase" as const,
+            }}>
+              CÓMO FUNCIONA
+            </span>
+          </div>
+          <h2 style={{ margin: 0, fontSize: "clamp(22px,5vw,34px)", lineHeight: 1.15 }}>
+            <span style={{ fontWeight: 900, color: "#fff", fontFamily: "var(--font-geist-sans)" }}>
+              Tres pasos.{" "}
+            </span>
+            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#E07B30" }}>
+              El diagnóstico llega a tu correo.
+            </span>
+          </h2>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+          {STEPS.map((step, i) => (
+            <div key={step.num} style={{
+              borderTop: "1px solid rgba(255,255,255,0.08)",
+              paddingTop: 20,
+              display: "flex", flexDirection: "column", gap: 10,
+            }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: "50%",
+                border: "1px solid rgba(224,123,48,0.3)",
+                background: "rgba(224,123,48,0.07)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                {i === 0 && <IconClipboard />}
+                {i === 1 && <IconGear reduced={reduced} />}
+                {i === 2 && <IconBox />}
+              </div>
+              <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 16, fontWeight: 700, color: "#fff", margin: 0 }}>
+                {step.title}
+              </p>
+              <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, margin: 0 }}>
+                {step.desc}
+              </p>
+              {step.alert && (
+                <div style={{ borderLeft: "2px solid #E07B30", background: "rgba(224,123,48,0.06)", padding: "8px 10px" }}>
+                  <p style={{ fontSize: 10, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: 1, fontWeight: 700, margin: "0 0 3px" }}>
+                    {step.alert.title}
+                  </p>
+                  {/* contraste: 0.30 → 0.70 */}
+                  <p style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", lineHeight: 1.4, margin: "0 0 4px" }}>
+                    {step.alert.text}
+                  </p>
+                  <p style={{ fontSize: 11, color: "rgba(255,255,255,0.60)", margin: 0 }}>
+                    {step.alert.formats}
+                  </p>
+                </div>
+              )}
+              <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: 1.5 }}>
+                {step.tag}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="asesoria"
+        style={{
+          background: "#0E0B14",
+          borderTop: "1px solid rgba(224,123,48,0.12)",
+          padding: "48px 24px",
+          display: "flex", flexDirection: "column", gap: 20,
+        }}
+      >
+        <p style={{
+          fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#E07B30",
+          letterSpacing: "2px", textTransform: "uppercase" as const, fontWeight: 600, margin: 0,
+        }}>
+          ¿QUIERES IR MÁS LEJOS?
+        </p>
+        <h3 style={{
+          fontFamily: "var(--font-geist-sans)", fontWeight: 900,
+          fontSize: "clamp(22px,5vw,32px)", color: "#fff", lineHeight: 1.15, margin: 0,
+        }}>
+          Asesoría personalizada{" "}
+          <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#E07B30" }}>
+            para ampliar tu diagnóstico.
+          </span>
+        </h3>
+        <p style={{
+          fontFamily: "var(--font-geist-sans)", fontSize: 14,
+          color: "rgba(255,255,255,0.65)", lineHeight: 1.7, margin: 0,
+        }}>
+          El reporte te da la claridad. La asesoría te da el plan.
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
+          <a
+            href="#contacto-form"
+            style={{
+              background: "linear-gradient(110deg,#E07B30 0%,#E07B30 30%,#FFA558 45%,#FFD4A8 50%,#FFA558 55%,#E07B30 70%,#E07B30 100%)",
+              backgroundSize: "200% 100%",
+              animation: "background-shine 2s linear infinite",
+              color: "#0E0B14",
+              fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 12,
+              textTransform: "uppercase" as const, letterSpacing: "1px",
+              padding: "14px 24px", borderRadius: 2,
+              textDecoration: "none", display: "inline-block",
+              minHeight: 44,
+            }}
+          >
+            SOLICITAR ASESORÍA <span aria-hidden>→</span>
+          </a>
+          <a
+            href="/diagnostico"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "rgba(255,255,255,0.70)",
+              border: "1px solid rgba(255,255,255,0.25)",
+              fontFamily: "var(--font-geist-sans)", fontSize: 12,
+              textTransform: "uppercase" as const, letterSpacing: "1px",
+              padding: "14px 24px", borderRadius: 2,
+              textDecoration: "none", display: "inline-block",
+              minHeight: 44,
+            }}
+          >
+            PRIMERO QUIERO MI DIAGNÓSTICO
+            <span className="sr-only"> (abre en nueva pestaña)</span>
+          </a>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ─── Export ───────────────────────────────────────────────────────────────────
+
+export function HowItWorks() {
+  // Fix hydration mismatch: detectar mobile/reduced en useEffect, no en render síncrono
+  const [isMobile, setIsMobile] = useState(false);
+  const [reduced, setReduced] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mqMobile  = window.matchMedia("(max-width: 767px)");
+
+    setReduced(mqReduced.matches);
+    setIsMobile(mqMobile.matches);
+    setMounted(true);
+
+    const onReduced = () => setReduced(mqReduced.matches);
+    const onMobile  = () => setIsMobile(mqMobile.matches);
+    mqReduced.addEventListener("change", onReduced);
+    mqMobile.addEventListener("change", onMobile);
+    return () => {
+      mqReduced.removeEventListener("change", onReduced);
+      mqMobile.removeEventListener("change", onMobile);
+    };
+  }, []);
+
+  // Renderizar la versión desktop hasta que el cliente confirme el breakpoint
+  // para evitar hydration mismatch (servidor y primera renderización cliente = mismo resultado)
+  if (!mounted || (!isMobile && !reduced)) {
+    return (
+      <div id="como-funciona">
+        <StepsSection reduced={reduced} />
+      </div>
+    );
+  }
+
+  return <MobileLayout reduced={reduced} />;
 }

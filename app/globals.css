@@ -50,7 +50,7 @@
 
 :root {
   /* YetiBI brand palette — siempre oscuro, no hay modo claro */
-  --background: oklch(0.19 0.05 291);        /* #2E2640 */
+  --background: oklch(0.19 0.05 291);        /* #0E0B14 */
   --foreground: oklch(0.94 0.01 291);         /* blanco con tinte morado */
   --card: oklch(0.23 0.048 291);             /* un nivel más claro que el fondo */
   --card-foreground: oklch(0.94 0.01 291);
@@ -133,8 +133,30 @@
 /* ── Global touch & interaction ─────────────────────────────── */
 a, button { touch-action: manipulation; }
 
+/* ── Nav link hover + focus styles (CSS, not JS) ────────────── */
+.nav-link:hover { color: rgba(255,255,255,0.60) !important; }
+.nav-link:focus-visible {
+  outline: 2px solid #E07B30;
+  outline-offset: 3px;
+  color: rgba(255,255,255,0.90) !important;
+}
+
+/* ── Input focus-visible (replaces JS onFocus hack) ─────────── */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-bottom-color: #E07B30 !important;
+  box-shadow: 0 2px 0 0 #E07B30;
+}
+
 /* ── Scroll margin for anchors (nav height ~68px + buffer) ──── */
 section[id] { scroll-margin-top: 80px; }
+
+/* ── Hero shine animation ────────────────────────────────────── */
+@keyframes background-shine {
+  from { background-position: 0 0; }
+  to   { background-position: -200% 0; }
+}
 
 /* ── Section padding utility ────────────────────────────────── */
 .section-pad { padding-left: clamp(20px, 5vw, 80px); padding-right: clamp(20px, 5vw, 80px); }
@@ -191,6 +213,19 @@ section[id] { scroll-margin-top: 80px; }
   75%     { transform: translate(50px,30px) scale(0.9); }
 }
 
+/* ── ValueFlow SVG animations (defined here, not in SVG <defs>, for Safari Mobile compat) ── */
+@keyframes flowParticle {
+  0%   { stroke-dashoffset: 240; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { stroke-dashoffset: 0;   opacity: 0; }
+}
+@keyframes roiPulse {
+  0%   { opacity: .7; transform: scale(1); }
+  100% { opacity: 0;  transform: scale(2.75); }
+}
+.vf-rp { transform-origin: 630px 270px; transform-box: fill-box; }
+
 /* ── Reduced motion: disable all decorative animations ──────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -198,4 +233,5 @@ section[id] { scroll-margin-top: 80px; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .vf-p, .vf-rp { animation: none !important; }
 }

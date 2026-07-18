@@ -3,13 +3,11 @@
 import { useRef, useEffect, useState } from 'react'
 import { useInView, useReducedMotion } from 'motion/react'
 
-const FLOW_STEPS = [
-  { label: 'PROCESO', sub: 'claro y sano', pct: null },
-  { label: 'DATO', sub: 'confiable', pct: null },
-  { label: 'AUTOMATIZACIÓN', sub: 'RPA · SOPs · Flujos', pct: '70–80%' },
-  { label: 'IA QUE DECIDE', sub: 'Modelos · Decisión', pct: '15–20%' },
-  { label: 'ROI MEDIBLE', sub: 'el único resultado', pct: null },
-]
+// Brand tokens
+const C_BG       = '#0E0B14'
+const C_NODE     = '#141020'
+const C_ORANGE   = '#E07B30'
+const C_PURPLE   = '#7B4F96'
 
 export function ValueFlow() {
   const ref = useRef<HTMLDivElement>(null)
@@ -17,330 +15,260 @@ export function ValueFlow() {
   const [animate, setAnimate] = useState(false)
   const rm = useReducedMotion()
 
+  // Pause off-viewport: stop animating when section leaves view
+  const [inViewport, setInViewport] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([e]) => setInViewport(e.isIntersecting),
+      { threshold: 0 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   useEffect(() => {
     if (isInView) setAnimate(true)
   }, [isInView])
 
+  const shouldAnimate = animate && !rm && inViewport
+
+  // Particle style — uses stroke-dashoffset animation (defined in globals.css)
+  const p = (delay: string): React.CSSProperties => ({
+    animation: shouldAnimate
+      ? `flowParticle 2.6s ease-in-out ${delay} infinite`
+      : 'none',
+    strokeLinecap: 'round' as const,
+    fill: 'none',
+  })
+
+  const titleId = 'vf-title'
+  const descId  = 'vf-desc'
+
   return (
-    <section id="el-enfoque" ref={ref} style={{ padding: 'clamp(60px,10vw,120px) clamp(16px,5vw,40px)', background: '#1A1428', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {/* Título */}
-      <div style={{ marginBottom: 64, width: '100%' }}>
+    <section
+      id="el-enfoque"
+      ref={ref}
+      aria-labelledby="vf-section-title"
+      style={{
+        background: C_BG,
+        padding: 'clamp(40px,6vw,64px) clamp(16px,5vw,40px) 64px',
+      }}
+    >
+      {/* ── Título de sección ── */}
+      <div style={{ marginBottom: 24 }}>
         <p style={{
-          fontSize: 11,
-          letterSpacing: '3px',
-          color: 'rgba(255,255,255,0.35)',
-          textTransform: 'uppercase',
-          marginBottom: 16,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12
+          display: 'flex', alignItems: 'center', gap: 10,
+          fontFamily: 'var(--font-geist-mono)', fontSize: 10,
+          letterSpacing: '2px', color: C_ORANGE,
+          textTransform: 'uppercase', marginBottom: 12,
         }}>
-          <span style={{ width: 32, height: 1, background: '#E07B30', display: 'inline-block' }}/>
-          EL DIAGNÓSTICO EVALÚA EL GAP
+          <span aria-hidden style={{ width: 28, height: 1, background: C_ORANGE, display: 'inline-block', flexShrink: 0 }} />
+          EL FLUJO DE VALOR
         </p>
-        <h2 style={{
-          fontSize: 'clamp(32px, 4vw, 52px)',
-          fontWeight: 700,
-          color: '#fff',
-          lineHeight: 1.1,
-          maxWidth: 700
-        }}>
+        <h2
+          id="vf-section-title"
+          style={{
+            fontSize: 'clamp(22px,2.6vw,32px)', fontWeight: 900,
+            fontFamily: 'var(--font-sans)', color: '#fff',
+            lineHeight: 1.15, margin: 0,
+          }}
+        >
           No todo es IA.{' '}
-          <span style={{
-            fontFamily: 'var(--font-playfair)',
-            fontStyle: 'italic',
-            color: '#E07B30'
-          }}>
+          <span style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic', fontWeight: 700, color: C_ORANGE }}>
             Primero vienen las condiciones.
           </span>
         </h2>
       </div>
 
-      {/* Fallback mobile — visible solo en <640px, oculto en md+ */}
-      <ol
-        className="flex flex-col w-full sm:hidden"
-        style={{ gap: 0, listStyle: 'none', margin: '0 0 48px', padding: 0 }}
-        aria-label="Flujo de valor Yeti BI"
-      >
-        {FLOW_STEPS.map((step, i) => (
-          <li key={step.label} aria-label={`Paso ${i + 1}: ${step.label}`} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, padding: '20px 0' }}>
-              {/* Conector vertical */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-                <div style={{
-                  width: 10, height: 10, borderRadius: '50%',
-                  background: step.pct ? 'rgba(224,123,48,0.5)' : '#E07B30',
-                  border: '1.5px solid #E07B30', flexShrink: 0,
-                  opacity: animate ? 1 : (rm ? 1 : 0),
-                  transition: rm ? 'none' : `opacity 0.3s ease-out ${i * 0.15}s`,
-                }} />
-                {i < FLOW_STEPS.length - 1 && (
-                  <div style={{ width: 1, flex: 1, minHeight: 20, background: 'rgba(224,123,48,0.2)', marginTop: 4 }} />
-                )}
-              </div>
-              <div style={{ paddingBottom: 8 }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: '#fff', letterSpacing: '0.5px', margin: 0 }}>
-                  {step.label}
-                </p>
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: '2px 0 0' }}>
-                  {step.sub}
-                </p>
-                {step.pct && (
-                  <p style={{ fontSize: 13, fontWeight: 700, color: '#E07B30', margin: '4px 0 0' }}>
-                    {step.pct}
-                  </p>
-                )}
-              </div>
-            </div>
-            {i < FLOW_STEPS.length - 1 && (
-              <div style={{ height: 1, background: 'rgba(255,255,255,0.05)', width: '100%' }} />
-            )}
-          </li>
-        ))}
-      </ol>
-
-      {/* SVG Tubería — oculto en mobile, visible en sm+ */}
+      {/* ── SVG principal ──
+          viewBox 760×490 — todo el contenido cabe en una pantalla.
+          N1 PROCESO: x=16..148 (width=132)
+          N2 DATO: x=180..304 (width=124) — 32px de separación desde N1
+          P1 track: M148,270 L180,270 (32px visible)
+      */}
       <svg
-        className="hidden sm:block"
         width="100%"
-        viewBox="0 0 680 300"
+        viewBox="0 0 760 490"
         role="img"
-        aria-label="Diagrama de tubería animada del flujo de valor Yeti BI"
-        style={{ overflow: 'visible', width: '100%', display: 'block' }}
+        aria-labelledby={`${titleId} ${descId}`}
+        focusable="false"
+        style={{ display: 'block', overflow: 'visible' }}
       >
-        <title>Flujo de valor Yeti BI</title>
-        <desc>
-          Proceso sano y Dato confiable se bifurcan en
-          Automatización (70-80%) e IA que decide (15-20%),
-          convergiendo en ROI Medible.
+        <title id={titleId}>Flujo de valor Yeti BI</title>
+        <desc id={descId}>
+          Proceso habilitado para tecnología y Dato confiable alimentan Automatización (RPA, SOPs, Flujos),
+          que conecta directo al ROI medible con impacto del 70–80%.
+          IA que Decide es una ruta opcional posterior a Automatización con impacto del 15–20%,
+          solo si el diagnóstico lo justifica. El vacío del mercado es operativo, no tecnológico.
         </desc>
 
-        <defs>
-          <style>{`
-            .pipe-base {
-              stroke: rgba(255,255,255,0.06);
-              stroke-width: 6;
-              fill: none;
-              stroke-linecap: round;
-              stroke-linejoin: round;
-            }
-            .pipe-track {
-              stroke: rgba(224,123,48,0.12);
-              stroke-width: 4;
-              fill: none;
-              stroke-linecap: round;
-              stroke-linejoin: round;
-            }
-            .pipe-flow {
-              stroke: #E07B30;
-              stroke-width: 3;
-              fill: none;
-              stroke-linecap: round;
-              stroke-linejoin: round;
-              stroke-dasharray: 1000;
-              stroke-dashoffset: 1000;
-              transition: stroke-dashoffset 0.7s ease-in-out;
-            }
-            .lbl-section {
-              font-size: 9px;
-              fill: rgba(255,255,255,0.3);
-              letter-spacing: 2.5px;
-              font-family: var(--font-geist-sans);
-            }
-            .lbl-title {
-              font-size: 10px;
-              fill: rgba(255,255,255,0.9);
-              font-weight: 700;
-              font-family: var(--font-geist-sans);
-              letter-spacing: 0.5px;
-            }
-            .lbl-sub {
-              font-size: 8px;
-              fill: rgba(255,255,255,0.4);
-              font-family: var(--font-geist-sans);
-            }
-            .lbl-pct {
-              font-size: 11px;
-              font-weight: 700;
-              fill: #E07B30;
-              font-family: var(--font-geist-sans);
-            }
-            .lbl-pct-dim {
-              font-size: 10px;
-              font-weight: 600;
-              fill: rgba(224,123,48,0.55);
-              font-family: var(--font-geist-sans);
-            }
+        {/*
+          Keyframes declarados en globals.css para evitar el bug de soporte
+          inconsistente de @keyframes dentro de SVG <defs><style> en Safari Mobile.
+          Aquí solo se referencian por nombre: flowParticle, roiPulse.
+        */}
 
-            @keyframes pulseRing {
-              0%   { r: 14; opacity: 0.6; }
-              100% { r: 26; opacity: 0; }
-            }
-            .pulse-ring {
-              animation: pulseRing 1.8s ease-out infinite;
-            }
-            @media (prefers-reduced-motion: reduce) {
-              .pulse-ring { animation: none; }
-              .pipe-flow { transition: none !important; }
-            }
-          `}</style>
-        </defs>
-
-        {/* Labels de etapa */}
-        <text className="lbl-section" x="55"  y="18" textAnchor="middle">AS-IS HOY</text>
-        <text className="lbl-section" x="370" y="18" textAnchor="middle">TO-BE HABILITADO</text>
-        <text className="lbl-section" x="615" y="18" textAnchor="middle">ROI</text>
+        {/* ── Labels de etapa ── */}
+        <text x="162" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)" letterSpacing="2">FUNDAMENTOS</text>
+        <text x="400" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)" letterSpacing="2">HABILITACIÓN TECNOLÓGICA</text>
+        <text x="650" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)" letterSpacing="2">IMPACTO MEDIBLE</text>
 
         {/* Divisores */}
-        <line x1="230" y1="24" x2="230" y2="270" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
-        <line x1="510" y1="24" x2="510" y2="270" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
+        <line x1="320" y1="30" x2="320" y2="430" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        <line x1="520" y1="30" x2="520" y2="430" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
 
-        {/* TRACKS base */}
-        <path className="pipe-base" d="M 60 155 L 200 155"/>
-        <path className="pipe-track" d="M 60 155 L 200 155"/>
-        <path className="pipe-base" d="M 255 155 Q 295 155 325 100"/>
-        <path className="pipe-track" d="M 255 155 Q 295 155 325 100"/>
-        <path className="pipe-base" d="M 255 155 Q 295 155 325 210"/>
-        <path className="pipe-track" d="M 255 155 Q 295 155 325 210"/>
-        <path className="pipe-base" d="M 435 100 Q 485 100 520 155"/>
-        <path className="pipe-track" d="M 435 100 Q 485 100 520 155"/>
-        <path className="pipe-base" d="M 435 210 Q 485 210 520 155"/>
-        <path className="pipe-track" d="M 435 210 Q 485 210 520 155"/>
+        {/* ════════════════════════════════
+            CALLOUTS
+            ════════════════════════════════ */}
 
-        {/* FLUJO ANIMADO */}
-        <path className="pipe-flow" d="M 22 155 L 200 155"
-          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '0.2s' }}/>
-        <path className="pipe-flow" d="M 255 155 Q 295 155 325 100"
-          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '0.9s' }}/>
-        <path className="pipe-flow" d="M 255 155 Q 295 155 325 210"
-          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '0.9s' }}/>
-        <path className="pipe-flow" d="M 435 100 Q 485 100 520 155"
-          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '1.4s' }}/>
-        <path className="pipe-flow" d="M 435 210 Q 485 210 520 155"
-          style={{ strokeDashoffset: animate ? 0 : 1000, transitionDelay: '1.4s' }}/>
+        {/* CALLOUT 1 — Fundamentos
+            Flecha llega hasta N1 en y=242 */}
+        <rect x="12" y="32" width="180" height="80" rx="6"
+          fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
+        <text x="22" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">NUESTRO DIFERENCIAL</text>
+        <text x="22" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Los procesos se degradan y</text>
+        <text x="22" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">quedan obsoletos. Antes de</text>
+        <text x="22" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">tecnología, los habilitamos</text>
+        <text x="22" y="101" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">para automatizar o IA.</text>
+        {/* flecha — llega al borde superior de N1 (y=242) */}
+        <line x1="100" y1="112" x2="100" y2="234" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="96,234 100,242 104,234" fill="rgba(224,123,48,0.5)" />
 
-        {/* NODO 1 — Proceso sano */}
-        <g style={{
-          opacity: animate ? 1 : 0,
-          transform: animate ? 'scale(1)' : 'scale(0.5)',
-          transformOrigin: '46px 155px',
-          transition: 'opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s'
-        }}>
-          <circle cx="46" cy="155" r="22" fill="#2E2640" stroke="#E07B30" strokeWidth="1.5"/>
-          <circle cx="46" cy="155" r="14" fill="rgba(224,123,48,0.1)" stroke="rgba(224,123,48,0.35)" strokeWidth="1"/>
-          <circle cx="46" cy="155" r="5"  fill="#E07B30"/>
-          <text className="lbl-title" x="46" y="186" textAnchor="middle">PROCESO</text>
-          <text className="lbl-sub"   x="46" y="196" textAnchor="middle">claro y sano</text>
-        </g>
+        {/* CALLOUT 2 — Automatización */}
+        <rect x="312" y="32" width="216" height="110" rx="6"
+          fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
+        <text x="324" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">ANTES DE LA IA</text>
+        <text x="324" y="63"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Sin automatización sólida,</text>
+        <text x="324" y="76"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">la IA no tiene datos limpios</text>
+        <text x="324" y="89"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">ni procesos estandarizados</text>
+        <text x="324" y="102" fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">para aprender.</text>
+        {/* flecha */}
+        <line x1="420" y1="142" x2="420" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="416,194 420,202 424,194" fill="rgba(224,123,48,0.5)" />
 
-        {/* NODO 2 — Dato confiable */}
-        <g style={{
-          opacity: animate ? 1 : 0,
-          transform: animate ? 'scale(1)' : 'scale(0.5)',
-          transformOrigin: '228px 155px',
-          transition: 'opacity 0.3s ease-out 0.8s, transform 0.3s ease-out 0.8s'
-        }}>
-          <circle cx="228" cy="155" r="22" fill="#2E2640" stroke="#E07B30" strokeWidth="1.5"/>
-          <circle cx="228" cy="155" r="14" fill="rgba(224,123,48,0.1)" stroke="rgba(224,123,48,0.35)" strokeWidth="1"/>
-          <circle cx="228" cy="155" r="5"  fill="#E07B30"/>
-          <text className="lbl-title" x="228" y="186" textAnchor="middle">DATO</text>
-          <text className="lbl-sub"   x="228" y="196" textAnchor="middle">confiable</text>
-        </g>
+        {/* CALLOUT 3 — ROI */}
+        <rect x="552" y="32" width="196" height="80" rx="6"
+          fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.35)" strokeWidth=".8" />
+        <text x="564" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">PROPÓSITO SISTÉMICO</text>
+        <text x="564" y="63"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Si no impacta el ROI,</text>
+        <text x="564" y="76"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">el proyecto no cumple</text>
+        <text x="564" y="89"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">su propósito.</text>
+        <text x="564" y="103" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill={C_ORANGE}>Medimos relaciones, no eventos.</text>
+        {/* flecha */}
+        <line x1="650" y1="112" x2="650" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="646,194 650,202 654,194" fill="rgba(224,123,48,0.5)" />
 
-        {/* Fork dot */}
-        <circle cx="255" cy="155" r="4" fill="#E07B30"
-          style={{ opacity: animate ? 0.5 : 0, transition: 'opacity 0.3s ease-out 0.85s' }}/>
+        {/* ════════════════════════════════
+            TRACKS BASE
+            N1 cx_right=148, N2 cx_left=180 (gap 32px)
+            N2 cx_right=304
+            N3 x=358..482, cy=230
+            ════════════════════════════════ */}
+        {/* P1: N1→N2 — 32px gap, ahora visible */}
+        <path d="M148,270 L180,270" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
+        {/* P2: N2→N3 */}
+        <path d="M304,270 C340,270 340,230 358,230" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
+        {/* P3: N3→N5 */}
+        <path d="M482,230 C516,230 516,270 584,270" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
+        {/* P4: N3→N4 punteada vertical — ruta IA */}
+        <path d="M420,262 L420,322" stroke="rgba(120,60,160,0.30)" strokeWidth="1.5" fill="none" strokeDasharray="4 4" />
+        {/* P5: N4→N5 */}
+        <path d="M482,350 C516,350 516,270 584,270" stroke="rgba(120,60,160,0.20)" strokeWidth="1.5" fill="none" />
 
-        {/* NODO 3 — Automatización */}
-        <g style={{
-          opacity: animate ? 1 : 0,
-          transform: animate ? 'scale(1)' : 'scale(0.5)',
-          transformOrigin: '380px 100px',
-          transition: 'opacity 0.3s ease-out 1.3s, transform 0.3s ease-out 1.3s'
-        }}>
-          <rect x="326" y="68" width="108" height="64" rx="7"
-            fill="#2E2640" stroke="rgba(224,123,48,0.55)" strokeWidth="1.2"/>
-          <rect x="331" y="73" width="98"  height="54" rx="5"
-            fill="rgba(224,123,48,0.05)"/>
-          <text className="lbl-title" x="380" y="91"  textAnchor="middle">AUTOMATIZACIÓN</text>
-          <text className="lbl-sub"   x="380" y="103" textAnchor="middle">RPA · SOPs · Flujos</text>
-          <text className="lbl-pct"   x="380" y="122" textAnchor="middle"
-            style={{ opacity: animate ? 1 : 0, transition: 'opacity 0.4s ease-out 1.6s' }}>
-            70–80%
-          </text>
-        </g>
+        {/* ── PARTÍCULAS ANIMADAS ── */}
+        <path className="vf-p" d="M148,270 L180,270"
+          stroke={C_ORANGE} strokeWidth="2.5" strokeDasharray="14 226" style={p('0s')} />
+        <path className="vf-p" d="M304,270 C340,270 340,230 358,230"
+          stroke={C_ORANGE} strokeWidth="2"   strokeDasharray="14 226" style={p('0.8s')} />
+        <path className="vf-p" d="M482,230 C516,230 516,270 584,270"
+          stroke={C_ORANGE} strokeWidth="2"   strokeDasharray="14 226" style={p('1.6s')} />
+        <path className="vf-p" d="M420,262 L420,322"
+          stroke={C_PURPLE} strokeWidth="1.5" strokeDasharray="14 226" style={p('2.0s')} />
+        <path className="vf-p" d="M482,350 C516,350 516,270 584,270"
+          stroke={C_PURPLE} strokeWidth="1.5" strokeDasharray="14 226" style={p('2.6s')} />
 
-        {/* NODO 4 — IA que decide */}
-        <g style={{
-          opacity: animate ? 1 : 0,
-          transform: animate ? 'scale(1)' : 'scale(0.5)',
-          transformOrigin: '380px 210px',
-          transition: 'opacity 0.3s ease-out 1.3s, transform 0.3s ease-out 1.3s'
-        }}>
-          <rect x="326" y="178" width="108" height="64" rx="7"
-            fill="#2E2640" stroke="rgba(224,123,48,0.3)" strokeWidth="1"/>
-          <rect x="331" y="183" width="98"  height="54" rx="5"
-            fill="rgba(224,123,48,0.03)"/>
-          <text className="lbl-title" x="380" y="201" textAnchor="middle">IA QUE DECIDE</text>
-          <text className="lbl-sub"   x="380" y="213" textAnchor="middle">Modelos · Decisión</text>
-          <text className="lbl-pct-dim" x="380" y="232" textAnchor="middle"
-            style={{ opacity: animate ? 1 : 0, transition: 'opacity 0.4s ease-out 1.8s' }}>
-            15–20%
-          </text>
-        </g>
+        {/* ════════════════════════════════
+            NODOS
+            ════════════════════════════════ */}
 
-        {/* NODO 5 — ROI Medible */}
-        <g style={{
-          opacity: animate ? 1 : 0,
-          transform: animate ? 'scale(1)' : 'scale(0.5)',
-          transformOrigin: '600px 155px',
-          transition: 'opacity 0.4s ease-out 2.0s, transform 0.4s ease-out 2.0s'
-        }}>
-          {animate && (
-            <circle className="pulse-ring" cx="600" cy="155" r="14"
-              fill="none" stroke="#E07B30" strokeWidth="1"/>
-          )}
-          <circle cx="600" cy="155" r="38" fill="rgba(224,123,48,0.1)"
-            stroke="rgba(224,123,48,0.25)" strokeWidth="1"/>
-          <circle cx="600" cy="155" r="28" fill="rgba(224,123,48,0.15)"
-            stroke="#E07B30" strokeWidth="1.5"/>
-          <circle cx="600" cy="155" r="10" fill="#E07B30"/>
-          <text className="lbl-title" x="600" y="202" textAnchor="middle">ROI</text>
-          <text className="lbl-title" x="600" y="214" textAnchor="middle">MEDIBLE</text>
-          <text className="lbl-sub"   x="600" y="225" textAnchor="middle">el único resultado</text>
-        </g>
+        {/* N1 — PROCESO: x=16..148 */}
+        <rect x="16" y="242" width="132" height="56" rx="10"
+          fill={C_NODE} stroke="rgba(224,123,48,0.40)" strokeWidth="1" />
+        <text x="82" y="264" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">PROCESO</text>
+        <text x="82" y="279" textAnchor="middle" fontSize="8"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">habilitado para tecnología</text>
+        <circle cx="148" cy="270" r="3" fill={C_ORANGE} />
+
+        {/* N2 — DATO: x=180..304 (32px gap desde N1) */}
+        <rect x="180" y="242" width="124" height="56" rx="10"
+          fill={C_NODE} stroke="rgba(224,123,48,0.35)" strokeWidth="1" />
+        <text x="242" y="264" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">DATO</text>
+        <text x="242" y="279" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">confiable</text>
+        <circle cx="180" cy="270" r="3" fill={C_ORANGE} />
+        <circle cx="304" cy="270" r="4" fill="rgba(224,123,48,0.55)" />
+
+        {/* N3 — AUTOMATIZACIÓN: x=358..482 */}
+        <rect x="358" y="202" width="124" height="60" rx="10"
+          fill={C_NODE} stroke="rgba(224,123,48,0.50)" strokeWidth="1.2" />
+        <text x="420" y="222" textAnchor="middle" fontSize="10" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">AUTOMATIZACIÓN</text>
+        <text x="420" y="236" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">RPA · SOPs · Flujos</text>
+        <text x="420" y="252" textAnchor="middle" fontSize="13" fontWeight="800" fontFamily="var(--font-geist-mono)" fill={C_ORANGE}>70–80%</text>
+        {/* badge ROI DIRECTO */}
+        <rect x="488" y="207" width="80" height="16" rx="3"
+          fill="rgba(224,123,48,0.15)" stroke="rgba(224,123,48,0.40)" strokeWidth=".8" />
+        <text x="528" y="219" textAnchor="middle" fontSize="8" fontFamily="var(--font-geist-mono)" fill={C_ORANGE}>ROI DIRECTO</text>
+        <circle cx="358" cy="230" r="3" fill={C_ORANGE} />
+        <circle cx="482" cy="230" r="3" fill={C_ORANGE} />
+        <circle cx="420" cy="262" r="3" fill="rgba(120,60,160,0.70)" />
+
+        {/* N4 — IA QUE DECIDE: x=358..482 */}
+        <rect x="358" y="322" width="124" height="56" rx="10"
+          fill={C_NODE} stroke="rgba(120,60,160,0.50)" strokeWidth="1" />
+        <text x="420" y="342" textAnchor="middle" fontSize="10" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">IA QUE DECIDE</text>
+        <text x="420" y="356" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Modelos · Decisión</text>
+        <text x="420" y="372" textAnchor="middle" fontSize="13" fontWeight="800" fontFamily="var(--font-geist-mono)" fill={C_PURPLE}>15–20%</text>
+        {/* badge SI LO JUSTIFICA */}
+        <rect x="488" y="327" width="86" height="16" rx="3"
+          fill="rgba(120,60,160,0.12)" stroke="rgba(120,60,160,0.40)" strokeWidth=".8" />
+        <text x="531" y="339" textAnchor="middle" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(200,140,240,0.90)">SI LO JUSTIFICA</text>
+        <circle cx="420" cy="322" r="3" fill={C_PURPLE} />
+        <circle cx="482" cy="350" r="3" fill={C_PURPLE} />
+        {/* leyenda ruta IA */}
+        <text x="436" y="292" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(255,255,255,0.50)">solo si el diagnóstico</text>
+        <text x="436" y="304" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(255,255,255,0.50)">lo justifica</text>
+
+        {/* Leyenda de color — UNA SOLA LÍNEA, centrada */}
+        <circle cx="220" cy="398" r="4" fill={C_ORANGE} />
+        <text x="230" y="402" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Ruta principal (automatización → ROI)</text>
+        <circle cx="460" cy="398" r="4" fill={C_PURPLE} />
+        <text x="470" y="402" fontSize="8" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">Ruta opcional (IA, si el diagnóstico lo justifica)</text>
+
+        {/* N5 — ROI MEDIBLE */}
+        {shouldAnimate && (
+          <>
+            <circle className="vf-rp" cx="630" cy="270" r="18" fill="none" stroke={C_ORANGE} strokeWidth="1"
+              style={{ animation: 'roiPulse 2s ease-out infinite' }} />
+            <circle className="vf-rp" cx="630" cy="270" r="18" fill="none" stroke={C_ORANGE} strokeWidth="1"
+              style={{ animation: 'roiPulse 2s ease-out 1.1s infinite' }} />
+          </>
+        )}
+        <circle cx="630" cy="270" r="46" fill="rgba(224,123,48,0.05)" stroke="rgba(224,123,48,0.10)" strokeWidth="1" />
+        <circle cx="630" cy="270" r="32" fill="rgba(224,123,48,0.09)" stroke="rgba(224,123,48,0.18)" strokeWidth="1" />
+        <circle cx="630" cy="270" r="18" fill="rgba(224,123,48,0.18)" stroke="rgba(224,123,48,0.35)" strokeWidth="1" />
+        <circle cx="630" cy="270" r="7"  fill={C_ORANGE} />
+        <text x="630" y="322" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">ROI MEDIBLE</text>
+        <text x="630" y="336" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">el único resultado</text>
+        <circle cx="584" cy="270" r="3" fill={C_ORANGE} />
+
+        {/* ── CTA narrativo ── */}
+        <line x1="40" y1="415" x2="720" y2="415" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+        <text x="380" y="434" textAnchor="middle" fontSize="14" fontWeight="400" fontFamily="var(--font-sans)" fill="rgba(255,255,255,0.70)">El vacío del mercado no es tecnológico,</text>
+        <text x="380" y="451" textAnchor="middle" fontSize="14" fontWeight="700" fontFamily="var(--font-sans)" fill={C_ORANGE}>es operativo.</text>
+        <text x="380" y="469" textAnchor="middle" fontSize="16" fontWeight="700" fontFamily="var(--font-playfair)" fontStyle="italic" fill="rgba(255,255,255,0.90)">Antes de buscar inteligencia artificial,</text>
+        <text x="380" y="486" textAnchor="middle" fontSize="16" fontWeight="700" fontFamily="var(--font-playfair)" fontStyle="italic" fill={C_ORANGE}>busca procesos inteligentes.</text>
       </svg>
 
-      {/* Texto de cierre */}
-      <div style={{
-        marginTop: 'clamp(40px,6vw,80px)',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-        gap: 'clamp(24px,4vw,48px)',
-        width: '100%'
-      }}>
-        <p style={{
-          fontSize: 14,
-          color: 'rgba(255,255,255,0.4)',
-          fontStyle: 'italic',
-          lineHeight: 1.7,
-          borderLeft: '2px solid rgba(224,123,48,0.3)',
-          paddingLeft: 20
-        }}>
-          Sin proceso sano y dato confiable, la IA falla — no por la herramienta, sino por lo que hay antes.
-        </p>
-        <p style={{
-          fontSize: 'clamp(16px, 2vw, 22px)',
-          color: '#E07B30',
-          fontFamily: 'var(--font-playfair)',
-          fontStyle: 'italic',
-          lineHeight: 1.5
-        }}>
-          Medimos el gap entre tu As-Is y el To-Be necesario. Tú eliges la ruta: automatizar o desplegar IA.
-        </p>
-      </div>
     </section>
   )
 }
-
-

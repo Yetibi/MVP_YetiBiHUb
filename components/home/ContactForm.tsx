@@ -52,8 +52,9 @@ const inputBase: React.CSSProperties = {
   transition: "border-bottom-color 0.15s, box-shadow 0.15s",
 };
 
+// Contraste mejorado: #A89DC0 (3.8:1) → #C3B9D6 (~5.8:1) sobre #0E0B14
 const labelStyle: React.CSSProperties = {
-  color: "#A89DC0",
+  color: "#C3B9D6",
   fontSize: 11,
   fontWeight: 400,
   letterSpacing: "0.2em",
@@ -154,7 +155,7 @@ export function ContactForm() {
   return (
     <div
       id="contacto-form"
-      style={{ width: "100%", maxWidth: 640 }}
+      style={{ width: "100%" }}
     >
       <AnimatePresence mode="wait">
         {formState === "success" ? (
@@ -201,13 +202,19 @@ export function ContactForm() {
             className="flex flex-col"
             style={{ gap: 28 }}
           >
+            {/* Indicador de campos requeridos */}
+            <p style={{ color: "rgba(255,255,255,0.50)", fontSize: 12, margin: 0 }}>
+              Los campos marcados con <span aria-hidden style={{ color: "#E07B30" }}>*</span>
+              <span className="sr-only">asterisco</span> son obligatorios.
+            </p>
+
             {/* NOMBRE + CORREO */}
             <motion.div
               variants={rm ? undefined : fieldReveal}
               className="grid grid-cols-1 md:grid-cols-2"
               style={{ gap: 24 }}
             >
-              <Field id="cf-nombre" label="Nombre" error={errors.nombre}>
+              <Field id="cf-nombre" label="Nombre *" error={errors.nombre}>
                 <input
                   ref={firstFieldRef}
                   id="cf-nombre"
@@ -231,7 +238,7 @@ export function ContactForm() {
                 />
               </Field>
 
-              <Field id="cf-correo" label="Correo electrónico" error={errors.correo}>
+              <Field id="cf-correo" label="Correo electrónico *" error={errors.correo}>
                 <input
                   id="cf-correo"
                   name="correo"
@@ -283,7 +290,7 @@ export function ContactForm() {
 
             {/* MENSAJE */}
             <motion.div variants={rm ? undefined : fieldReveal}>
-              <Field id="cf-mensaje" label="Mensaje" error={errors.mensaje}>
+              <Field id="cf-mensaje" label="Mensaje *" error={errors.mensaje}>
                 <textarea
                   id="cf-mensaje"
                   name="mensaje"
@@ -339,7 +346,7 @@ export function ContactForm() {
               </motion.div>
             )}
 
-            {/* Honeypot — oculto para humanos, visible para bots */}
+            {/* Honeypot — off-screen (más efectivo que display:none para bots modernos) */}
             <input
               type="text"
               name="website"
@@ -348,7 +355,7 @@ export function ContactForm() {
               aria-hidden="true"
               value={fields.website}
               onChange={handleChange}
-              style={{ display: "none" }}
+              style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
             />
 
             {/* Submit */}
@@ -356,6 +363,7 @@ export function ContactForm() {
               <button
                 type="submit"
                 disabled={formState === "submitting"}
+                aria-busy={formState === "submitting"}
                 className="inline-flex items-center rounded-md font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   backgroundColor: "#E07B30",

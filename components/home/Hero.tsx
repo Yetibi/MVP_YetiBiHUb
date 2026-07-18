@@ -1,637 +1,956 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import { useReducedMotion } from "motion/react";
+import Link from "next/link";
+import { useRef, useState, useEffect, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+  type MotionValue,
+} from "motion/react";
 
-// ─── animation helper ─────────────────────────────────────────────────────────
-
-function a(
-  name: string,
-  duration: string,
-  delay: string,
-  easing = "ease-out",
-): React.CSSProperties {
-  return { animation: `${name} ${duration} ${easing} ${delay} both` };
-}
-
-// ─── data ─────────────────────────────────────────────────────────────────────
-
-const CHAIN: { label: string; accent: boolean }[] = [
-  { label: "Proceso sano",               accent: false },
-  { label: "Dato confiable",             accent: false },
-  { label: "La ruta correcta",           accent: false },
-  { label: "Impacto financiero medible", accent: true  },
-];
-
+// ─── constants ────────────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
   { label: "El problema",   href: "#el-problema" },
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "El enfoque",    href: "#el-enfoque" },
   { label: "Contacto",      href: "#contacto" },
+] as const;
+
+const WORDS = [
+  "claridad",
+  "diagnóstico",
+  "fuga cerrada",
+  "madurez",
+  "decisión",
+] as const;
+
+const PAIN_ICONS: React.FC<{ color: string }>[] = [
+  ({ color }) => (
+    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="8" cy="4.5" r="2.5"/>
+      <path d="M2.5 14c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5"/>
+      <circle cx="12.5" cy="7" r="1.2"/>
+      <path d="M12.5 5.4v-.5M12.5 9.3v-.5M14.1 6.2l-.4.2M11.3 7.8l-.4.2M14.1 7.8l-.4-.2M11.3 6.2l-.4-.2"/>
+    </svg>
+  ),
+  ({ color }) => (
+    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="3" cy="8" r="1.8" strokeDasharray="1.5 1.5"/>
+      <circle cx="8" cy="3" r="1.8" strokeDasharray="1.5 1.5"/>
+      <circle cx="13" cy="8" r="1.8" strokeDasharray="1.5 1.5"/>
+      <circle cx="8" cy="13" r="1.8" strokeDasharray="1.5 1.5"/>
+    </svg>
+  ),
+  ({ color }) => (
+    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="8" cy="8.5" r="6"/>
+      <path d="M8 5.5v3l2 1.5"/>
+      <line x1="6" y1="1" x2="6" y2="2.5"/>
+      <line x1="10" y1="1" x2="10" y2="2.5"/>
+    </svg>
+  ),
+  ({ color }) => (
+    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="9" width="2.5" height="5" rx="0.5"/>
+      <rect x="6.5" y="6" width="2.5" height="8" rx="0.5"/>
+      <rect x="11" y="3" width="2.5" height="11" rx="0.5"/>
+      <path d="M3.5 5.5l2.5-2.5 2.5 2-1.5-4.5"/>
+    </svg>
+  ),
+  ({ color }) => (
+    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 10a3 3 0 0 1 0-4.24l1.06-1.06A3 3 0 0 1 11.3 8.94"/>
+      <path d="M10 6a3 3 0 0 1 0 4.24l-1.06 1.06A3 3 0 0 1 4.7 7.06"/>
+      <line x1="8.5" y1="7.5" x2="7.5" y2="8.5" strokeDasharray="1.2 1.2"/>
+    </svg>
+  ),
+  ({ color }) => (
+    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2.5C3.5 2.5 2 4 2 6c0 1.2.6 2.2 1.5 2.8C3.2 10.5 4.5 12 6 12h4c1.5 0 2.8-1.5 2.5-3.2C13.4 8.2 14 7.2 14 6c0-2-1.5-3.5-4-3.5"/>
+      <line x1="8" y1="5" x2="8" y2="8"/>
+      <circle cx="8" cy="10" r="0.6" fill={color} stroke="none"/>
+    </svg>
+  ),
 ];
 
-// ─── Headline sequence ────────────────────────────────────────────────────────
-
-const ROTATING_WORDS = ["claridad.", "diagnóstico.", "fuga cerrada.", "madurez.", "decisión."] as const;
-const ROTATING_LINE2 = [
-  "Nadie pregunta si sus procesos",
-  "Pocos saben si sus procesos",
-  "¿Alguien verificó si sus procesos",
+const PAINS = [
+  { num: "01", title: "Procesos manuales",      desc: "Tareas repetitivas que dependen de personas específicas." },
+  { num: "02", title: "Datos dispersos",         desc: "Información partida entre Excel, correos y sistemas desconectados." },
+  { num: "03", title: "Aprobaciones lentas",     desc: "Decisiones sin trazabilidad que bloquean la operación." },
+  { num: "04", title: "Reportes tardíos",        desc: "Visibilidad cuando el problema ya ocurrió." },
+  { num: "05", title: "Automatización aislada",  desc: "Flujos que no se conectan entre áreas." },
+  { num: "06", title: "IA sin gobierno",         desc: "IA sin procesos base ni métricas de impacto." },
 ] as const;
-const FLIP = "transform 0.56s cubic-bezier(0.4, 0, 0.2, 1)";
 
-// FIX #7: fase arranca directo en 3, código de fases 0-2 eliminado (era dead code)
-function HeadlineSequence({ rm }: { rm: boolean }) {
-  const [wordIdx, setWordIdx]   = useState(0);
-  const [wordFlip, setWordFlip] = useState<"idle" | "out" | "in">("idle");
-  const [line2Idx, setLine2Idx] = useState(0);
-  const [line2Flip, setLine2Flip] = useState<"idle" | "out" | "in">("idle");
+// ─── shine style ──────────────────────────────────────────────────────────────
 
-  // measure widest word for the box — SSR-safe initial 280
-  const sizerRef = useRef<HTMLSpanElement>(null);
-  const [frameWidth, setFrameWidth] = useState<number>(280);
-  const necesitanRef = useRef<HTMLSpanElement>(null);
+const SHINE: React.CSSProperties = {
+  background:
+    "linear-gradient(110deg,#E07B30 0%,#E07B30 30%,#FFA558 45%,#FFD4A8 50%,#FFA558 55%,#E07B30 70%,#E07B30 100%)",
+  backgroundSize: "200% 100%",
+  animation: "background-shine 2s linear infinite",
+  color: "#0E0B14",
+  fontFamily: "var(--font-geist-sans)",
+  fontWeight: 700,
+  fontSize: 11,
+  letterSpacing: "0.08em",
+  textTransform: "uppercase" as const,
+  whiteSpace: "nowrap" as const,
+  textDecoration: "none",
+  borderRadius: 2,
+  display: "inline-flex",
+  alignItems: "center",
+  padding: "10px 16px",
+  minHeight: 44,
+};
+
+// ─── DrumRoll ─────────────────────────────────────────────────────────────────
+
+function DrumRoll({ onIndexChange, reduced }: {
+  onIndexChange: (i: number) => void;
+  reduced: boolean;
+}) {
+  const sizerRef  = useRef<HTMLSpanElement>(null);
+  const sizerRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const trackRef  = useRef<HTMLDivElement>(null);
+
+  const [slotH, setSlotH] = useState(0);
+  const [slotW, setSlotW] = useState(0);
+  const [current, setCurrent] = useState<number>(WORDS.length);
+
+  const OFFSET   = WORDS.length;
+  const extended = [...WORDS, ...WORDS, ...WORDS];
+  const FS       = "clamp(32px,4.5vw,60px)";
 
   useEffect(() => {
-    function calculate() {
-      if (!sizerRef.current) return;
-      const textW      = sizerRef.current.offsetWidth;
-      const necesitanW = necesitanRef.current ? necesitanRef.current.offsetWidth : 0;
-      const gapPx      = 16;
-      const sectionPad = Math.max(20, Math.min(window.innerWidth * 0.05, 60)) * 2;
-      const maxW       = window.innerWidth - sectionPad - necesitanW - gapPx;
-      // Cap at maxW so the box never overflows the viewport on mobile
-      setFrameWidth(Math.min(textW + 44, maxW));
-    }
-    calculate();
-    window.addEventListener("resize", calculate);
-    return () => window.removeEventListener("resize", calculate);
+    if (!sizerRef.current) return;
+    setSlotH(sizerRef.current.offsetHeight);
   }, []);
 
-  // word rotation — box
   useEffect(() => {
-    if (rm) return;
-    const interval = setInterval(() => {
-      setWordFlip("out");
-      setTimeout(() => {
-        setWordIdx((i) => (i + 1) % ROTATING_WORDS.length);
-        setWordFlip("in");
-        setTimeout(() => setWordFlip("idle"), 560);
-      }, 560);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [rm]);
-
-  // line2 rotation — offset 2000ms to avoid syncing
-  useEffect(() => {
-    if (rm) return;
-    const initial = setTimeout(() => {
-      const interval = setInterval(() => {
-        setLine2Flip("out");
-        setTimeout(() => {
-          setLine2Idx((i) => (i + 1) % ROTATING_LINE2.length);
-          setLine2Flip("in");
-          setTimeout(() => setLine2Flip("idle"), 560);
-        }, 560);
-      }, 4000);
-      return () => clearInterval(interval);
-    }, 2000);
-    return () => clearTimeout(initial);
-  }, [rm]);
-
-  // FIX #8: trackFlipStyle no incluye display — se aplica como primer spread
-  // para que display:flex del span no sea sobreescrito
-  const trackFlipStyle = (state: "idle" | "out" | "in"): React.CSSProperties => {
-    const base: React.CSSProperties = {
-      opacity: state === "out" ? 0 : 1,
-      transformOrigin: "top center",
-    };
-    if (state !== "idle") {
-      base.transition = FLIP;
-      base.transform  =
-        state === "out" ? "translateY(-100%) rotateX(90deg)" : "translateY(0%) rotateX(0deg)";
-    }
-    return base;
-  };
-
-  const l2FadeStyle = (state: "idle" | "out" | "in"): React.CSSProperties => ({
-    transition: state !== "idle" ? "opacity 0.3s ease, transform 0.3s ease" : undefined,
-    opacity:    state === "out" ? 0 : 1,
-    transform:  state === "out" ? "translateY(-8px)" : "translateY(0)",
-  });
-
-  // C4: mobile-first — 22px mínimo para proporcionalidad en 390px
-  const FS    = "clamp(22px, 5.5vw, 58px)";
-  const FSBox = "clamp(20px, 5vw, 54px)";
-
-  // Serif display para L1/L3/L4 — mismo sistema que L2
-  const staticLineStyle: React.CSSProperties = {
-    display:    "block",
-    fontFamily: "var(--font-dm-serif)",
-    fontWeight: 400,
-    fontStyle:  "italic",
-    fontSize:   FS,
-    lineHeight: 1.15,
-  };
-
-  const l2ItemStyle: React.CSSProperties = {
-    fontFamily: "var(--font-dm-serif)",
-    fontWeight: 400,
-    fontStyle:  "italic",
-    fontSize:   FS,
-    color:      "#fff",
-    whiteSpace: "normal",
-    lineHeight: 1.15,
-    display:    "block",
-  };
-
-  return (
-    <>
-      {/* Hidden measurers */}
-      <span aria-hidden style={{
-        position: "absolute", visibility: "hidden", pointerEvents: "none",
-        fontFamily: "var(--font-dm-serif)", fontWeight: 400, fontStyle: "italic",
-        fontSize: FSBox, whiteSpace: "nowrap", lineHeight: 1.15,
-      }}>
-        <span ref={sizerRef}>fuga cerrada.</span>
-      </span>
-      <span aria-hidden style={{
-        position: "absolute", visibility: "hidden", pointerEvents: "none",
-        fontFamily: "var(--font-dm-serif)", fontWeight: 400, fontStyle: "italic",
-        fontSize: FS, whiteSpace: "nowrap",
-      }}>
-        <span ref={necesitanRef}>Necesitan</span>
-      </span>
-
-      {/* FIX #7: solo phase 3, siempre visible desde el inicio */}
-      <h1
-        id="hero-heading"
-        style={{ margin: "20px 0 0", display: "flex", flexDirection: "column" }}
-      >
-        {/* L1 — Geist 900 naranja */}
-        <span style={{
-          ...staticLineStyle,
-          color: "#E07B30",
-          marginBottom: 8,
-          animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0s both",
-        }}>
-          Todos quieren IA.
-        </span>
-
-        {/* L2 — Playfair italic blanca, fade+slide */}
-        <span style={{
-          display: "block",
-          overflow: "visible",
-          marginBottom: 8,
-          animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.06s both",
-        }}>
-          {rm ? (
-            <span style={l2ItemStyle}>{ROTATING_LINE2[0]}</span>
-          ) : (
-            <span style={{ ...l2ItemStyle, ...l2FadeStyle(line2Flip) }}>
-              {ROTATING_LINE2[line2Idx]}
-            </span>
-          )}
-        </span>
-
-        {/* L3 — Geist 900 blanca */}
-        <span style={{
-          ...staticLineStyle,
-          color: "#fff",
-          marginBottom: 12,
-          animation: rm ? undefined : "heroSlideUp 0.55s ease-out 0.12s both",
-        }}>
-          están listos para usarla.
-        </span>
-
-        {/* L4 — "Necesitan" + recuadro rotativo */}
-        <span style={{
-          display:    "flex",
-          alignItems: "center",
-          flexWrap:   "wrap",
-          gap:        "16px",
-          marginTop:  4,
-          animation:  rm ? undefined : "heroSlideUp 0.55s ease-out 0.18s both",
-        }}>
-          <span style={{ ...staticLineStyle, color: "#fff", flexShrink: 0, display: "inline" }}>
-            Necesitan
-          </span>
-
-          {/* C2: padding ajustado al texto; C1: DM Serif Display */}
-          <span style={{
-            display:        "inline-flex",
-            alignItems:     "center",
-            justifyContent: "center",
-            position:       "relative",
-            minWidth:       frameWidth,
-            maxWidth:       "100%",
-            padding:        "4px 20px",
-            background:     "linear-gradient(135deg, #4A3570 0%, #7B3F8C 35%, #C45A2A 70%, #E07B30 100%)",
-            borderRadius:   8,
-            boxShadow:      "0 0 40px rgba(224,123,48,0.25)",
-            overflow:       "hidden",
-          }}>
-            <span style={{
-              display:        "flex",
-              alignItems:     "center",
-              justifyContent: "center",
-              width:          "100%",
-              textAlign:      "center",
-              fontFamily:     "var(--font-dm-serif)",
-              fontStyle:      "italic",
-              fontWeight:     400,
-              fontSize:       FSBox,
-              color:          "#FFFFFF",
-              perspective:    "800px",
-              ...trackFlipStyle(rm ? "idle" : wordFlip),
-            }}>
-              {rm ? ROTATING_WORDS[0] : ROTATING_WORDS[wordIdx]}
-            </span>
-          </span>
-        </span>
-      </h1>
-    </>
-  );
-}
-
-// ─── Nav ─────────────────────────────────────────────────────────────────────
-
-function Nav({ noAnim }: { noAnim: boolean }) {
-  const [open, setOpen] = useState(false);
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const style = noAnim ? {} : a("heroFadeIn", "0.4s", "0s");
+    const el = sizerRefs.current[current % WORDS.length];
+    if (!el) return;
+    setSlotW(el.offsetWidth + 12);
+  }, [current]);
 
   useEffect(() => {
-    if (!open) return;
-    const drawer = drawerRef.current;
-    if (!drawer) return;
-    const focusable = drawer.querySelectorAll<HTMLElement>(
-      'a[href], button, [tabindex]:not([tabindex="-1"])'
-    );
-    const first = focusable[0];
-    const last  = focusable[focusable.length - 1];
-    first?.focus();
+    onIndexChange(current % WORDS.length);
+  }, [current, onIndexChange]);
 
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") { setOpen(false); return; }
-      if (e.key !== "Tab") return;
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last?.focus(); }
-      } else {
-        if (document.activeElement === last) { e.preventDefault(); first?.focus(); }
+  useEffect(() => {
+    if (slotH === 0 || reduced) return;
+    let curr = OFFSET;
+    const id = setInterval(() => {
+      curr++;
+      if (curr >= OFFSET + WORDS.length) {
+        if (trackRef.current) {
+          trackRef.current.style.transition = "none";
+          curr = OFFSET;
+          setCurrent(curr);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              if (trackRef.current) trackRef.current.style.transition = "";
+              curr++;
+              setCurrent(curr);
+            });
+          });
+          return;
+        }
       }
-    }
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+      setCurrent(curr);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [slotH, reduced]);
+
+  const sizerBase: React.CSSProperties = {
+    visibility: "hidden",
+    position: "absolute",
+    fontFamily: "var(--font-geist-sans)",
+    fontWeight: 900,
+    fontSize: FS,
+    whiteSpace: "nowrap",
+    letterSpacing: "-1px",
+    pointerEvents: "none",
+  };
+
+  if (reduced) {
+    return (
+      <span style={{
+        fontFamily: "var(--font-geist-sans)",
+        fontWeight: 900,
+        fontSize: FS,
+        letterSpacing: "-1px",
+        color: "#E07B30",
+      }}>
+        claridad
+      </span>
+    );
+  }
+
+  const activeWord = WORDS[current % WORDS.length];
 
   return (
     <>
-      <nav
-        aria-label="Navegación principal"
-        style={{
-          display:         "flex",
-          alignItems:      "center",
-          padding:         "16px 20px",
-          backgroundColor: "#2E2640",
-          position:        "relative",
-          zIndex:          10,
-          ...style,
-        }}
+      {/* Texto accesible para lectores de pantalla — se actualiza con cada cambio */}
+      <span
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
       >
-        {/* Logo */}
-        <Link
-          href="/"
-          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-          style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}
-        >
-          <Image
-            src="/yeti-logo.png"
-            alt="Yeti BI"
-            width={44}
-            height={44}
-            style={{ flexShrink: 0, objectFit: "contain" }}
-            priority
-          />
+        {activeWord}
+      </span>
 
-          <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            <span style={{ color: "#FFFFFF", fontSize: 14, fontWeight: 700, letterSpacing: "0.18em", lineHeight: 1 }}>
-              YETI·<span style={{ color: "#E07B30" }}>BI</span>
-            </span>
-            {/* FIX #4: logo subtítulo de 8px → 10px */}
-            <span style={{
-              color: "rgba(255,255,255,0.4)",
-              fontSize: 10,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              lineHeight: 1,
-            }}>
-              PROCESS &amp; <span style={{ color: "#E07B30" }}>ANALYTICS</span>
-            </span>
-          </span>
-        </Link>
+      <span ref={sizerRef} aria-hidden style={sizerBase}>A</span>
+      {WORDS.map((w, i) => (
+        <span key={w} ref={(el) => { sizerRefs.current[i] = el; }} aria-hidden style={sizerBase}>{w}</span>
+      ))}
 
-        {/* Desktop: center links */}
-        <div className="hidden lg:flex" style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: 36 }}>
-          {NAV_LINKS.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-              style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop: CTA — FIX #11: transition opacity en hover */}
-        <a
-          href="/diagnostico"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden lg:inline-flex hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded-md"
-          style={{
-            backgroundColor: "#E07B30",
-            color:           "#1c1426",
-            fontSize:        13,
-            fontWeight:      600,
-            padding:         "10px 20px",
-            borderRadius:    6,
-            textDecoration:  "none",
-            whiteSpace:      "nowrap",
-            flexShrink:      0,
-          }}
-        >
-          Diagnostica tu proceso — gratis
-        </a>
-
-        {/* Mobile: spacer + hamburger */}
-        <div className="flex lg:hidden" style={{ flex: 1 }} />
-        <button
-          className="flex lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={open}
-          onClick={() => setOpen(!open)}
-          style={{
-            background: "none", border: "none", cursor: "pointer",
-            padding: "8px", flexDirection: "column", gap: 5,
-            minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center",
-          }}
-        >
-          <span style={{
-            display: "block", width: 22, height: 1.5, background: "#E07B30", borderRadius: 2,
-            transformOrigin: "center", transition: "transform 0.22s ease, opacity 0.22s ease",
-            transform: open ? "translateY(6.5px) rotate(45deg)" : "none",
-          }} />
-          <span style={{
-            display: "block", width: 22, height: 1.5, background: "#E07B30", borderRadius: 2,
-            transition: "opacity 0.22s ease", opacity: open ? 0 : 1,
-          }} />
-          <span style={{
-            display: "block", width: 22, height: 1.5, background: "#E07B30", borderRadius: 2,
-            transformOrigin: "center", transition: "transform 0.22s ease, opacity 0.22s ease",
-            transform: open ? "translateY(-6.5px) rotate(-45deg)" : "none",
-          }} />
-        </button>
-      </nav>
-
-      {/* Mobile drawer */}
-      {open && (
-        <div
-          ref={drawerRef}
-          className="lg:hidden flex-col"
-          style={{
-            display: "flex", position: "fixed",
-            top: 68, left: 0, right: 0,
-            backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-            backgroundColor: "rgba(26, 20, 40, 0.88)",
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
-            padding: "16px 20px 24px", zIndex: 99,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-          }}
-        >
-          {NAV_LINKS.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              onClick={() => setOpen(false)}
-              style={{
-                color: "rgba(255,255,255,0.75)", fontSize: 16,
-                textDecoration: "none", padding: "13px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                display: "flex", alignItems: "center",
-              }}
-            >
-              {label}
-            </Link>
-          ))}
-          <a
-            href="/diagnostico"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
+      <div
+        aria-hidden
+        style={{
+          display: "inline-flex",
+          alignItems: "flex-start",
+          verticalAlign: "middle",
+          position: "relative",
+          flexShrink: 0,
+          width: slotW || "auto",
+          height: slotH || "1.1em",
+          overflow: "visible",
+          transition: "width 0.4s cubic-bezier(0.4,0,0.2,1)",
+        }}>
+        {slotH > 0 && (["tl","tr","bl","br"] as const).map((pos) => (
+          <span
+            key={pos}
+            aria-hidden
             style={{
-              display: "flex", alignItems: "center", justifyContent: "center",
-              marginTop: 16, backgroundColor: "#E07B30", color: "#1c1426",
-              fontSize: 15, fontWeight: 700, padding: "14px 20px",
-              borderRadius: 8, textDecoration: "none",
+              position: "absolute",
+              width: 6, height: 6,
+              borderColor: "#E07B30",
+              borderStyle: "solid",
+              opacity: 0.8,
+              zIndex: 10,
+              ...(pos === "tl" && { top: -3,        left:  -6, borderWidth: "1.5px 0 0 1.5px" }),
+              ...(pos === "tr" && { top: -3,        right: -6, borderWidth: "1.5px 1.5px 0 0" }),
+              ...(pos === "bl" && { top: slotH - 3, left:  -6, borderWidth: "0 0 1.5px 1.5px" }),
+              ...(pos === "br" && { top: slotH - 3, right: -6, borderWidth: "0 1.5px 1.5px 0" }),
+            }}
+          />
+        ))}
+
+        <div style={{
+          position: "relative",
+          width: "100%",
+          height: slotH || "1.1em",
+          overflow: "visible",
+          clipPath: "none",
+        }}>
+          <div
+            ref={trackRef}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              transform: `translateY(${-current * slotH}px)`,
+              transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
+              willChange: "transform",
+              overflow: "visible",
             }}
           >
-            Diagnostica tu proceso — gratis
-          </a>
+            {extended.map((word, i) => {
+              const d        = i - current;
+              const isActive = d === 0;
+              const isBelow  = d === 1;
+              return (
+                <div
+                  key={`${word}-${i}`}
+                  aria-hidden
+                  style={{
+                    height:     slotH || undefined,
+                    lineHeight: slotH ? `${slotH}px` : undefined,
+                    display:    "flex",
+                    alignItems: "center",
+                    whiteSpace: "nowrap",
+                    fontFamily: "var(--font-geist-sans)",
+                    fontWeight: 900,
+                    fontSize:   FS,
+                    letterSpacing: "-1px",
+                    fontStyle:  isBelow ? "italic" : "normal",
+                    color:      isActive ? "#E07B30" : isBelow ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.04)",
+                    opacity:    isActive ? 1 : isBelow ? 0.55 : 0,
+                    transition: "color 0.3s ease, opacity 0.3s ease",
+                  }}
+                >
+                  {word}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      )}
+      </div>
     </>
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 
-export function Hero() {
-  const rm = useReducedMotion();
-  const an = rm ? () => ({} as React.CSSProperties) : a;
+function Navbar() {
+  return (
+    <nav
+      aria-label="Navegación principal"
+      style={{
+        position: "fixed",
+        top: 0, left: 0, right: 0,
+        height: 64,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "0 clamp(16px,4vw,40px)",
+        borderBottom: "1px solid rgba(224,123,48,0.08)",
+        background: "#0E0B14",
+        zIndex: 100,
+      }}
+    >
+      <Link
+        href="/"
+        style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}
+      >
+        <Image src="/yeti-logo.png" alt="Yeti BI" width={32} height={32} style={{ objectFit: "contain" }} priority />
+        <span style={{
+          fontFamily: "var(--font-geist-sans)",
+          fontWeight: 700,
+          fontSize: 13,
+          color: "#fff",
+          letterSpacing: "3px",
+        }}>
+          YETI·<span style={{ color: "#E07B30" }}>BI</span>
+        </span>
+      </Link>
+
+      <div className="hidden md:flex" style={{ gap: 32, alignItems: "center" }}>
+        {NAV_LINKS.map(({ label, href }) => (
+          <a
+            key={href}
+            href={href}
+            className="nav-link"
+            style={{
+              fontFamily: "var(--font-geist-sans)",
+              fontSize: 14,
+              fontWeight: 400,
+              color: "rgba(255,255,255,0.80)",
+              textDecoration: "none",
+              transition: "color 0.15s",
+              borderRadius: 2,
+              padding: "4px 2px",
+            }}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+
+      <a
+        href="/diagnostico"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={SHINE}
+      >
+        DIAGNOSTICA TU PROCESO
+        <span className="sr-only"> (abre en nueva pestaña)</span>
+      </a>
+    </nav>
+  );
+}
+
+// ─── LeftPanel ────────────────────────────────────────────────────────────────
+
+function LeftPanel({
+  opacityMV,
+  reduced,
+}: {
+  opacityMV: MotionValue<number>;
+  reduced: boolean;
+}) {
+  const FS = "clamp(32px,4.5vw,60px)";
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (reduced) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    let running = true;
+    let t = 0;
+    const COLS = 24;
+    const ROWS = 16;
+
+    // Gradient cached outside the draw loop — recreated only on resize
+    let cachedFade: CanvasGradient | null = null;
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      cachedFade = null; // invalidate on resize
+    };
+    resize();
+
+    // Debounced resize
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 100);
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+
+    const project = (x: number, y: number, z: number) => {
+      const fov   = canvas.height * 0.9;
+      const camZ  = 0.8;
+      const scale = fov / (camZ + z);
+      const px    = canvas.width  * 0.5 + x * scale;
+      const py    = canvas.height * 0.82 + y * scale;
+      return { px, py };
+    };
+
+    const wave = (gx: number, gy: number, time: number) =>
+      Math.sin(Math.sqrt((gx - 0.5) ** 2 + (gy - 0.3) ** 2) * 8 - time * 1.8) * 0.18
+      + Math.sin(gx * 5 + time * 1.2) * 0.08
+      + Math.sin(gy * 4 - time * 0.9) * 0.06;
+
+    const draw = () => {
+      if (!running) return;
+      // Pause when tab is hidden
+      if (document.visibilityState === "hidden") {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      t += 0.012;
+
+      const pts: { px: number; py: number; gy: number }[][] = [];
+      for (let row = 0; row <= ROWS; row++) {
+        pts[row] = [];
+        for (let col = 0; col <= COLS; col++) {
+          const gx = col / COLS;
+          const gy = row / ROWS;
+          const { px, py } = project(
+            (gx - 0.5) * 4.5,
+            wave(gx, gy, t) - 0.05,
+            gy * 2.2
+          );
+          pts[row][col] = { px, py, gy };
+        }
+      }
+
+      for (let row = 0; row <= ROWS; row++) {
+        ctx.beginPath();
+        pts[row].forEach(({ px, py }, col) =>
+          col === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)
+        );
+        const gy = row / ROWS;
+        ctx.strokeStyle = `rgba(224,123,48,${0.02 + gy * 0.04})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      for (let col = 0; col <= COLS; col++) {
+        ctx.beginPath();
+        pts.forEach((row, ri) =>
+          ri === 0
+            ? ctx.moveTo(row[col].px, row[col].py)
+            : ctx.lineTo(row[col].px, row[col].py)
+        );
+        ctx.strokeStyle = "rgba(224,123,48,0.025)";
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+
+      for (let row = 0; row <= ROWS; row += 2) {
+        for (let col = 0; col <= COLS; col += 2) {
+          const { px, py, gy } = pts[row][col];
+          ctx.beginPath();
+          ctx.arc(px, py, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(224,123,48,${0.1 + gy * 0.09})`;
+          ctx.fill();
+        }
+      }
+
+      // Use cached gradient — recreate only when size changes
+      if (!cachedFade) {
+        cachedFade = ctx.createLinearGradient(0, canvas.height * 0.75, 0, canvas.height * 0.85);
+        cachedFade.addColorStop(0, "#0E0B14");
+        cachedFade.addColorStop(1, "transparent");
+      }
+      ctx.fillStyle = "#0E0B14";
+      ctx.fillRect(0, 0, canvas.width, canvas.height * 0.75);
+      ctx.fillStyle = cachedFade;
+      ctx.fillRect(0, canvas.height * 0.75, canvas.width, canvas.height * 0.10);
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    // Start via RAF so animId is always defined before cleanup
+    animId = requestAnimationFrame(draw);
+
+    // Pause when tab hidden
+    const onVisibility = () => {
+      if (document.visibilityState === "visible" && running) {
+        animId = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(animId);
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [reduced]);
 
   return (
-    <>
-      <Nav noAnim={!!rm} />
-
-      <section
-        id="diagnostico"
-        aria-labelledby="hero-heading"
+    <div
+      style={{
+        width: "100%",
+        position: "relative",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        background: "#0E0B14",
+        overflow: "hidden",
+        padding: "0 clamp(24px,5vw,48px)",
+        boxSizing: "border-box",
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        role="presentation"
         style={{
-          backgroundColor: "#2E2640",
-          minHeight:       "calc(100svh - 68px)",
-          position:        "relative",
-          display:         "flex",
-          flexDirection:   "column",
-          justifyContent:  "space-between",
-          paddingTop:      "clamp(40px,6vh,72px)",
-          paddingBottom:   60,
-          paddingLeft:     "clamp(20px,5vw,60px)",
-          paddingRight:    "clamp(20px,5vw,60px)",
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          zIndex: 0,
         }}
-      >
-        {/* Metaballs decorativos */}
-        <svg aria-hidden style={{ position: "absolute", width: 0, height: 0 }}>
-          <defs>
-            <filter id="goo-yeti" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur"/>
-              <feColorMatrix in="blur" mode="matrix"
-                values="1 0 0 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 18 -6" result="goo"/>
-              <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-            </filter>
-          </defs>
-        </svg>
+      />
 
-        {/* Desktop: esquina top-right */}
-        <div aria-hidden className="hidden sm:block" style={{
-          position: "absolute", top: 0, right: 0,
-          width: "45%", height: "100%",
-          filter: "url(#goo-yeti)",
-          pointerEvents: "none", zIndex: 0, overflow: "hidden",
-          opacity: rm ? 0.3 : 0.55,
+      <div style={{
+        position: "relative",
+        zIndex: 1,
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+      }}>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 0,
+          lineHeight: 1.05,
+          width: "100%",
+          textAlign: "center",
         }}>
-          {/* Blob 1 naranja — ancla superior derecha */}
-          <div style={{
-            position: "absolute", top: -40, right: -30, width: 300, height: 200,
-            borderRadius: "62% 38% 71% 29% / 45% 55% 45% 55%",
-            background: "radial-gradient(ellipse at 35% 40%, rgba(224,123,48,0.85) 0%, rgba(180,80,20,0.45) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB1 8s ease-in-out infinite",
-          }} />
-          {/* Blob 2 púrpura — toca blob 1 por la izquierda */}
-          <div style={{
-            position: "absolute", top: 30, right: 110, width: 240, height: 170,
-            borderRadius: "38% 62% 45% 55% / 60% 40% 60% 40%",
-            background: "radial-gradient(ellipse at 55% 35%, rgba(120,60,160,0.75) 0%, rgba(80,30,120,0.4) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB2 10s ease-in-out infinite",
-          }} />
-          {/* Blob 3 dorado — toca blob 2 por abajo */}
-          <div style={{
-            position: "absolute", top: 150, right: 80, width: 210, height: 155,
-            borderRadius: "55% 45% 30% 70% / 50% 65% 35% 50%",
-            background: "radial-gradient(ellipse at 45% 55%, rgba(240,160,60,0.72) 0%, rgba(200,120,30,0.4) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB3 12s ease-in-out infinite",
-          }} />
-          {/* Blob 4 magenta — toca blob 2 por arriba-izq */}
-          <div style={{
-            position: "absolute", top: -10, right: 240, width: 175, height: 125,
-            borderRadius: "70% 30% 55% 45% / 40% 60% 40% 60%",
-            background: "radial-gradient(ellipse at 60% 40%, rgba(180,60,100,0.65) 0%, rgba(140,30,80,0.35) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB4 9s ease-in-out infinite",
-          }} />
-          {/* Blob 5 índigo — toca blob 3 por abajo-izq */}
-          <div style={{
-            position: "absolute", top: 230, right: 200, width: 220, height: 160,
-            borderRadius: "45% 55% 65% 35% / 55% 45% 55% 45%",
-            background: "radial-gradient(ellipse at 40% 50%, rgba(60,40,140,0.65) 0%, rgba(40,20,100,0.35) 55%, transparent 78%)",
-            animation: rm ? "none" : "moveB5 11s ease-in-out infinite",
-          }} />
-        </div>
-
-        {/* Mobile: fondo completo muy tenue */}
-        <div aria-hidden className="block sm:hidden" style={{
-          position: "absolute", inset: 0,
-          opacity: 0.18,
-          filter: "url(#goo-yeti)",
-          pointerEvents: "none", zIndex: 0, overflow: "hidden",
-        }}>
-          <div style={{
-            position: "absolute", top: -40, right: -30, width: 260, height: 180,
-            borderRadius: "62% 38% 71% 29% / 45% 55% 45% 55%",
-            background: "radial-gradient(ellipse at 35% 40%, rgba(224,123,48,0.85) 0%, rgba(180,80,20,0.5) 55%, transparent 78%)",
-          }} />
-          <div style={{
-            position: "absolute", top: 20, right: 10, width: 220, height: 150,
-            borderRadius: "38% 62% 45% 55% / 60% 40% 60% 40%",
-            background: "radial-gradient(ellipse at 55% 35%, rgba(120,60,160,0.75) 0%, rgba(80,30,120,0.4) 55%, transparent 78%)",
-          }} />
-          <div style={{
-            position: "absolute", top: 200, right: -10, width: 190, height: 135,
-            borderRadius: "55% 45% 30% 70% / 50% 65% 35% 50%",
-            background: "radial-gradient(ellipse at 45% 55%, rgba(240,160,60,0.72) 0%, rgba(200,120,30,0.4) 55%, transparent 78%)",
-          }} />
-        </div>
-
-        {/* Kicker */}
-        <div style={{ position: "relative", zIndex: 1, marginBottom: 32, ...an("heroSlideUp", "0.5s", "0.2s") }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div aria-hidden style={{ width: 32, height: 2, background: "#E07B30", flexShrink: 0 }} />
-            <span style={{ fontSize: 13, color: "#E07B30", letterSpacing: "2.5px", textTransform: "uppercase", fontFamily: "var(--font-geist-mono)", fontWeight: 400 }}>
+          {/* Kicker */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 16 }}>
+            <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30", flexShrink: 0 }} />
+            <span style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: 12,
+              color: "#A89DC0",
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+              fontWeight: 500,
+            }}>
               DIAGNÓSTICO DE MADUREZ OPERACIONAL
             </span>
+            <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30", flexShrink: 0 }} />
           </div>
+
           <p style={{
-            fontSize: "clamp(14px, 1.4vw, 17px)", color: "rgba(255,255,255,0.7)",
-            fontFamily: "var(--font-sans)", fontStyle: "normal", fontWeight: 400,
-            marginTop: 10, marginLeft: 44, maxWidth: 560, lineHeight: 1.6,
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: 17,
+            color: "rgba(255,255,255,0.85)",
+            lineHeight: 1.6,
+            maxWidth: 560,
+            margin: "0 auto 28px",
+            fontWeight: 400,
           }}>
-            Evalúa si tu operación tiene las condiciones habilitadoras para desplegar IA o automatización con éxito.
+            Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
           </p>
-        </div>
 
-        {/* Headline */}
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <HeadlineSequence rm={!!rm} />
-        </div>
-
-        {/* Bottom row */}
-        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 16, marginTop: 28 }}>
-          {/* Horizon line */}
-          <div aria-hidden style={{
-            height: 1, background: "rgba(255,255,255,0.10)",
-            transformOrigin: "left", ...an("heroDrawLine", "0.9s", "0.9s"),
-          }} />
-
-          {/* FIX #17: chain con nowrap + overflow auto para no partir en tablet */}
-          <div style={{
-            display:    "flex",
-            alignItems: "center",
-            flexWrap:   "nowrap",
-            overflowX:  "auto",
-            gap:        "0",
-            WebkitOverflowScrolling: "touch" as React.CSSProperties["WebkitOverflowScrolling"],
-            ...an("heroFadeIn", "0.5s", "1.1s"),
+          {/* h1 de la página */}
+          <h1 style={{
+            margin: 0,
+            padding: 0,
+            display: "contents",
+            fontFamily: "var(--font-geist-sans)",
+            fontWeight: 900,
           }}>
-            {CHAIN.map(({ label, accent }, i) => (
-              <span key={label} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1.05 }}>
+              <span style={{
+                fontFamily: "var(--font-geist-sans)",
+                fontWeight: 900,
+                fontSize: FS,
+                color: "#E07B30",
+                letterSpacing: "-1px",
+                lineHeight: 1.05,
+              }}>
+                Todos quieren IA.
+              </span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1.05 }}>
+              <span style={{
+                fontFamily: "var(--font-geist-sans)",
+                fontWeight: 900,
+                fontSize: FS,
+                letterSpacing: "-1px",
+                color: "rgba(255,255,255,0.9)",
+                lineHeight: 1.05,
+              }}>
+                Pero
+              </span>
+            </div>
+
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              lineHeight: 1.05,
+              marginTop: 2,
+              flexWrap: "wrap",
+            }}>
+              <span style={{
+                fontFamily: "var(--font-geist-sans)",
+                fontWeight: 900,
+                fontSize: FS,
+                letterSpacing: "-1px",
+                color: "rgba(255,255,255,0.9)",
+                lineHeight: 1.05,
+              }}>
+                Necesitan
+              </span>
+
+              <DrumRoll onIndexChange={() => {}} reduced={reduced} />
+
+              <span style={{
+                fontFamily: "var(--font-geist-sans)",
+                fontWeight: 900,
+                fontSize: FS,
+                letterSpacing: "-1px",
+                color: "rgba(255,255,255,0.9)",
+                lineHeight: 1.05,
+              }}>
+                primero.
+              </span>
+            </div>
+          </h1>
+
+          {/* Cadena de valor */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "8px 0",
+            marginTop: 80,
+          }}>
+            {[
+              { label: "Proceso sano", accent: false },
+              { label: "Dato confiable", accent: false },
+              { label: "La ruta correcta", accent: false },
+              { label: "Impacto financiero medible", accent: true },
+            ].map((item, i, arr) => (
+              <span key={item.label} style={{ display: "flex", alignItems: "center" }}>
                 <span style={{
-                  fontSize:   "clamp(11px, 2.5vw, 14px)",
-                  fontFamily: "var(--font-sans)",
-                  color:      accent ? "#E07B30" : "#FFFFFF",
-                  fontWeight: accent ? 600 : 400,
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: "clamp(11px,1vw,14px)",
+                  fontWeight: item.accent ? 600 : 400,
+                  color: item.accent ? "#E07B30" : "rgba(255,255,255,0.9)",
+                  letterSpacing: "0.04em",
                   whiteSpace: "nowrap",
                 }}>
-                  {label}
+                  {item.label}
                 </span>
-                {i < CHAIN.length - 1 && (
-                  <span aria-hidden style={{ color: "#E07B30", margin: "0 8px", fontSize: 12 }}>→</span>
+                {i < arr.length - 1 && (
+                  <span aria-hidden style={{
+                    margin: "0 10px",
+                    color: "rgba(255,255,255,0.2)",
+                    fontSize: 13,
+                    fontFamily: "var(--font-geist-mono)",
+                  }}>
+                    →
+                  </span>
                 )}
               </span>
             ))}
           </div>
 
-          {/* Support copy */}
+          {/* Tagline */}
           <p style={{
-            fontSize:   "clamp(15px, 1.6vw, 20px)",
-            fontFamily: "var(--font-sans)",
-            color:      "#FFFFFF",
-            lineHeight: 1.6,
-            margin:     0,
-            maxWidth:   560,
-            ...an("heroFadeIn", "0.5s", "1.2s"),
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: "clamp(13px,1.1vw,16px)",
+            color: "rgba(255,255,255,0.7)",
+            lineHeight: 1.65,
+            maxWidth: 440,
+            margin: "20px auto 0",
+            textAlign: "center",
+            fontWeight: 400,
           }}>
-            Medimos el gap entre tu operación hoy y lo que necesita ser para automatizar o desplegar IA con éxito.
+            Antes de apostarle a la IA, mide si tu operación está lista para que dé resultados.
           </p>
         </div>
-      </section>
+      </div>
+    </div>
+  );
+}
+
+// ─── RightPanel ───────────────────────────────────────────────────────────────
+
+function RightPanel({
+  textScaleMV,
+  activePain,
+}: {
+  textScaleMV: MotionValue<number>;
+  activePain: number;
+}) {
+  const allVisible = activePain >= PAINS.length - 1;
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "stretch",
+        padding: "64px 40px 40px 40px",
+        overflow: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
+      <motion.div style={{ scale: textScaleMV, transformOrigin: "center center" }}>
+        <h2 style={{
+          fontFamily: "var(--font-playfair)",
+          fontWeight: 700,
+          fontStyle: "italic",
+          fontSize: "clamp(28px,3.5vw,48px)",
+          color: "#ffffff",
+          margin: "0 0 48px 0",
+          lineHeight: 1.3,
+          textAlign: "center",
+        }}>
+          ¿Te identificas con esto?
+        </h2>
+
+        {/* Semántica de lista para los pain items */}
+        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+          {PAINS.map((pain, i) => {
+            const isActive = allVisible || i === activePain;
+            const Icon = PAIN_ICONS[i];
+            const iconColor = isActive ? "#C3B9D6" : "rgba(168,157,192,0.3)";
+            return (
+              <li key={pain.num} style={{
+                paddingTop: 14,
+                paddingBottom: 14,
+                transition: "opacity 0.4s ease",
+                opacity: isActive ? 1 : 0.2,
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 4 }}>
+                  <span style={{ flexShrink: 0, transition: "opacity 0.4s ease" }}>
+                    <Icon color={iconColor} />
+                  </span>
+                  <p style={{
+                    fontFamily: "var(--font-playfair)",
+                    fontWeight: 700,
+                    fontStyle: "italic",
+                    fontSize: "clamp(18px,2.2vw,32px)",
+                    color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
+                    margin: 0,
+                    lineHeight: 1.2,
+                    transition: "color 0.4s ease",
+                  }}>
+                    {pain.title}
+                  </p>
+                </div>
+                <p style={{
+                  fontFamily: "var(--font-geist-sans)",
+                  fontWeight: 400,
+                  fontSize: "clamp(11px,1.1vw,15px)",
+                  color: isActive ? "#E07B30" : "rgba(224,123,48,0.35)",
+                  margin: 0,
+                  lineHeight: 1.5,
+                  paddingLeft: 38,
+                  transition: "color 0.4s ease",
+                }}>
+                  {pain.desc}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Hero (main export) ───────────────────────────────────────────────────────
+
+export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activePain, setActivePain] = useState(0);
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const handler = () => setReduced(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target:  containerRef,
+    offset:  ["start start", "end end"],
+  });
+
+  const leftWidth    = useTransform(scrollYProgress, [0, 1], ["75%", "0%"]);
+  const rightWidth   = useTransform(scrollYProgress, [0, 1], ["25%", "100%"]);
+  const leftOpacity  = useTransform(scrollYProgress, [0.4, 0.7], [1, 0]);
+  const leftPointerEvents = useTransform(
+    scrollYProgress,
+    [0.4, 0.55],
+    ["auto", "none"] as ["auto" | "none", "auto" | "none"]
+  );
+  const rightTextScale = useTransform(scrollYProgress, [0.5, 1.0], [0.9, 1]);
+
+  const activePainRaw = useTransform(scrollYProgress, [0.4, 1.0], [0, 5.99]);
+  useMotionValueEvent(activePainRaw, "change", (v) => {
+    setActivePain(Math.floor(v));
+  });
+
+  // Memoized no-op to avoid unnecessary DrumRoll useEffect re-runs
+  const noop = useCallback(() => {}, []);
+
+  if (reduced) {
+    return (
+      <div id="el-problema" style={{ background: "#0E0B14" }}>
+        <Navbar />
+        <div style={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column", paddingTop: 64 }}>
+          <div style={{
+            position: "absolute", top: "50%", transform: "translateY(-50%)",
+            padding: "0 clamp(24px,5vw,48px)", width: "100%",
+          }}>
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div aria-hidden style={{ width: 28, height: 1, background: "#E07B30" }} />
+                <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: 12, color: "#E07B30", letterSpacing: "2px", textTransform: "uppercase" }}>
+                  DIAGNÓSTICO DE MADUREZ OPERACIONAL
+                </span>
+              </div>
+              {/* contraste mejorado: 0.30 → 0.70 */}
+              <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 17, color: "rgba(255,255,255,0.70)", marginTop: 6, marginLeft: 40, lineHeight: 1.6 }}>
+                Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
+              </p>
+            </div>
+            <h1 style={{ margin: 0, padding: 0 }}>
+              <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", color: "#E07B30", letterSpacing: "-1px", lineHeight: 1.05, display: "block", marginBottom: 4 }}>
+                Todos quieren IA.
+              </span>
+              <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", color: "rgba(255,255,255,0.9)", letterSpacing: "-1px", lineHeight: 1.05, display: "block", marginBottom: 4 }}>
+                Pero
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", letterSpacing: "-1px", color: "rgba(255,255,255,0.9)", lineHeight: 1.05 }}>Necesitan</span>
+                <DrumRoll onIndexChange={noop} reduced={true} />
+                <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", letterSpacing: "-1px", color: "rgba(255,255,255,0.9)", lineHeight: 1.05 }}>primero.</span>
+              </span>
+            </h1>
+          </div>
+        </div>
+        {/* Pain items en mobile/reduced — siempre visibles */}
+        <div style={{ padding: "48px clamp(24px,5vw,48px)", borderTop: "1px solid rgba(224,123,48,0.1)" }}>
+          <h2 style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: "clamp(20px,2.5vw,32px)", color: "rgba(255,255,255,0.9)", margin: "0 0 32px" }}>¿Te identificas con esto?</h2>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            {PAINS.map((pain) => (
+              <li key={pain.num} style={{ display: "flex", gap: 16, paddingTop: 14, paddingBottom: 14 }}>
+                <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#E07B30", flexShrink: 0, paddingTop: 2 }}>{pain.num}</span>
+                <div>
+                  <p style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.9)", margin: 0 }}>{pain.title}</p>
+                  <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 12, color: "rgba(255,255,255,0.65)", margin: "4px 0 0", lineHeight: 1.55 }}>{pain.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Navbar />
+      <div
+        ref={containerRef}
+        id="el-problema"
+        style={{ height: "200vh", position: "relative" }}
+      >
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflow: "hidden",
+            background: "#0E0B14",
+            display: "flex",
+            width: "100%",
+          }}
+        >
+          <motion.div
+            style={{
+              width: leftWidth,
+              opacity: leftOpacity,
+              height: "100%",
+              position: "relative",
+              pointerEvents: leftPointerEvents,
+              flexShrink: 0,
+              overflow: "hidden",
+            }}
+          >
+            <LeftPanel opacityMV={leftOpacity} reduced={false} />
+          </motion.div>
+
+          <motion.div
+            className="hidden md:block"
+            style={{
+              width: rightWidth,
+              height: "100%",
+              background: "#0E0B14",
+              borderLeft: "1px solid rgba(224,123,48,0.12)",
+              position: "relative",
+              flexShrink: 0,
+              overflow: "hidden",
+            }}
+          >
+            <RightPanel
+              textScaleMV={rightTextScale}
+              activePain={activePain}
+            />
+          </motion.div>
+        </div>
+      </div>
     </>
   );
 }

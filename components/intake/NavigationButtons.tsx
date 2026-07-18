@@ -20,7 +20,7 @@ export function NavigationButtons({
   onSubmit,
 }: NavigationButtonsProps) {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-[#2E2640]/95 backdrop-blur-sm border-t border-white/5">
+    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-[#0E0B14]/95 backdrop-blur-sm border-t border-white/5">
       <div className="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between gap-3">
         {/* Atrás */}
         <div className="w-24">

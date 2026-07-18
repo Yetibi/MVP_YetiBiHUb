@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
         subject: `Nuevo contacto: ${n}${e ? ` — ${e}` : ""}`,
         html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
-        background:#2E2640;color:#fff;padding:32px;border-radius:8px">
+        background:#0E0B14;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
           <span style="color:#E07B30;font-size:12px;letter-spacing:3px;
             text-transform:uppercase">NUEVO CONTACTO — YETI BI</span>
@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
         <div style="margin-top:32px;padding-top:24px;
           border-top:1px solid rgba(255,255,255,0.1)">
           <a href="mailto:${c}?subject=Re: Tu mensaje a Yeti BI"
-            style="display:inline-block;background:#E07B30;color:#2E2640;
+            style="display:inline-block;background:#E07B30;color:#0E0B14;
             font-weight:700;font-size:14px;padding:12px 24px;
             border-radius:4px;text-decoration:none">
             Responder a ${n} →
@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
         subject: "Recibimos tu mensaje — Yeti BI",
         html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
-        background:#2E2640;color:#fff;padding:32px;border-radius:8px">
+        background:#0E0B14;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
           <span style="color:#E07B30;font-size:12px;letter-spacing:3px;
             text-transform:uppercase">YETI BI</span>
@@ -184,7 +184,7 @@ export async function POST(req: NextRequest) {
         </p>
         <div style="margin-top:32px">
           <a href="https://yetibi.com/diagnostico"
-            style="display:inline-block;background:#E07B30;color:#2E2640;
+            style="display:inline-block;background:#E07B30;color:#0E0B14;
             font-weight:700;font-size:14px;padding:12px 24px;
             border-radius:4px;text-decoration:none">
             Hacer el diagnóstico →

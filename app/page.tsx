@@ -1,5 +1,5 @@
-import { Hero } from "@/components/home/Hero";
-import { Problem } from "@/components/home/Problem";
+import Hero from "@/components/home/Hero";
+
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { ValueFlow } from "@/components/home/ValueFlow";
 import { CtaFinal } from "@/components/home/CtaFinal";
@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <Hero />
       <main id="main-content">
-        <Problem />
+    
         <HowItWorks />
         <ValueFlow />
         <CtaFinal />

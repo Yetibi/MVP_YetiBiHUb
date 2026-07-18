@@ -10,8 +10,9 @@ export function CtaFinal() {
   return (
     <section
       id="contacto"
+      aria-labelledby="contacto-heading"
       className="relative w-full overflow-hidden px-5 md:px-10 lg:px-20"
-      style={{ backgroundColor: "#2E2640", paddingTop: "clamp(72px,10vw,140px)", paddingBottom: "clamp(80px,12vw,160px)" }}
+      style={{ backgroundColor: "#150D20", paddingTop: "clamp(72px,10vw,140px)", paddingBottom: "clamp(80px,12vw,160px)" }}
     >
       {/* Semicírculo invertido — entra desde abajo */}
       <div
@@ -42,6 +43,7 @@ export function CtaFinal() {
       >
         {/* Título a pantalla completa centrado */}
         <motion.h2
+          id="contacto-heading"
           variants={rm ? undefined : fadeUp}
           className="text-center"
           style={{ lineHeight: 1.1, maxWidth: 900 }}
@@ -101,11 +103,13 @@ export function CtaFinal() {
               fontSize: 18,
               padding: "18px 40px",
               gap: 10,
+              minHeight: 44,
               boxShadow: "0 0 80px 20px #E07B3026, 0 8px 30px -8px #E07B3099",
             }}
           >
             Diagnostica tu proceso
             <span aria-hidden>→</span>
+            <span className="sr-only"> (abre en nueva pestaña)</span>
           </a>
         </motion.div>
 
@@ -124,12 +128,15 @@ export function CtaFinal() {
           </p>
         </motion.div>
 
-        {/* Formulario centrado dentro del contenedor */}
+        {/* Formulario */}
         <motion.div
           variants={rm ? undefined : fadeUp}
           className="w-full flex justify-center"
         >
-          <ContactForm />
+          <div className="w-full" style={{ maxWidth: 640 }}>
+            <h3 className="sr-only">Formulario de contacto</h3>
+            <ContactForm />
+          </div>
         </motion.div>
       </motion.div>
     </section>

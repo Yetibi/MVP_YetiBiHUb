@@ -6,7 +6,7 @@ export function Footer() {
     <footer
       role="contentinfo"
       className="w-full px-5 md:px-10 lg:px-20"
-      style={{ backgroundColor: "#221B31", paddingTop: 60, paddingBottom: 60 }}
+      style={{ backgroundColor: "#150D20", paddingTop: 60, paddingBottom: 60 }}
     >
       {/* Main row: 3 columnas */}
       <div className="flex w-full flex-col md:flex-row md:items-start" style={{ gap: 48, marginBottom: 40 }}>
