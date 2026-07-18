@@ -373,16 +373,46 @@ function StepsSection({ reduced }: { reduced: boolean }) {
   );
 }
 
-// ─── Mobile fallback ──────────────────────────────────────────────────────────
+// ─── Mobile layout — pasos con spotlight scroll via IntersectionObserver ────────
 
 function MobileLayout({ reduced }: { reduced: boolean }) {
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeStep, setActiveStep] = useState(-1);
+  const [allSeen, setAllSeen]       = useState(false);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    stepRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const io = new IntersectionObserver(
+        ([e]) => {
+          if (e.isIntersecting) {
+            setActiveStep(i);
+            if (i === STEPS.length - 1) setAllSeen(true);
+          }
+        },
+        { threshold: 0.4 }
+      );
+      io.observe(el);
+      observers.push(io);
+    });
+    return () => observers.forEach((io) => io.disconnect());
+  }, []);
+
+  const ICONS = [
+    <IconClipboard key={0} />,
+    <IconGear key={1} reduced={reduced} />,
+    <IconBox key={2} />,
+  ];
+
   return (
     <>
       <section
         id="como-funciona"
         style={{ background: "#0E0B14", padding: "56px 24px 40px" }}
       >
-        <div style={{ marginBottom: 32 }}>
+        {/* Header */}
+        <div style={{ marginBottom: 40 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
             <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30" }} />
             <span style={{
@@ -403,58 +433,113 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
           </h2>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-          {STEPS.map((step, i) => (
-            <div key={step.num} style={{
-              borderTop: "1px solid rgba(255,255,255,0.08)",
-              paddingTop: 20,
-              display: "flex", flexDirection: "column", gap: 10,
-            }}>
-              <div style={{
-                width: 40, height: 40, borderRadius: "50%",
-                border: "1px solid rgba(224,123,48,0.3)",
-                background: "rgba(224,123,48,0.07)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
-                {i === 0 && <IconClipboard />}
-                {i === 1 && <IconGear reduced={reduced} />}
-                {i === 2 && <IconBox />}
-              </div>
-              <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 16, fontWeight: 700, color: "#fff", margin: 0 }}>
-                {step.title}
-              </p>
-              <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, margin: 0 }}>
-                {step.desc}
-              </p>
-              {step.alert && (
-                <div style={{ borderLeft: "2px solid #E07B30", background: "rgba(224,123,48,0.06)", padding: "8px 10px" }}>
-                  <p style={{ fontSize: 10, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: 1, fontWeight: 700, margin: "0 0 3px" }}>
-                    {step.alert.title}
-                  </p>
-                  {/* contraste: 0.30 → 0.70 */}
-                  <p style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", lineHeight: 1.4, margin: "0 0 4px" }}>
-                    {step.alert.text}
-                  </p>
-                  <p style={{ fontSize: 11, color: "rgba(255,255,255,0.60)", margin: 0 }}>
-                    {step.alert.formats}
-                  </p>
+        {/* Pasos — spotlight */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {STEPS.map((step, i) => {
+            const isActive = allSeen || i === activeStep;
+            const hasSeen  = allSeen || i <= activeStep;
+
+            return (
+              <div
+                key={step.num}
+                ref={(el) => { stepRefs.current[i] = el; }}
+                style={{
+                  borderTop: `1px solid ${isActive ? "rgba(224,123,48,0.30)" : "rgba(255,255,255,0.06)"}`,
+                  padding: "24px 0",
+                  display: "flex", flexDirection: "column", gap: 12,
+                  opacity: isActive ? 1 : hasSeen ? 0.22 : 0.08,
+                  transform: hasSeen ? "translateX(0) scale(1)" : "translateX(32px) scale(0.97)",
+                  filter: hasSeen ? "blur(0px)" : "blur(3px)",
+                  transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s ease, border-color 0.45s ease",
+                }}
+              >
+                {/* Número grande decorativo */}
+                <div style={{ position: "relative" }}>
+                  <span aria-hidden style={{
+                    position: "absolute", top: -8, right: 0,
+                    fontFamily: "var(--font-geist-sans)", fontWeight: 900,
+                    fontSize: 80, lineHeight: 1,
+                    color: isActive ? "rgba(224,123,48,0.18)" : "rgba(255,255,255,0.04)",
+                    userSelect: "none", pointerEvents: "none",
+                    transition: "color 0.45s ease",
+                  }}>
+                    {step.num}
+                  </span>
+
+                  {/* Icono */}
+                  <div style={{
+                    width: 48, height: 48, borderRadius: "50%",
+                    border: `1px solid ${isActive ? "rgba(224,123,48,0.40)" : "rgba(255,255,255,0.10)"}`,
+                    background: isActive ? "rgba(224,123,48,0.09)" : "rgba(255,255,255,0.03)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    transition: "border-color 0.45s ease, background 0.45s ease",
+                  }}>
+                    {ICONS[i]}
+                  </div>
                 </div>
-              )}
-              <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: 1.5 }}>
-                {step.tag}
-              </span>
-            </div>
-          ))}
+
+                {/* Título */}
+                <p style={{
+                  fontFamily: "var(--font-geist-sans)", fontSize: 20, fontWeight: 700,
+                  color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
+                  margin: 0, lineHeight: 1.2,
+                  transition: "color 0.45s ease",
+                }}>
+                  {step.title}
+                </p>
+
+                {/* Descripción */}
+                <p style={{
+                  fontFamily: "var(--font-geist-sans)", fontSize: 14,
+                  color: isActive ? "rgba(255,255,255,0.70)" : "rgba(255,255,255,0.25)",
+                  lineHeight: 1.65, margin: 0,
+                  transition: "color 0.45s ease",
+                }}>
+                  {step.desc}
+                </p>
+
+                {/* Alerta paso 1 */}
+                {step.alert && isActive && (
+                  <div style={{
+                    borderLeft: "2px solid #E07B30",
+                    background: "rgba(224,123,48,0.06)",
+                    padding: "10px 12px",
+                  }}>
+                    <p style={{ fontSize: 10, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: 1, fontWeight: 700, margin: "0 0 4px" }}>
+                      {step.alert.title}
+                    </p>
+                    <p style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", lineHeight: 1.5, margin: "0 0 3px" }}>
+                      {step.alert.text}
+                    </p>
+                    <p style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", margin: 0 }}>
+                      {step.alert.formats}
+                    </p>
+                  </div>
+                )}
+
+                {/* Tag */}
+                <span style={{
+                  fontFamily: "var(--font-geist-mono)", fontSize: 10,
+                  color: isActive ? "#E07B30" : "rgba(224,123,48,0.30)",
+                  textTransform: "uppercase" as const, letterSpacing: "1.5px",
+                  transition: "color 0.45s ease",
+                }}>
+                  {step.tag}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </section>
 
+      {/* Banner asesoría */}
       <section
         id="asesoria"
         style={{
-          background: "#0E0B14",
+          background: "#150D20",
           borderTop: "1px solid rgba(224,123,48,0.12)",
-          padding: "48px 24px",
-          display: "flex", flexDirection: "column", gap: 20,
+          padding: "40px 24px 48px",
+          display: "flex", flexDirection: "column", gap: 16,
         }}
       >
         <p style={{
@@ -489,8 +574,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
               fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 12,
               textTransform: "uppercase" as const, letterSpacing: "1px",
               padding: "14px 24px", borderRadius: 2,
-              textDecoration: "none", display: "inline-block",
-              minHeight: 44,
+              textDecoration: "none", display: "inline-block", minHeight: 44,
             }}
           >
             SOLICITAR ASESORÍA <span aria-hidden>→</span>
@@ -505,8 +589,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
               fontFamily: "var(--font-geist-sans)", fontSize: 12,
               textTransform: "uppercase" as const, letterSpacing: "1px",
               padding: "14px 24px", borderRadius: 2,
-              textDecoration: "none", display: "inline-block",
-              minHeight: 44,
+              textDecoration: "none", display: "inline-block", minHeight: 44,
             }}
           >
             PRIMERO QUIERO MI DIAGNÓSTICO

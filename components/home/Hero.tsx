@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -21,11 +21,11 @@ const NAV_LINKS = [
 ] as const;
 
 const WORDS = [
-  "claridad",
-  "diagnóstico",
-  "fuga cerrada",
-  "madurez",
-  "decisión",
+  "claridad.",
+  "diagnóstico.",
+  "fuga cerrada.",
+  "madurez.",
+  "decisión.",
 ] as const;
 
 const PAIN_ICONS: React.FC<{ color: string }>[] = [
@@ -114,28 +114,42 @@ function DrumRoll({ onIndexChange, reduced }: {
   onIndexChange: (i: number) => void;
   reduced: boolean;
 }) {
-  const sizerRef  = useRef<HTMLSpanElement>(null);
-  const sizerRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const trackRef  = useRef<HTMLDivElement>(null);
+  const sizerRef = useRef<HTMLSpanElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   const [slotH, setSlotH] = useState(0);
-  const [slotW, setSlotW] = useState(0);
-  const [current, setCurrent] = useState<number>(WORDS.length);
 
   const OFFSET   = WORDS.length;
   const extended = [...WORDS, ...WORDS, ...WORDS];
-  const FS       = "clamp(32px,4.5vw,60px)";
+  const [current, setCurrent] = useState<number>(OFFSET);
 
   useEffect(() => {
-    if (!sizerRef.current) return;
-    setSlotH(sizerRef.current.offsetHeight);
+    const measure = () => {
+      if (!sizerRef.current) return;
+      const h = sizerRef.current.offsetHeight;
+      if (h > 0) setSlotH(h);
+      if (frameRef.current) {
+        const w = Math.min(
+          sizerRef.current.offsetWidth + 44,
+          window.innerWidth * 0.55,
+        );
+        frameRef.current.style.width = w + "px";
+      }
+    };
+    measure();
+    document.fonts.ready.then(measure);
+    const onResize = () => {
+      if (!sizerRef.current || !frameRef.current) return;
+      const w = Math.min(
+        sizerRef.current.offsetWidth + 44,
+        window.innerWidth * 0.55,
+      );
+      frameRef.current.style.width = w + "px";
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
   }, []);
-
-  useEffect(() => {
-    const el = sizerRefs.current[current % WORDS.length];
-    if (!el) return;
-    setSlotW(el.offsetWidth + 12);
-  }, [current]);
 
   useEffect(() => {
     onIndexChange(current % WORDS.length);
@@ -166,27 +180,15 @@ function DrumRoll({ onIndexChange, reduced }: {
     return () => clearInterval(id);
   }, [slotH, reduced]);
 
-  const sizerBase: React.CSSProperties = {
-    visibility: "hidden",
-    position: "absolute",
-    fontFamily: "var(--font-geist-sans)",
-    fontWeight: 900,
-    fontSize: FS,
-    whiteSpace: "nowrap",
-    letterSpacing: "-1px",
-    pointerEvents: "none",
-  };
-
   if (reduced) {
     return (
       <span style={{
         fontFamily: "var(--font-geist-sans)",
         fontWeight: 900,
-        fontSize: FS,
-        letterSpacing: "-1px",
-        color: "#E07B30",
+        fontSize:   "clamp(28px,4.5vw,58px)",
+        color:      "#E07B30",
       }}>
-        claridad
+        claridad.
       </span>
     );
   }
@@ -195,99 +197,104 @@ function DrumRoll({ onIndexChange, reduced }: {
 
   return (
     <>
-      {/* Texto accesible para lectores de pantalla — se actualiza con cada cambio */}
-      <span
-        className="sr-only"
-        aria-live="polite"
-        aria-atomic="true"
-      >
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
         {activeWord}
       </span>
 
-      <span ref={sizerRef} aria-hidden style={sizerBase}>A</span>
-      {WORDS.map((w, i) => (
-        <span key={w} ref={(el) => { sizerRefs.current[i] = el; }} aria-hidden style={sizerBase}>{w}</span>
-      ))}
-
-      <div
+      {/* Sizer invisible — ancla en el flujo, mide ancho y alto reales */}
+      <span
+        ref={sizerRef}
         aria-hidden
         style={{
-          display: "inline-flex",
-          alignItems: "flex-start",
-          verticalAlign: "middle",
-          position: "relative",
+          visibility:    "hidden",
+          fontFamily:    "var(--font-geist-sans)",
+          fontWeight:    900,
+          fontSize:      "clamp(28px,4.5vw,58px)",
+          whiteSpace:    "nowrap",
+          pointerEvents: "none",
+          position:      "absolute",
+          top:           0,
+          left:          0,
+        }}
+      >
+        fuga cerrada.
+      </span>
+
+      {/* Word-frame: clip window + brackets */}
+      <div
+        ref={frameRef}
+        aria-hidden
+        style={{
+          display:    "inline-flex",
+          alignItems: "center",
+          overflow:   "hidden",
+          position:   "relative",
           flexShrink: 0,
-          width: slotW || "auto",
-          height: slotH || "1.1em",
-          overflow: "visible",
-          transition: "width 0.4s cubic-bezier(0.4,0,0.2,1)",
-        }}>
+          height:     slotH ? slotH + "px" : "1.1em",
+        }}
+      >
+        {/* 4 corner brackets */}
         {slotH > 0 && (["tl","tr","bl","br"] as const).map((pos) => (
           <span
             key={pos}
             aria-hidden
             style={{
-              position: "absolute",
-              width: 6, height: 6,
-              borderColor: "#E07B30",
-              borderStyle: "solid",
-              opacity: 0.8,
-              zIndex: 10,
-              ...(pos === "tl" && { top: -3,        left:  -6, borderWidth: "1.5px 0 0 1.5px" }),
-              ...(pos === "tr" && { top: -3,        right: -6, borderWidth: "1.5px 1.5px 0 0" }),
-              ...(pos === "bl" && { top: slotH - 3, left:  -6, borderWidth: "0 0 1.5px 1.5px" }),
-              ...(pos === "br" && { top: slotH - 3, right: -6, borderWidth: "0 1.5px 1.5px 0" }),
+              position:      "absolute",
+              width:         6,
+              height:        6,
+              borderColor:   "#E07B30",
+              borderStyle:   "solid",
+              opacity:       0.8,
+              zIndex:        10,
+              pointerEvents: "none",
+              ...(pos === "tl" && { top: -1,           left:  -1, borderWidth: "1.5px 0 0 1.5px" }),
+              ...(pos === "tr" && { top: -1,           right: -1, borderWidth: "1.5px 1.5px 0 0" }),
+              ...(pos === "bl" && { bottom: slotH - 3, left:  -1, borderWidth: "0 0 1.5px 1.5px" }),
+              ...(pos === "br" && { bottom: slotH - 3, right: -1, borderWidth: "0 1.5px 1.5px 0" }),
             }}
           />
         ))}
 
-        <div style={{
-          position: "relative",
-          width: "100%",
-          height: slotH || "1.1em",
-          overflow: "visible",
-          clipPath: "none",
-        }}>
-          <div
-            ref={trackRef}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              transform: `translateY(${-current * slotH}px)`,
-              transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
-              willChange: "transform",
-              overflow: "visible",
-            }}
-          >
-            {extended.map((word, i) => {
-              const d        = i - current;
-              const isActive = d === 0;
-              const isBelow  = d === 1;
-              return (
-                <div
-                  key={`${word}-${i}`}
-                  aria-hidden
-                  style={{
-                    height:     slotH || undefined,
-                    lineHeight: slotH ? `${slotH}px` : undefined,
-                    display:    "flex",
-                    alignItems: "center",
-                    whiteSpace: "nowrap",
-                    fontFamily: "var(--font-geist-sans)",
-                    fontWeight: 900,
-                    fontSize:   FS,
-                    letterSpacing: "-1px",
-                    fontStyle:  isBelow ? "italic" : "normal",
-                    color:      isActive ? "#E07B30" : isBelow ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.04)",
-                    opacity:    isActive ? 1 : isBelow ? 0.55 : 0,
-                    transition: "color 0.3s ease, opacity 0.3s ease",
-                  }}
-                >
-                  {word}
-                </div>
-              );
-            })}
-          </div>
+        {/* Scrolling track — todos los slots tienen height: slotH para que translateY funcione */}
+        <div
+          ref={trackRef}
+          style={{
+            display:       "flex",
+            flexDirection: "column",
+            transform:     `translateY(-${current * slotH}px)`,
+            transition:    "transform 0.52s cubic-bezier(0.4,0,0.2,1)",
+            willChange:    "transform",
+          }}
+        >
+          {extended.map((word, i) => {
+            const d        = i - current;
+            const isActive = d === 0;
+            const isBelow  = d === 1;
+            return (
+              <div
+                key={`${word}-${i}`}
+                aria-hidden
+                style={{
+                  height:         slotH + "px",
+                  lineHeight:     slotH + "px",
+                  display:        "flex",
+                  alignItems:     "center",
+                  justifyContent: "center",
+                  whiteSpace:     "nowrap",
+                  fontFamily:     "var(--font-geist-sans)",
+                  fontWeight:     900,
+                  fontSize:       "clamp(28px,4.5vw,58px)",
+                  fontStyle:      isBelow ? "italic" : "normal",
+                  color:          isActive ? "#E07B30" : isBelow ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.04)",
+                  opacity:        isActive ? 1 : isBelow ? 0.55 : 0,
+                  transition:     "color 0.3s ease, opacity 0.3s ease",
+                  pointerEvents:  "none",
+                }}
+              >
+                {word}
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
@@ -806,6 +813,81 @@ function RightPanel({
   );
 }
 
+// ─── MobilePainList — spotlight: activo=full, resto=dim, todos=full al final ──
+
+function MobilePainList() {
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  // activeIndex: el último item que entró al viewport (-1 = ninguno aún)
+  const [activeIndex, setActiveIndex] = useState(-1);
+  // allSeen: true cuando el último item ha sido visto al menos una vez
+  const [allSeen, setAllSeen] = useState(false);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    itemRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const io = new IntersectionObserver(
+        ([e]) => {
+          if (e.isIntersecting) {
+            setActiveIndex(i);
+            if (i === PAINS.length - 1) setAllSeen(true);
+          }
+        },
+        { threshold: 0.4 }
+      );
+      io.observe(el);
+      observers.push(io);
+    });
+    return () => observers.forEach((io) => io.disconnect());
+  }, []);
+
+  return (
+    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      {PAINS.map((pain, i) => {
+        const isActive = allSeen || i === activeIndex;
+        const hasBeenSeen = allSeen || i <= activeIndex;
+        const Icon = PAIN_ICONS[i];
+
+        return (
+          <li
+            key={pain.num}
+            ref={(el) => { itemRefs.current[i] = el; }}
+            style={{
+              display: "flex", gap: 14,
+              paddingTop: 16, paddingBottom: 16,
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              opacity: isActive ? 1 : hasBeenSeen ? 0.25 : 0.12,
+              transform: hasBeenSeen ? "translateY(0)" : "translateY(14px)",
+              transition: "opacity 0.45s ease, transform 0.45s ease",
+            }}
+          >
+            <span style={{ flexShrink: 0, paddingTop: 1 }}>
+              <Icon color={isActive ? "#C3B9D6" : "rgba(168,157,192,0.25)"} />
+            </span>
+            <div>
+              <p style={{
+                fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 15,
+                color: isActive ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.25)",
+                margin: 0, transition: "color 0.45s ease",
+              }}>
+                {pain.title}
+              </p>
+              <p style={{
+                fontFamily: "var(--font-geist-sans)", fontSize: 13,
+                color: isActive ? "#E07B30" : "rgba(224,123,48,0.20)",
+                margin: "4px 0 0", lineHeight: 1.55,
+                transition: "color 0.45s ease",
+              }}>
+                {pain.desc}
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 // ─── Hero (main export) ───────────────────────────────────────────────────────
 
 export default function Hero() {
@@ -849,59 +931,109 @@ export default function Hero() {
     setActivePain(Math.floor(v));
   });
 
-  // Memoized no-op to avoid unnecessary DrumRoll useEffect re-runs
-  const noop = useCallback(() => {}, []);
-
   if (reduced || isMobile) {
     return (
       <div id="el-problema" style={{ background: "#0E0B14" }}>
         <Navbar />
-        <div style={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column", paddingTop: 64 }}>
-          <div style={{
-            position: "absolute", top: "50%", transform: "translateY(-50%)",
-            padding: "0 clamp(24px,5vw,48px)", width: "100%",
+
+        {/* ── Hero mobile: flujo normal, compacto ── */}
+        <div style={{
+          padding: "80px 24px 40px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        }}>
+          {/* Kicker */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div aria-hidden style={{ width: 20, height: 1, background: "#E07B30", flexShrink: 0 }} />
+            <span style={{
+              fontFamily: "var(--font-geist-mono)", fontSize: 9,
+              color: "#E07B30", letterSpacing: "2px", textTransform: "uppercase" as const,
+            }}>
+              DIAGNÓSTICO DE MADUREZ OPERACIONAL
+            </span>
+          </div>
+
+          {/* H1 — DrumRoll activo en mobile, misma lógica que desktop */}
+          <h1 style={{ margin: 0, padding: 0, lineHeight: 1.05 }}>
+            <span style={{
+              fontFamily: "var(--font-geist-sans)", fontWeight: 900,
+              fontSize: 40, color: "#E07B30",
+              letterSpacing: "-1px", display: "block",
+            }}>
+              Todos quieren IA.
+            </span>
+            <span style={{
+              fontFamily: "var(--font-geist-sans)", fontWeight: 900,
+              fontSize: 40, color: "rgba(255,255,255,0.9)",
+              letterSpacing: "-1px", display: "block",
+            }}>
+              Pero
+            </span>
+            <span style={{
+              display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10,
+            }}>
+              <span style={{
+                fontFamily: "var(--font-geist-sans)", fontWeight: 900,
+                fontSize: 40, color: "rgba(255,255,255,0.9)", letterSpacing: "-1px",
+              }}>
+                Necesitan
+              </span>
+              <DrumRoll onIndexChange={() => {}} reduced={reduced} />
+              <span style={{
+                fontFamily: "var(--font-geist-sans)", fontWeight: 900,
+                fontSize: 40, color: "rgba(255,255,255,0.9)", letterSpacing: "-1px",
+              }}>
+                primero.
+              </span>
+            </span>
+          </h1>
+
+          {/* Subtítulo */}
+          <p style={{
+            fontFamily: "var(--font-geist-sans)", fontSize: 15,
+            color: "rgba(255,255,255,0.60)", lineHeight: 1.6, margin: 0,
           }}>
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div aria-hidden style={{ width: 28, height: 1, background: "#E07B30" }} />
-                <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: 12, color: "#E07B30", letterSpacing: "2px", textTransform: "uppercase" }}>
-                  DIAGNÓSTICO DE MADUREZ OPERACIONAL
+            Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
+          </p>
+
+          {/* Cadena de valor — vertical en mobile */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
+            {[
+              { label: "Proceso sano", accent: false },
+              { label: "Dato confiable", accent: false },
+              { label: "La ruta correcta", accent: false },
+              { label: "Impacto financiero medible", accent: true },
+            ].map((item, i, arr) => (
+              <span key={item.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                {i < arr.length - 1 && (
+                  <span aria-hidden style={{ color: "rgba(255,255,255,0.15)", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
+                )}
+                {i === arr.length - 1 && (
+                  <span aria-hidden style={{ color: "#E07B30", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
+                )}
+                <span style={{
+                  fontFamily: "var(--font-geist-mono)", fontSize: 11,
+                  fontWeight: item.accent ? 600 : 400,
+                  color: item.accent ? "#E07B30" : "rgba(255,255,255,0.55)",
+                }}>
+                  {item.label}
                 </span>
-              </div>
-              {/* contraste mejorado: 0.30 → 0.70 */}
-              <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 17, color: "rgba(255,255,255,0.70)", marginTop: 6, marginLeft: 40, lineHeight: 1.6 }}>
-                Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
-              </p>
-            </div>
-            <h1 style={{ margin: 0, padding: 0 }}>
-              <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", color: "#E07B30", letterSpacing: "-1px", lineHeight: 1.05, display: "block", marginBottom: 4 }}>
-                Todos quieren IA.
               </span>
-              <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", color: "rgba(255,255,255,0.9)", letterSpacing: "-1px", lineHeight: 1.05, display: "block", marginBottom: 4 }}>
-                Pero
-              </span>
-              <span style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-                <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", letterSpacing: "-1px", color: "rgba(255,255,255,0.9)", lineHeight: 1.05 }}>Necesitan</span>
-                <DrumRoll onIndexChange={noop} reduced={true} />
-                <span style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,60px)", letterSpacing: "-1px", color: "rgba(255,255,255,0.9)", lineHeight: 1.05 }}>primero.</span>
-              </span>
-            </h1>
+            ))}
           </div>
         </div>
-        {/* Pain items en mobile/reduced — siempre visibles */}
-        <div style={{ padding: "48px clamp(24px,5vw,48px)", borderTop: "1px solid rgba(224,123,48,0.1)" }}>
-          <h2 style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: "clamp(20px,2.5vw,32px)", color: "rgba(255,255,255,0.9)", margin: "0 0 32px" }}>¿Te identificas con esto?</h2>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {PAINS.map((pain) => (
-              <li key={pain.num} style={{ display: "flex", gap: 16, paddingTop: 14, paddingBottom: 14 }}>
-                <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#E07B30", flexShrink: 0, paddingTop: 2 }}>{pain.num}</span>
-                <div>
-                  <p style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.9)", margin: 0 }}>{pain.title}</p>
-                  <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: 12, color: "rgba(255,255,255,0.65)", margin: "4px 0 0", lineHeight: 1.55 }}>{pain.desc}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+
+        {/* Pain items — animados con scroll via IntersectionObserver */}
+        <div style={{ padding: "0 24px 56px", borderTop: "1px solid rgba(224,123,48,0.10)" }}>
+          <h2 style={{
+            fontFamily: "var(--font-geist-sans)", fontWeight: 700,
+            fontSize: 20, color: "rgba(255,255,255,0.9)",
+            margin: "32px 0 20px",
+          }}>
+            ¿Te identificas con esto?
+          </h2>
+          <MobilePainList />
         </div>
       </div>
     );

@@ -226,6 +226,11 @@ section[id] { scroll-margin-top: 80px; }
 }
 .vf-rp { transform-origin: 630px 270px; transform-box: fill-box; }
 
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* ── Reduced motion: disable all decorative animations ──────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
