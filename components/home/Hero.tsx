@@ -21,11 +21,11 @@ const NAV_LINKS = [
 ] as const;
 
 const WORDS = [
-  "claridad.",
-  "diagnóstico.",
-  "fuga cerrada.",
-  "madurez.",
-  "decisión.",
+  "claridad",
+  "diagnóstico",
+  "fuga cerrada",
+  "madurez",
+  "decisión",
 ] as const;
 
 const PAIN_ICONS: React.FC<{ color: string }>[] = [
@@ -114,42 +114,28 @@ function DrumRoll({ onIndexChange, reduced }: {
   onIndexChange: (i: number) => void;
   reduced: boolean;
 }) {
-  const sizerRef = useRef<HTMLSpanElement>(null);
-  const frameRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const sizerRef  = useRef<HTMLSpanElement>(null);
+  const sizerRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const trackRef  = useRef<HTMLDivElement>(null);
 
   const [slotH, setSlotH] = useState(0);
+  const [slotW, setSlotW] = useState(0);
+  const [current, setCurrent] = useState<number>(WORDS.length);
 
   const OFFSET   = WORDS.length;
   const extended = [...WORDS, ...WORDS, ...WORDS];
-  const [current, setCurrent] = useState<number>(OFFSET);
+  const FS       = "clamp(32px,4.5vw,60px)";
 
   useEffect(() => {
-    const measure = () => {
-      if (!sizerRef.current) return;
-      const h = sizerRef.current.offsetHeight;
-      if (h > 0) setSlotH(h);
-      if (frameRef.current) {
-        const w = Math.min(
-          sizerRef.current.offsetWidth + 44,
-          window.innerWidth * 0.55,
-        );
-        frameRef.current.style.width = w + "px";
-      }
-    };
-    measure();
-    document.fonts.ready.then(measure);
-    const onResize = () => {
-      if (!sizerRef.current || !frameRef.current) return;
-      const w = Math.min(
-        sizerRef.current.offsetWidth + 44,
-        window.innerWidth * 0.55,
-      );
-      frameRef.current.style.width = w + "px";
-    };
-    window.addEventListener("resize", onResize, { passive: true });
-    return () => window.removeEventListener("resize", onResize);
+    if (!sizerRef.current) return;
+    setSlotH(sizerRef.current.offsetHeight);
   }, []);
+
+  useEffect(() => {
+    const el = sizerRefs.current[current % WORDS.length];
+    if (!el) return;
+    setSlotW(el.offsetWidth + 12);
+  }, [current]);
 
   useEffect(() => {
     onIndexChange(current % WORDS.length);
@@ -180,15 +166,27 @@ function DrumRoll({ onIndexChange, reduced }: {
     return () => clearInterval(id);
   }, [slotH, reduced]);
 
+  const sizerBase: React.CSSProperties = {
+    visibility: "hidden",
+    position: "absolute",
+    fontFamily: "var(--font-geist-sans)",
+    fontWeight: 900,
+    fontSize: FS,
+    whiteSpace: "nowrap",
+    letterSpacing: "-1px",
+    pointerEvents: "none",
+  };
+
   if (reduced) {
     return (
       <span style={{
         fontFamily: "var(--font-geist-sans)",
         fontWeight: 900,
-        fontSize:   "clamp(28px,4.5vw,58px)",
-        color:      "#E07B30",
+        fontSize: FS,
+        letterSpacing: "-1px",
+        color: "#E07B30",
       }}>
-        claridad.
+        claridad
       </span>
     );
   }
@@ -201,100 +199,89 @@ function DrumRoll({ onIndexChange, reduced }: {
         {activeWord}
       </span>
 
-      {/* Sizer invisible — ancla en el flujo, mide ancho y alto reales */}
-      <span
-        ref={sizerRef}
-        aria-hidden
-        style={{
-          visibility:    "hidden",
-          fontFamily:    "var(--font-geist-sans)",
-          fontWeight:    900,
-          fontSize:      "clamp(28px,4.5vw,58px)",
-          whiteSpace:    "nowrap",
-          pointerEvents: "none",
-          position:      "absolute",
-          top:           0,
-          left:          0,
-        }}
-      >
-        fuga cerrada.
-      </span>
+      <span ref={sizerRef} aria-hidden style={sizerBase}>A</span>
+      {WORDS.map((w, i) => (
+        <span key={w} ref={(el) => { sizerRefs.current[i] = el; }} aria-hidden style={sizerBase}>{w}</span>
+      ))}
 
-      {/* Word-frame: clip window + brackets */}
       <div
-        ref={frameRef}
         aria-hidden
         style={{
-          display:    "inline-flex",
-          alignItems: "center",
-          overflow:   "hidden",
-          position:   "relative",
+          display: "inline-flex",
+          alignItems: "flex-start",
+          verticalAlign: "middle",
+          position: "relative",
           flexShrink: 0,
-          height:     slotH ? slotH + "px" : "1.1em",
-        }}
-      >
-        {/* 4 corner brackets */}
+          width: slotW || "auto",
+          height: slotH || "1.1em",
+          overflow: "visible",
+          transition: "width 0.4s cubic-bezier(0.4,0,0.2,1)",
+        }}>
         {slotH > 0 && (["tl","tr","bl","br"] as const).map((pos) => (
           <span
             key={pos}
             aria-hidden
             style={{
-              position:      "absolute",
-              width:         6,
-              height:        6,
-              borderColor:   "#E07B30",
-              borderStyle:   "solid",
-              opacity:       0.8,
-              zIndex:        10,
-              pointerEvents: "none",
-              ...(pos === "tl" && { top: -1,           left:  -1, borderWidth: "1.5px 0 0 1.5px" }),
-              ...(pos === "tr" && { top: -1,           right: -1, borderWidth: "1.5px 1.5px 0 0" }),
-              ...(pos === "bl" && { bottom: slotH - 3, left:  -1, borderWidth: "0 0 1.5px 1.5px" }),
-              ...(pos === "br" && { bottom: slotH - 3, right: -1, borderWidth: "0 1.5px 1.5px 0" }),
+              position: "absolute",
+              width: 6, height: 6,
+              borderColor: "#E07B30",
+              borderStyle: "solid",
+              opacity: 0.8,
+              zIndex: 10,
+              ...(pos === "tl" && { top: -3,        left:  -6, borderWidth: "1.5px 0 0 1.5px" }),
+              ...(pos === "tr" && { top: -3,        right: -6, borderWidth: "1.5px 1.5px 0 0" }),
+              ...(pos === "bl" && { top: slotH - 3, left:  -6, borderWidth: "0 0 1.5px 1.5px" }),
+              ...(pos === "br" && { top: slotH - 3, right: -6, borderWidth: "0 1.5px 1.5px 0" }),
             }}
           />
         ))}
 
-        {/* Scrolling track — todos los slots tienen height: slotH para que translateY funcione */}
-        <div
-          ref={trackRef}
-          style={{
-            display:       "flex",
-            flexDirection: "column",
-            transform:     `translateY(-${current * slotH}px)`,
-            transition:    "transform 0.52s cubic-bezier(0.4,0,0.2,1)",
-            willChange:    "transform",
-          }}
-        >
-          {extended.map((word, i) => {
-            const d        = i - current;
-            const isActive = d === 0;
-            const isBelow  = d === 1;
-            return (
-              <div
-                key={`${word}-${i}`}
-                aria-hidden
-                style={{
-                  height:         slotH + "px",
-                  lineHeight:     slotH + "px",
-                  display:        "flex",
-                  alignItems:     "center",
-                  justifyContent: "center",
-                  whiteSpace:     "nowrap",
-                  fontFamily:     "var(--font-geist-sans)",
-                  fontWeight:     900,
-                  fontSize:       "clamp(28px,4.5vw,58px)",
-                  fontStyle:      isBelow ? "italic" : "normal",
-                  color:          isActive ? "#E07B30" : isBelow ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.04)",
-                  opacity:        isActive ? 1 : isBelow ? 0.55 : 0,
-                  transition:     "color 0.3s ease, opacity 0.3s ease",
-                  pointerEvents:  "none",
-                }}
-              >
-                {word}
-              </div>
-            );
-          })}
+        <div style={{
+          position: "relative",
+          width: "100%",
+          height: slotH || "1.1em",
+          overflow: "hidden",
+        }}>
+          <div
+            ref={trackRef}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              transform: `translateY(${-current * slotH}px)`,
+              transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
+              willChange: "transform",
+              overflow: "visible",
+            }}
+          >
+            {extended.map((word, i) => {
+              const d        = i - current;
+              const isActive = d === 0;
+              const isBelow  = d === 1;
+              return (
+                <div
+                  key={`${word}-${i}`}
+                  aria-hidden
+                  style={{
+                    height:     slotH || undefined,
+                    lineHeight: slotH ? `${slotH}px` : undefined,
+                    display:    "flex",
+                    alignItems: "center",
+                    whiteSpace: "nowrap",
+                    fontFamily: "var(--font-geist-sans)",
+                    fontWeight: 900,
+                    fontSize:   FS,
+                    letterSpacing: "-1px",
+                    fontStyle:  isBelow ? "italic" : "normal",
+                    color:      isActive ? "#E07B30" : isBelow ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.04)",
+                    opacity:    isActive ? 1 : isBelow ? 0.55 : 0,
+                    transition: "color 0.3s ease, opacity 0.3s ease",
+                  }}
+                >
+                  {word}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </>
