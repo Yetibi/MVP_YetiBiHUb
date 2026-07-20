@@ -1,0 +1,1199 @@
+{
+  "name": "YetiBiHub - Diagnostic tester [DEV]",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intake",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "0fe08575-46e3-4724-9c4e-be2562aaf0d7",
+      "name": "Webhook Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        240
+      ],
+      "webhookId": "ae6f1eec-e207-4ead-93be-c29ced935173"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"received\": true } }}",
+        "options": {}
+      },
+      "id": "176d30df-7fdb-4c81-bec3-74abf3df10d2",
+      "name": "Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        544,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "toRecipients": "data@yetibi.com",
+        "subject": "=🐺 Nuevo intake — Yeti BI",
+        "bodyContent": "={{ $json.mensajeTexto }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        288,
+        288
+      ],
+      "id": "a5e46811-2e81-4e2d-8159-aff122f88143",
+      "name": "Notificar a Email creación registro",
+      "webhookId": "1b6f4d13-a51e-4ad0-9e46-5d609be33613",
+      "retryOnFail": true,
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "YVBr6L21Q3cFdGuI",
+          "name": "Microsoft Outlook YetiBi"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pegar esto en un nodo \"Code\" (JavaScript) reemplazando \"Formatear mensaje\"\n\nconst body = $input.item.json.body || {};\n\nconst archivos = Array.isArray(body.archivos) && body.archivos.length > 0\n  ? body.archivos.join(', ')\n  : 'N/A';\n\nconst mensajeTexto = `🐺 Nuevo intake — Yeti BI\n\n👤 Perfil: ${body.perfil || 'N/A'}\n🏢 Sector: ${body.sector || 'N/A'}\n🎯 Alcance del diagnóstico: ${body.alcance || 'N/A'}\n📧 Correo: ${body.correo || 'N/A'}\n\n😣 Fuga declarada: ${body.dolor_declarado || 'N/A'}\n\n🚀 To-Be (objetivo): ${body.to_be_objetivo || 'N/A'}\n📊 Nivel de madurez analítica buscado: ${body.to_be_nivel ?? 'N/A'}\n\n🛠️ Tecnología visible: ${body.tecnologia_visible || 'N/A'}\n📈 Métrica que ya maneja: ${body.metrica_declarada || 'N/A'}\n\n📎 Documentos adjuntos: ${body.fileCount ?? 0}\n📄 Archivos: ${archivos}`;\n\nreturn [\n  {\n    json: {\n      mensajeTexto\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        160
+      ],
+      "id": "d9e520de-80d3-46a3-8e8e-10d546da5fee",
+      "name": "Formatear mensaje code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"intakeId\": $json.body.intakeId } }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "980d17cd-2175-45c6-867f-636e7d37bc90",
+      "name": "Llamar a Diagnostico Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -192,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "id": "d479a8a7-8664-4695-b0bd-7c6e3226c888"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1a71f3d4-aa0a-44cd-a7d4-01e985342f52",
+      "name": "Diagnostico exitoso?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        16,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "diagnosticoId",
+              "type": "string",
+              "value": "={{ $json.diagnosticoId }}"
+            },
+            {
+              "id": "2",
+              "name": "intakeId",
+              "type": "string",
+              "value": "={{ $json.intakeId }}"
+            },
+            {
+              "id": "3",
+              "name": "intentoActual",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "f56c1e23-a873-4f92-a2cc-691a0120bff8",
+              "name": "diagnosticoResumido",
+              "value": "={{ $json.diagnosticoResumido }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3bae7fdb-afd5-4bcc-abb0-11ff15d73f47",
+      "name": "Inicializar contador",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.data }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notExists",
+                "singleValue": true
+              },
+              "id": "4d32947d-67af-4dc7-8fac-f8117f64e468"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "758725be-cb40-4a37-bc2e-ccdfcfe0f8ff",
+      "name": "Hubo timeout (sin data)?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1184,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/aprobar",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $('Inicializar contador').item.json.diagnosticoId } }}",
+        "options": {}
+      },
+      "id": "e9eee80b-702f-4011-8758-62571bd211dd",
+      "name": "Llamar a /aprobar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "diagnosticoId",
+              "type": "string",
+              "value": "={{ $('Inicializar contador').item.json.diagnosticoId }}"
+            },
+            {
+              "id": "2",
+              "name": "intakeId",
+              "type": "string",
+              "value": "={{ $('Inicializar contador').item.json.intakeId }}"
+            },
+            {
+              "id": "3",
+              "name": "intentoActual",
+              "type": "number",
+              "value": "={{ $('Inicializar contador').item.json.intentoActual + 1 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9b479a12-3f07-4d8b-8d5d-23f4d387f944",
+      "name": "Incrementar intento",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1600,
+        864
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.intentoActual }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a7e7c145-5221-4d70-91e7-7e80f65ea8fe",
+      "name": "Se agotaron los 3 intentos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1840,
+        864
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/marcar-revision-manual",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $json.diagnosticoId } }}",
+        "options": {}
+      },
+      "id": "4114c046-07e2-438f-a48c-1ec27bd5bc6e",
+      "name": "Marcar revision manual (timeout)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2128,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "8329441485",
+        "text": "=🔴 Revision manual pendiente\n\nDiagnostico {{ $('Marcar revision manual (timeout)').item.json.diagnosticoId }} quedo sin respuesta despues de 3 intentos. NO se envio al cliente. Revisalo manualmente cuando puedas.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "94183515-73d2-4ecd-aa42-52850e146d9e",
+      "name": "Alertar revision manual pendiente",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2352,
+        848
+      ],
+      "webhookId": "e9d4f261-d3db-4050-a0a1-b3a50b0d4279",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{ $('Webhook Intake').item.json.body.correo }}",
+        "subject": "Tu diagnóstico de madurez analítica está listo — Yeti BI",
+        "bodyContent": "={{ $json.diagnostico_resumido }}\n\n---\n\nEste diagnóstico es el resultado del análisis de las 5 capas de madurez analítica de tu organización: proceso, dato, caso de uso, capacidad de equipo y retorno esperado. Lo que encontramos arriba es el punto de partida — no una opinión, sino una lectura técnica de la evidencia que nos compartiste.\n\nEl siguiente paso depende de ti: si quieres profundizar el análisis, discutir las oportunidades identificadas, o entender exactamente qué implicaría cerrar la brecha que detectamos, responde este correo o visítanos en yetibi.co — conversamos sin compromiso.\n\n— Equipo Yeti BI\ndata@yetibi.com",
+        "additionalFields": {
+          "ccRecipients": "data@yetibi.com"
+        }
+      },
+      "id": "26674447-a855-47c6-b979-2a3094d69aa2",
+      "name": "Enviar diagnostico al cliente1",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        512
+      ],
+      "webhookId": "1243eba4-0471-4973-9f39-135df3071c3c",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "YVBr6L21Q3cFdGuI",
+          "name": "Microsoft Outlook YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/marcar-enviado",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $('Inicializar contador').item.json.diagnosticoId } }}",
+        "options": {}
+      },
+      "id": "852831fe-9992-425f-8321-87a03dc7d7c0",
+      "name": "Marcar como enviado1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1728,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "toRecipients": "data@yetibi.com",
+        "subject": "==🐺 Diagnostico pendiente de aprobacion — {{ $json.diagnosticoId }}",
+        "bodyContent": "==Diagnostico listo para tu revision.\n\nID: {{ $json.diagnosticoId }}\nIntake: {{ $json.intakeId }}\n\n--- DIAGNOSTICO RESUMIDO ---\n{{ $json.diagnosticoResumido }}\n\n--- ACCIONES (usar solo si Telegram no esta disponible) ---\n\nPara APROBAR y enviar al cliente:\ncurl -X POST https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/aprobar -H 'Content-Type: application/json' -d '{\"diagnosticoId\": \"{{ $json.diagnosticoId }}\"}'\n\nPara AJUSTAR (reemplaza TU_INDICACION):\ncurl -X POST https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/ajustar -H 'Content-Type: application/json' -d '{\"diagnosticoId\": \"{{ $json.diagnosticoId }}\", \"indicacionAjuste\": \"TU_INDICACION\"}'",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        624,
+        336
+      ],
+      "id": "6f79ab9b-0ef4-4bea-87b4-d2eac7ff8eff",
+      "name": "Notificar diagnostico para aprobacion",
+      "webhookId": "8949b373-e7ab-44f1-8dfd-c67b90328da5",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "YVBr6L21Q3cFdGuI",
+          "name": "Microsoft Outlook YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toRecipients": "data@yetibi.com",
+        "subject": "==⚠️ Diagnostico fallido — intake {{ $('Webhook Intake').item.json.body.intakeId }}",
+        "bodyContent": "==Se genero un error al procesar el diagnostico para este intake.\n\nDATOS DEL INTAKE\nIntake ID: {{ $('Webhook Intake').item.json.body.intakeId }}\nCorreo del interesado: {{ $('Webhook Intake').item.json.body.correo }}\nSector: {{ $('Webhook Intake').item.json.body.sector }}\n\nERROR\n{{ $json.error || 'Sin detalle disponible' }}\n\nACCION REQUERIDA\nEl cliente NO recibio ningun diagnostico. Revisa manualmente en Supabase\nla tabla intakes con el ID de arriba y decide si reenviar o contactar\nal interesado directamente.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        752
+      ],
+      "id": "038b3cae-674b-42f0-86a8-3d8c6253f130",
+      "name": "Alertar fallo de diagnostico1",
+      "webhookId": "8949b373-e7ab-44f1-8dfd-c67b90328da5",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "YVBr6L21Q3cFdGuI",
+          "name": "Microsoft Outlook YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8329441485",
+        "text": "= ---{{ $('Llamar a /aprobar').item.json.diagnostico_resumido }}  Este diagnóstico es el resultado del análisis de las 5 capas de madurez analítica de tu organización: proceso, dato, caso de uso, capacidad de equipo y retorno esperado. Lo que encontramos arriba es el punto de partida — no una opinión, sino una lectura técnica de la evidencia que nos compartiste.  El siguiente paso depende de ti: si quieres profundizar el análisis, discutir las oportunidades identificadas, o entender exactamente qué implicaría cerrar la brecha que detectamos, responde este correo o visítanos en yetibi.co — conversamos sin compromiso.  — Equipo Yeti BI data@yetibi.com",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1936,
+        512
+      ],
+      "id": "99be8c5d-271c-443f-913d-994a9ed87b29",
+      "name": "Notificar envio de  diagnóstico",
+      "webhookId": "79a46c51-35e8-4db6-b0c7-30bbfb28c08d",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8329441485",
+        "text": "==✏️ Para ajustar este diagnóstico escribe:\n/ajustar {{ $('Inicializar contador').item.json.diagnosticoId }} tu indicación aquí",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        688
+      ],
+      "id": "80467f9d-ac79-4fb2-a431-9e70668881e2",
+      "name": "Pedir indicación de ajuste",
+      "webhookId": "75611aee-9ad0-4d7b-aed4-c6ddadb836fe",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "8329441485",
+        "message": "={{ `🐺 Diagnóstico listo para revisión (intento ${$json.intentoActual}/3)\n\nID: ${$json.diagnosticoId}\n\n${$json.diagnosticoResumido || $('Llamar a Diagnostico Engine').item.json.diagnosticoResumido || 'Ver diagnóstico en Supabase'}\n\nPara AJUSTAR responde en este chat:\n/ajustar ${$json.diagnosticoId} tu indicación aquí` }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double",
+            "approveLabel": "✅ Aprobar",
+            "disapproveLabel": "✏️ Necesita ajuste"
+          }
+        },
+        "options": {
+          "limitWaitTime": {
+            "values": {
+              "resumeAmount": 2
+            }
+          },
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        560
+      ],
+      "id": "59e92539-9e47-4d51-9073-9e416c4a3a16",
+      "name": "Solicitar revisión - aprueba/rechaza",
+      "webhookId": "3a2c6b27-0998-4f22-b967-8dd5a56cded0",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "a7dda991-f9e0-4c77-8682-7c21dab82c76",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1168,
+        1280
+      ],
+      "webhookId": "d8b26e74-bc1a-471f-a1c7-038c58f45755",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.message.text }}",
+              "rightValue": "/ajustar",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "23e4c4fe-ffd6-45c2-9e8b-5252095b4cca",
+      "name": "Es comando /ajustar?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1408,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const texto = $input.item.json.message.text;\nconst sinComando = texto.replace(/^\\/ajustar\\s+/i, '');\nconst partes = sinComando.split(/\\s+/);\nconst diagnosticoId = partes[0];\nconst indicacionAjuste = sinComando.slice(diagnosticoId.length).trim();\n\nconst uuidValido = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(diagnosticoId);\n\nreturn [\n  {\n    json: {\n      diagnosticoId,\n      indicacionAjuste,\n      uuidValido,\n      chatId: $input.item.json.message.chat.id\n    }\n  }\n];"
+      },
+      "id": "c9db4643-f29e-4137-8762-3dcdc69e6cc0",
+      "name": "Parsear diagnosticoId e indicacion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        1264
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.uuidValido }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "leftValue": "={{ $json.indicacionAjuste }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9e6b135d-da37-4a8e-b6c0-6f854c2e54a7",
+      "name": "UUID valido y hay indicacion?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1888,
+        1264
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/ajustar",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"diagnosticoId\": $json.diagnosticoId, \"indicacionAjuste\": $json.indicacionAjuste } }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "18a5d842-5a42-49b2-9d2a-1b08e5226e78",
+      "name": "Llamar a /ajustar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2128,
+        1184
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parsear diagnosticoId e indicacion').item.json.chatId }}",
+        "text": "=✏️ Ajuste aplicado. Nueva version: {{ $json.version }}\n\nTe va a llegar una nueva notificacion para revisar el resultado actualizado.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "56e2fb29-1e25-44fa-bcef-4d6d82f51cf1",
+      "name": "Confirmar ajuste recibido",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2368,
+        1184
+      ],
+      "webhookId": "f7e697d0-d827-4148-8727-be2fe8e56418",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parsear diagnosticoId e indicacion').item.json.chatId }}",
+        "text": "⚠️ Formato no reconocido. Usa exactamente:\n/ajustar <diagnosticoId> <tu indicacion>\n\nCopia el ID tal como aparece en el mensaje de revision.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "0dc53287-dc6c-43f2-8728-6d882dbfe613",
+      "name": "Avisar formato invalido",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2128,
+        1376
+      ],
+      "webhookId": "0db42e26-fc1f-40ca-b8f8-8a629d4895e9",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8329441485",
+        "text": "={{ $json.mensajeTexto }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        -80
+      ],
+      "id": "e8586869-09ea-4f10-ac0c-7eba95bb59e5",
+      "name": "Notificar solicitud nuevo diagnóstico",
+      "webhookId": "f7ce8efb-4f38-415d-82af-ae79c16163eb",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8329441485",
+        "text": "==Se genero un error al procesar el diagnostico para este intake.\n\nDATOS DEL INTAKE\nIntake ID: {{ $('Webhook Intake').item.json.body.intakeId }}\nCorreo del interesado: {{ $('Webhook Intake').item.json.body.correo }}\nSector: {{ $('Webhook Intake').item.json.body.sector }}\n\nERROR\n{{ $json.error || 'Sin detalle disponible' }}\n\nACCION REQUERIDA\nEl cliente NO recibio ningun diagnostico. Revisa manualmente en Supabase\nla tabla intakes con el ID de arriba y decide si reenviar o contactar\nal interesado directamente.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        304,
+        1024
+      ],
+      "id": "53cb32ba-3853-4e58-9637-b3411f36e47e",
+      "name": "Notificar falla en diagnóstico",
+      "webhookId": "393ceddd-90e4-4a30-88c3-3d319b5f8ec6",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8866310131:AAFwqu4sOGar-hCxLJFf8IIdTZJyV40xyds/sendMessage",
+        "sendBody": true,
+        "contentType": "=={{ JSON.stringify({ chat_id: \"8329441485\", text: $json.mensajeTexto.replace(/\\\\n/g, \"\\n\") }) }}",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -576,
+        -320
+      ],
+      "id": "699d363e-1cf2-4b9d-9ec2-532f9a962bbc",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://n8n-production-ad89.up.railway.app/webhook/intake",
+        "sendBody": true,
+        "specifyBody": "=={{ JSON.stringify({ diagnosticoId: $('Llamar a /ajustar').item.json.diagnosticoId, intakeId: $('Llamar a /ajustar').item.json.intakeId, diagnosticoResumido: $('Llamar a /ajustar').item.json.diagnosticoResumido, esReaprobacion: true }) }}",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2576,
+        1184
+      ],
+      "id": "f5dcaf8e-b3af-4ba5-a909-b8d738fd45d1",
+      "name": "POST al Webhook del Workflow 1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "37b70c29-e7dd-4c31-b77f-0f4c7f9758d8",
+              "leftValue": "={{ $json.body.esReaprobacion }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -496,
+        240
+      ],
+      "id": "b9d8d799-1115-4467-bf8a-10cb42062aaf",
+      "name": "¿Es reaprobación?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8f328575-1dbc-4b3a-9c74-be79256f3891",
+              "leftValue": true,
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1408,
+        1072
+      ],
+      "id": "8a2dc6da-2e53-4137-bb69-8b35e59dab18",
+      "name": "If"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 181868082,
+          "message": {
+            "message_id": 61,
+            "from": {
+              "id": 8329441485,
+              "is_bot": false,
+              "first_name": "Yeti",
+              "last_name": "Bi",
+              "username": "aguilar_jul",
+              "language_code": "es"
+            },
+            "chat": {
+              "id": 8329441485,
+              "first_name": "Yeti",
+              "last_name": "Bi",
+              "username": "aguilar_jul",
+              "type": "private"
+            },
+            "date": 1782843903,
+            "text": "ajustar 3d366245-96b3-4787-b657-833e2e9a5898 dale un par de ejemplos"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook Intake": {
+      "main": [
+        [
+          {
+            "node": "Llamar a Diagnostico Engine",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "¿Es reaprobación?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar a Email creación registro": {
+      "main": [
+        [
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear mensaje code": {
+      "main": [
+        [
+          {
+            "node": "Notificar a Email creación registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Llamar a Diagnostico Engine": {
+      "main": [
+        [
+          {
+            "node": "Diagnostico exitoso?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Diagnostico exitoso?": {
+      "main": [
+        [
+          {
+            "node": "Inicializar contador",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alertar fallo de diagnostico1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notificar falla en diagnóstico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inicializar contador": {
+      "main": [
+        [
+          {
+            "node": "Notificar diagnostico para aprobacion",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Solicitar revisión - aprueba/rechaza",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hubo timeout (sin data)?": {
+      "main": [
+        [
+          {
+            "node": "Incrementar intento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Llamar a /aprobar": {
+      "main": [
+        [
+          {
+            "node": "Enviar diagnostico al cliente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Incrementar intento": {
+      "main": [
+        [
+          {
+            "node": "Se agotaron los 3 intentos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Se agotaron los 3 intentos?": {
+      "main": [
+        [
+          {
+            "node": "Marcar revision manual (timeout)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar revision manual (timeout)": {
+      "main": [
+        [
+          {
+            "node": "Alertar revision manual pendiente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar diagnostico al cliente1": {
+      "main": [
+        [
+          {
+            "node": "Marcar como enviado1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar diagnostico para aprobacion": {
+      "main": [
+        []
+      ]
+    },
+    "Solicitar revisión - aprueba/rechaza": {
+      "main": [
+        [
+          {
+            "node": "Hubo timeout (sin data)?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como enviado1": {
+      "main": [
+        [
+          {
+            "node": "Notificar envio de  diagnóstico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Es comando /ajustar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es comando /ajustar?": {
+      "main": [
+        [
+          {
+            "node": "Parsear diagnosticoId e indicacion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear diagnosticoId e indicacion": {
+      "main": [
+        [
+          {
+            "node": "UUID valido y hay indicacion?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UUID valido y hay indicacion?": {
+      "main": [
+        [
+          {
+            "node": "Llamar a /ajustar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Avisar formato invalido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Llamar a /ajustar": {
+      "main": [
+        [
+          {
+            "node": "Confirmar ajuste recibido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar solicitud nuevo diagnóstico": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Confirmar ajuste recibido": {
+      "main": [
+        [
+          {
+            "node": "POST al Webhook del Workflow 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Es reaprobación?": {
+      "main": [
+        [
+          {
+            "node": "Inicializar contador",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Formatear mensaje code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Llamar a /aprobar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pedir indicación de ajuste",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "afb95c07-36b0-44b4-b32c-63ff581c3278",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8d503014334aa4678077e166d7a3e163e131500d9bd13aa3661cc33d4cbc861b"
+  },
+  "id": "PpltlJAhmjVztZIF",
+  "tags": [
+    {
+      "updatedAt": "2026-06-29T13:40:11.078Z",
+      "createdAt": "2026-06-29T13:40:11.078Z",
+      "id": "X6WdX5gE1YrNmhzt",
+      "name": "YetibiHub"
+    }
+  ]
+}

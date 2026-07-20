@@ -15,14 +15,14 @@ export function ConfirmationScreen() {
       </div>
 
       {/* Título */}
-      <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-white mb-4">
+      <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-[#FF6600] mb-4">
         Información recibida.
       </h1>
 
       {/* Subtítulo */}
-      <p className="text-base text-white/60 max-w-sm leading-relaxed mb-10">
+      <p className="text-base text-white/100 max-w-sm leading-relaxed mb-10">
         Tu información quedó guardada. El diagnóstico{" "}
-        <span className="text-white/80">aún no se ha procesado</span> —
+        <span className="text-[#FFA07A]">aún no se ha procesado</span> —
         eso ocurre en la siguiente etapa, donde el motor de análisis evalúa
         tus respuestas y genera el reporte de AI Readiness.
       </p>
@@ -57,10 +57,15 @@ export function ConfirmationScreen() {
       </div>
 
       {/* Nota de datos en memoria */}
-      <p className="text-xs text-white/20 mt-12 max-w-xs">
-        Esta es una versión de prueba. Los datos se guardaron en memoria
-        y no se transmitieron a ningún servidor.
-      </p>
+      <p className="text-xs text-white/20 mt-12 max-w-xs"></p>
+
+      {/* Botón para volver al Home */}
+      <a
+        href="https://yetibi.com/"
+        className="mt-8 inline-block bg-[#FF6600] text-white font-semibold text-sm px-6 py-3 rounded-lg hover:bg-[#E05500] transition-colors"
+      >
+        Volver al Home
+      </a>
     </motion.div>
   );
 }

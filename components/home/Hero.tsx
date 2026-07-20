@@ -118,12 +118,25 @@ function DrumRoll({ onIndexChange, reduced }: {
   useEffect(() => {
     if (!sizerRef.current) return;
     setSlotH(sizerRef.current.offsetHeight);
-  }, []);
+    const onResize = () => {
+      if (!sizerRef.current) return;
+      setSlotH(sizerRef.current.offsetHeight);
+      const el = sizerRefs.current[current % WORDS.length];
+      if (!el) return;
+      const isMobile = window.innerWidth < 768;
+      const maxRatio = isMobile ? 0.42 : 0.55;
+      setSlotW(Math.min(el.offsetWidth + 44, window.innerWidth * maxRatio));
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [current]);
 
   useEffect(() => {
     const el = sizerRefs.current[current % WORDS.length];
     if (!el) return;
-    setSlotW(el.offsetWidth + 12);
+    const isMobile = window.innerWidth < 768;
+    const maxRatio = isMobile ? 0.42 : 0.55;
+    setSlotW(Math.min(el.offsetWidth + 44, window.innerWidth * maxRatio));
   }, [current]);
 
   useEffect(() => {
@@ -198,7 +211,7 @@ function DrumRoll({ onIndexChange, reduced }: {
         style={{
           display: "inline-flex",
           alignItems: "flex-start",
-          verticalAlign: "middle",
+          verticalAlign: "top",
           position: "relative",
           flexShrink: 0,
           width: slotW || "auto",
@@ -228,7 +241,7 @@ function DrumRoll({ onIndexChange, reduced }: {
         <div style={{
           position: "relative",
           width: "100%",
-          height: slotH || "1.1em",
+          height: slotH ? slotH : "1.1em",
           overflow: "hidden",
         }}>
           <div
@@ -251,8 +264,9 @@ function DrumRoll({ onIndexChange, reduced }: {
                   key={`${word}-${i}`}
                   aria-hidden
                   style={{
-                    height:     slotH || undefined,
+                    height:     isBelow ? 0 : (slotH || undefined),
                     lineHeight: slotH ? `${slotH}px` : undefined,
+                    overflow:   isBelow ? "hidden" : undefined,
                     display:    "flex",
                     alignItems: "center",
                     whiteSpace: "nowrap",
@@ -260,9 +274,9 @@ function DrumRoll({ onIndexChange, reduced }: {
                     fontWeight: 900,
                     fontSize:   FS,
                     letterSpacing: "-1px",
-                    fontStyle:  isBelow ? "italic" : "normal",
-                    color:      isActive ? "#E07B30" : isBelow ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.04)",
-                    opacity:    isActive ? 1 : isBelow ? 0.55 : 0,
+                    fontStyle:  "normal",
+                    color:      isActive ? "#E07B30" : "rgba(255,255,255,0.04)",
+                    opacity:    isActive ? 1 : 0,
                     transition: "color 0.3s ease, opacity 0.3s ease",
                   }}
                 >
@@ -613,28 +627,33 @@ function LeftPanel({
               gap: 10,
               lineHeight: 1.05,
               marginTop: 2,
-              flexWrap: "wrap",
+              flexWrap: "nowrap",
+              overflow: "visible",
             }}>
-              <span style={{
+              <span data-necesitan style={{
                 fontFamily: "var(--font-geist-sans)",
                 fontWeight: 900,
                 fontSize: FS,
                 letterSpacing: "-1px",
                 color: "rgba(255,255,255,0.9)",
                 lineHeight: 1.05,
+                flexShrink: 0,
+                whiteSpace: "nowrap",
               }}>
                 Necesitan
               </span>
 
               <DrumRoll onIndexChange={() => {}} reduced={reduced} />
 
-              <span style={{
+              <span data-primero style={{
                 fontFamily: "var(--font-geist-sans)",
                 fontWeight: 900,
                 fontSize: FS,
                 letterSpacing: "-1px",
                 color: "rgba(255,255,255,0.9)",
                 lineHeight: 1.05,
+                flexShrink: 0,
+                whiteSpace: "nowrap",
               }}>
                 primero.
               </span>
@@ -648,7 +667,7 @@ function LeftPanel({
             justifyContent: "center",
             flexWrap: "wrap",
             gap: "8px 0",
-            marginTop: 80,
+            marginTop: 120,
           }}>
             {[
               { label: "Proceso habilitado para desplegar tecnología", accent: false },
@@ -948,18 +967,20 @@ export default function Hero() {
               Pero
             </span>
             <span style={{
-              display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10,
+              display: "flex", flexWrap: "nowrap", overflow: "hidden", alignItems: "center", gap: 10,
             }}>
-              <span style={{
+              <span data-necesitan style={{
                 fontFamily: "var(--font-geist-sans)", fontWeight: 900,
                 fontSize: 40, color: "rgba(255,255,255,0.9)", letterSpacing: "-1px",
+                flexShrink: 0,
               }}>
                 Necesitan
               </span>
               <DrumRoll onIndexChange={() => {}} reduced={reduced} />
-              <span style={{
+              <span data-primero style={{
                 fontFamily: "var(--font-geist-sans)", fontWeight: 900,
                 fontSize: 40, color: "rgba(255,255,255,0.9)", letterSpacing: "-1px",
+                flexShrink: 0,
               }}>
                 primero.
               </span>

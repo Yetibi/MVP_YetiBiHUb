@@ -9,11 +9,11 @@ export interface IntakePayload {
   sector: string;
   scope: string;
   email: string;
-  painType: string;
+  painType: string[];
   painDetail: string;
   toBe: string;
   maturityTarget: number | null;
-  technology: string;
+  technology: string[];
   metric: string;
   capacityQ1: string;
   capacityQ2: string;

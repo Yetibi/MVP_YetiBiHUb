@@ -11,6 +11,7 @@ export const SECTORS = [
   "Tecnología y software",
   "Agropecuario",
   "Financiero y seguros",
+  "Ong's y fundaciones",
   "Otro",
 ] as const;
 
@@ -20,6 +21,7 @@ export const PAIN_OPTIONS = [
   { value: "disconnected", label: "Nuestros sistemas no se hablan entre sí" },
   { value: "no_process", label: "No tenemos procesos claros documentados" },
   { value: "no_ai_start", label: "No sé por dónde empezar con la IA" },
+  { value: "Failure_IA_implementation", label: "Invertimos o implementamos proyectos de despliegue IA, sin obtener resultados" },
   {
     value: "manual_work",
     label: "Perdemos tiempo en tareas repetitivas que podrían automatizarse",

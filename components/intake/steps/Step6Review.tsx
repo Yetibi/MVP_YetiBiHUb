@@ -43,7 +43,7 @@ export function Step6Review({ data }: Step6Props) {
       </h2>
       <p className="text-sm text-white/50 mb-8 max-w-md leading-relaxed">
         Al enviar, tu información queda guardada. El diagnóstico{" "}
-        <strong className="text-white/70 font-medium">
+        <strong className="text-[#FFA500] font-medium">
           no se procesa en este momento
         </strong>{" "}
         — eso ocurre en la siguiente etapa del sistema.
@@ -60,7 +60,9 @@ export function Step6Review({ data }: Step6Props) {
           label="Archivos"
           value={
             data.files.length > 0
-              ? `${data.files.length} archivo${data.files.length > 1 ? "s" : ""}: ${data.files.map((f) => f.name).join(", ")}`
+              ? `${data.files.length} archivo${
+                  data.files.length > 1 ? "s" : ""
+                }: ${data.files.map((f) => f.name).join(", ")}`
               : ""
           }
         />
@@ -77,18 +79,6 @@ export function Step6Review({ data }: Step6Props) {
           <Row label="Tecnología" value={data.technology} />
         )}
         {data.metric && <Row label="Métrica actual" value={data.metric} />}
-      </div>
-
-      {/* Aviso de datos en memoria */}
-      <div className="flex items-start gap-3 p-4 rounded-lg border border-[#E07B30]/20 bg-[#E07B30]/5">
-        <span className="text-[#E07B30]/70 text-lg mt-0.5" aria-hidden>
-          ℹ
-        </span>
-        <p className="text-xs text-white/50 leading-relaxed">
-          Esta es una versión de prueba. Los datos no se envían a ningún
-          servidor — quedan en memoria del navegador y desaparecen al
-          cerrar la pestaña.
-        </p>
       </div>
     </section>
   );
