@@ -28,7 +28,7 @@
               "id": "mensaje-texto",
               "name": "mensajeTexto",
               "type": "string",
-              "value": "=🐺 *Nuevo intake — Yeti BI*\n\n👤 *Perfil:* {{$json.body.perfil}}\n🏢 *Sector:* {{$json.body.sector}}\n🎯 *Alcance:* {{$json.body.alcance}}\n📧 *Correo:* {{$json.body.correo}}\n\n😣 *Dolor declarado:* {{$json.body.dolor_declarado}}\n\n🚀 *To-Be (objetivo):* {{$json.body.to_be_objetivo}}\n📊 *Nivel To-Be:* {{$json.body.to_be_nivel}}\n\n🛠️ *Tecnología visible:* {{$json.body.tecnologia_visible}}\n📈 *Métrica declarada:* {{$json.body.metrica_declarada}}\n\n📎 *Documentos adjuntos:* {{$json.body.fileCount}}\n📄 *Archivos:* {{$json.body.archivos ? $json.body.archivos.join(', ') : 'N/A'}}"
+              "value": "=🐺 *Nuevo intake — Yeti BI*\n\n👤 *Perfil:* {{$json.body.perfil}}\n🏢 *Sector:* {{$json.body.sector}}\n🎯 *Alcance:* {{$json.body.alcance}}\n📧 *Correo:* {{$json.body.correo}}\n\n😣 *Dolor declarado:* {{Array.isArray($json.body.dolor_declarado) ? $json.body.dolor_declarado.join(', ') : $json.body.dolor_declarado}}\n\n🚀 *To-Be (objetivo):* {{$json.body.to_be_objetivo}}\n📊 *Nivel To-Be:* {{$json.body.to_be_nivel}}\n\n🛠️ *Tecnología visible:* {{Array.isArray($json.body.tecnologia_visible) ? $json.body.tecnologia_visible.join(', ') : ($json.body.tecnologia_visible || 'N/A')}}\n📈 *Métrica declarada:* {{$json.body.metrica_declarada}}\n\n📎 *Documentos adjuntos:* {{$json.body.fileCount}}\n📄 *Archivos:* {{$json.body.archivos ? $json.body.archivos.join(', ') : 'N/A'}}"
             }
           ]
         },

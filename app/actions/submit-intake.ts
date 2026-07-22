@@ -40,7 +40,7 @@ export async function validateIntakeAction(
   if (!EMAIL_RE.test(payload.email)) {
     return { valid: false, error: "El correo no tiene un formato válido." };
   }
-  if (!payload.painType) {
+  if (!payload.painType || payload.painType.length === 0) {
     return { valid: false, error: "El dolor declarado es obligatorio." };
   }
   if (payload.fileCount < 1) {

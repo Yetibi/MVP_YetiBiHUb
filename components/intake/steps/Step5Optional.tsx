@@ -1,13 +1,7 @@
 "use client";
 
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { TECH_OPTIONS } from "@/lib/copy";
 import type { IntakeFormData, UpdateFn } from "@/types/intake";
 
@@ -63,30 +57,39 @@ export function Step5Optional({ data, update }: Step5Props) {
       <div className="space-y-7">
         {/* Tecnología */}
         <div>
-          <label
-            htmlFor="technology"
-            className="block text-sm font-medium text-white/80 mb-1.5"
-          >
+          <label className="block text-sm font-medium text-white/80 mb-1.5">
             ¿Qué tecnología o herramientas ya usan?
           </label>
-          <Select
-            value={data.technology}
-            onValueChange={(v) => update("technology", v ?? "")}
-          >
-            <SelectTrigger
-              id="technology"
-              className="w-full border-white/15 text-white bg-transparent"
-            >
-              <SelectValue placeholder="Selecciona la que más se acerca" />
-            </SelectTrigger>
-            <SelectContent>
-              {TECH_OPTIONS.map((t) => (
-                <SelectItem key={t} value={t}>
-                  {t}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <p className="text-xs text-white/40 mb-2.5">
+            Puedes seleccionar más de una opción.
+          </p>
+          <div role="group" className="space-y-2.5">
+            {TECH_OPTIONS.map((t) => {
+              const checked = data.technology.includes(t);
+              return (
+                <label
+                  key={t}
+                  htmlFor={`technology-${t}`}
+                  className="flex items-start gap-2.5 cursor-pointer"
+                >
+                  <Checkbox
+                    id={`technology-${t}`}
+                    checked={checked}
+                    onCheckedChange={(isChecked) => {
+                      update(
+                        "technology",
+                        isChecked
+                          ? [...data.technology, t]
+                          : data.technology.filter((v) => v !== t)
+                      );
+                    }}
+                    className="mt-0.5"
+                  />
+                  <span className="text-sm text-white/80">{t}</span>
+                </label>
+              );
+            })}
+          </div>
         </div>
 
         {/* Métrica */}

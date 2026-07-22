@@ -7,12 +7,13 @@ const casoA: IntakeData = {
   perfil: "negocio",
   sector: "manufactura",
   alcance: "planta de producción norte, 120 operarios",
-  dolor_declarado:
+  dolor_declarado: [
     "Los tiempos de ciclo en la línea de ensamble han aumentado 35% en 6 meses, generando cuellos de botella que retrasan entregas al cliente.",
+  ],
   to_be_objetivo:
     "Reducir el tiempo de ciclo al nivel histórico de 2023, eliminar cuellos de botella en estaciones 3 y 7, y recuperar el OTD al 95%.",
   to_be_nivel: 3,
-  tecnologia_visible: "SAP PP, sensores IoT en línea piloto, Excel para trazabilidad manual",
+  tecnologia_visible: ["SAP PP", "sensores IoT en línea piloto", "Excel para trazabilidad manual"],
   metrica_declarada: "OTD actual 72%, objetivo 95%; tiempo de ciclo actual 18 min, objetivo 13 min",
   respuestas_capacidad: {
     painDetail:
@@ -28,7 +29,7 @@ const casoB: IntakeData = {
   perfil: "emprendedor",
   sector: "servicios",
   alcance: "toda la empresa",
-  dolor_declarado: "No crecemos.",
+  dolor_declarado: ["No crecemos."],
   to_be_objetivo: "Crecer más.",
   to_be_nivel: null,
   tecnologia_visible: null,
@@ -46,11 +47,12 @@ const casoC: IntakeData = {
   perfil: "lider_area",
   sector: "retail",
   alcance: "área de logística y distribución, 3 centros de distribución",
-  dolor_declarado:
+  dolor_declarado: [
     "Los pedidos llegan tarde a las tiendas y tenemos exceso de inventario en algunos SKUs mientras hay quiebre en otros.",
+  ],
   to_be_objetivo: "Mejorar la disponibilidad de producto en tienda al 98% y reducir el inventario total en 20%.",
   to_be_nivel: 2,
-  tecnologia_visible: "WMS propio, algo de Excel",
+  tecnologia_visible: ["WMS propio", "algo de Excel"],
   metrica_declarada: null,
   respuestas_capacidad: {
     painDetail: "El problema es más serio en temporada alta; en diciembre colapsamos.",

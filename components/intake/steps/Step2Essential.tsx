@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -150,33 +151,45 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
 
         {/* Dolor principal */}
         <div>
-          <label
-            htmlFor="painType"
-            className="block text-sm font-medium text-white/80 mb-1.5"
-          >
+          <label className="block text-sm font-medium text-white/80 mb-1.5">
             {copy.painLabel} *
           </label>
-          <Select
-            value={data.painType}
-            onValueChange={(v) => update("painType", v ?? "")}
+          <p className="text-xs text-white/40 mb-2.5">
+            Puedes seleccionar más de una opción.
+          </p>
+          <div
+            role="group"
+            aria-required="true"
+            className="space-y-2.5"
           >
-            <SelectTrigger
-              id="painType"
-              className="w-full border-white/15 text-white bg-transparent focus:ring-[#E07B30]"
-              aria-required="true"
-            >
-              <SelectValue placeholder="Selecciona la opción que más se acerca" />
-            </SelectTrigger>
-            <SelectContent>
-              {PAIN_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            {PAIN_OPTIONS.map((o) => {
+              const checked = data.painType.includes(o.value);
+              return (
+                <label
+                  key={o.value}
+                  htmlFor={`painType-${o.value}`}
+                  className="flex items-start gap-2.5 cursor-pointer"
+                >
+                  <Checkbox
+                    id={`painType-${o.value}`}
+                    checked={checked}
+                    onCheckedChange={(isChecked) => {
+                      update(
+                        "painType",
+                        isChecked
+                          ? [...data.painType, o.value]
+                          : data.painType.filter((v) => v !== o.value)
+                      );
+                    }}
+                    className="mt-0.5"
+                  />
+                  <span className="text-sm text-white/80">{o.label}</span>
+                </label>
+              );
+            })}
+          </div>
           <AnimatePresence>
-            {showErrors && !data.painType && (
+            {showErrors && data.painType.length === 0 && (
               <motion.p
                 variants={fadeIn}
                 initial="initial"
@@ -185,7 +198,7 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
                 className="text-xs text-red-400 mt-1.5"
                 role="alert"
               >
-                Selecciona el dolor principal para continuar.
+                Selecciona al menos un dolor principal para continuar.
               </motion.p>
             )}
           </AnimatePresence>

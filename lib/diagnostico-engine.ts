@@ -58,10 +58,10 @@ function buildContent(
 - Perfil: ${data.perfil}
 - Sector: ${data.sector}
 - Alcance: ${data.alcance}
-- Dolor declarado: ${data.dolor_declarado}
+- Dolores declarados (puede haber varios, considéralos en conjunto): ${data.dolor_declarado.length > 0 ? data.dolor_declarado.join("; ") : "no especificado"}
 - Objetivo (To-Be): ${data.to_be_objetivo}
 - Nivel de madurez objetivo (CMMI): ${data.to_be_nivel ?? "no especificado"}
-- Tecnología visible: ${data.tecnologia_visible ?? "no especificada"}
+- Tecnología visible (puede haber varias): ${data.tecnologia_visible && data.tecnologia_visible.length > 0 ? data.tecnologia_visible.join("; ") : "no especificada"}
 - Métrica declarada: ${data.metrica_declarada ?? "no especificada"}
 - Detalle del dolor: ${data.respuestas_capacidad.painDetail ?? "no proporcionado"}
 - Capacidad Q1: ${data.respuestas_capacidad.capacityQ1 ?? "no proporcionado"}

@@ -21,10 +21,10 @@ function mapRowToIntakeData(row: Record<string, unknown>) {
     perfil: row.perfil as "negocio" | "lider_area" | "emprendedor",
     sector: (row.sector as string) ?? "",
     alcance: (row.alcance as string) ?? "",
-    dolor_declarado: (row.dolor_declarado as string) ?? "",
+    dolor_declarado: (row.dolor_declarado as string[]) ?? [],
     to_be_objetivo: (row.to_be_objetivo as string) ?? "",
     to_be_nivel: toBeNivel,
-    tecnologia_visible: (row.tecnologia_visible as string | null) ?? null,
+    tecnologia_visible: (row.tecnologia_visible as string[] | null) ?? null,
     metrica_declarada: (row.metrica_declarada as string | null) ?? null,
     respuestas_capacidad: {
       painDetail: cap.painDetail ?? null,

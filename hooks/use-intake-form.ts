@@ -9,12 +9,12 @@ const initialData: IntakeFormData = {
   sector: "",
   scope: "",
   email: "",
-  painType: "",
+  painType: [],
   painDetail: "",
   files: [],
   toBe: "",
   maturityTarget: null,
-  technology: "",
+  technology: [],
   metric: "",
   capacityQ1: "",
   capacityQ2: "",
@@ -48,7 +48,7 @@ export function useIntakeForm() {
           !!data.sector &&
           !!data.scope.trim() &&
           EMAIL_RE.test(data.email) &&
-          !!data.painType
+          data.painType.length > 0
         );
       case 3:
         return data.files.length >= 1;

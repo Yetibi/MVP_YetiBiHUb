@@ -2,10 +2,10 @@ export interface IntakeData {
   perfil: "negocio" | "lider_area" | "emprendedor";
   sector: string;
   alcance: string;
-  dolor_declarado: string;
+  dolor_declarado: string[];
   to_be_objetivo: string;
   to_be_nivel: number | null;
-  tecnologia_visible: string | null;
+  tecnologia_visible: string[] | null;
   metrica_declarada: string | null;
   respuestas_capacidad: {
     painDetail: string | null;

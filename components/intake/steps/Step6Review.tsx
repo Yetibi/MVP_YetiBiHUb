@@ -18,8 +18,9 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 export function Step6Review({ data }: Step6Props) {
-  const painLabel =
-    PAIN_OPTIONS.find((o) => o.value === data.painType)?.label ?? data.painType;
+  const painLabel = data.painType
+    .map((v) => PAIN_OPTIONS.find((o) => o.value === v)?.label ?? v)
+    .join(", ");
 
   const maturityName = data.maturityTarget
     ? MATURITY_LEVELS.find((m) => m.level === data.maturityTarget)?.name ?? ""
@@ -75,8 +76,8 @@ export function Step6Review({ data }: Step6Props) {
               : "No especificada"
           }
         />
-        {data.technology && (
-          <Row label="Tecnología" value={data.technology} />
+        {data.technology.length > 0 && (
+          <Row label="Tecnología" value={data.technology.join(", ")} />
         )}
         {data.metric && <Row label="Métrica actual" value={data.metric} />}
       </div>

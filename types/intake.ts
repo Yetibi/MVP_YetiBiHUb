@@ -17,7 +17,7 @@ export interface IntakeFormData {
   sector: string;
   scope: string;
   email: string;
-  painType: string;
+  painType: string[];
   painDetail: string;
 
   // Paso 3
@@ -28,7 +28,7 @@ export interface IntakeFormData {
   maturityTarget: MaturityLevel | null;
 
   // Paso 5 (opcional)
-  technology: string;
+  technology: string[];
   metric: string;
   capacityQ1: string;
   capacityQ2: string;

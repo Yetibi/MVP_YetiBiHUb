@@ -56,7 +56,7 @@ export async function submitIntake(
   // UUID generado en cliente — evita necesitar SELECT policy para el RETURNING
   const intakeId = crypto.randomUUID();
 
-  const dolorDeclarado = PAIN_LABEL[data.painType] ?? data.painType ?? "";
+  const dolorDeclarado = data.painType.map((v) => PAIN_LABEL[v] ?? v);
 
   const { error: intakeError } = await supabase
     .from("intakes")
@@ -69,7 +69,7 @@ export async function submitIntake(
       dolor_declarado: dolorDeclarado,
       to_be_objetivo: data.toBe,
       to_be_nivel: data.maturityTarget ?? null,
-      tecnologia_visible: data.technology || null,
+      tecnologia_visible: data.technology.length > 0 ? data.technology : null,
       metrica_declarada: data.metric || null,
       respuestas_capacidad,
       estado: "recibido",
@@ -127,7 +127,7 @@ export async function submitIntake(
     dolor_declarado: dolorDeclarado,
     to_be_objetivo: data.toBe,
     to_be_nivel: data.maturityTarget,
-    tecnologia_visible: data.technology || null,
+    tecnologia_visible: data.technology.length > 0 ? data.technology : null,
     metrica_declarada: data.metric || null,
     respuestas_capacidad: {
       painDetail: data.painDetail || null,
