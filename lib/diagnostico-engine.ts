@@ -14,34 +14,33 @@ function buildContextoAjusteBloque(ctx: ContextoAjuste): string {
 CONTEXTO: REVISIÓN CON FEEDBACK HUMANO (versión ${ctx.versionAnterior + 1})
 
 Este no es un diagnóstico nuevo desde cero. Ya existe una versión previa
-(versión ${ctx.versionAnterior}) que fue revisada por el consultor responsable,
-quien dejó la siguiente indicación de ajuste:
+(versión ${ctx.versionAnterior}) que fue revisada por el consultor responsable.
 
-INDICACIÓN DE AJUSTE:
-"${ctx.indicacionAjuste}"
-
-DIAGNÓSTICO ANTERIOR (versión ${ctx.versionAnterior}) — referencia para el ajuste:
+DIAGNÓSTICO ANTERIOR (versión ${ctx.versionAnterior}) — referencia:
 ${JSON.stringify(ctx.diagnosticoAnterior, null, 2)}
 
-INSTRUCCIÓN:
-Genera una nueva versión del diagnóstico incorporando explícitamente el
-feedback anterior. No ignores el trabajo previo — toma como base lo que
-ya estaba bien, y ajusta específicamente lo que la indicación señala.
-Si el feedback pide cambiar el enfoque de una recomendación, cámbialo.
-Si pide agregar un elemento que faltaba, agrégalo. Si pide bajar el tono
-en alguna sección, hazlo. El resultado debe ser coherente con el diagnóstico
-anterior en lo que no fue cuestionado, y notablemente diferente en lo que sí.
+════════════════════════════════════════════════
+INDICACIÓN DE AJUSTE DEL CONSULTOR — PRIORIDAD MÁXIMA
+════════════════════════════════════════════════
 
-Si la indicación de ajuste es ambigua o no especifica claramente
-qué cambiar (por ejemplo, "hazlo más corto" sin decir qué sección
-recortar, o "mejóralo" sin precisar en qué sentido), DEBES declarar
-explícitamente cómo la interpretaste en un campo nuevo
-"interpretacion_ajuste" dentro de tu respuesta JSON — describe en
-1-2 oraciones qué entendiste de la indicación y qué decisión
-tomaste al respecto. Si la indicación fue clara y no requirió
-interpretación, ese campo puede decir "Indicación clara, sin
-ambigüedad relevante".
+"${ctx.indicacionAjuste}"
 
+════════════════════════════════════════════════
+
+INSTRUCCIÓN CRÍTICA:
+La indicación de ajuste del consultor tiene PRIORIDAD ABSOLUTA sobre
+cualquier recomendación del diagnóstico anterior. Si el consultor pide
+cambiar una herramienta (por ejemplo, de Looker Studio a Power BI),
+DEBES cambiarla sin cuestionar. Si pide agregar ejemplos, DEBES
+agregarlos. Si pide cambiar el enfoque, DEBES cambiarlo.
+
+El diagnóstico anterior es solo CONTEXTO — la indicación del consultor
+es la ORDEN. Genera el diagnóstico ajustado incorporando explícitamente
+lo que la indicación pide, manteniendo coherencia en lo que NO fue
+cuestionado.
+
+Si la indicación es ambigua, declara cómo la interpretaste en un campo
+"interpretacion_ajuste" dentro de tu respuesta JSON.
 `;
 }
 
