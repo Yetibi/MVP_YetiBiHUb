@@ -47,6 +47,23 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // 2b. Leer el correo del intake asociado
+  const { data: intake, error: intakeError } = await db
+    .from("intakes")
+    .select("correo")
+    .eq("id", existente.intake_id)
+    .single();
+
+  if (intakeError || !intake) {
+    return NextResponse.json(
+      {
+        error: "Error al leer el intake asociado",
+        detail: intakeError?.message,
+      },
+      { status: 500 }
+    );
+  }
+
   // 3. Guardia de idempotencia — no repetir UPDATE si ya está aprobado
   if (existente.estado_aprobacion === "aprobado") {
     return NextResponse.json(
@@ -56,6 +73,7 @@ export async function POST(req: NextRequest) {
         intakeId: existente.intake_id,
         estado_aprobacion: "aprobado",
         diagnostico_resumido: existente.diagnostico_resumido,
+        correo: intake.correo,
         nota: "Ya estaba aprobado, no se modificó nada",
       },
       { status: 200 }
@@ -83,6 +101,7 @@ export async function POST(req: NextRequest) {
       intakeId: existente.intake_id,
       estado_aprobacion: "aprobado",
       diagnostico_resumido: existente.diagnostico_resumido,
+      correo: intake.correo,
     },
     { status: 200 }
   );
