@@ -147,6 +147,7 @@ export async function POST(req: NextRequest) {
       diagnosticoId: inserted.id,
       intakeId,
       diagnosticoResumido: diagnostico.resumen_ejecutivo,
+      correo: intake.correo,
       documentosProcesados: documentos.length,
       ...(advertencias.length > 0 && { advertencias }),
     },
