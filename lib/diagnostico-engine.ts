@@ -112,7 +112,17 @@ ${campoInterpretacion}  "suficiencia": {
     "lista": ["<oportunidad 1>", "<oportunidad 2>", "<oportunidad 3>"],
     "prioridad_sugerida": "<cuál abordar primero y por qué>"
   },
-  "resumen_ejecutivo": "<párrafo de 2-3 oraciones con el diagnóstico ejecutivo>"
+  "hoja_de_ruta": [
+    {
+      "paso": <número secuencial empezando en 1>,
+      "nombre": "<nombre corto del paso>",
+      "descripcion": "<qué hacer, concreto y ejecutable>",
+      "duracion_estimada": "<ej: '1 semana', '2-3 días'>",
+      "prerequisito": "<nombre del paso anterior del que depende, o null si no depende de ninguno>",
+      "entregable": "<qué queda listo al terminar este paso>"
+    }
+  ],
+  "resumen_ejecutivo": "<párrafo de 2-3 oraciones con el diagnóstico ejecutivo. Debe incluir los pasos concretos y secuenciales que el cliente debe seguir. No digas 'consolidar datos' — di exactamente QUÉ datos, EN QUÉ herramienta, CON QUÉ estructura, y QUÉ rutina operacional los mantiene actualizados. Cada paso debe ser ejecutable por alguien sin experiencia técnica.>"
 }`;
 
   // Sin documentos: devuelve string simple (retrocompatible con Sub-etapa 1)

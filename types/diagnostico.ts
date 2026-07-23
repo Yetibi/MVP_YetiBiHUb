@@ -27,6 +27,15 @@ export type MudaTipo =
   | "defectos"
   | "talento_no_utilizado";
 
+export interface PasoHojaDeRuta {
+  paso: number;
+  nombre: string;
+  descripcion: string;
+  duracion_estimada: string;
+  prerequisito: string | null;
+  entregable: string;
+}
+
 export interface DiagnosticoResult {
   suficiencia: {
     evidencia_suficiente: boolean;
@@ -48,6 +57,7 @@ export interface DiagnosticoResult {
     lista: string[];
     prioridad_sugerida: string;
   };
+  hoja_de_ruta: PasoHojaDeRuta[];
   resumen_ejecutivo: string;
   interpretacion_ajuste?: string;
 }
