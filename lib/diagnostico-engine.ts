@@ -69,6 +69,9 @@ REGLAS DE DIAGNÓSTICO:
 - No recomiendes IA si el cliente no tiene proceso habilitado ni dato confiable. La automatización viene primero.
 - Cada recomendación debe ser ejecutable por alguien sin experiencia técnica avanzada.
 - Usa el framework CMMI pero tradúcelo al lenguaje del gerente de pyme: no digas "alcanzar CMMI Nivel 2", di qué significa operativamente.
+- Cuantifica SIEMPRE la fuga de valor en pesos colombianos. Si el CSV tiene precio_venta, costo_producto, costo_envio, calcula: total perdido por devoluciones, total de costos de envío absorbidos sin registro, diferencia de margen entre el canal más y menos rentable. Si no hay datos suficientes para calcular, estima el rango y explica el supuesto.
+- Ubica al cliente en la cadena de valor Yeti BI: ¿tiene proceso habilitado? ¿dato confiable? ¿automatización? ¿IA? Indica explícitamente en el resumen ejecutivo en qué eslabón está y cuál es el siguiente.
+- El cliente puede declarar su nivel de madurez analítica objetivo (1: Descriptivo, 2: Diagnóstico, 3: Predictivo, 4: Prescriptivo). Si lo declaró, evalúa la brecha entre su estado actual (As-Is) y ese objetivo (To-Be). Si NO lo declaró (valor null o "no especificado"), TÚ debes evaluar con la evidencia disponible en qué nivel se encuentra actualmente y recomendar cuál es el siguiente nivel alcanzable de forma realista. Nunca sugieras saltar niveles — la madurez analítica es secuencial.
 
 ESTRUCTURA DEL RESUMEN EJECUTIVO (obligatoria):
 1. SITUACIÓN: qué encontraste — con datos y cifras del CSV/intake
@@ -150,7 +153,12 @@ ${campoInterpretacion}  "suficiencia": {
       "entregable": "<qué queda listo al terminar este paso>"
     }
   ],
-  "resumen_ejecutivo": "<párrafo de 2-3 oraciones con el diagnóstico ejecutivo. Debe incluir los pasos concretos y secuenciales que el cliente debe seguir. No digas 'consolidar datos' — di exactamente QUÉ datos, EN QUÉ herramienta, CON QUÉ estructura, y QUÉ rutina operacional los mantiene actualizados. Cada paso debe ser ejecutable por alguien sin experiencia técnica.>"
+  "resumen_ejecutivo": "<Estructura obligatoria:
+1. HALLAZGO: qué encontraste con datos y cifras concretas del CSV/intake
+2. FUGA DE VALOR: cuánto pierde o deja de ganar en COP — cuantificado
+3. POSICIÓN EN CADENA: en qué eslabón está (proceso/dato/automatización/IA) y cuál sigue
+4. RUTA: qué hacer primero, segundo y tercero — concreto, con plazos y herramientas
+5. COSTO DE INACCIÓN: qué pasa si no hace nada en los próximos 90 días>"
 }`;
 
   // Sin documentos: devuelve string simple (retrocompatible con Sub-etapa 1)
