@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { generarDiagnostico } from "@/lib/diagnostico-engine";
 import type { DiagnosticoResult, ContextoAjuste } from "@/types/diagnostico";
 
+export const maxDuration = 120;
+
 const MODEL_USADO = "claude-sonnet-4-6";
 const LIMITE_VERSION = 3;
 
