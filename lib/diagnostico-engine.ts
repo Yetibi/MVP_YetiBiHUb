@@ -17,7 +17,7 @@ Este no es un diagnóstico nuevo desde cero. Ya existe una versión previa
 (versión ${ctx.versionAnterior}) que fue revisada por el consultor responsable.
 
 DIAGNÓSTICO ANTERIOR (versión ${ctx.versionAnterior}) — referencia:
-${JSON.stringify(ctx.diagnosticoAnterior, null, 2)}
+${ctx.diagnosticoAnterior.resumen_ejecutivo || JSON.stringify(ctx.diagnosticoAnterior).substring(0, 1500)}
 
 ════════════════════════════════════════════════
 INDICACIÓN DE AJUSTE DEL CONSULTOR — PRIORIDAD MÁXIMA
@@ -28,11 +28,12 @@ INDICACIÓN DE AJUSTE DEL CONSULTOR — PRIORIDAD MÁXIMA
 ════════════════════════════════════════════════
 
 INSTRUCCIÓN CRÍTICA:
-La indicación de ajuste del consultor tiene PRIORIDAD ABSOLUTA sobre
-cualquier recomendación del diagnóstico anterior. Si el consultor pide
-cambiar una herramienta (por ejemplo, de Looker Studio a Power BI),
-DEBES cambiarla sin cuestionar. Si pide agregar ejemplos, DEBES
-agregarlos. Si pide cambiar el enfoque, DEBES cambiarlo.
+ORDEN DIRECTA: la indicación de ajuste REEMPLAZA cualquier recomendación
+contraria del diagnóstico anterior. Si la indicación dice "usa Power BI",
+el nuevo diagnóstico DEBE recomendar Power BI — no Looker Studio, no
+Google Sheets, no otra alternativa. La indicación no es una sugerencia,
+es una instrucción del consultor responsable que DEBE ejecutarse
+literalmente.
 
 El diagnóstico anterior es solo CONTEXTO — la indicación del consultor
 es la ORDEN. Genera el diagnóstico ajustado incorporando explícitamente
