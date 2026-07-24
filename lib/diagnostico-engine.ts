@@ -121,6 +121,17 @@ ${documentos && documentos.length > 0 ? "- ¿El contenido de los documentos adju
 
 Evalúa esto con criterio consultivo real: un texto largo pero vago no es evidencia rica. Una frase corta pero con una métrica concreta puede ser más valiosa que un párrafo de generalidades.
 
+REGLA DE CONCISIÓN:
+El diagnóstico debe ser CONCISO y de alto impacto.
+Reglas de extensión:
+- resumen_ejecutivo: máximo 150 palabras. Cada oración debe aportar un dato, una cifra o una acción. Elimina frases explicativas, contexto innecesario y adjetivos redundantes.
+- hoja_de_ruta: máximo 5 pasos. Cada descripción en 1 oración.
+- suficiencia.razonamiento: máximo 2 oraciones.
+- mudas.descripcion: máximo 2 oraciones.
+- oportunidades: máximo 3 items, 1 oración cada uno.
+- cmmi.descripcion: máximo 1 oración.
+El cliente es un gerente ocupado — si el diagnóstico no se lee en 2 minutos, no se lee.
+
 Genera ÚNICAMENTE un objeto JSON válido (sin markdown, sin texto extra) con esta estructura exacta:
 {
 ${campoInterpretacion}  "suficiencia": {
