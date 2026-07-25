@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
-const CAL_BOOKING_URL = "https://cal.com/yetibi/diagnostico-powerbi";
+const CAL_BOOKING_URL = "https://cal.com/julian-atehortua-aguilar-e53fae/diagnostico-power-bi";
 
 const FREE_EMAIL_DOMAINS = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "live.com"];
 

@@ -15,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 // ─── config ──────────────────────────────────────────────────────────────────
 
-const CAL_BOOKING_URL = "https://cal.com/yetibi/diagnostico-powerbi";
+const CAL_BOOKING_URL = "https://cal.com/julian-atehortua-aguilar-e53fae/diagnostico-power-bi";
 
 // ─── data ────────────────────────────────────────────────────────────────────
 
