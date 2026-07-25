@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, type ChangeEvent } from "react";
+import { useState, useRef, useEffect, type ChangeEvent } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import Cal from "@calcom/embed-react";
+import Cal, { getCalApi } from "@calcom/embed-react";
 import { formContainer, fieldReveal, fadeIn } from "@/lib/motion";
 import {
   Select,
@@ -231,6 +231,19 @@ export function PowerBIIntakeForm() {
   const [fields, setFields] = useState<Fields>(initialFields);
   const [errors, setErrors] = useState<FieldError>({});
   const [formState, setFormState] = useState<FormState>("idle");
+
+  // Inicializa el script del embed de Cal.com — requerido por @calcom/embed-react
+  // antes de que <Cal inline> renderice algo dentro del contenedor.
+  useEffect(() => {
+    if (formState !== "success") return;
+    (async () => {
+      const cal = await getCalApi();
+      cal("ui", {
+        theme: "dark",
+        styles: { branding: { brandColor: "#E07B30" } },
+      });
+    })();
+  }, [formState]);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
