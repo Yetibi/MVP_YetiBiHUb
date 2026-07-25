@@ -4,13 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 const NAVBAR_BTN_EXTRA: React.CSSProperties = {
-  fontSize: 11,
   letterSpacing: "0.08em",
-  padding: "10px 16px",
   borderRadius: 2,
   display: "inline-flex",
   alignItems: "center",
   minHeight: 44,
+  whiteSpace: "nowrap",
+  flexShrink: 0,
 };
 
 export function PowerBINavbar() {
@@ -63,8 +63,13 @@ export function PowerBINavbar() {
         </span>
       </Link>
 
-      <Link href="/powerbi/formulario" className="btn-primary" style={NAVBAR_BTN_EXTRA}>
-        Evalúa la viabilidad de tu proyecto
+      <Link
+        href="/powerbi/formulario"
+        className="btn-primary text-[10px] sm:text-[11px] px-3 sm:px-4"
+        style={NAVBAR_BTN_EXTRA}
+      >
+        <span className="hidden sm:inline">Evalúa la viabilidad de tu proyecto</span>
+        <span className="sm:hidden">Evalúa tu proyecto</span>
       </Link>
     </nav>
   );

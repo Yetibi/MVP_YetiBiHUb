@@ -343,8 +343,8 @@ export default function AnimatedWidgets() {
 
   return (
     <div
-      className="relative w-full"
-      style={{ height: 540 }}
+      className="relative"
+      style={{ height: 540, width: 580, maxWidth: "100%", margin: "0 auto" }}
       aria-hidden="true"
     >
       <KpiWidget rm={rm} />

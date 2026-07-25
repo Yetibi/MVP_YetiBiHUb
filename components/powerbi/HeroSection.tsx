@@ -165,17 +165,12 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Widgets */}
-        <div
-          className="mt-12 md:mt-0"
-          style={{
-            transform: undefined,
-          }}
-        >
+        <div className="mt-12 md:mt-0 w-full overflow-hidden">
           <div className="hidden md:block">
             <AnimatedWidgets />
           </div>
           <div
-            className="block md:hidden"
+            className="flex md:hidden justify-center"
             style={{ transform: "scale(0.65)", opacity: 0.5, transformOrigin: "top center" }}
           >
             <AnimatedWidgets />
