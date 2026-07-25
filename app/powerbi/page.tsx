@@ -1,41 +1,45 @@
 import type { Metadata } from "next";
-import { PowerBIIntakeForm } from "@/components/powerbi/PowerBIIntakeForm";
+import { PowerBINavbar } from "@/components/powerbi/PowerBINavbar";
+import HeroSection from "@/components/powerbi/HeroSection";
 
 export const metadata: Metadata = {
-  title: "Diagnóstico Power BI | Yeti BI",
+  title: "Servicios Power BI | Yeti BI",
   description:
-    "Agenda tu reunión de diagnóstico de datos y visualización con Yeti BI",
+    "Diagnóstico, diseño y construcción de proyectos de visualización y análisis de datos. Evaluación de viabilidad sin costo.",
 };
 
 export default function PowerBIPage() {
   return (
-    <main style={{ backgroundColor: "#0E0B14", minHeight: "100vh" }}>
-      <div className="max-w-3xl mx-auto px-6 py-20 md:py-28">
-        <div className="mb-12">
-          <p
-            className="font-mono uppercase"
-            style={{ color: "#E07B30", fontSize: 12, letterSpacing: "0.2em" }}
-          >
-            SERVICIOS POWER BI
-          </p>
-          <h1
-            className="font-sans font-bold"
-            style={{
-              color: "#FFFFFF",
-              fontSize: "clamp(28px, 5vw, 42px)",
-              lineHeight: 1.15,
-              marginTop: 12,
-            }}
-          >
-            Antes de reunirnos, cuéntanos sobre tu operación
-          </h1>
-          <p style={{ color: "#A89DC0", fontSize: 15, marginTop: 16 }}>
-            Con esta información llegamos preparados a tu diagnóstico. Toma 3
-            minutos.
-          </p>
-        </div>
+    <main className="relative w-full" style={{ backgroundColor: "#0E0B14" }}>
+      {/* Grid pattern de fondo */}
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          maskImage:
+            "radial-gradient(circle at 65% 40%, black 0%, transparent 70%)",
+          WebkitMaskImage:
+            "radial-gradient(circle at 65% 40%, black 0%, transparent 70%)",
+        }}
+      />
 
-        <PowerBIIntakeForm />
+      {/* Ambient glow */}
+      <div
+        aria-hidden
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 70% 35%, rgba(224,123,48,0.07) 0%, transparent 55%)",
+        }}
+      />
+
+      <PowerBINavbar />
+
+      <div className="relative w-full">
+        <HeroSection />
       </div>
     </main>
   );
