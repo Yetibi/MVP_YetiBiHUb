@@ -105,7 +105,7 @@ export default function HeroSection() {
               margin: 0,
             }}
           >
-            No necesitas un dashboard.
+            No Solo necesitas un dashboard.
             <br />
             <span style={{ color: "#E07B30" }}>Necesitas confiar en el dato</span>{" "}
             que sostiene cada decisión.
