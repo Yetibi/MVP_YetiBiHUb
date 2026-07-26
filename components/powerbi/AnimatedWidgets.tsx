@@ -46,16 +46,27 @@ const widgetBase: React.CSSProperties = {
   padding: 20,
 };
 
-// ─── Widget 1 — Histograma ───────────────────────────────────────────────────
+// ─── Widget 1 — Lollipop chart ───────────────────────────────────────────────
 
-const BARRAS = [62, 78, 55, 88, 34, 70, 92];
-const VALORES = [12, 19, 15, 24, 8, 17, 21];
+// Por mes: rango [mínimo, máximo] observado — el mes 5 (MAY) es la anomalía.
+const RANGOS = [
+  [30, 62],
+  [22, 78],
+  [35, 55],
+  [18, 88],
+  [45, 50],
+  [25, 70],
+  [15, 92],
+];
 const MESES = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL"];
 const CHART_H = 80;
 const CHART_W = 230;
-const BAR_GAP = 6;
-const BAR_W = (CHART_W - BAR_GAP * (BARRAS.length - 1)) / BARRAS.length;
-const UMBRAL_Y = CHART_H * 0.35; // 65% de altura desde abajo
+const COL_GAP = 6;
+const COL_W = (CHART_W - COL_GAP * (RANGOS.length - 1)) / RANGOS.length;
+
+function yFor(v: number) {
+  return CHART_H - (v / 100) * CHART_H;
+}
 
 function HistogramaWidget({ rm }: { rm: boolean | null }) {
   return (
@@ -80,17 +91,6 @@ function HistogramaWidget({ rm }: { rm: boolean | null }) {
         height={CHART_H}
         fill="none"
       >
-        <defs>
-          <linearGradient id="barFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#E07B30" />
-            <stop offset="100%" stopColor="#E07B30" stopOpacity={0.4} />
-          </linearGradient>
-          <linearGradient id="barFillAnomaly" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#A89DC0" />
-            <stop offset="100%" stopColor="#A89DC0" stopOpacity={0.3} />
-          </linearGradient>
-        </defs>
-
         {[0.25, 0.5, 0.75].map((f) => (
           <line
             key={f}
@@ -104,48 +104,45 @@ function HistogramaWidget({ rm }: { rm: boolean | null }) {
           />
         ))}
 
-        <line
-          x1={0}
-          y1={UMBRAL_Y}
-          x2={CHART_W}
-          y2={UMBRAL_Y}
-          stroke="#FFFFFF"
-          strokeOpacity={0.1}
-          strokeWidth={1}
-          strokeDasharray="4 4"
-        />
-
-        {BARRAS.map((h, i) => {
-          const barH = (h / 100) * CHART_H;
-          const x = i * (BAR_W + BAR_GAP);
-          const y = CHART_H - barH;
+        {RANGOS.map(([min, max], i) => {
+          const cx = i * (COL_W + COL_GAP) + COL_W / 2;
+          const yMin = yFor(min);
+          const yMax = yFor(max);
+          const isAnomaly = i === 4;
+          const color = isAnomaly ? "#A89DC0" : "#E07B30";
           return (
             <g key={i}>
-              <motion.rect
-                x={x}
-                y={y}
-                width={BAR_W}
-                height={barH}
-                fill={i === 4 ? "url(#barFillAnomaly)" : "url(#barFill)"}
-                initial={rm ? false : { scaleY: 0 }}
-                animate={{ scaleY: 1 }}
+              <motion.line
+                x1={cx}
+                x2={cx}
+                y1={CHART_H}
+                y2={CHART_H}
+                stroke={color}
+                strokeOpacity={0.5}
+                strokeWidth={2}
+                initial={rm ? false : { y1: CHART_H, y2: CHART_H }}
+                animate={{ y1: yMin, y2: yMax }}
                 transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-                style={{ transformOrigin: `${x + BAR_W / 2}px ${CHART_H}px` }}
               />
-              <motion.text
-                x={x + BAR_W / 2}
-                y={y - 6}
-                textAnchor="middle"
-                fill="#FFFFFF"
-                fillOpacity={0.25}
-                fontSize={8}
-                fontFamily="var(--font-mono)"
-                initial={rm ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: i * 0.08 + 0.5 }}
-              >
-                {VALORES[i]}
-              </motion.text>
+              <motion.circle
+                cx={cx}
+                cy={CHART_H}
+                r={3}
+                fill={color}
+                fillOpacity={0.5}
+                initial={rm ? false : { cy: CHART_H }}
+                animate={{ cy: yMin }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+              <motion.circle
+                cx={cx}
+                cy={CHART_H}
+                r={3}
+                fill={color}
+                initial={rm ? false : { cy: CHART_H, opacity: 0 }}
+                animate={{ cy: yMax, opacity: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
             </g>
           );
         })}

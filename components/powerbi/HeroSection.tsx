@@ -165,15 +165,32 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Widgets */}
-        <div className="mt-12 md:mt-0 w-full overflow-hidden">
+        <div className="mt-12 md:mt-0 w-full" style={{ overflow: "hidden" }}>
           <div className="hidden md:block">
             <AnimatedWidgets />
           </div>
           <div
             className="flex md:hidden justify-center"
-            style={{ transform: "scale(0.65)", opacity: 0.5, transformOrigin: "top center" }}
+            style={{
+              // El lienzo real mide 580x540; a scale(0.65) ocupa 377x351 —
+              // fijar ese tamaño real evita que el overflow-hidden del
+              // ancestro recorte el contenido de forma asimétrica.
+              width: 580 * 0.65,
+              height: 540 * 0.65,
+              margin: "0 auto",
+              opacity: 0.5,
+            }}
           >
-            <AnimatedWidgets />
+            <div
+              style={{
+                width: 580,
+                height: 540,
+                transform: "scale(0.65)",
+                transformOrigin: "top left",
+              }}
+            >
+              <AnimatedWidgets />
+            </div>
           </div>
         </div>
       </div>
