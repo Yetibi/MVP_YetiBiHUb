@@ -185,8 +185,9 @@ export default function HeroSection() {
               style={{
                 width: 580,
                 height: 540,
+                marginLeft: -(580 - 580 * 0.65) / 2,
                 transform: "scale(0.65)",
-                transformOrigin: "top left",
+                transformOrigin: "top center",
               }}
             >
               <AnimatedWidgets />
