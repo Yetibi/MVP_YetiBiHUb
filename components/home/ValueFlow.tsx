@@ -102,6 +102,9 @@ export function ValueFlow() {
         flexDirection: 'column',
         justifyContent: 'center',
         padding: '24px 48px',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
       }}
     >
       {/* Kicker */}
@@ -319,12 +322,21 @@ export function ValueFlow() {
       </div>
 
       {/* MOBILE LAYOUT */}
-      <div className="flex md:hidden flex-col" style={{ gap: 0, width: '100%', padding: '0 20px' }}>
+      <div
+        className="flex md:hidden flex-col"
+        style={{
+          gap: 0,
+          width: '100%',
+          maxWidth: '100%',
+          overflowX: 'hidden',
+          padding: '0 20px',
+        }}
+      >
 
         {/* BLOQUE 1 — FUNDAMENTOS */}
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>FUNDAMENTOS</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid #E07B30', background: 'rgba(224,123,48,0.06)', borderRadius: '0 6px 6px 0', marginBottom: 12 }}>
+        <div style={{ padding: '12px 14px', borderLeft: '2px solid #E07B30', background: 'rgba(224,123,48,0.06)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_ORANGE, margin: '0 0 5px' }}>★ NUESTRO DIFERENCIAL</p>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 0 5px' }}>
             Los procesos se degradan y quedan obsoletos. Mejorar esta base ya genera resultados — sin tecnología.
@@ -332,7 +344,7 @@ export function ValueFlow() {
           <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(224,123,48,0.8)', margin: 0 }}>Habilitamos antes de automatizar.</p>
         </div>
 
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.3)', borderRadius: 10 }}>
+        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: '0 0 3px' }}>PROCESO</p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: 0 }}>habilitado para tecnología</p>
         </div>
@@ -342,7 +354,7 @@ export function ValueFlow() {
           <div style={{ width: 2, height: '100%', background: 'rgba(224,123,48,0.3)' }} />
         </div>
 
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.3)', borderRadius: 10 }}>
+        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: '0 0 3px' }}>DATO</p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: 0 }}>confiable</p>
         </div>
@@ -359,7 +371,7 @@ export function ValueFlow() {
         {/* BLOQUE 2 — HABILITACION TECNOLOGICA */}
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>HABILITACIÓN TECNOLÓGICA</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid #7B4F96', background: 'rgba(120,60,160,0.06)', borderRadius: '0 6px 6px 0', marginBottom: 12 }}>
+        <div style={{ padding: '12px 14px', borderLeft: '2px solid #7B4F96', background: 'rgba(120,60,160,0.06)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: 'rgba(180,100,220,0.9)', margin: '0 0 5px' }}>⚡ ANTES DE LA IA</p>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 0 5px' }}>
             Sin automatización sólida, la IA no tiene datos limpios ni procesos para aprender.
@@ -370,13 +382,13 @@ export function ValueFlow() {
         </div>
 
         {/* Nodo AUTOMATIZACIÓN */}
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.4)', borderRadius: 10 }}>
+        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: 0 }}>AUTOMATIZACIÓN</p>
             <span style={{ background: 'rgba(224,123,48,0.1)', border: '1px solid rgba(224,123,48,0.3)', color: C_ORANGE, fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)' }}>ROI DIRECTO</span>
           </div>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: '4px 0 0' }}>RPA · SOPs · Flujos</p>
-          <p style={{ fontSize: 20, fontWeight: 800, fontFamily: 'var(--font-geist-mono)', color: C_ORANGE, marginTop: 8, marginBottom: 0 }}>70–80%</p>
+          <p style={{ fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 800, fontFamily: 'var(--font-geist-mono)', color: C_ORANGE, marginTop: 8, marginBottom: 0 }}>70–80%</p>
         </div>
 
         {/* Zona de fork: naranja centro baja a ROI, punteado derecha baja a IA */}
@@ -402,13 +414,13 @@ export function ValueFlow() {
           <div style={{ position: 'absolute', right: '8%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, rgba(224,123,48,0.3), rgba(224,123,48,0.3))', zIndex: 1 }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.5s infinite' : 'none', top: -6 }} />
           </div>
-          <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(120,60,160,0.4)', borderRadius: 10 }}>
+          <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(120,60,160,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: 0 }}>IA QUE DECIDE</p>
               <span style={{ background: 'rgba(120,60,160,0.12)', border: '1px solid rgba(120,60,160,0.3)', color: 'rgba(180,100,220,0.8)', fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)', marginRight: 18 }}>SI LO JUSTIFICA</span>
             </div>
             <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: '4px 0 0' }}>Modelos · Decisión</p>
-            <p style={{ fontSize: 20, fontWeight: 800, fontFamily: 'var(--font-geist-mono)', color: C_PURPLE, marginTop: 8, marginBottom: 0 }}>15–20%</p>
+            <p style={{ fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 800, fontFamily: 'var(--font-geist-mono)', color: C_PURPLE, marginTop: 8, marginBottom: 0 }}>15–20%</p>
           </div>
         </div>
 
@@ -429,7 +441,7 @@ export function ValueFlow() {
         {/* BLOQUE 3 — IMPACTO MEDIBLE */}
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>IMPACTO MEDIBLE</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid rgba(224,123,48,0.6)', background: 'rgba(224,123,48,0.08)', borderRadius: '0 6px 6px 0', marginBottom: 12 }}>
+        <div style={{ padding: '12px 14px', borderLeft: '2px solid rgba(224,123,48,0.6)', background: 'rgba(224,123,48,0.08)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_ORANGE, margin: '0 0 5px' }}>◆ PROPÓSITO SISTÉMICO</p>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 0 5px' }}>
             Si no impacta el ROI, el proyecto no cumple su propósito.
@@ -437,7 +449,7 @@ export function ValueFlow() {
           <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: C_ORANGE, margin: 0 }}>Medimos relaciones, no eventos.</p>
         </div>
 
-        <div style={{ padding: '20px 14px', background: 'rgba(224,123,48,0.08)', border: '1px solid #E07B30', borderRadius: 10, textAlign: 'center' }}>
+        <div style={{ padding: '20px 14px', background: 'rgba(224,123,48,0.08)', border: '1px solid #E07B30', borderRadius: 10, textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
           <div style={{ width: 52, height: 52, borderRadius: '50%', background: C_ORANGE, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(224,123,48,0.3)' }}>
             <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#0E0B14' }} />
           </div>
@@ -446,19 +458,19 @@ export function ValueFlow() {
         </div>
 
         {/* Leyenda — debajo de ROI, antes del CTA */}
-        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 6, width: '100%', boxSizing: 'border-box', padding: '0 20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: C_ORANGE, flexShrink: 0 }} />
-            <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.4)', margin: 0 }}>Ruta principal (automatización → ROI)</p>
+            <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.4)', margin: 0, wordBreak: 'break-word' }}>Ruta principal (automatización → ROI)</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: C_PURPLE, flexShrink: 0 }} />
-            <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.4)', margin: 0 }}>Ruta opcional (IA, si el diagnóstico lo justifica)</p>
+            <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.4)', margin: 0, wordBreak: 'break-word' }}>Ruta opcional (IA, si el diagnóstico lo justifica)</p>
           </div>
         </div>
 
         {/* CTA narrativo mobile */}
-        <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
+        <div style={{ marginTop: 24, paddingTop: 20, paddingLeft: 20, paddingRight: 20, borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: 0 }}>
             El vacío del mercado no es tecnológico,{' '}
             <span style={{ color: C_ORANGE, fontWeight: 700 }}>es operativo.</span>

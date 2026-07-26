@@ -123,13 +123,14 @@ function HistogramaWidget({ rm }: { rm: boolean | null }) {
             <g key={i}>
               <motion.rect
                 x={x}
+                y={y}
                 width={BAR_W}
+                height={barH}
                 fill={i === 4 ? "url(#barFillAnomaly)" : "url(#barFill)"}
-                initial={rm ? undefined : { height: 0, y: CHART_H }}
-                whileInView={rm ? undefined : { height: barH, y }}
-                animate={rm ? { height: barH, y } : undefined}
-                viewport={{ once: true }}
+                initial={rm ? false : { scaleY: 0 }}
+                animate={{ scaleY: 1 }}
                 transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                style={{ transformOrigin: `${x + BAR_W / 2}px ${CHART_H}px` }}
               />
               <motion.text
                 x={x + BAR_W / 2}
@@ -139,10 +140,8 @@ function HistogramaWidget({ rm }: { rm: boolean | null }) {
                 fillOpacity={0.25}
                 fontSize={8}
                 fontFamily="var(--font-mono)"
-                initial={rm ? undefined : { opacity: 0 }}
-                whileInView={rm ? undefined : { opacity: 1 }}
-                animate={rm ? { opacity: 1 } : undefined}
-                viewport={{ once: true }}
+                initial={rm ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: i * 0.08 + 0.5 }}
               >
                 {VALORES[i]}
@@ -261,10 +260,8 @@ function KpiWidget({ rm }: { rm: boolean | null }) {
             strokeWidth={1}
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={rm ? undefined : { pathLength: 0 }}
-            whileInView={rm ? undefined : { pathLength: 1 }}
-            animate={rm ? { pathLength: 1 } : undefined}
-            viewport={{ once: true }}
+            initial={rm ? false : { pathLength: 0 }}
+            animate={{ pathLength: 1 }}
             transition={{ duration: 0.9, ease: "easeInOut" }}
           />
           {SPARK_POINTS.map(([x, y], i) => (
@@ -352,9 +349,8 @@ function TendenciaWidget({ rm }: { rm: boolean | null }) {
         <motion.path
           d={TREND_AREA}
           fill="url(#trendFill)"
-          initial={rm ? undefined : { opacity: 0 }}
-          whileInView={rm ? undefined : { opacity: 1 }}
-          viewport={{ once: true }}
+          initial={rm ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         />
         <motion.path
@@ -362,9 +358,8 @@ function TendenciaWidget({ rm }: { rm: boolean | null }) {
           stroke="#E07B30"
           strokeWidth={1.2}
           strokeLinecap="round"
-          initial={rm ? undefined : { pathLength: 0 }}
-          whileInView={rm ? undefined : { pathLength: 1 }}
-          viewport={{ once: true }}
+          initial={rm ? false : { pathLength: 0 }}
+          animate={{ pathLength: 1 }}
           transition={{ duration: 1.1, ease: "easeInOut" }}
         />
         {TREND_DOTS.map(([x, y], i) => (
@@ -374,10 +369,8 @@ function TendenciaWidget({ rm }: { rm: boolean | null }) {
             cy={y}
             r={2.5}
             fill="#E07B30"
-            initial={rm ? undefined : { opacity: 0 }}
-            whileInView={rm ? undefined : { opacity: 1 }}
-            animate={rm ? { opacity: 1 } : undefined}
-            viewport={{ once: true }}
+            initial={rm ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.4 + i * 0.15 }}
           />
         ))}
@@ -469,9 +462,8 @@ function GaussianWidget({ rm }: { rm: boolean | null }) {
         <motion.path
           d={GAUSS_AREA}
           fill="url(#gaussFill)"
-          initial={rm ? undefined : { opacity: 0 }}
-          whileInView={rm ? undefined : { opacity: 1 }}
-          viewport={{ once: true }}
+          initial={rm ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         />
         <motion.path
@@ -479,9 +471,8 @@ function GaussianWidget({ rm }: { rm: boolean | null }) {
           stroke="#7B4F96"
           strokeWidth={1.2}
           strokeLinecap="round"
-          initial={rm ? undefined : { pathLength: 0 }}
-          whileInView={rm ? undefined : { pathLength: 1 }}
-          viewport={{ once: true }}
+          initial={rm ? false : { pathLength: 0 }}
+          animate={{ pathLength: 1 }}
           transition={{ duration: 1, ease: "easeInOut" }}
         />
         <line
@@ -612,10 +603,8 @@ function AlertaWidget({ rm }: { rm: boolean | null }) {
             height: "100%",
             background: "linear-gradient(90deg, #E07B30, #C45A2A)",
           }}
-          initial={rm ? undefined : { width: "0%" }}
-          whileInView={rm ? undefined : { width: "75%" }}
-          animate={rm ? { width: "75%" } : undefined}
-          viewport={{ once: true }}
+          initial={rm ? false : { width: "0%" }}
+          animate={{ width: "75%" }}
           transition={{ duration: 0.8, delay: rm ? 0 : 4.3, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
       </div>

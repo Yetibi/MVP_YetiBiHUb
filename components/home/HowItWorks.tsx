@@ -92,12 +92,6 @@ function StepsSection({ reduced }: { reduced: boolean }) {
     else setActiveStep(2);
   });
 
-  const ICONS = [
-    <IconClipboard key={0} />,
-    <IconGear key={1} reduced={reduced} />,
-    <IconBox key={2} />,
-  ];
-
   return (
     <div ref={containerRef} style={{ height: "400vh", position: "relative" }}>
       <div style={{
@@ -138,162 +132,146 @@ function StepsSection({ reduced }: { reduced: boolean }) {
           </h2>
         </div>
 
-        {/* Pasos */}
+        {/* Pasos — lollipop / dumbbell chart */}
         <div style={{
           flex: 7,
           display: "flex",
-          alignItems: "stretch",
+          alignItems: "center",
+          justifyContent: "center",
           minHeight: 0,
-          gap: 16,
+          gap: 40,
           padding: "0 48px",
         }}>
           {STEPS.map((step, i) => {
             const isActive = i === activeStep;
+            const lineHeight = isActive ? 120 : 60;
+            const dotSize = isActive ? 16 : 12;
+            const dotColor = isActive ? "#E07B30" : "rgba(255,255,255,0.2)";
+
             return (
-              <motion.div
+              <div
                 key={i}
-                animate={{
-                  opacity: isActive ? 1 : 0.5,
-                  filter: reduced ? "none" : (isActive ? "blur(0px)" : "blur(1px)"),
-                  scale: reduced ? 1 : (isActive ? 1 : 0.92),
-                }}
-                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                 style={{
-                  height: "100%",
-                  // Avoid animating flex/width — use fixed width for inactive
-                  width: isActive ? undefined : 180,
-                  flex: isActive ? 1 : undefined,
-                  flexShrink: isActive ? 1 : 0,
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
-                  padding: "28px 28px 24px 0",
-                  position: "relative",
-                  overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-between",
+                  alignItems: "center",
+                  maxWidth: 260,
+                  textAlign: "center",
                 }}
               >
-                {/* Número de fondo decorativo */}
-                <span aria-hidden style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  fontFamily: "var(--font-geist-sans)",
-                  fontWeight: 900,
-                  fontSize: isActive ? "clamp(160px,20vw,240px)" : 80,
-                  lineHeight: 0.8,
-                  color: "rgba(224,123,48,0.25)",
-                  userSelect: "none",
-                  pointerEvents: "none",
+                {/* Punto superior */}
+                <motion.span
+                  aria-hidden
+                  animate={{ width: dotSize, height: dotSize, backgroundColor: dotColor }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  style={{ borderRadius: "50%", flexShrink: 0 }}
+                />
+
+                {/* Línea vertical conectora */}
+                <motion.span
+                  aria-hidden
+                  animate={{ height: lineHeight, backgroundColor: dotColor }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  style={{ width: 2, flexShrink: 0 }}
+                />
+
+                {/* Punto inferior */}
+                <motion.span
+                  aria-hidden
+                  animate={{ width: dotSize, height: dotSize, backgroundColor: dotColor }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  style={{ borderRadius: "50%", marginBottom: 20, flexShrink: 0 }}
+                />
+
+                {/* Número */}
+                <span style={{
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: 12, fontWeight: 700,
+                  color: isActive ? "#E07B30" : "rgba(255,255,255,0.3)",
+                  letterSpacing: "2px",
+                  marginBottom: 8,
+                  transition: "color 0.3s ease",
                 }}>
                   {step.num}
                 </span>
 
-                {isActive ? (
-                  <>
-                    {/* Bloque TOP */}
-                    <div style={{ position: "relative", zIndex: 1 }}>
-                      <div style={{
-                        width: 52, height: 52, borderRadius: "50%",
-                        border: "1px solid rgba(224,123,48,0.3)",
-                        background: "rgba(224,123,48,0.07)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        marginBottom: 20,
-                      }}>
-                        {ICONS[i]}
-                      </div>
-                      <p style={{
-                        fontFamily: "var(--font-geist-sans)",
-                        fontSize: 28, fontWeight: 700, color: "#ffffff",
-                        margin: "0 0 16px", lineHeight: 1.2,
-                      }}>
-                        {step.title}
-                      </p>
-                      {/* key única por paso para que AnimatePresence anime el cambio */}
-                      <AnimatePresence mode="wait">
-                        <motion.p
-                          key={step.num}
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -8 }}
-                          transition={{ duration: 0.3 }}
-                          style={{
-                            fontFamily: "var(--font-geist-sans)",
-                            fontSize: 16,
-                            color: "rgba(255,255,255,0.65)",
-                            lineHeight: 1.7,
-                            margin: 0,
-                          }}
-                        >
-                          {step.desc}
-                        </motion.p>
-                      </AnimatePresence>
-                    </div>
+                {/* Título */}
+                <p style={{
+                  fontFamily: "var(--font-geist-sans)",
+                  fontSize: isActive ? 22 : 17,
+                  fontWeight: 700,
+                  color: isActive ? "#ffffff" : "rgba(255,255,255,0.6)",
+                  margin: "0 0 10px",
+                  lineHeight: 1.25,
+                  transition: "color 0.3s ease, font-size 0.3s ease",
+                }}>
+                  {step.title}
+                </p>
 
-                    {/* Alerta paso 1 */}
-                    {step.alert && (
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={`alert-${step.num}`}
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -8 }}
-                          transition={{ duration: 0.3, delay: 0.05 }}
-                          style={{
-                            borderLeft: "2px solid #E07B30",
-                            background: "rgba(224,123,48,0.06)",
-                            padding: "12px 14px",
-                            position: "relative", zIndex: 1,
-                          }}
-                        >
-                          <p style={{ fontSize: 12, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: "1px", fontWeight: 700, margin: "0 0 6px" }}>
-                            {step.alert.title}
-                          </p>
-                          {/* contraste mejorado: 0.5 → 0.75 */}
-                          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.6, margin: "0 0 4px" }}>
-                            {step.alert.text}
-                          </p>
-                          {/* contraste mejorado: 0.25 → 0.65 */}
-                          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.65)", margin: 0 }}>
-                            {step.alert.formats}
-                          </p>
-                        </motion.div>
-                      </AnimatePresence>
-                    )}
-
-                    {/* Tag */}
-                    <span style={{
-                      fontFamily: "var(--font-geist-mono)",
-                      fontSize: 13, color: "#E07B30",
-                      textTransform: "uppercase" as const, letterSpacing: "2px",
-                      position: "relative", zIndex: 1,
-                    }}>
-                      {step.tag}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ position: "relative", zIndex: 1 }}>
-                      <p style={{
+                {/* Descripción — solo visible en el paso activo */}
+                <AnimatePresence mode="wait">
+                  {isActive && (
+                    <motion.p
+                      key={step.num}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3 }}
+                      style={{
                         fontFamily: "var(--font-geist-sans)",
-                        fontSize: 16, fontWeight: 700,
-                        color: "rgba(255,255,255,0.7)",
-                        margin: 0, lineHeight: 1.3,
-                      }}>
-                        {step.title}
+                        fontSize: 15,
+                        color: "rgba(255,255,255,0.65)",
+                        lineHeight: 1.6,
+                        margin: "0 0 12px",
+                      }}
+                    >
+                      {step.desc}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+
+                {/* Alerta paso 1 — solo visible en el paso activo */}
+                {step.alert && isActive && (
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`alert-${step.num}`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3, delay: 0.05 }}
+                      style={{
+                        borderLeft: "2px solid #E07B30",
+                        background: "rgba(224,123,48,0.06)",
+                        padding: "12px 14px",
+                        textAlign: "left",
+                        marginBottom: 12,
+                      }}
+                    >
+                      <p style={{ fontSize: 11, color: "#E07B30", textTransform: "uppercase" as const, letterSpacing: "1px", fontWeight: 700, margin: "0 0 6px" }}>
+                        {step.alert.title}
                       </p>
-                    </div>
-                    <span style={{
-                      fontFamily: "var(--font-geist-mono)",
-                      fontSize: 11, color: "#E07B30",
-                      textTransform: "uppercase" as const, letterSpacing: "1px",
-                      position: "relative", zIndex: 1,
-                    }}>
-                      {step.tag}
-                    </span>
-                  </>
+                      <p style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", lineHeight: 1.6, margin: "0 0 4px" }}>
+                        {step.alert.text}
+                      </p>
+                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.65)", margin: 0 }}>
+                        {step.alert.formats}
+                      </p>
+                    </motion.div>
+                  </AnimatePresence>
                 )}
-              </motion.div>
+
+                {/* Tag */}
+                <span style={{
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: isActive ? 12 : 10,
+                  color: isActive ? "#E07B30" : "rgba(224,123,48,0.5)",
+                  textTransform: "uppercase" as const,
+                  letterSpacing: "1.5px",
+                  transition: "color 0.3s ease, font-size 0.3s ease",
+                }}>
+                  {step.tag}
+                </span>
+              </div>
             );
           })}
         </div>
