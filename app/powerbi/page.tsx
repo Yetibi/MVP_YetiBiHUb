@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PowerBINavbar } from "@/components/powerbi/PowerBINavbar";
 import HeroSection from "@/components/powerbi/HeroSection";
 import PainSection from "@/components/powerbi/PainSection";
+import DifferentiatorSection from "@/components/powerbi/DifferentiatorSection";
 
 export const metadata: Metadata = {
   title: "Servicios Power BI | Yeti BI",
@@ -42,6 +43,7 @@ export default function PowerBIPage() {
       <div className="relative w-full">
         <HeroSection />
         <PainSection />
+        <DifferentiatorSection />
       </div>
     </main>
   );
