@@ -4,6 +4,7 @@ import HeroSection from "@/components/powerbi/HeroSection";
 import PainSection from "@/components/powerbi/PainSection";
 import DifferentiatorSection from "@/components/powerbi/DifferentiatorSection";
 import PreProcessSection from "@/components/powerbi/PreProcessSection";
+import ExecutionSection from "@/components/powerbi/ExecutionSection";
 
 export const metadata: Metadata = {
   title: "Servicios Power BI | Yeti BI",
@@ -46,6 +47,7 @@ export default function PowerBIPage() {
         <PainSection />
         <DifferentiatorSection />
         <PreProcessSection />
+        <ExecutionSection />
       </div>
     </main>
   );
