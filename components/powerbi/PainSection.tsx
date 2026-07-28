@@ -359,7 +359,7 @@ function MobileLayout() {
               {/* Descripción */}
               <p style={{
                 fontFamily: "var(--font-sans)", fontSize: "clamp(14px, 1.6vw, 16px)",
-                color: isActive ? "#A89DC0" : "rgba(255,255,255,0.25)",
+                color: isActive ? "#A89DC0" : "rgba(255,255,255,0.45)",
                 lineHeight: 1.7, margin: 0,
                 transition: "color 0.45s ease",
               }}>

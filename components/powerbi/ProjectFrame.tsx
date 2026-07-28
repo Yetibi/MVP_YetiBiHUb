@@ -1,5 +1,11 @@
 "use client";
 
+// EXCEPCIÓN DE DISEÑO: este componente usa border-radius (16px) y box-shadow
+// para dar profundidad 3D a capturas reales de dashboards — el sistema global
+// del micrositio usa radius:0 y sin box-shadow en todo lo demás. Es deliberado
+// (comunica "producto real" vs. una card de diseño plano) y debe seguir siendo
+// la única excepción; no generalizar esquinas curvas ni sombras sin revisión.
+
 import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 

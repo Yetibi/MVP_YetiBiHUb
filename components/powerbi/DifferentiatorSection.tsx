@@ -481,7 +481,7 @@ export default function DifferentiatorSection() {
               >
                 Enfoque tradicional
               </h3>
-              <p style={{ ...kickerLabelBase, color: "rgba(255,255,255,0.25)" }}>
+              <p style={{ ...kickerLabelBase, color: "rgba(255,255,255,0.45)" }}>
                 EL ESTÁNDAR DEL MERCADO
               </p>
             </div>

@@ -65,6 +65,7 @@ export function PowerBINavbar() {
 
       <Link
         href="/powerbi/formulario"
+        aria-label="Agendar diagnóstico — acceso rápido desde el menú"
         className="btn-primary text-[10px] sm:text-[11px] px-3 sm:px-4"
         style={NAVBAR_BTN_EXTRA}
       >
