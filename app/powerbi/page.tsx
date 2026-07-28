@@ -10,15 +10,63 @@ import FormSection from "@/components/powerbi/FormSection";
 import { Footer } from "@/components/powerbi/Footer";
 
 export const metadata: Metadata = {
-  title: "Servicios Power BI",
+  title: "Consultoría Power BI Colombia | Procesos Primero",
   description:
-    "Diagnóstico, diseño y construcción de proyectos de visualización y análisis de datos. Evaluación de viabilidad sin costo.",
+    "Construimos sistemas de decisión que van más allá del dashboard. Diagnóstico operacional sin costo. Medellín, Bogotá, Cali.",
+  keywords: [
+    "consultoría power bi colombia",
+    "procesos power bi",
+    "dashboards operacionales",
+    "sistemas de decisión",
+    "power bi bogotá",
+    "power bi medellín",
+    "power bi cali",
+  ],
   alternates: { canonical: "https://yetibi.com/powerbi" },
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    url: "https://yetibi.com/powerbi",
+    siteName: "Yeti BI",
+    title: "Consultoría Power BI Colombia | Procesos Primero | Yeti BI",
+    description:
+      "Construimos sistemas de decisión que van más allá del dashboard. Diagnóstico operacional sin costo.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Consultoría Power BI Colombia | Procesos Primero | Yeti BI",
+    description:
+      "Construimos sistemas de decisión que van más allá del dashboard.",
+    images: ["/og-image.png"],
+  },
+};
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Yeti BI - Consultoría Power BI",
+  description:
+    "Construimos sistemas de decisión que van más allá del dashboard. Procesos antes que herramientas.",
+  url: "https://yetibi.com/powerbi",
+  email: "data@yetibi.com",
+  areaServed: ["Bogotá", "Medellín", "Cali", "Colombia"],
+  knowsAbout: [
+    "Power BI",
+    "Business Intelligence",
+    "Análisis de datos",
+    "Optimización de procesos",
+  ],
 };
 
 export default function PowerBIPage() {
   return (
     <main className="relative w-full" style={{ backgroundColor: "#0E0B14" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
+
       {/* Grid pattern de fondo */}
       <div
         aria-hidden
