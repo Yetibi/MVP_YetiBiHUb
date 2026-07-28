@@ -53,7 +53,7 @@ function StepsSection() {
   });
 
   return (
-    <div ref={containerRef} style={{ height: "400vh", position: "relative", paddingBottom: "30vh" }}>
+    <div ref={containerRef} style={{ height: "400vh", position: "relative" }}>
       <div style={{
         position: "sticky",
         top: 0,
