@@ -345,11 +345,17 @@ export default function ExecutionSection() {
   return (
     <section
       id="ejecucion"
-      className="relative mx-auto execution-section"
+      className="relative w-full execution-section"
+      style={{
+        backgroundColor: "#0E0B14",
+        overflow: "hidden",
+      }}
+    >
+    <div
+      className="mx-auto execution-inner"
       style={{
         maxWidth: 1200,
         padding: "80px 48px",
-        backgroundColor: "#0E0B14",
       }}
     >
       {/* Header de sección */}
@@ -359,7 +365,7 @@ export default function ExecutionSection() {
           display: "grid",
           gridTemplateColumns: "0.9fr 1.1fr",
           gap: 48,
-          marginBottom: 72,
+          marginBottom: 80,
         }}
       >
         <div>
@@ -432,7 +438,8 @@ export default function ExecutionSection() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(5, 1fr)",
-            gap: 20,
+            gap: 32,
+            width: "100%",
             listStyle: "none",
             margin: 0,
             padding: 0,
@@ -459,7 +466,7 @@ export default function ExecutionSection() {
         className="flex items-start"
         style={{
           gap: 16,
-          marginTop: 56,
+          marginTop: 80,
           padding: "20px 24px",
           backgroundColor: "rgba(123,79,150,0.06)",
           borderLeft: "2px solid #7B4F96",
@@ -480,8 +487,8 @@ export default function ExecutionSection() {
 
       <style>{`
         @media (max-width: 900px) {
-          .execution-section {
-            padding: 56px 24px !important;
+          .execution-inner {
+            padding: 60px 24px !important;
           }
           .execution-header {
             grid-template-columns: 1fr !important;
@@ -515,6 +522,7 @@ export default function ExecutionSection() {
           }
         }
       `}</style>
+    </div>
     </section>
   );
 }
