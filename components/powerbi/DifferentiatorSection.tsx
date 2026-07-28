@@ -351,15 +351,21 @@ export default function DifferentiatorSection() {
 
   return (
     <section
-      className="relative mx-auto"
+      className="relative w-full differentiator-section"
+      style={{
+        backgroundColor: "#0E0B14",
+        overflow: "hidden",
+      }}
+    >
+    <div
+      className="mx-auto differentiator-inner"
       style={{
         maxWidth: 1200,
-        padding: "80px 24px",
-        backgroundColor: "#0E0B14",
+        padding: "80px 48px",
       }}
     >
       {/* Header de sección */}
-      <div style={{ marginBottom: 64 }}>
+      <div style={{ marginBottom: 80 }}>
         <p
           className="flex items-center"
           style={{
@@ -403,7 +409,8 @@ export default function DifferentiatorSection() {
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: 24,
+          gap: 48,
+          width: "100%",
         }}
       >
         {/* Card izquierda — Enfoque tradicional */}
@@ -664,9 +671,12 @@ export default function DifferentiatorSection() {
           text-decoration: underline;
         }
         @media (max-width: 960px) {
+          .differentiator-inner {
+            padding: 60px 24px !important;
+          }
           .differentiator-grid {
             grid-template-columns: 1fr !important;
-            gap: 16px !important;
+            gap: 32px !important;
           }
           .card-header-band {
             padding: 20px 24px !important;
@@ -680,6 +690,7 @@ export default function DifferentiatorSection() {
           }
         }
       `}</style>
+    </div>
     </section>
   );
 }
