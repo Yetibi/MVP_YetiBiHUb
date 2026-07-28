@@ -411,7 +411,7 @@ export default function DifferentiatorSection() {
           className="differentiator-card differentiator-card-left"
           tabIndex={0}
           initial={rm ? undefined : "hidden"}
-          whileInView={rm ? undefined : leftState === "hidden" ? "show" : undefined}
+          whileInView={rm ? undefined : leftState}
           onViewportEnter={
             rm
               ? undefined
@@ -423,7 +423,6 @@ export default function DifferentiatorSection() {
                   }, LEFT_DIM_DELAY * 1000);
                 }
           }
-          animate={rm ? undefined : leftState === "dimmed" ? "dimmed" : undefined}
           viewport={{ once: true, margin: "0px 0px -80px 0px" }}
           variants={rm ? undefined : leftCardVariants}
           style={{
