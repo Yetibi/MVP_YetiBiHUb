@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
+import { ProjectFrame } from "@/components/powerbi/ProjectFrame";
 
 // ─── contenido ───────────────────────────────────────────────────────────────
 
@@ -82,14 +83,9 @@ const headerVariants: Variants = {
   show: { opacity: 1, transition: { duration: 0.4 } },
 };
 
-const focusImageVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.97 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.2 } },
-};
-
 const descVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.4 } },
+  hidden: { opacity: 0, x: -16 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, delay: 0.1 } },
 };
 
 const thumbsContainerVariants: Variants = {
@@ -165,11 +161,16 @@ export default function GallerySection() {
   return (
     <section
       id="galeria"
-      className="relative mx-auto gallery-section"
+      className="relative w-full gallery-section"
+      style={{
+        background: "#211A32",
+      }}
+    >
+    <div
+      className="mx-auto gallery-inner"
       style={{
         maxWidth: 1200,
         padding: "80px 48px",
-        backgroundColor: "#0E0B14",
       }}
     >
       {/* Header de sección */}
@@ -233,139 +234,121 @@ export default function GallerySection() {
         </div>
       </motion.div>
 
-      {/* Foco (Imagen principal con marco naranja) */}
-      <motion.div
-        initial={rm ? undefined : "hidden"}
-        whileInView={rm ? undefined : "show"}
-        viewport={{ once: true, margin: "-80px" }}
-        variants={rm ? undefined : focusImageVariants}
-        style={{
-          position: "relative",
-          aspectRatio: "16 / 9",
-          border: "4px solid #E07B30", // Marco naranja
-          padding: "8px", // Espaciado interno para separar la imagen del borde
-          backgroundColor: "#141020",
-          overflow: "hidden",
-        }}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={rm ? undefined : "initial"}
-            animate={rm ? undefined : "animate"}
-            exit={rm ? undefined : "exit"}
-            variants={rm ? undefined : swapVariants}
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <Image
-              src={active.image}
-              alt={`Dashboard de ${active.title} — ${active.sector}`}
-              fill
-              sizes="(max-width: 768px) 100vw, 1100px"
-              quality={85}
-              priority={activeIndex === 0}
-              loading={activeIndex === 0 ? undefined : "lazy"}
-              style={{
-                objectFit: "contain", // Ajusta la imagen al contenedor sin recortarla
-                borderRadius: "4px", // Opcional: redondea las esquinas de la imagen
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-
-      {/* Texto descriptivo */}
-      <motion.div
-        initial={rm ? undefined : "hidden"}
-        whileInView={rm ? undefined : "show"}
-        viewport={{ once: true, margin: "-80px" }}
-        variants={rm ? undefined : descVariants}
-        className="gallery-desc"
+      {/* Foco — texto + frame 3D del dashboard, protagonista */}
+      <div
+        className="gallery-focus"
         style={{
           display: "grid",
-          gridTemplateColumns: "auto 1fr",
-          gap: 32,
-          marginTop: 32,
+          gridTemplateColumns: "0.9fr 1.3fr",
+          gap: 48,
+          alignItems: "center",
           marginBottom: 32,
         }}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`meta-${activeIndex}`}
-            initial={rm ? undefined : "initial"}
-            animate={rm ? undefined : "animate"}
-            exit={rm ? undefined : "exit"}
-            variants={rm ? undefined : swapVariants}
-            style={{ minWidth: 220 }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                textTransform: "uppercase",
-                letterSpacing: "2px",
-                color: "#E07B30",
-                margin: 0,
-              }}
+        {/* Texto descriptivo */}
+        <motion.div
+          initial={rm ? undefined : "hidden"}
+          whileInView={rm ? undefined : "show"}
+          viewport={{ once: true, margin: "-80px" }}
+          variants={rm ? undefined : descVariants}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`meta-${activeIndex}`}
+              initial={rm ? undefined : "initial"}
+              animate={rm ? undefined : "animate"}
+              exit={rm ? undefined : "exit"}
+              variants={rm ? undefined : swapVariants}
             >
-              {active.sector}
-            </p>
-            <h3
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontWeight: 700,
-                fontSize: 20,
-                color: "#FFFFFF",
-                marginTop: 8,
-                marginBottom: 0,
-              }}
-            >
-              {active.title}
-            </h3>
-          </motion.div>
-        </AnimatePresence>
+              <p
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 10,
+                  textTransform: "uppercase",
+                  letterSpacing: "2px",
+                  color: "#E07B30",
+                  margin: 0,
+                }}
+              >
+                {active.sector}
+              </p>
+              <h3
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                  fontSize: 20,
+                  color: "#FFFFFF",
+                  marginTop: 8,
+                  marginBottom: 0,
+                }}
+              >
+                {active.title}
+              </h3>
+            </motion.div>
+          </AnimatePresence>
 
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`body-${activeIndex}`}
+              initial={rm ? undefined : "initial"}
+              animate={rm ? undefined : "animate"}
+              exit={rm ? undefined : "exit"}
+              variants={rm ? undefined : swapVariants}
+              style={{ marginTop: 20 }}
+            >
+              <div>
+                <p style={labelStyle}>EL PROBLEMA</p>
+                <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+                  {active.problem}
+                </p>
+              </div>
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.06)",
+                  paddingTop: 16,
+                  marginTop: 16,
+                }}
+              >
+                <p style={labelStyle}>LO QUE CONSTRUIMOS</p>
+                <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+                  {active.solution}
+                </p>
+              </div>
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.06)",
+                  paddingTop: 16,
+                  marginTop: 16,
+                }}
+              >
+                <p style={labelStyle}>EL IMPACTO</p>
+                <p style={{ fontSize: 14, color: "#FFFFFF", lineHeight: 1.6, margin: 0 }}>
+                  {active.impact}
+                </p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Frame 3D del dashboard */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`body-${activeIndex}`}
+            key={`frame-${activeIndex}`}
             initial={rm ? undefined : "initial"}
             animate={rm ? undefined : "animate"}
             exit={rm ? undefined : "exit"}
             variants={rm ? undefined : swapVariants}
+            className="gallery-focus-frame"
+            style={{ display: "flex", justifyContent: "center" }}
           >
-            <div>
-              <p style={labelStyle}>EL PROBLEMA</p>
-              <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
-                {active.problem}
-              </p>
-            </div>
-            <div
-              style={{
-                borderTop: "1px solid rgba(255,255,255,0.06)",
-                paddingTop: 16,
-                marginTop: 16,
-              }}
-            >
-              <p style={labelStyle}>LO QUE CONSTRUIMOS</p>
-              <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
-                {active.solution}
-              </p>
-            </div>
-            <div
-              style={{
-                borderTop: "1px solid rgba(255,255,255,0.06)",
-                paddingTop: 16,
-                marginTop: 16,
-              }}
-            >
-              <p style={labelStyle}>EL IMPACTO</p>
-              <p style={{ fontSize: 14, color: "#FFFFFF", lineHeight: 1.6, margin: 0 }}>
-                {active.impact}
-              </p>
-            </div>
+            <ProjectFrame
+              src={active.image}
+              alt={`Dashboard de ${active.title} — ${active.sector}`}
+              priority={activeIndex === 0}
+            />
           </motion.div>
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       {/* Miniaturas */}
       <motion.div
@@ -409,18 +392,23 @@ export default function GallerySection() {
         .gallery-thumbs > .gallery-thumb {
           width: calc((100% - 48px) / 5);
         }
-        @media (max-width: 768px) {
-          .gallery-section {
+        @media (max-width: 960px) {
+          .gallery-inner {
             padding: 56px 24px !important;
           }
           .gallery-header {
             grid-template-columns: 1fr !important;
             gap: 20px !important;
           }
-          .gallery-desc {
+          .gallery-focus {
             grid-template-columns: 1fr !important;
-            gap: 20px !important;
+            gap: 32px !important;
           }
+          .gallery-focus-frame {
+            order: -1;
+          }
+        }
+        @media (max-width: 768px) {
           .gallery-thumbs {
             overflow-x: auto !important;
             scroll-snap-type: x mandatory !important;
@@ -438,6 +426,7 @@ export default function GallerySection() {
           }
         }
       `}</style>
+    </div>
     </section>
   );
 }

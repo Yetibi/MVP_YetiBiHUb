@@ -59,7 +59,7 @@ function StepsSection() {
         top: 0,
         height: "100vh",
         overflow: "hidden",
-        background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
+        background: "#171225",
         display: "flex",
         flexDirection: "column",
         paddingTop: 80,
@@ -263,7 +263,7 @@ function MobileLayout() {
 
   return (
     <section style={{
-      background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
+      background: "#171225",
       padding: "56px 24px 40px",
     }}>
       {/* Header */}

@@ -281,11 +281,16 @@ export default function PreProcessSection() {
 
   return (
     <section
-      className="relative mx-auto pre-process-section"
+      className="relative w-full pre-process-section"
+      style={{
+        background: "#171225",
+      }}
+    >
+    <div
+      className="mx-auto pre-process-inner"
       style={{
         maxWidth: 1100,
         padding: "80px 48px",
-        background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
       }}
     >
       {/* Header de sección */}
@@ -474,7 +479,7 @@ export default function PreProcessSection() {
           opacity: 1;
         }
         @media (max-width: 768px) {
-          .pre-process-section {
+          .pre-process-inner {
             padding: 56px 24px !important;
           }
           .pre-process-header {
@@ -511,6 +516,7 @@ export default function PreProcessSection() {
           }
         }
       `}</style>
+    </div>
     </section>
   );
 }
