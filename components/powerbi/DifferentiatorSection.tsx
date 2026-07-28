@@ -257,8 +257,11 @@ const leftItemVariants: Variants = {
 // La secuencia izquierda ("Enfoque tradicional") corre completa —
 // entrada + lista + atenuación— antes de que arranque la derecha, para
 // que "Enfoque Yeti BI" entre después, con protagonismo propio, en vez
-// de competir en paralelo por la atención del usuario.
-const LEFT_SEQUENCE_END = 3.4; // show (0.5s) + lista (~0.6s) + dimmed (2.8s inicio + 0.6s)
+// de competir en paralelo por la atención del usuario. La ventana en que
+// solo se ve "tradicional" se acortó (de 2.8s a 1.6s de LEFT_DIM_DELAY)
+// tras revisión de UX: era demasiado tiempo parado en una sola card para
+// el ritmo real de scroll de un usuario.
+const LEFT_SEQUENCE_END = 2.2; // show (0.5s) + lista (~0.6s) + dimmed (1.6s inicio + 0.6s)
 const RIGHT_CARD_DELAY = LEFT_SEQUENCE_END + 0.2;
 
 const rightBarVariants: Variants = {
@@ -340,7 +343,7 @@ const rightClosingVariants: Variants = {
 };
 
 // Se completa toda la secuencia derecha ~2.8s desde el inicio.
-const LEFT_DIM_DELAY = 2.8;
+const LEFT_DIM_DELAY = 1.6;
 
 // ─── DifferentiatorSection ───────────────────────────────────────────────────
 

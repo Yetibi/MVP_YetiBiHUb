@@ -26,10 +26,10 @@ export default function FormSection() {
       <div
         className="form-section-grid"
         style={{
-          maxWidth: 1100,
+          maxWidth: 1300,
           margin: "0 auto",
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "0.85fr 1.15fr",
           gap: 64,
           alignItems: "center",
         }}
@@ -105,7 +105,7 @@ export default function FormSection() {
             alt="Vista previa de las primeras preguntas del formulario de evaluación"
             borderColor="rgba(180,150,210,0.5)"
             borderWidth={6}
-            maxWidth="620px"
+            maxWidth="940px"
             rotateX={-3}
             rotateY={-2}
             onHoverRotateX={-4}

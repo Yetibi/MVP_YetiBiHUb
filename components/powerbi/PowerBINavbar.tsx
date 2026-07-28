@@ -68,8 +68,8 @@ export function PowerBINavbar() {
         className="btn-primary text-[10px] sm:text-[11px] px-3 sm:px-4"
         style={NAVBAR_BTN_EXTRA}
       >
-        <span className="hidden sm:inline">Evalúa la viabilidad de tu proyecto</span>
-        <span className="sm:hidden">Evalúa tu proyecto</span>
+        <span className="hidden sm:inline">Agendar diagnóstico</span>
+        <span className="sm:hidden">Agendar</span>
       </Link>
     </nav>
   );
