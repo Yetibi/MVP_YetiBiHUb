@@ -36,6 +36,9 @@ const SECTOR_OPTIONS = [
   "Financiero y seguros",
   "Energía y minería",
   "Entretenimiento y medios",
+  "ONG o fundación",
+  "Gobierno o sector público",
+  "Proyecto personal o independiente",
   "Otro (¿cuál?)",
 ] as const;
 
@@ -45,6 +48,10 @@ const FUENTES_GRUPOS = [
   {
     titulo: "HOJAS DE CÁLCULO Y ARCHIVOS",
     opciones: ["Excel o Google Sheets", "Archivos sueltos (PDF, Word, correos)"],
+  },
+  {
+    titulo: "BASES DE DATOS VISUALES Y COLABORACIÓN",
+    opciones: ["Airtable o Notion", "Base de datos propia (PostgreSQL, MySQL, MongoDB, etc.)"],
   },
   {
     titulo: "CONTABILIDAD Y FACTURACIÓN",
