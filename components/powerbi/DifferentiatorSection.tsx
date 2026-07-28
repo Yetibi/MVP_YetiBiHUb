@@ -254,8 +254,12 @@ const leftItemVariants: Variants = {
   },
 };
 
-// La card derecha entra 1.2s después del inicio de la secuencia.
-const RIGHT_CARD_DELAY = 1.2;
+// La secuencia izquierda ("Enfoque tradicional") corre completa —
+// entrada + lista + atenuación— antes de que arranque la derecha, para
+// que "Enfoque Yeti BI" entre después, con protagonismo propio, en vez
+// de competir en paralelo por la atención del usuario.
+const LEFT_SEQUENCE_END = 3.4; // show (0.5s) + lista (~0.6s) + dimmed (2.8s inicio + 0.6s)
+const RIGHT_CARD_DELAY = LEFT_SEQUENCE_END + 0.2;
 
 const rightBarVariants: Variants = {
   hidden: { scaleX: 0 },
@@ -266,11 +270,12 @@ const rightBarVariants: Variants = {
 };
 
 const rightCardVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 32, scale: 0.96 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: RIGHT_CARD_DELAY + 0.2 },
+    scale: 1,
+    transition: { duration: 0.6, delay: RIGHT_CARD_DELAY + 0.2, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -279,6 +284,16 @@ const rightHeaderVariants: Variants = {
   show: {
     opacity: 1,
     transition: { duration: 0.4, delay: RIGHT_CARD_DELAY + 0.3 },
+  },
+};
+
+// Resplandor de protagonismo: entra fuerte junto con la card y se asienta
+// a un valor sutil, marcando que este es el punto de llegada de la narrativa.
+const rightGlowVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.9, 0.35],
+    transition: { duration: 1.1, delay: RIGHT_CARD_DELAY, times: [0, 0.35, 1], ease: "easeOut" },
   },
 };
 
@@ -502,6 +517,17 @@ export default function DifferentiatorSection() {
             overflow: "hidden",
           }}
         >
+          <motion.span
+            aria-hidden
+            variants={rm ? undefined : rightGlowVariants}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: "radial-gradient(circle at 50% 0%, rgba(224,123,48,0.18) 0%, transparent 65%)",
+              pointerEvents: "none",
+            }}
+          />
+
           <motion.span
             aria-hidden
             variants={rm ? undefined : rightBarVariants}
