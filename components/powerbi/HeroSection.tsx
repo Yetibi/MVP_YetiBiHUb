@@ -277,11 +277,11 @@ export default function HeroSection() {
             lineHeight: 1.15,
             letterSpacing: "-0.02em",
             textAlign: "center",
-            maxWidth: 1100,
+            maxWidth: 1200,
             margin: "0 0 32px",
           }}
         >
-          Necesitas confiar en el dato que sostiene cada decisión.
+          Sistemas de decisión donde los procesos sostienen cada movimiento
         </motion.p>
 
         <motion.p
@@ -289,16 +289,16 @@ export default function HeroSection() {
           style={{
             fontSize: 16,
             fontWeight: 400,
-            color: "#A89DC0",
+            color: "#FFFFFF",
             lineHeight: 1.7,
             textAlign: "center",
             maxWidth: 700,
             margin: "0 0 40px",
           }}
         >
-          Diseñamos, construimos y sostenemos proyectos de visualización y
-          análisis de datos — pero solo después de diagnosticar si tu proceso
-          y tu dato están listos.
+        Consultoría en <span style={{ fontWeight: 700, color: "#E07B30" }}>Power BI</span> que pone procesos antes que herramientas. 
+        Mientras otros entregan dashboards, construimos sistemas de decisión 
+        operacionales. Diagnóstico sin costo.
         </motion.p>
 
         <motion.div variants={rm ? undefined : heroItem}>

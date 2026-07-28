@@ -88,7 +88,7 @@ function StepsSection() {
             letterSpacing: "-0.02em",
             color: "#FFFFFF",
           }}>
-            ¿Esto te está frenando?
+            CUATRO SEÑALES QUE FRENAN TUS DECISIONES
           </h2>
         </div>
 
