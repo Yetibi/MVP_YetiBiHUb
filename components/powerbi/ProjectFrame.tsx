@@ -8,6 +8,7 @@ interface ProjectFrameProps {
   alt: string;
   priority?: boolean;
   borderColor?: string;
+  borderWidth?: number;
   maxWidth?: string;
   perspective?: number;
   rotateX?: number;
@@ -25,7 +26,8 @@ export function ProjectFrame({
   src,
   alt,
   priority = false,
-  borderColor = "#E07B30",
+  borderColor,
+  borderWidth = 0,
   maxWidth = "920px",
   perspective = 1200,
   rotateX = -4,
@@ -51,6 +53,7 @@ export function ProjectFrame({
           width: "100%",
           borderRadius: 16,
           overflow: "hidden",
+          border: borderColor ? `${borderWidth}px solid ${borderColor}` : undefined,
           boxShadow: "0 24px 48px rgba(224,123,48,0.08)",
           transformStyle: rm ? undefined : "preserve-3d",
           transform: rm ? undefined : `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(0deg)`,

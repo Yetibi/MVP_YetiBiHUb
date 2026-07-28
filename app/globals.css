@@ -214,84 +214,67 @@ section[id] { scroll-margin-top: 80px; }
   to { transform: rotate(360deg); }
 }
 
-@keyframes gear-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+/* ── Sección Diferenciador (S3) ─────────────────────────────── */
+.section-differentiator {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 4rem 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
-@keyframes heroScaleIn {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
-}
-@keyframes heroSlideUp {
-  from { transform: translateY(32px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-@keyframes heroDrawLine {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-@keyframes heroFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.section-differentiator h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-@keyframes moveB1 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%     { transform: translate(-40px,30px) scale(1.1); }
-  66%     { transform: translate(20px,-20px) scale(0.95); }
-}
-@keyframes moveB2 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  40%     { transform: translate(30px,50px) scale(1.15); }
-  70%     { transform: translate(-20px,-30px) scale(0.9); }
-}
-@keyframes moveB3 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  30%     { transform: translate(-50px,-40px) scale(1.2); }
-  60%     { transform: translate(40px,20px) scale(0.85); }
-}
-@keyframes moveB4 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  50%     { transform: translate(60px,40px) scale(1.1); }
-}
-@keyframes moveB5 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  45%     { transform: translate(-30px,-60px) scale(1.15); }
-  75%     { transform: translate(50px,30px) scale(0.9); }
+.section-differentiator .split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-/* ── ValueFlow SVG animations (defined here, not in SVG <defs>, for Safari Mobile compat) ── */
-@keyframes flowParticle {
-  0%   { stroke-dashoffset: 240; opacity: 0; }
-  8%   { opacity: 1; }
-  92%  { opacity: 1; }
-  100% { stroke-dashoffset: 0;   opacity: 0; }
-}
-@keyframes roiPulse {
-  0%   { opacity: .7; transform: scale(1); }
-  100% { opacity: 0;  transform: scale(2.75); }
-}
-.vf-rp { transform-origin: 564px 257px; transform-box: fill-box; }
-
-@keyframes mobileParticle {
-  0%   { top: -6px; opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { top: calc(100% + 6px); opacity: 0; }
-}
-
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-/* ── Reduced motion: disable all decorative animations ──────── */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+@media (min-width: 768px) {
+  .section-differentiator .split {
+    grid-template-columns: 1fr 1fr;
   }
-  .vf-p, .vf-rp { animation: none !important; }
+}
+
+.section-differentiator .split-left,
+.section-differentiator .split-right {
+  padding: 1rem;
+}
+
+.section-differentiator .split-left {
+  opacity: 0.6;
+}
+
+.section-differentiator .split-right {
+  border-left: 4px solid var(--primary);
+  padding-left: 1.5rem;
+}
+
+.section-differentiator .split-kicker {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-differentiator a.cta-secondary {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.section-differentiator a.cta-secondary:hover {
+  color: var(--accent);
 }

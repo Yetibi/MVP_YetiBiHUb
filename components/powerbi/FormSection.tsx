@@ -1,55 +1,44 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "motion/react";
-
-const FREE_EMAIL_DOMAINS = ["gmail.com", "hotmail.com"];
-
-function esCorreoGratuito(correo: string): boolean {
-  const domain = correo.trim().split("@")[1]?.toLowerCase();
-  return !!domain && FREE_EMAIL_DOMAINS.includes(domain);
-}
-
-const inputStyle: React.CSSProperties = {
-  height: 44,
-  padding: "12px 16px",
-  backgroundColor: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(255,255,255,0.08)",
-  borderRadius: 0,
-  color: "#FFFFFF",
-  fontSize: 14,
-  width: "100%",
-  outline: "none",
-  transition: "border-color 0.15s",
-};
-
-const labelStyle: React.CSSProperties = {
-  fontFamily: "var(--font-sans)",
-  fontWeight: 500,
-  fontSize: 14,
-  color: "#FFFFFF",
-  display: "block",
-  marginBottom: 8,
-};
+import { ProjectFrame } from "@/components/powerbi/ProjectFrame";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
+const previewVariants: Variants = {
+  hidden: { opacity: 0, x: 16 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, delay: 0.1 } },
+};
+
 export default function FormSection() {
   const rm = useReducedMotion();
-  const [nombre, setNombre] = useState("");
-  const [correo, setCorreo] = useState("");
 
   return (
     <section
       id="formulario"
       style={{ backgroundColor: "#0E0B14", padding: "80px 24px" }}
     >
-      <div className="max-w-3xl mx-auto">
-        <div style={{ marginBottom: 56 }}>
+      <div
+        className="form-section-grid"
+        style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 64,
+          alignItems: "center",
+        }}
+      >
+        <motion.div
+          initial={rm ? undefined : "hidden"}
+          whileInView={rm ? undefined : "show"}
+          viewport={{ once: true, margin: "-80px" }}
+          variants={rm ? undefined : containerVariants}
+        >
           <p
             className="font-mono uppercase"
             style={{ color: "#E07B30", fontSize: 11, letterSpacing: "0.2em" }}
@@ -67,78 +56,16 @@ export default function FormSection() {
           >
             Antes de reunirnos, cuéntanos lo básico
           </h2>
-          <p style={{ color: "#A89DC0", fontSize: 16, marginTop: 16 }}>
-            Con esta información llegamos preparados a tu diagnóstico. Toma 1
-            minuto.
+          <p style={{ color: "#A89DC0", fontSize: 16, marginTop: 16, lineHeight: 1.7 }}>
+            Con esta información llegamos preparados a tu diagnóstico. Toma 3
+            minutos, y todo se responde en una sola pantalla — sin repetir
+            nada.
           </p>
-        </div>
-
-        <motion.div
-          initial={rm ? undefined : "hidden"}
-          whileInView={rm ? undefined : "show"}
-          viewport={{ once: true, margin: "-80px" }}
-          variants={rm ? undefined : containerVariants}
-          style={{
-            maxWidth: 520,
-            margin: "0 auto",
-            backgroundColor: "#141020",
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: 0,
-            padding: 40,
-          }}
-        >
-          <div style={{ marginBottom: 20 }}>
-            <label htmlFor="form-section-nombre" style={labelStyle}>
-              Nombre
-            </label>
-            <input
-              id="form-section-nombre"
-              type="text"
-              aria-label="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              placeholder="Tu nombre"
-              style={inputStyle}
-              className="form-section-input"
-              onFocus={(e) => (e.target.style.borderColor = "#E07B30")}
-              onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.08)")}
-            />
-          </div>
-
-          <div style={{ marginBottom: 28 }}>
-            <label htmlFor="form-section-correo" style={labelStyle}>
-              Correo
-            </label>
-            <input
-              id="form-section-correo"
-              type="email"
-              aria-label="Correo"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              placeholder="tu@empresa.co"
-              style={inputStyle}
-              className="form-section-input"
-              onFocus={(e) => (e.target.style.borderColor = "#E07B30")}
-              onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.08)")}
-            />
-            {correo && esCorreoGratuito(correo) && (
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  color: "#E07B30",
-                  marginTop: 8,
-                }}
-              >
-                Sugerencia: usa tu correo de empresa
-              </p>
-            )}
-          </div>
 
           <Link
             href="/powerbi/formulario"
             aria-label="Continuar con la evaluación de viabilidad"
-            className="form-section-cta relative inline-flex items-center justify-center overflow-hidden w-full"
+            className="form-section-cta relative inline-flex items-center justify-center overflow-hidden"
             style={{
               backgroundColor: "#E07B30",
               color: "#0E0B14",
@@ -147,9 +74,10 @@ export default function FormSection() {
               fontWeight: 700,
               borderRadius: 0,
               textDecoration: "none",
+              marginTop: 32,
             }}
           >
-            <span className="relative z-10">Continuar con la evaluación →</span>
+            <span className="relative z-10">Ir al formulario →</span>
           </Link>
 
           <p
@@ -157,20 +85,35 @@ export default function FormSection() {
               fontSize: 12,
               color: "#A89DC0",
               marginTop: 16,
-              textAlign: "center",
             }}
           >
             El formulario completo toma 3 minutos. Todas tus respuestas van
             directamente a nuestro equipo.
           </p>
         </motion.div>
+
+        <motion.div
+          initial={rm ? undefined : "hidden"}
+          whileInView={rm ? undefined : "show"}
+          viewport={{ once: true, margin: "-80px" }}
+          variants={rm ? undefined : previewVariants}
+          className="form-section-preview"
+        >
+          <ProjectFrame
+            src="/form-preview/formulario-preview.png"
+            alt="Vista previa de las primeras preguntas del formulario de evaluación"
+            borderColor="rgba(180,150,210,0.5)"
+            borderWidth={6}
+            maxWidth="620px"
+            rotateX={-3}
+            rotateY={-2}
+            onHoverRotateX={-4}
+            onHoverRotateY={-3}
+          />
+        </motion.div>
       </div>
 
       <style>{`
-        .form-section-input:focus-visible {
-          outline: 2px solid #E07B30;
-          outline-offset: 2px;
-        }
         .form-section-cta::before {
           content: "";
           position: absolute;
@@ -186,6 +129,15 @@ export default function FormSection() {
         .form-section-cta:focus-visible {
           outline: 2px solid #E07B30;
           outline-offset: 2px;
+        }
+        @media (max-width: 960px) {
+          .form-section-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          .form-section-preview {
+            order: -1;
+          }
         }
       `}</style>
     </section>
