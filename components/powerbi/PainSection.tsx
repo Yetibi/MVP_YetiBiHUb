@@ -380,7 +380,7 @@ function MobileLayout() {
           fontFamily: "var(--font-sans)",
           fontSize: "clamp(15px, 1.8vw, 18px)",
           fontStyle: "italic",
-          color: "#A89DC0",
+          color: "#FFFFFF",
           lineHeight: 1.6,
           margin: 0,
         }}>

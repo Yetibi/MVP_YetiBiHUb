@@ -287,7 +287,7 @@ export default function HeroSection() {
         <motion.p
           variants={rm ? undefined : heroItem}
           style={{
-            fontSize: 17,
+            fontSize: 19,
             fontWeight: 400,
             color: "#FFFFFF",
             lineHeight: 1.7,
@@ -296,8 +296,8 @@ export default function HeroSection() {
             margin: "0 0 40px",
           }}
         >
-        Consultoría en <span style={{ fontWeight: 700, color: "#E07B30" }}>Power BI</span> que pone procesos antes que herramientas. 
-        enfocada en cómo funciona tu negocio, no solo en cómo se visualizan los datos. Diseñamos sistemas de decisión que generan acciones reales.
+        Consultoría en <span style={{ fontWeight: 700, color: "#E07B30" }}>Power BI</span> que convierte indicadores en decisiones 
+        y decisiones en resultados. Construimos sistemas operacionales, no solo informes. 
         Diagnóstico sin costo.
         </motion.p>
 
