@@ -104,12 +104,28 @@ const connectorSweepVariants: Variants = {
 // 4 fases de stagger (0.25s c/u) + 0.6s de duración de la última ≈ 1.6s
 const ARCS_DELAY = 4 * 0.25 + 0.6;
 
+// Tras dibujarse (pathLength 0→1), el trazo punteado fluye en loop continuo
+// (strokeDashoffset) para transmitir que la retroalimentación es un ciclo
+// vivo, no una imagen estática. El flujo arranca justo cuando termina el
+// dibujo del arco (ARCS_DELAY + 0.8).
 const arcVariants: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
+  hidden: { pathLength: 0, opacity: 0, strokeDashoffset: 0 },
   show: {
     pathLength: 1,
     opacity: 0.5,
-    transition: { duration: 0.8, delay: ARCS_DELAY, ease: "easeInOut" },
+    strokeDashoffset: [0, 0, -16],
+    transition: {
+      pathLength: { duration: 0.8, delay: ARCS_DELAY, ease: "easeInOut" },
+      opacity: { duration: 0.8, delay: ARCS_DELAY, ease: "easeInOut" },
+      strokeDashoffset: {
+        duration: 1.2,
+        delay: ARCS_DELAY,
+        times: [0, 0.667, 1],
+        repeat: Infinity,
+        repeatDelay: 0,
+        ease: "linear",
+      },
+    },
   },
 };
 
@@ -251,26 +267,36 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
 // Curvas de fase 3→2 y fase 4→2. Coordenadas relativas a un viewBox de
 // 1000x70 mapeado sobre el ancho de las 5 columnas (cada columna = 200px).
 
+// El SVG cubre desde el borde superior de .execution-phases-wrap (y=0, donde
+// vive el texto "RETROALIMENTACIÓN") hasta el centro vertical real de los
+// nodos (medido con Playwright: paddingTop 70 + mitad del nodo de 54px = 97,
+// coincide con el "top: 27" del conector horizontal dentro de cada nodo).
+// Antes el SVG medía solo 70px de alto y el arco terminaba en y=60, muy por
+// encima de donde realmente empiezan los nodos (~95-110px) — quedaba
+// flotando sin tocar las cajas. Ahora ARC_LAND_Y = altura real del SVG.
+const ARC_LAND_Y = 97;
+
 function ReturnArcs({ rm }: { rm: boolean | null }) {
   // Centro X real de cada nodo (medido: los nodos de 54px con gap 20px sobre
   // 5 columnas 1fr no caen en múltiplos exactos de 200 — offset por el ancho
   // del propio nodo). Valores en escala 0-1000 del viewBox.
   const colCenters = [25, 228, 432, 635, 839];
-  const arc3to2 = `M ${colCenters[2]} 60 C ${colCenters[2] - 60} 10, ${colCenters[1] + 60} 10, ${colCenters[1]} 60`;
-  const arc4to2 = `M ${colCenters[3]} 60 C ${colCenters[3] - 40} -10, ${colCenters[1] + 40} -10, ${colCenters[1]} 60`;
+  const y = ARC_LAND_Y;
+  const arc3to2 = `M ${colCenters[2]} ${y} C ${colCenters[2] - 60} ${y - 50}, ${colCenters[1] + 60} ${y - 50}, ${colCenters[1]} ${y}`;
+  const arc4to2 = `M ${colCenters[3]} ${y} C ${colCenters[3] - 40} ${y - 70}, ${colCenters[1] + 40} ${y - 70}, ${colCenters[1]} ${y}`;
 
   return (
     <svg
       aria-hidden="true"
       className="execution-arcs hidden md:block"
-      viewBox="0 -20 1000 90"
+      viewBox={`0 0 1000 ${ARC_LAND_Y + 10}`}
       preserveAspectRatio="none"
       style={{
         position: "absolute",
-        top: -70,
+        top: 0,
         left: 0,
         width: "100%",
-        height: 70,
+        height: ARC_LAND_Y + 10,
         pointerEvents: "none",
         overflow: "visible",
       }}
@@ -297,7 +323,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
       />
       <text
         x={colCenters[1] + (colCenters[2] - colCenters[1]) / 2}
-        y={-8}
+        y={12}
         textAnchor="middle"
         fontFamily="var(--font-mono)"
         fontSize={8}
