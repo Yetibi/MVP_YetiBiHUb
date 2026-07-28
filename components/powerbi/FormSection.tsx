@@ -20,6 +20,7 @@ export default function FormSection() {
   return (
     <section
       id="formulario"
+      className="form-section"
       style={{ backgroundColor: "#0E0B14", padding: "80px 24px" }}
     >
       <div
@@ -131,12 +132,12 @@ export default function FormSection() {
           outline-offset: 2px;
         }
         @media (max-width: 960px) {
+          .form-section {
+            padding: 60px 24px !important;
+          }
           .form-section-grid {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
-          }
-          .form-section-preview {
-            order: -1;
           }
         }
       `}</style>
