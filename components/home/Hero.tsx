@@ -1075,7 +1075,8 @@ export default function Hero() {
             style={{
               width: rightWidth,
               height: "100%",
-              background: "#0E0B14",
+              background:
+                "linear-gradient(135deg, rgba(123,79,150,0.14) 0%, rgba(123,79,150,0.06) 100%), #0E0B14",
               borderLeft: "1px solid rgba(224,123,48,0.12)",
               position: "relative",
               flexShrink: 0,
