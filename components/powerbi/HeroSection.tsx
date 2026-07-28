@@ -1,216 +1,342 @@
 "use client";
 
-import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 import { heroContainer, heroItem } from "@/lib/motion";
-import AnimatedWidgets from "@/components/powerbi/AnimatedWidgets";
+import { SpecularButton } from "@/components/powerbi/SpecularButton";
 
-const kickerStyle: React.CSSProperties = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 11,
-  textTransform: "uppercase",
-  letterSpacing: "3px",
-  color: "#E07B30",
+// ─── shared ──────────────────────────────────────────────────────────────────
+
+const bgFadeVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6 } },
 };
 
-function CornerBracket({
-  position,
-}: {
-  position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
-}) {
-  const isTop = position.startsWith("top");
-  const isLeft = position.endsWith("left");
-  const color = isTop ? "#E07B30" : "rgba(255,255,255,0.1)";
+// ─── Gráficas de fondo — solo líneas/curvas, sin texto ni KPIs (no deben
+// competir con el headline). Paleta neutra tenue (blancos/grises translúcidos)
+// para no chocar con el naranja del subtítulo. Cada una conserva su propia
+// animación interna de entrada.
+
+const NEUTRAL_LINE = "rgba(255,255,255,0.55)";
+const NEUTRAL_FILL_FROM = "rgba(255,255,255,0.14)";
+const NEUTRAL_DOT = "rgba(255,255,255,0.6)";
+
+function Chart01Lollipop({ rm }: { rm: boolean | null }) {
+  const rangos = [
+    [30, 62], [22, 78], [35, 55], [18, 88], [45, 50], [25, 70], [15, 92],
+  ];
+  const h = 340;
+  const w = 1000;
+  const gap = 36;
+  const colW = (w - gap * (rangos.length - 1)) / rangos.length;
+  const yFor = (v: number) => h - (v / 100) * h;
 
   return (
-    <span
-      aria-hidden
-      className="hidden md:block"
-      style={{
-        position: "absolute",
-        width: 20,
-        height: 20,
-        top: isTop ? 0 : undefined,
-        bottom: isTop ? undefined : 0,
-        left: isLeft ? 0 : undefined,
-        right: isLeft ? undefined : 0,
-        borderTop: isTop ? `1.5px solid ${color}` : undefined,
-        borderBottom: isTop ? undefined : `1.5px solid ${color}`,
-        borderLeft: isLeft ? `1.5px solid ${color}` : undefined,
-        borderRight: isLeft ? undefined : `1.5px solid ${color}`,
-      }}
-    />
+    <div style={{ width: "100%", maxWidth: 1000 }}>
+      <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={h} fill="none">
+        {[0.25, 0.5, 0.75].map((f) => (
+          <line key={f} x1={0} y1={h * f} x2={w} y2={h * f} stroke="#FFFFFF" strokeOpacity={0.06} strokeDasharray="3 10" />
+        ))}
+        {rangos.map(([min, max], i) => {
+          const cx = i * (colW + gap) + colW / 2;
+          const yMin = yFor(min);
+          const yMax = yFor(max);
+          return (
+            <g key={i}>
+              <motion.line
+                x1={cx} x2={cx} y1={h} y2={h}
+                stroke={NEUTRAL_LINE} strokeWidth={3}
+                initial={rm ? false : { y1: h, y2: h }}
+                animate={{ y1: yMin, y2: yMax }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+              <motion.circle
+                cx={cx} cy={h} r={7} fill={NEUTRAL_DOT}
+                initial={rm ? false : { cy: h }}
+                animate={{ cy: yMin }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+              <motion.circle
+                cx={cx} cy={h} r={7} fill={NEUTRAL_DOT}
+                initial={rm ? false : { cy: h, opacity: 0 }}
+                animate={{ cy: yMax, opacity: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+            </g>
+          );
+        })}
+      </svg>
+    </div>
   );
 }
+
+function Chart02Trend({ rm }: { rm: boolean | null }) {
+  const path = "M 10 280 C 170 250, 260 210, 380 190 S 590 110, 740 90 S 890 25, 990 18";
+  const area = `${path} L 990 340 L 10 340 Z`;
+  const dots = [[10, 280], [230, 225], [380, 190], [610, 130], [820, 55], [990, 18]] as const;
+
+  return (
+    <div style={{ width: "100%", maxWidth: 1000 }}>
+      <svg viewBox="0 0 1000 340" width="100%" height={340} fill="none">
+        {[80, 160, 240].map((y) => (
+          <line key={y} x1={0} y1={y} x2={1000} y2={y} stroke="#FFFFFF" strokeOpacity={0.06} strokeDasharray="3 12" />
+        ))}
+        <defs>
+          <linearGradient id="hero-trendFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.16} />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <motion.path
+          d={area} fill="url(#hero-trendFill)"
+          initial={rm ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        />
+        <motion.path
+          d={path} stroke={NEUTRAL_LINE} strokeWidth={3} strokeLinecap="round"
+          initial={rm ? false : { pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.4, ease: "easeInOut" }}
+        />
+        {dots.map(([x, y], i) => (
+          <motion.circle
+            key={i} cx={x} cy={y} r={7} fill={NEUTRAL_DOT}
+            initial={rm ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.4 + i * 0.15 }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+function Chart03Gauss({ rm }: { rm: boolean | null }) {
+  const path = "M 0 290 C 150 290, 195 275, 265 220 C 335 75, 395 32, 480 32 C 565 32, 625 75, 695 220 C 765 275, 810 290, 960 290";
+  const area = `${path} L 960 330 L 0 330 Z`;
+  const tailLeft = "M 0 290 C 150 290, 195 275, 265 220 L 265 330 L 0 330 Z";
+  const tailRight = "M 695 220 C 765 275, 810 290, 960 290 L 960 330 L 695 330 Z";
+
+  return (
+    <div style={{ width: "100%", maxWidth: 960 }}>
+      <svg viewBox="0 0 960 330" width="100%" height={330} fill="none">
+        <defs>
+          <linearGradient id="hero-gaussFillBig" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.18} />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <path d={tailLeft} fill="rgba(255,255,255,0.05)" />
+        <path d={tailRight} fill="rgba(255,255,255,0.05)" />
+        <motion.path
+          d={area} fill="url(#hero-gaussFillBig)"
+          initial={rm ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.4, delay: 0.4 }}
+        />
+        <motion.path
+          d={path} stroke={NEUTRAL_LINE} strokeWidth={3.5} strokeLinecap="round"
+          initial={rm ? false : { pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 1.6, delay: 0.3, ease: "easeInOut" }}
+        />
+        <line x1={480} y1={24} x2={480} y2={330} stroke="#FFFFFF" strokeOpacity={0.14} strokeWidth={1.5} strokeDasharray="4 10" />
+      </svg>
+    </div>
+  );
+}
+
+const CHARTS = [Chart03Gauss, Chart02Trend, Chart01Lollipop];
+const CHART_INTERVAL_MS = 4500;
+
+// ─── Fondo animado — una gráfica grande y tenue a la vez, en ciclo ───────────
+
+function HeroBackground({ rm }: { rm: boolean | null }) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none overflow-hidden hero-background"
+      initial={rm ? undefined : "hidden"}
+      whileInView={rm ? undefined : "show"}
+      viewport={{ once: true }}
+      variants={rm ? undefined : bgFadeVariants}
+      style={{ zIndex: 0 }}
+    >
+      {/* Grid pattern */}
+      <div
+        className="absolute inset-0 hero-grid"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          maskImage: "radial-gradient(circle at 50% 50%, black 0%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(circle at 50% 50%, black 0%, transparent 75%)",
+        }}
+      />
+
+      {/* Ambient glow */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 50% 50%, rgba(224,123,48,0.05) 0%, transparent 60%)",
+        }}
+      />
+    </motion.div>
+  );
+}
+
+// ─── Ciclo de gráficas — cubre todo el ancho y alto de la sección, detrás
+// de todo el contenido de texto, en desktop y mobile. ────────────────────────
+
+function HeroChartCycle({ rm }: { rm: boolean | null }) {
+  const [activeChart, setActiveChart] = useState(0);
+
+  useEffect(() => {
+    if (rm) return;
+    const id = setInterval(() => {
+      setActiveChart((prev) => (prev + 1) % CHARTS.length);
+    }, CHART_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [rm]);
+
+  const ActiveChart = CHARTS[activeChart];
+
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center hero-chart-cycle"
+      style={{ zIndex: 1, opacity: 0.16 }}
+    >
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={rm ? "static" : activeChart}
+          initial={rm ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={rm ? undefined : { opacity: 0 }}
+          transition={{ duration: 1 }}
+          className="hero-chart-slot"
+          style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "0 40px" }}
+        >
+          <ActiveChart rm={rm} />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ─── HeroSection ──────────────────────────────────────────────────────────────
 
 export default function HeroSection() {
   const rm = useReducedMotion();
 
   return (
     <section
-      className="relative grid grid-cols-1 md:[grid-template-columns:1fr_1fr] items-center mx-auto"
+      className="relative flex flex-col items-center justify-center mx-auto hero-section"
       style={{
-        maxWidth: 1280,
-        minHeight: "auto",
-        padding: "112px 24px 48px",
+        minHeight: "100vh",
+        padding: "80px 48px",
         borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
-      <style>{`
-        @media (min-width: 960px) {
-          #powerbi-hero { min-height: 100vh; padding-left: 48px; padding-right: 48px; }
-        }
-      `}</style>
-      <div id="powerbi-hero" className="contents">
-        <CornerBracket position="top-left" />
-        <CornerBracket position="top-right" />
-        <CornerBracket position="bottom-left" />
-        <CornerBracket position="bottom-right" />
+      <HeroBackground rm={rm} />
+      <HeroChartCycle rm={rm} />
 
-        {/* Copy */}
-        <motion.div
-          variants={rm ? undefined : heroContainer}
-          initial={rm ? false : "hidden"}
-          animate="show"
-          className="flex flex-col items-start"
-          style={{ gap: 24 }}
+      <motion.div
+        variants={rm ? undefined : heroContainer}
+        initial={rm ? false : "hidden"}
+        animate="show"
+        className="relative flex flex-col items-center"
+        style={{ zIndex: 2, gap: 0 }}
+      >
+        <motion.h1
+          variants={rm ? undefined : heroItem}
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontWeight: 800,
+            fontSize: "clamp(48px, 8vw, 104px)",
+            lineHeight: 1.02,
+            letterSpacing: "-0.03em",
+            color: "#FFFFFF",
+            textAlign: "center",
+            maxWidth: 1200,
+            margin: "0 0 8px",
+          }}
         >
-          <motion.p
-            variants={rm ? undefined : heroItem}
-            className="flex items-center"
-            style={kickerStyle}
-          >
-            <span
-              aria-hidden
-              style={{
-                display: "inline-block",
-                width: 24,
-                height: 1,
-                backgroundColor: "#E07B30",
-                marginRight: 12,
-              }}
-            />
-            SERVICIOS POWER BI · MEDELLÍN, COLOMBIA
-          </motion.p>
+          No solo necesitas un dashboard
+        </motion.h1>
 
-          <motion.h1
-            variants={rm ? undefined : heroItem}
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontWeight: 800,
-              fontSize: "clamp(30px, 3.8vw, 48px)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              color: "#FFFFFF",
-              margin: 0,
-            }}
-          >
-            No solo necesitas un dashboard.
-            <br />
-            <span style={{ color: "#E07B30" }}>Necesitas confiar en el dato</span>{" "}
-            que sostiene cada decisión.
-          </motion.h1>
+        <motion.p
+          variants={rm ? undefined : heroItem}
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontWeight: 500,
+            fontSize: "clamp(28px, 4.5vw, 100px)",
+            color: "#E07B30",
+            lineHeight: 1.15,
+            letterSpacing: "-0.02em",
+            textAlign: "center",
+            maxWidth: 1100,
+            margin: "0 0 32px",
+          }}
+        >
+          Necesitas confiar en el dato que sostiene cada decisión.
+        </motion.p>
 
-          <motion.p
-            variants={rm ? undefined : heroItem}
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              color: "#A89DC0",
-              lineHeight: 1.7,
-              maxWidth: 460,
-              margin: 0,
-            }}
-          >
-            Diseñamos, construimos y sostenemos proyectos de visualización y
-            análisis de datos — pero solo después de diagnosticar si tu
-            proceso y tu dato están listos.
-          </motion.p>
+        <motion.p
+          variants={rm ? undefined : heroItem}
+          style={{
+            fontSize: 16,
+            fontWeight: 400,
+            color: "#A89DC0",
+            lineHeight: 1.7,
+            textAlign: "center",
+            maxWidth: 700,
+            margin: "0 0 40px",
+          }}
+        >
+          Diseñamos, construimos y sostenemos proyectos de visualización y
+          análisis de datos — pero solo después de diagnosticar si tu proceso
+          y tu dato están listos.
+        </motion.p>
 
-          <motion.div
-            variants={rm ? undefined : heroItem}
-            className="flex flex-row flex-wrap"
-            style={{ gap: 12 }}
+        <motion.div variants={rm ? undefined : heroItem}>
+          <SpecularButton
+            size="lg"
+            radius={0}
+            tint="#E07B30"
+            tintOpacity={0.5}
+            darkenColor="#C45A2A"
+            textColor="#0E0B14"
+            href="/powerbi/formulario"
+            ariaLabel="Evalúa la viabilidad de tu proyecto"
           >
-            <Link
-              href="/powerbi/formulario"
-              className="powerbi-cta-primary relative inline-flex items-center overflow-hidden"
-              style={{
-                backgroundColor: "#E07B30",
-                color: "#0E0B14",
-                padding: "13px 28px",
-                fontSize: 13,
-                fontWeight: 700,
-              }}
-            >
-              <span className="relative z-10">
-                Evalúa la viabilidad de tu proyecto →
-              </span>
-            </Link>
-
-            <a
-              href="#como-funciona"
-              className="powerbi-cta-secondary inline-flex items-center"
-              style={{
-                border: "1px solid rgba(255,255,255,0.08)",
-                color: "#A89DC0",
-                padding: "13px 24px",
-                fontSize: 13,
-                fontWeight: 400,
-              }}
-            >
-              Cómo funciona ↓
-            </a>
-          </motion.div>
+            Evalúa la viabilidad →
+          </SpecularButton>
         </motion.div>
-
-        {/* Widgets */}
-        <div className="mt-12 md:mt-0 w-full" style={{ overflow: "hidden" }}>
-          <div className="hidden md:block">
-            <AnimatedWidgets />
-          </div>
-          <div
-            className="flex md:hidden justify-center"
-            style={{
-              // El lienzo real mide 580x540; a scale(0.65) ocupa 377x351 —
-              // fijar ese tamaño real evita que el overflow-hidden del
-              // ancestro recorte el contenido de forma asimétrica.
-              width: 580 * 0.65,
-              height: 540 * 0.65,
-              margin: "0 auto",
-              opacity: 0.5,
-            }}
-          >
-            <div
-              style={{
-                width: 580,
-                height: 540,
-                marginLeft: -(580 - 580 * 0.65) / 2,
-                transform: "scale(0.65)",
-                transformOrigin: "top center",
-              }}
-            >
-              <AnimatedWidgets />
-            </div>
-          </div>
-        </div>
-      </div>
+      </motion.div>
 
       <style>{`
-        .powerbi-cta-primary::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          width: 0%;
-          background-color: #C45A2A;
-          transition: width 0.3s ease;
-          z-index: 0;
+        @media (min-width: 961px) {
+          .hero-chart-slot {
+            transform: scale(1.7);
+          }
         }
-        .powerbi-cta-primary:hover::before {
-          width: 100%;
-        }
-        .powerbi-cta-secondary:hover {
-          border-color: rgba(255,255,255,0.2);
+        @media (max-width: 960px) {
+          .hero-section {
+            min-height: 100vh;
+            padding: 60px 24px;
+          }
+          .hero-background {
+            min-height: 100vh;
+          }
+          .hero-chart-cycle {
+            opacity: 0.13 !important;
+          }
+          .hero-chart-slot {
+            transform: scale(2.6, 9);
+          }
         }
       `}</style>
     </section>

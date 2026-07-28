@@ -59,20 +59,20 @@ function StepsSection() {
         top: 0,
         height: "100vh",
         overflow: "hidden",
-        background: "#0E0B14",
+        background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
         display: "flex",
         flexDirection: "column",
         paddingTop: 32,
       }}>
 
         {/* Header */}
-        <div style={{ flexShrink: 0, marginBottom: 24, paddingLeft: 48, paddingRight: 48 }}>
+        <div style={{ flexShrink: 0, marginBottom: 96, paddingLeft: 48, paddingRight: 48 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
             <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30" }} />
             <span style={{
               fontFamily: "var(--font-mono)",
-              fontSize: 10,
-              color: "rgba(255,255,255,0.35)",
+              fontSize: "clamp(11px, 1.2vw, 13px)",
+              color: "#E07B30",
               letterSpacing: "3px",
               textTransform: "uppercase" as const,
             }}>
@@ -83,8 +83,9 @@ function StepsSection() {
             margin: 0,
             fontFamily: "var(--font-sans)",
             fontWeight: 800,
-            fontSize: "clamp(22px,3vw,38px)",
+            fontSize: "clamp(32px,4.2vw,48px)",
             lineHeight: 1.15,
+            letterSpacing: "-0.02em",
             color: "#FFFFFF",
           }}>
             ¿Te suena familiar?
@@ -117,7 +118,7 @@ function StepsSection() {
                   flex: isActive ? 1 : undefined,
                   flexShrink: isActive ? 1 : 0,
                   borderTop: "1px solid rgba(255,255,255,0.08)",
-                  padding: "28px 28px 24px 0",
+                  padding: isActive ? "32px 32px 32px 0" : "28px 28px 24px 0",
                   position: "relative",
                   overflow: "hidden",
                   display: "flex",
@@ -132,7 +133,7 @@ function StepsSection() {
                   right: 0,
                   fontFamily: "var(--font-sans)",
                   fontWeight: 900,
-                  fontSize: isActive ? "clamp(120px,15vw,200px)" : 64,
+                  fontSize: isActive ? "clamp(120px,15vw,200px)" : "clamp(48px,6vw,72px)",
                   lineHeight: 0.8,
                   color: "rgba(224,123,48,0.25)",
                   userSelect: "none",
@@ -146,18 +147,18 @@ function StepsSection() {
                     <div style={{ position: "relative", zIndex: 1 }}>
                       <p style={{
                         fontFamily: "var(--font-mono)",
-                        fontSize: 11,
+                        fontSize: "clamp(9px,1vw,11px)",
                         color: "#E07B30",
                         textTransform: "uppercase" as const,
                         letterSpacing: "2px",
-                        margin: "0 0 16px",
+                        margin: "0 0 12px",
                       }}>
                         {pain.label}
                       </p>
                       <p style={{
                         fontFamily: "var(--font-sans)",
-                        fontSize: 26, fontWeight: 700, color: "#ffffff",
-                        margin: "0 0 16px", lineHeight: 1.25,
+                        fontSize: "clamp(18px,2vw,24px)", fontWeight: 700, color: "#ffffff",
+                        margin: "0 0 12px", lineHeight: 1.3,
                       }}>
                         {pain.title}
                       </p>
@@ -170,11 +171,10 @@ function StepsSection() {
                           transition={{ duration: 0.3 }}
                           style={{
                             fontFamily: "var(--font-sans)",
-                            fontSize: 15,
+                            fontSize: "clamp(14px,1.6vw,16px)",
                             color: "#A89DC0",
                             lineHeight: 1.7,
                             margin: 0,
-                            maxWidth: 460,
                           }}
                         >
                           {pain.desc}
@@ -216,9 +216,9 @@ function StepsSection() {
         }}>
           <p style={{
             borderLeft: "2px solid #E07B30",
-            paddingLeft: 20,
+            paddingLeft: 24,
             fontFamily: "var(--font-sans)",
-            fontSize: 17,
+            fontSize: "clamp(15px,1.8vw,18px)",
             fontStyle: "italic",
             color: "#A89DC0",
             lineHeight: 1.6,
@@ -262,7 +262,10 @@ function MobileLayout() {
   }, []);
 
   return (
-    <section style={{ background: "#0E0B14", padding: "56px 24px 40px" }}>
+    <section style={{
+      background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
+      padding: "56px 24px 40px",
+    }}>
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
