@@ -287,18 +287,18 @@ export default function HeroSection() {
         <motion.p
           variants={rm ? undefined : heroItem}
           style={{
-            fontSize: 16,
+            fontSize: 17,
             fontWeight: 400,
             color: "#FFFFFF",
             lineHeight: 1.7,
             textAlign: "center",
-            maxWidth: 700,
+            maxWidth: 900,
             margin: "0 0 40px",
           }}
         >
         Consultoría en <span style={{ fontWeight: 700, color: "#E07B30" }}>Power BI</span> que pone procesos antes que herramientas. 
-        Mientras otros entregan dashboards, construimos sistemas de decisión 
-        operacionales. Diagnóstico sin costo.
+        enfocada en cómo funciona tu negocio, no solo en cómo se visualizan los datos. Diseñamos sistemas de decisión que generan acciones reales.
+        Diagnóstico sin costo.
         </motion.p>
 
         <motion.div variants={rm ? undefined : heroItem}>
