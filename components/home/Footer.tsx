@@ -57,6 +57,13 @@ export function Footer() {
             Diagnóstico
           </a>
           <Link
+            href="/powerbi"
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            style={{ color: "#C3B9D6", fontSize: 14 }}
+          >
+            Servicios Power BI
+          </Link>
+          <Link
             href="#contacto-form"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
