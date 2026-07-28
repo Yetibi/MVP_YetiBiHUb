@@ -6,6 +6,7 @@ import DifferentiatorSection from "@/components/powerbi/DifferentiatorSection";
 import PreProcessSection from "@/components/powerbi/PreProcessSection";
 import ExecutionSection from "@/components/powerbi/ExecutionSection";
 import GallerySection from "@/components/powerbi/GallerySection";
+import FormSection from "@/components/powerbi/FormSection";
 
 export const metadata: Metadata = {
   title: "Servicios Power BI | Yeti BI",
@@ -50,6 +51,7 @@ export default function PowerBIPage() {
         <PreProcessSection />
         <ExecutionSection />
         <GallerySection />
+        <FormSection /> {/* Nueva sección añadida */}
       </div>
     </main>
   );

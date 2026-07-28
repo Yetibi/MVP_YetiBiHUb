@@ -433,7 +433,7 @@ export default function PreProcessSection() {
       </p>
 
       <a
-        href="#formulario"
+        href="/powerbi/formulario"
         className="pre-process-cta relative inline-flex items-center overflow-hidden"
         style={{
           marginTop: 36,

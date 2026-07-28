@@ -208,7 +208,7 @@ export default function GallerySection() {
                 marginRight: 12,
               }}
             />
-            PROYECTOS REALES
+            ALGUNOS PROYECTOS EJECUTADOS
           </p>
           <h2
             style={{
@@ -220,7 +220,7 @@ export default function GallerySection() {
               margin: 0,
             }}
           >
-            Resultados que hablan solos
+            Resultados en diferentes industrias
           </h2>
         </div>
 
@@ -233,7 +233,7 @@ export default function GallerySection() {
         </div>
       </motion.div>
 
-      {/* Foco */}
+      {/* Foco (Imagen principal con marco naranja) */}
       <motion.div
         initial={rm ? undefined : "hidden"}
         whileInView={rm ? undefined : "show"}
@@ -242,7 +242,8 @@ export default function GallerySection() {
         style={{
           position: "relative",
           aspectRatio: "16 / 9",
-          border: "1px solid rgba(255,255,255,0.08)",
+          border: "4px solid #E07B30", // Marco naranja
+          padding: "8px", // Espaciado interno para separar la imagen del borde
           backgroundColor: "#141020",
           overflow: "hidden",
         }}
@@ -264,7 +265,10 @@ export default function GallerySection() {
               quality={85}
               priority={activeIndex === 0}
               loading={activeIndex === 0 ? undefined : "lazy"}
-              style={{ objectFit: "cover" }}
+              style={{
+                objectFit: "contain", // Ajusta la imagen al contenedor sin recortarla
+                borderRadius: "4px", // Opcional: redondea las esquinas de la imagen
+              }}
             />
           </motion.div>
         </AnimatePresence>
