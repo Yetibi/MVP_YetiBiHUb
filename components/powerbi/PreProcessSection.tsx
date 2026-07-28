@@ -501,8 +501,11 @@ export default function PreProcessSection() {
             font-size: 14px !important;
           }
           .decision-node > div {
-            width: 34px !important;
-            height: 34px !important;
+            width: 28px !important;
+            height: 28px !important;
+          }
+          .decision-node > div span {
+            font-size: 6px !important;
           }
           .decision-branch {
             grid-template-columns: 1fr !important;

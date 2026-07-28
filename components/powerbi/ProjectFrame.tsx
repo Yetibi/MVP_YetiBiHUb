@@ -84,7 +84,6 @@ export function ProjectFrame({
         }
         @media (max-width: 960px) {
           .project-frame {
-            padding: 12px !important;
             transform: rotateX(-2deg) rotateY(1deg) rotateZ(0deg) !important;
             margin-bottom: 60px;
           }
