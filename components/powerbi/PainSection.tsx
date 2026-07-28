@@ -88,7 +88,7 @@ function StepsSection() {
             letterSpacing: "-0.02em",
             color: "#FFFFFF",
           }}>
-            ¿Te suena familiar?
+            ¿Esto te está frenando?
           </h2>
         </div>
 
@@ -287,7 +287,7 @@ function MobileLayout() {
           letterSpacing: "-0.02em",
           color: "#FFFFFF",
         }}>
-          ¿Te suena familiar?
+          ¿Esto te está frenando?
         </h2>
         <p style={{
           fontFamily: "var(--font-sans)",
