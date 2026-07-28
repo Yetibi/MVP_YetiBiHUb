@@ -53,7 +53,7 @@ function StepsSection() {
   });
 
   return (
-    <div ref={containerRef} style={{ height: "400vh", position: "relative" }}>
+    <div ref={containerRef} style={{ height: "400vh", position: "relative", paddingBottom: "30vh" }}>
       <div style={{
         position: "sticky",
         top: 0,
@@ -62,7 +62,7 @@ function StepsSection() {
         background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
         display: "flex",
         flexDirection: "column",
-        paddingTop: 32,
+        paddingTop: 80,
       }}>
 
         {/* Header */}
@@ -186,7 +186,7 @@ function StepsSection() {
                   <div style={{ position: "relative", zIndex: 1 }}>
                     <p style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: 10, color: "#E07B30",
+                      fontSize: "clamp(9px,1vw,11px)", color: "#E07B30",
                       textTransform: "uppercase" as const, letterSpacing: "1.5px",
                       margin: "0 0 8px",
                     }}>
@@ -194,7 +194,7 @@ function StepsSection() {
                     </p>
                     <p style={{
                       fontFamily: "var(--font-sans)",
-                      fontSize: 15, fontWeight: 700,
+                      fontSize: "clamp(14px,1.6vw,16px)", fontWeight: 700,
                       color: "rgba(255,255,255,0.7)",
                       margin: 0, lineHeight: 1.3,
                     }}>
@@ -271,8 +271,8 @@ function MobileLayout() {
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
           <div aria-hidden style={{ width: 24, height: 1, background: "#E07B30" }} />
           <span style={{
-            fontFamily: "var(--font-mono)", fontSize: 10,
-            color: "rgba(255,255,255,0.35)", letterSpacing: "3px",
+            fontFamily: "var(--font-mono)", fontSize: "clamp(11px, 1.2vw, 13px)",
+            color: "#E07B30", letterSpacing: "3px",
             textTransform: "uppercase" as const,
           }}>
             EL DIAGNÓSTICO EMPIEZA AQUÍ
@@ -284,15 +284,16 @@ function MobileLayout() {
           fontWeight: 800,
           fontSize: "clamp(22px,5vw,34px)",
           lineHeight: 1.15,
+          letterSpacing: "-0.02em",
           color: "#FFFFFF",
         }}>
           ¿Te suena familiar?
         </h2>
         <p style={{
           fontFamily: "var(--font-sans)",
-          fontSize: 15,
+          fontSize: "clamp(15px, 1.8vw, 18px)",
           color: "#A89DC0",
-          lineHeight: 1.7,
+          lineHeight: 1.8,
           marginTop: 16,
           marginBottom: 0,
         }}>
@@ -326,7 +327,7 @@ function MobileLayout() {
                 position: "relative",
                 display: "block",
                 fontFamily: "var(--font-sans)", fontWeight: 900,
-                fontSize: 48, lineHeight: 1,
+                fontSize: "clamp(48px, 6vw, 72px)", lineHeight: 1,
                 color: isActive ? "rgba(224,123,48,0.18)" : "rgba(255,255,255,0.04)",
                 userSelect: "none", pointerEvents: "none",
                 transition: "color 0.45s ease",
@@ -336,7 +337,7 @@ function MobileLayout() {
 
               {/* Micro-label */}
               <p style={{
-                fontFamily: "var(--font-mono)", fontSize: 10,
+                fontFamily: "var(--font-mono)", fontSize: "clamp(9px, 1vw, 11px)",
                 color: isActive ? "#E07B30" : "rgba(224,123,48,0.30)",
                 textTransform: "uppercase" as const, letterSpacing: "1.5px",
                 margin: 0,
@@ -347,9 +348,9 @@ function MobileLayout() {
 
               {/* Título */}
               <p style={{
-                fontFamily: "var(--font-sans)", fontSize: 20, fontWeight: 700,
+                fontFamily: "var(--font-sans)", fontSize: "clamp(18px, 2vw, 24px)", fontWeight: 700,
                 color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
-                margin: 0, lineHeight: 1.2,
+                margin: 0, lineHeight: 1.3,
                 transition: "color 0.45s ease",
               }}>
                 {pain.title}
@@ -357,9 +358,9 @@ function MobileLayout() {
 
               {/* Descripción */}
               <p style={{
-                fontFamily: "var(--font-sans)", fontSize: 14,
+                fontFamily: "var(--font-sans)", fontSize: "clamp(14px, 1.6vw, 16px)",
                 color: isActive ? "#A89DC0" : "rgba(255,255,255,0.25)",
-                lineHeight: 1.65, margin: 0,
+                lineHeight: 1.7, margin: 0,
                 transition: "color 0.45s ease",
               }}>
                 {pain.desc}
@@ -372,12 +373,12 @@ function MobileLayout() {
       {/* Cierre */}
       <div style={{
         borderLeft: "2px solid #E07B30",
-        paddingLeft: 20,
+        paddingLeft: 24,
         marginTop: 32,
       }}>
         <p style={{
           fontFamily: "var(--font-sans)",
-          fontSize: 15,
+          fontSize: "clamp(15px, 1.8vw, 18px)",
           fontStyle: "italic",
           color: "#A89DC0",
           lineHeight: 1.6,
