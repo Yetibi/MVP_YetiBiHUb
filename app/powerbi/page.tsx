@@ -10,9 +10,10 @@ import FormSection from "@/components/powerbi/FormSection";
 import { Footer } from "@/components/powerbi/Footer";
 
 export const metadata: Metadata = {
-  title: "Servicios Power BI | Yeti BI",
+  title: "Servicios Power BI",
   description:
     "Diagnóstico, diseño y construcción de proyectos de visualización y análisis de datos. Evaluación de viabilidad sin costo.",
+  alternates: { canonical: "https://yetibi.com/powerbi" },
 };
 
 export default function PowerBIPage() {
