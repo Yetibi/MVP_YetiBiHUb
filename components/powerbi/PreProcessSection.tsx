@@ -7,26 +7,26 @@ import { motion, useReducedMotion, useScroll, useTransform, type Variants } from
 
 const metaLabelBase: React.CSSProperties = {
   fontFamily: "var(--font-mono)",
-  fontSize: 10,
+  fontSize: "clamp(9px, 1vw, 11px)",
   textTransform: "uppercase",
   letterSpacing: "2px",
   color: "#E07B30",
-  margin: "0 0 10px",
+  margin: "0 0 12px",
 };
 
 const stepTitleBase: React.CSSProperties = {
   fontFamily: "var(--font-sans)",
   fontWeight: 700,
-  fontSize: 19,
+  fontSize: "clamp(18px, 2vw, 24px)",
+  lineHeight: 1.3,
   color: "#FFFFFF",
   margin: "0 0 8px",
 };
 
 const stepDescBase: React.CSSProperties = {
-  fontSize: 14,
+  fontSize: "clamp(13px, 1.4vw, 15px)",
   color: "#A89DC0",
   lineHeight: 1.6,
-  maxWidth: 560,
   margin: 0,
 };
 
@@ -35,7 +35,7 @@ const cardBase: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.08)",
   borderRadius: 0,
   boxShadow: "none",
-  padding: "24px 28px",
+  padding: "32px",
 };
 
 // ─── variants ────────────────────────────────────────────────────────────────
@@ -78,8 +78,8 @@ function StepNode({
       <span
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: 16,
-          fontWeight: 600,
+          fontSize: "clamp(14px, 1.8vw, 18px)",
+          fontWeight: 700,
           color: isHighlight ? "#0E0B14" : "#A89DC0",
         }}
       >
@@ -189,7 +189,7 @@ function Step({ number, meta, title, desc, highlight, isLast, rm }: StepProps) {
         display: "grid",
         gridTemplateColumns: "56px 1fr",
         gap: 28,
-        paddingBottom: isLast ? 0 : 40,
+        paddingBottom: isLast ? 0 : 80,
       }}
     >
       <StepNode number={number} variant={highlight ? "highlight" : "default"} />
@@ -222,7 +222,7 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
         display: "grid",
         gridTemplateColumns: "56px 1fr",
         gap: 28,
-        paddingBottom: 40,
+        paddingBottom: 100,
       }}
     >
       <DecisionNode />
@@ -230,15 +230,16 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
         <div
           style={{
             ...cardBase,
+            padding: 28,
             borderColor: "rgba(224,123,48,0.3)",
             borderTop: "2px solid #E07B30",
           }}
         >
-          <p style={{ ...metaLabelBase, color: "#E07B30" }}>→ GO</p>
+          <p style={{ ...metaLabelBase, color: "#E07B30", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ GO</p>
           <h3 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 15, color: "#FFFFFF", margin: "0 0 6px" }}>
             Hay proyecto viable
           </h3>
-          <p style={{ fontSize: 13, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: "clamp(13px, 1.4vw, 15px)", color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
             Definimos alcance, timeline y precio. Arrancamos con reglas claras
             para ambos.
           </p>
@@ -249,14 +250,15 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
           className="decision-nogo-card"
           style={{
             ...cardBase,
+            padding: 28,
             outline: "none",
           }}
         >
-          <p style={{ ...metaLabelBase, color: "#A89DC0" }}>→ NO GO</p>
+          <p style={{ ...metaLabelBase, color: "#A89DC0", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ NO GO</p>
           <h3 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 15, color: "#FFFFFF", margin: "0 0 6px" }}>
             Cerramos con claridad
           </h3>
-          <p style={{ fontSize: 13, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: "clamp(13px, 1.4vw, 15px)", color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
             Si no hay proyecto viable hoy, te lo decimos. Sin costo, sin
             compromiso, sin seguimiento comercial.
           </p>
@@ -283,7 +285,7 @@ export default function PreProcessSection() {
       style={{
         maxWidth: 1100,
         padding: "80px 48px",
-        backgroundColor: "#0E0B14",
+        background: "linear-gradient(135deg, rgba(123,79,150,0.06) 0%, rgba(123,79,150,0.03) 100%), #0E0B14",
       }}
     >
       {/* Header de sección */}
@@ -293,7 +295,7 @@ export default function PreProcessSection() {
           display: "grid",
           gridTemplateColumns: "0.9fr 1.1fr",
           gap: 48,
-          marginBottom: 80,
+          marginBottom: 96,
         }}
       >
         <div>
@@ -301,7 +303,7 @@ export default function PreProcessSection() {
             className="flex items-center"
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: 11,
+              fontSize: "clamp(11px, 1.2vw, 13px)",
               textTransform: "uppercase",
               letterSpacing: "3px",
               color: "#E07B30",
@@ -324,8 +326,9 @@ export default function PreProcessSection() {
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 800,
-              fontSize: "clamp(28px, 3.5vw, 42px)",
+              fontSize: "clamp(32px, 4.2vw, 48px)",
               lineHeight: 1.15,
+              letterSpacing: "-0.02em",
               color: "#FFFFFF",
               margin: 0,
             }}
@@ -337,9 +340,9 @@ export default function PreProcessSection() {
         <div style={{ alignSelf: "end" }}>
           <p
             style={{
-              fontSize: 16,
+              fontSize: "clamp(15px, 1.8vw, 18px)",
               color: "#A89DC0",
-              lineHeight: 1.7,
+              lineHeight: 1.8,
               margin: 0,
             }}
           >
