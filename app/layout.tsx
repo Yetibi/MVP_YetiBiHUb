@@ -1,10 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display, Roboto_Condensed, Roboto, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-sans",
   subsets: ["latin"],
+});
+
+const robotoCondensed = Roboto_Condensed({
+  weight: ["700", "800"],
+  subsets: ["latin"],
+  variable: "--font-roboto-condensed",
+  display: "swap",
+});
+
+const roboto = Roboto({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["400", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -84,7 +105,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} ${robotoCondensed.variable} ${roboto.variable} ${jetbrainsMono.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
       <body className={`${playfair.variable} ${dmSerif.variable} min-h-full flex flex-col`}>
@@ -131,7 +152,7 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-orange-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#1c1426]"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-[#00D4C6] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#1c1426]"
         >
           Saltar al contenido principal
         </a>
