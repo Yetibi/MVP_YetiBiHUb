@@ -6,7 +6,7 @@ export function Footer() {
     <footer
       role="contentinfo"
       className="w-full px-5 md:px-10 lg:px-20"
-      style={{ backgroundColor: "#150D20", paddingTop: 60, paddingBottom: 60 }}
+      style={{ background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14", paddingTop: 60, paddingBottom: 60 }}
     >
       {/* Main row: 3 columnas */}
       <div className="flex w-full flex-col md:flex-row md:items-start" style={{ gap: 48, marginBottom: 40 }}>
@@ -15,7 +15,7 @@ export function Footer() {
         <div className="flex flex-col" style={{ gap: 8, minWidth: 180 }}>
           <Link
             href="/"
-            className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
             style={{ textDecoration: "none" }}
           >
             <Image
@@ -26,14 +26,14 @@ export function Footer() {
               style={{ objectFit: "contain" }}
             />
             <span className="font-bold" style={{ color: "#FFFFFF", fontSize: 16, letterSpacing: 3 }}>
-              YETI·<span style={{ color: "#E07B30" }}>BI</span>
+              YETI·<span style={{ color: "#F28F6B" }}>BI</span>
             </span>
           </Link>
           <p
             className="uppercase tracking-[0.22em]"
             style={{ color: "#A89DC0", fontSize: 11, fontWeight: 400 }}
           >
-            PROCESS &amp; <span style={{ color: "#E07B30" }}>ANALYTICS</span> · MEDELLÍN
+            PROCESS &amp; <span style={{ color: "#F28F6B" }}>ANALYTICS</span> · MEDELLÍN
           </p>
         </div>
 
@@ -51,21 +51,21 @@ export function Footer() {
             href="/diagnostico"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
             Diagnóstico
           </a>
           <Link
             href="/powerbi"
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
             Servicios Power BI
           </Link>
           <Link
             href="#contacto-form"
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
             Contacto
@@ -82,7 +82,7 @@ export function Footer() {
           </p>
           <a
             href="mailto:data@yetibi.com"
-            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
             data@yetibi.com

@@ -1,15 +1,21 @@
 "use client";
 
 export default function DifferentiatorSection() {
+  // Banda marino full-width: el fondo va en el <section>, el ancho máximo en el
+  // div interno, para que el color llegue a los bordes del viewport.
   return (
     <section
+      className="relative w-full"
+      style={{ background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14" }}
+    >
+    <div
       className="relative mx-auto px-6 md:px-12 lg:px-16 py-16"
       style={{
         maxWidth: "1280px",
         borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
-      <span className="block text-sm uppercase tracking-widest text-gray-500 mb-8">
+      <span className="block text-sm uppercase tracking-widest text-gray-400 mb-8">
         S3 · DIFERENCIADOR
       </span>
 
@@ -35,7 +41,7 @@ export default function DifferentiatorSection() {
             tiene variabilidad, errores de captura o excepciones manuales, el
             dashboard los hereda. Resultado: un instrumento que miente bonito.
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-400">
             Entregan → desaparecen → en 6 meses el dashboard ya no refleja la
             operación real.
           </p>
@@ -44,9 +50,9 @@ export default function DifferentiatorSection() {
         {/* Enfoque Yeti BI */}
         <div
           className="relative border-l-4 pl-6"
-          style={{ borderColor: "#E07B30" }}
+          style={{ borderColor: "#00D4C6" }}
         >
-          <p className="text-sm font-semibold text-[#E07B30] uppercase mb-4">
+          <p className="text-sm font-semibold text-[#F28F6B] uppercase mb-4">
             ENFOQUE YETI BI
           </p>
           <h3 className="text-xl font-bold text-white mb-4">
@@ -58,7 +64,7 @@ export default function DifferentiatorSection() {
             quieres tomar son sostenibles con esta arquitectura? Si la respuesta
             es no, te lo decimos antes de facturar una sola línea.
           </p>
-          <p className="text-xs text-gray-300 font-semibold">
+          <p className="text-xs text-gray-400 font-semibold">
             Diagnosticamos → construimos con propósito → programamos checkpoints
             de pertinencia.
           </p>
@@ -67,10 +73,11 @@ export default function DifferentiatorSection() {
 
       <a
         href="#proceso"
-        className="inline-block mt-12 text-sm font-semibold text-[#E07B30] hover:underline"
+        className="inline-block mt-12 text-sm font-semibold text-[#00D4C6] hover:underline"
       >
         Conoce el proceso completo ↓
       </a>
+    </div>
     </section>
   );
 }
