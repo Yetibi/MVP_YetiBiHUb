@@ -203,6 +203,9 @@ export default function HeroSection() {
           <span className="hero-headline-line">
             No solo<span className="hero-headline-br"> </span>necesitas un
           </span>
+          {/* Espacio real entre "un" y "dashboard": sin él los lectores de
+              pantalla leían "undashboard". El salto visual lo sigue dando el
+              display:block de la línea outline, no la ausencia de espacio. */}{" "}
           <span className="hero-headline-outline-line">
             <span className="headline-outline">dashboard</span>
             <span className="hero-cursor" aria-hidden="true">_</span>
@@ -258,6 +261,7 @@ export default function HeroSection() {
               padding: "1px 6px",
               borderRadius: 2,
             }}
+            translate="no"
           >
             Power BI
           </span>{" "}

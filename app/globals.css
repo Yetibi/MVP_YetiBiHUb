@@ -167,6 +167,14 @@ textarea:focus-visible {
 /* ── Scroll margin for anchors (nav height ~68px + buffer) ──── */
 section[id] { scroll-margin-top: 80px; }
 
+/* ── Encabezados: sin viudas ────────────────────────────────── */
+/* text-wrap: pretty reparte la última línea para que ningún título quede
+   con una palabra suelta. Va en @layer base porque una regla suelta pierde
+   contra el reset de Tailwind v4 y el valor se quedaba en "wrap". */
+@layer base {
+  h2, h3 { text-wrap: pretty; }
+}
+
 /* ── Botón primario naranja con hover fill ───────────────────── */
 .btn-primary {
   display: inline-block;

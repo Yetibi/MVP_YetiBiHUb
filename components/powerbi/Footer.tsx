@@ -36,7 +36,7 @@ export function Footer() {
               className="font-bold"
               style={{ color: "#FFFFFF", fontSize: 16, letterSpacing: 3 }}
             >
-              YETI·<span style={{ color: "#F28F6B" }}>BI</span>
+              <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
             </span>
           </Link>
           <p

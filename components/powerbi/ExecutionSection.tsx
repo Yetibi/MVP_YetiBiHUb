@@ -479,7 +479,7 @@ export default function ExecutionSection() {
         </span>
         <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
           Metodología basada en{" "}
-          <strong style={{ color: "#FFFFFF", fontWeight: 600 }}>CRISP-DM</strong>
+          <strong style={{ color: "#FFFFFF", fontWeight: 600 }} translate="no">CRISP-DM</strong>
           , el estándar de la industria para proyectos de datos. Las flechas
           van hacia adelante y hacia atrás — si en la fase de modelado
           descubrimos que el dato no sostiene la pregunta, volvemos a la fase

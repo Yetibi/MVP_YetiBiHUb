@@ -440,10 +440,7 @@ export default function DifferentiatorSection() {
           }
           viewport={{ once: true, margin: "0px 0px 15% 0px" }}
           variants={rm ? undefined : leftCardVariants}
-          style={{
-            ...cardBase,
-            outline: "none",
-          }}
+          style={cardBase}
         >
           <CornerBracket corner="tl" color="rgba(255,255,255,0.15)" />
           <CornerBracket corner="tr" color="rgba(255,255,255,0.15)" />
@@ -669,6 +666,11 @@ export default function DifferentiatorSection() {
       </a>
 
       <style>{`
+        /* las cards son focalizables (tabIndex=0): indicador de foco propio */
+        .differentiator-card:focus-visible {
+          outline: 2px solid #00D4C6;
+          outline-offset: 2px;
+        }
         .differentiator-card-left:hover,
         .differentiator-card-left:focus-visible {
           opacity: 1 !important;

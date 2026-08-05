@@ -59,7 +59,7 @@ export function PowerBINavbar() {
             letterSpacing: "3px",
           }}
         >
-          YETI·<span style={{ color: "#F28F6B" }}>BI</span>
+          <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
         </span>
       </Link>
 

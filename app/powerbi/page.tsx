@@ -60,8 +60,14 @@ const JSON_LD = {
 };
 
 export default function PowerBIPage() {
+  // id + scroll-margin: destino del skip link del layout, que quedaba sin
+  // ancla en el micrositio. El margen despeja el navbar fijo de 64px.
   return (
-    <main className="relative w-full" style={{ backgroundColor: "#0E0B14" }}>
+    <main
+      id="main-content"
+      className="relative w-full"
+      style={{ backgroundColor: "#0E0B14", scrollMarginTop: 80 }}
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}

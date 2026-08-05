@@ -386,7 +386,7 @@ export default function GallerySection() {
           opacity: 1;
         }
         .gallery-thumb:focus-visible {
-          outline: 2px solid #F28F6B;
+          outline: 2px solid #00D4C6;
           outline-offset: 2px;
         }
         .gallery-thumbs > .gallery-thumb {

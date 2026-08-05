@@ -251,7 +251,6 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
           style={{
             ...cardBase,
             padding: 28,
-            outline: "none",
           }}
         >
           <p style={{ ...metaLabelBase, color: "#A89DC0", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ NO GO</p>
@@ -477,6 +476,11 @@ export default function PreProcessSection() {
         .decision-nogo-card:hover,
         .decision-nogo-card:focus-visible {
           opacity: 1;
+        }
+        /* la card es focalizable (tabIndex=0): necesita indicador propio */
+        .decision-nogo-card:focus-visible {
+          outline: 2px solid #00D4C6;
+          outline-offset: 2px;
         }
         @media (max-width: 768px) {
           .pre-process-inner {
