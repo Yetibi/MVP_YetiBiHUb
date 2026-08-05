@@ -26,7 +26,7 @@ export function Footer() {
               style={{ objectFit: "contain" }}
             />
             <span className="font-bold" style={{ color: "#FFFFFF", fontSize: 16, letterSpacing: 3 }}>
-              YETI·<span style={{ color: "#F28F6B" }}>BI</span>
+              <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
             </span>
           </Link>
           <p
@@ -61,7 +61,7 @@ export function Footer() {
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
             style={{ color: "#C3B9D6", fontSize: 14 }}
           >
-            Servicios Power BI
+            Servicios <span translate="no">Power BI</span>
           </Link>
           <Link
             href="#contacto-form"

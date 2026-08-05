@@ -193,14 +193,10 @@ function DrumRoll({ onIndexChange, reduced }: {
     );
   }
 
-  const activeWord = WORDS[current % WORDS.length];
-
   return (
     <>
-      <span className="sr-only" aria-live="polite" aria-atomic="true">
-        {activeWord}
-      </span>
-
+      {/* Sin aria-live: el H1 ya expone la frase completa y fija, así que
+          anunciar cada rotación sería una interrupción en bucle sin valor. */}
       <span ref={sizerRef} aria-hidden style={sizerBase}>A</span>
       {WORDS.map((w, i) => (
         <span key={w} ref={(el) => { sizerRefs.current[i] = el; }} aria-hidden style={sizerBase}>{w}</span>
@@ -322,7 +318,7 @@ function Navbar() {
           color: "#fff",
           letterSpacing: "3px",
         }}>
-          YETI·<span style={{ color: "#F28F6B" }}>BI</span>
+          <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
         </span>
       </Link>
 
@@ -594,7 +590,14 @@ function LeftPanel({
           </p>
 
           {/* h1 de la página */}
-          <h1 style={{
+          {/* El H1 accesible es una frase fija y limpia. Todo el tratamiento
+              visual —las tres líneas y el rotador de palabras— queda como capa
+              decorativa aria-hidden: los divs de layout no aportan espacios al
+              texto accesible, así que sin esto se leía "IA.PeroNecesitan...". */}
+          <h1 className="sr-only">
+            Todos quieren IA. Pero necesitan claridad primero.
+          </h1>
+          <div aria-hidden="true" style={{
             margin: 0,
             padding: 0,
             display: "contents",
@@ -665,7 +668,7 @@ function LeftPanel({
                 primero.
               </span>
             </div>
-          </h1>
+          </div>
 
           {/* Cadena de valor */}
           <div style={{
@@ -957,8 +960,12 @@ export default function Hero() {
             </span>
           </div>
 
-          {/* H1 — DrumRoll activo en mobile, misma lógica que desktop */}
-          <h1 style={{ margin: 0, padding: 0, lineHeight: 1.05 }}>
+          {/* H1 — DrumRoll activo en mobile, misma lógica que desktop.
+              El h1 semántico es la frase fija; lo visual va aria-hidden. */}
+          <h1 className="sr-only">
+            Todos quieren IA. Pero necesitan claridad primero.
+          </h1>
+          <div aria-hidden="true" style={{ margin: 0, padding: 0, lineHeight: 1.05 }}>
             <span style={{
               fontFamily: "var(--font-geist-sans)", fontWeight: 900,
               fontSize: 40, color: "#00D4C6",
@@ -992,7 +999,7 @@ export default function Hero() {
                 primero.
               </span>
             </span>
-          </h1>
+          </div>
 
           {/* Subtítulo */}
           <p style={{

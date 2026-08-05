@@ -377,7 +377,7 @@ export function ValueFlow() {
             Sin automatización sólida, la IA no tiene datos limpios ni procesos para aprender.
           </p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-            McKinsey: 70% de proyectos de IA en pymes fallan por no automatizar primero.
+            <span translate="no">McKinsey</span>: 70% de proyectos de IA en pymes fallan por no automatizar primero.
           </p>
         </div>
 

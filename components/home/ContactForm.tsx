@@ -220,6 +220,8 @@ export function ContactForm() {
                   ref={firstFieldRef}
                   id="cf-nombre"
                   name="nombre"
+                  required
+                  aria-required="true"
                   type="text"
                   autoComplete="name"
                   value={fields.nombre}
@@ -229,7 +231,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.nombre
-                      ? "#00D4C6"
+                      ? "#F28F6B"
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
@@ -243,6 +245,8 @@ export function ContactForm() {
                 <input
                   id="cf-correo"
                   name="correo"
+                  required
+                  aria-required="true"
                   type="email"
                   autoComplete="email"
                   inputMode="email"
@@ -253,7 +257,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.correo
-                      ? "#00D4C6"
+                      ? "#F28F6B"
                       : "rgba(255,255,255,0.15)",
                   }}
                   spellCheck={false}
@@ -278,7 +282,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.empresa
-                      ? "#00D4C6"
+                      ? "#F28F6B"
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
@@ -295,15 +299,25 @@ export function ContactForm() {
                 <textarea
                   id="cf-mensaje"
                   name="mensaje"
+                  required
+                  aria-required="true"
                   rows={4}
                   value={fields.mensaje}
                   onChange={handleChange}
                   aria-invalid={!!errors.mensaje}
                   aria-describedby={errors.mensaje ? "cf-mensaje-err" : undefined}
+                  // Enter inserta salto de línea; ⌘/Ctrl+Enter envía, para no
+                  // obligar a tabular hasta el botón desde un campo multilínea.
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                      e.preventDefault();
+                      e.currentTarget.form?.requestSubmit();
+                    }
+                  }}
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.mensaje
-                      ? "#00D4C6"
+                      ? "#F28F6B"
                       : "rgba(255,255,255,0.15)",
                     resize: "none",
                   }}
