@@ -14,7 +14,7 @@ export default function PowerBIFormularioPage() {
         <div className="mb-12">
           <p
             className="font-mono uppercase"
-            style={{ color: "#E07B30", fontSize: 12, letterSpacing: "0.2em" }}
+            style={{ color: "#F28F6B", fontSize: 12, letterSpacing: "0.2em" }}
           >
             SERVICIOS POWER BI
           </p>

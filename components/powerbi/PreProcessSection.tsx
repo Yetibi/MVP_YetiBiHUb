@@ -10,7 +10,7 @@ const metaLabelBase: React.CSSProperties = {
   fontSize: "clamp(9px, 1vw, 11px)",
   textTransform: "uppercase",
   letterSpacing: "2px",
-  color: "#E07B30",
+  color: "#F28F6B",
   margin: "0 0 12px",
 };
 
@@ -67,8 +67,8 @@ function StepNode({
         zIndex: 2,
         width: 56,
         height: 56,
-        backgroundColor: isHighlight ? "#E07B30" : "#141020",
-        border: `1px solid ${isHighlight ? "#E07B30" : "rgba(255,255,255,0.08)"}`,
+        backgroundColor: isHighlight ? "#F28F6B" : "#141020",
+        border: `1px solid ${isHighlight ? "#F28F6B" : "rgba(255,255,255,0.08)"}`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -95,8 +95,8 @@ function StepNode({
               left: -3,
               width: 8,
               height: 8,
-              borderTop: "1.5px solid #E07B30",
-              borderLeft: "1.5px solid #E07B30",
+              borderTop: "1.5px solid #00D4C6",
+              borderLeft: "1.5px solid #00D4C6",
             }}
           />
           <span
@@ -107,8 +107,8 @@ function StepNode({
               right: -3,
               width: 8,
               height: 8,
-              borderBottom: "1.5px solid #E07B30",
-              borderRight: "1.5px solid #E07B30",
+              borderBottom: "1.5px solid #00D4C6",
+              borderRight: "1.5px solid #00D4C6",
             }}
           />
         </>
@@ -140,7 +140,7 @@ function DecisionNode() {
           width: 40,
           height: 40,
           backgroundColor: "#141020",
-          border: "1.5px solid #E07B30",
+          border: "1.5px solid #00D4C6",
           transform: "rotate(45deg)",
           display: "flex",
           alignItems: "center",
@@ -153,7 +153,7 @@ function DecisionNode() {
             fontFamily: "var(--font-mono)",
             fontSize: 9,
             fontWeight: 700,
-            color: "#E07B30",
+            color: "#F28F6B",
             textAlign: "center",
             lineHeight: 1,
           }}
@@ -196,8 +196,8 @@ function Step({ number, meta, title, desc, highlight, isLast, rm }: StepProps) {
       <div
         style={{
           ...cardBase,
-          borderColor: highlight ? "rgba(224,123,48,0.3)" : "rgba(255,255,255,0.08)",
-          borderLeft: highlight ? "2px solid #E07B30" : cardBase.border,
+          borderColor: highlight ? "rgba(0,212,198,0.3)" : "rgba(255,255,255,0.08)",
+          borderLeft: highlight ? "2px solid #00D4C6" : cardBase.border,
         }}
       >
         <p style={metaLabelBase}>{meta}</p>
@@ -231,11 +231,11 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
           style={{
             ...cardBase,
             padding: 28,
-            borderColor: "rgba(224,123,48,0.3)",
-            borderTop: "2px solid #E07B30",
+            borderColor: "rgba(0,212,198,0.3)",
+            borderTop: "2px solid #00D4C6",
           }}
         >
-          <p style={{ ...metaLabelBase, color: "#E07B30", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ GO</p>
+          <p style={{ ...metaLabelBase, color: "#F28F6B", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ GO</p>
           <h3 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 15, color: "#FFFFFF", margin: "0 0 6px" }}>
             Hay proyecto viable
           </h3>
@@ -311,7 +311,7 @@ export default function PreProcessSection() {
               fontSize: "clamp(11px, 1.2vw, 13px)",
               textTransform: "uppercase",
               letterSpacing: "3px",
-              color: "#E07B30",
+              color: "#F28F6B",
               marginBottom: 16,
             }}
           >
@@ -321,7 +321,7 @@ export default function PreProcessSection() {
                 display: "inline-block",
                 width: 24,
                 height: 1,
-                backgroundColor: "#E07B30",
+                backgroundColor: "#00D4C6",
                 marginRight: 12,
               }}
             />
@@ -380,7 +380,7 @@ export default function PreProcessSection() {
               width: "100%",
               height: "100%",
               background:
-                "linear-gradient(to bottom, #E07B30 0%, #E07B30 65%, #7B4F96 100%)",
+                "linear-gradient(to bottom, #00D4C6 0%, #00D4C6 65%, #7B4F96 100%)",
               transformOrigin: "top",
               scaleY: rm ? 1 : fillScaleY,
             }}
@@ -425,7 +425,7 @@ export default function PreProcessSection() {
       {/* Cierre */}
       <p
         style={{
-          borderLeft: "2px solid #E07B30",
+          borderLeft: "2px solid #00D4C6",
           paddingLeft: 20,
           marginTop: 48,
           fontSize: 16,
@@ -445,7 +445,7 @@ export default function PreProcessSection() {
         className="pre-process-cta relative inline-flex items-center overflow-hidden"
         style={{
           marginTop: 36,
-          backgroundColor: "#E07B30",
+          backgroundColor: "#00D4C6",
           color: "#0E0B14",
           padding: "14px 28px",
           fontSize: 13,

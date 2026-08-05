@@ -78,11 +78,11 @@ function HistogramaWidget({ rm }: { rm: boolean | null }) {
         top: 10,
         right: 20,
         width: 270,
-        borderColor: "rgba(224,123,48,0.15)",
+        borderColor: "rgba(242,143,107,0.15)",
       }}
     >
       <p style={monoLabel} className="flex items-center mb-4">
-        <Dot color="#E07B30" />
+        <Dot color="#F28F6B" />
         VARIABILIDAD DEL PROCESO
       </p>
       <svg
@@ -109,7 +109,7 @@ function HistogramaWidget({ rm }: { rm: boolean | null }) {
           const yMin = yFor(min);
           const yMax = yFor(max);
           const isAnomaly = i === 4;
-          const color = isAnomaly ? "#A89DC0" : "#E07B30";
+          const color = isAnomaly ? "#A89DC0" : "#F28F6B";
           return (
             <g key={i}>
               <motion.line
@@ -184,12 +184,12 @@ function WarningIcon() {
     <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden>
       <path
         d="M8 2 L14.5 13.5 L1.5 13.5 Z"
-        stroke="#E07B30"
+        stroke="#F28F6B"
         strokeWidth={1.5}
         strokeLinejoin="round"
       />
-      <line x1={8} y1={6.5} x2={8} y2={9.5} stroke="#E07B30" strokeWidth={1.5} strokeLinecap="round" />
-      <circle cx={8} cy={11.5} r={0.75} fill="#E07B30" />
+      <line x1={8} y1={6.5} x2={8} y2={9.5} stroke="#F28F6B" strokeWidth={1.5} strokeLinecap="round" />
+      <circle cx={8} cy={11.5} r={0.75} fill="#F28F6B" />
     </svg>
   );
 }
@@ -204,7 +204,7 @@ function KpiWidget({ rm }: { rm: boolean | null }) {
         top: 0,
         right: 310,
         width: 175,
-        borderLeft: "2px solid #E07B30",
+        borderLeft: "2px solid #F28F6B",
       }}
     >
       <p style={monoLabel} className="flex items-center" >
@@ -218,7 +218,7 @@ function KpiWidget({ rm }: { rm: boolean | null }) {
           fontFamily: "var(--font-sans)",
           fontWeight: 800,
           fontSize: 36,
-          color: "#E07B30",
+          color: "#F28F6B",
           margin: "6px 0 0",
           lineHeight: 1,
         }}
@@ -339,8 +339,8 @@ function TendenciaWidget({ rm }: { rm: boolean | null }) {
         ))}
         <defs>
           <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#E07B30" stopOpacity={0.12} />
-            <stop offset="100%" stopColor="#E07B30" stopOpacity={0} />
+            <stop offset="0%" stopColor="#F28F6B" stopOpacity={0.12} />
+            <stop offset="100%" stopColor="#F28F6B" stopOpacity={0} />
           </linearGradient>
         </defs>
         <motion.path
@@ -352,7 +352,7 @@ function TendenciaWidget({ rm }: { rm: boolean | null }) {
         />
         <motion.path
           d={TREND_PATH}
-          stroke="#E07B30"
+          stroke="#F28F6B"
           strokeWidth={1.2}
           strokeLinecap="round"
           initial={rm ? false : { pathLength: 0 }}
@@ -365,19 +365,19 @@ function TendenciaWidget({ rm }: { rm: boolean | null }) {
             cx={x}
             cy={y}
             r={2.5}
-            fill="#E07B30"
+            fill="#F28F6B"
             initial={rm ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.4 + i * 0.15 }}
           />
         ))}
-        <circle cx={276} cy={6} r={3} fill="#E07B30" />
+        <circle cx={276} cy={6} r={3} fill="#F28F6B" />
         <motion.circle
           cx={276}
           cy={6}
           r={3}
           fill="none"
-          stroke="#E07B30"
+          stroke="#F28F6B"
           strokeWidth={1}
           initial={rm ? undefined : { scale: 1, opacity: 0.6 }}
           animate={rm ? undefined : { scale: [1, 2.4, 1], opacity: [0.6, 0, 0.6] }}
@@ -477,7 +477,7 @@ function GaussianWidget({ rm }: { rm: boolean | null }) {
           y1={4}
           x2={100}
           y2={78}
-          stroke="#E07B30"
+          stroke="#F28F6B"
           strokeWidth={0.8}
           strokeDasharray="2 4"
         />
@@ -493,7 +493,7 @@ function GaussianWidget({ rm }: { rm: boolean | null }) {
             strokeWidth={1}
           />
         ))}
-        <text x={96} y={14} fill="#E07B30" fontSize={8} fontFamily="var(--font-mono)">
+        <text x={96} y={14} fill="#F28F6B" fontSize={8} fontFamily="var(--font-mono)">
           μ
         </text>
         <text x={48} y={78} fill="#A89DC0" fontSize={8} fontFamily="var(--font-mono)" opacity={0.5}>
@@ -526,7 +526,7 @@ function RadarDot({ rm }: { rm: boolean | null }) {
           position: "absolute",
           inset: 0,
           borderRadius: "50%",
-          backgroundColor: "#E07B30",
+          backgroundColor: "#F28F6B",
         }}
       />
       {!rm && (
@@ -538,7 +538,7 @@ function RadarDot({ rm }: { rm: boolean | null }) {
             position: "absolute",
             inset: 0,
             borderRadius: "50%",
-            border: "1px solid #E07B30",
+            border: "1px solid #F28F6B",
           }}
         />
       )}
@@ -557,7 +557,7 @@ function AlertaWidget({ rm }: { rm: boolean | null }) {
         bottom: 10,
         right: 275,
         width: 210,
-        borderLeft: "2px solid #E07B30",
+        borderLeft: "2px solid #F28F6B",
       }}
     >
       <div className="flex items-center justify-between">
@@ -598,7 +598,7 @@ function AlertaWidget({ rm }: { rm: boolean | null }) {
         <motion.div
           style={{
             height: "100%",
-            background: "linear-gradient(90deg, #E07B30, #C45A2A)",
+            background: "linear-gradient(90deg, #F28F6B, #C45A2A)",
           }}
           initial={rm ? false : { width: "0%" }}
           animate={{ width: "75%" }}

@@ -42,7 +42,7 @@ export default function FormSection() {
         >
           <p
             className="font-mono uppercase"
-            style={{ color: "#E07B30", fontSize: 11, letterSpacing: "0.2em" }}
+            style={{ color: "#F28F6B", fontSize: 11, letterSpacing: "0.2em" }}
           >
             EVALÚA LA VIABILIDAD
           </p>
@@ -68,7 +68,7 @@ export default function FormSection() {
             aria-label="Continuar con la evaluación de viabilidad"
             className="form-section-cta relative inline-flex items-center justify-center overflow-hidden"
             style={{
-              backgroundColor: "#E07B30",
+              backgroundColor: "#F28F6B",
               color: "#0E0B14",
               padding: "14px 28px",
               fontSize: 13,
@@ -128,7 +128,7 @@ export default function FormSection() {
           width: 100%;
         }
         .form-section-cta:focus-visible {
-          outline: 2px solid #E07B30;
+          outline: 2px solid #F28F6B;
           outline-offset: 2px;
         }
         @media (max-width: 960px) {

@@ -2,6 +2,21 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* ─── REGLA DE SISTEMA — uso del color ────────────────────────────────────────
+ *
+ * Teal #00D4C6 = SOLO acentos: CTAs, links, bordes destacados, texto,
+ *   highlights y elementos de canvas.
+ *   PROHIBIDO como fondo de sección, overlay de franja o tinte de superficie.
+ *
+ * Fondos de franja permitidos (únicos):
+ *   · #0E0B14                        base
+ *   · rgba(0,61,102,0.05–0.12)       marino  — azul oscuro profundo
+ *   · rgba(123,79,150,0.04–0.08)     morado
+ *
+ * Marino #003D66 no se usa como tinta: sobre el fondo base da 1.73:1.
+ * Su papel es la superficie; encima van blanco (18.8:1) o coral (8.0:1).
+ * ─────────────────────────────────────────────────────────────────────────── */
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -56,7 +71,7 @@
   --card-foreground: oklch(0.94 0.01 291);
   --popover: oklch(0.23 0.048 291);
   --popover-foreground: oklch(0.94 0.01 291);
-  --primary: oklch(0.62 0.155 47);           /* #E07B30 naranja */
+  --primary: oklch(0.62 0.155 47);           /* #F28F6B coral */
   --primary-foreground: oklch(0.12 0.02 291);
   --secondary: oklch(0.27 0.045 291);
   --secondary-foreground: oklch(0.94 0.01 291);
@@ -136,7 +151,7 @@ a, button { touch-action: manipulation; }
 /* ── Nav link hover + focus styles (CSS, not JS) ────────────── */
 .nav-link:hover { color: rgba(255,255,255,0.60) !important; }
 .nav-link:focus-visible {
-  outline: 2px solid #E07B30;
+  outline: 2px solid #00D4C6;
   outline-offset: 3px;
   color: rgba(255,255,255,0.90) !important;
 }
@@ -145,8 +160,8 @@ a, button { touch-action: manipulation; }
 input:focus-visible,
 textarea:focus-visible {
   outline: none;
-  border-bottom-color: #E07B30 !important;
-  box-shadow: 0 2px 0 0 #E07B30;
+  border-bottom-color: #00D4C6 !important;
+  box-shadow: 0 2px 0 0 #00D4C6;
 }
 
 /* ── Scroll margin for anchors (nav height ~68px + buffer) ──── */
@@ -181,7 +196,7 @@ section[id] { scroll-margin-top: 80px; }
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #E07B30;
+  background-color: #00D4C6;
   border-radius: 4px;
   z-index: -2;
 }
@@ -192,7 +207,7 @@ section[id] { scroll-margin-top: 80px; }
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: #C45A2A;
+  background-color: #003D66;
   transition: all 0.3s ease;
   border-radius: 4px;
   z-index: -1;

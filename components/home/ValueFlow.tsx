@@ -6,7 +6,7 @@ import { useInView, useReducedMotion } from 'motion/react'
 // Brand tokens
 const C_BG     = '#0E0B14'
 const C_NODE   = '#141020'
-const C_ORANGE = '#E07B30'
+const C_ORANGE = '#00D4C6'   // primario teal (el flujo es estructura, no alerta)
 const C_PURPLE = '#7B4F96'
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%'
@@ -176,40 +176,40 @@ export function ValueFlow() {
 
         {/* CALLOUT 1 */}
         <rect x="12" y="32" width="172" height="96" rx="6"
-          fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
+          fill="rgba(0,212,198,0.10)" stroke="rgba(0,212,198,0.30)" strokeWidth=".8" />
         <text x="22" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">★ NUESTRO DIFERENCIAL</text>
         <text x="22" y="61"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">Los procesos se degradan y</text>
         <text x="22" y="73"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">quedan obsoletos. Mejorar</text>
         <text x="22" y="85"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">esta base ya genera resultados</text>
         <text x="22" y="97"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.45)">— sin tecnología.</text>
-        <text x="22" y="110" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(224,123,48,0.7)">Habilitamos antes de automatizar.</text>
-        <line x1="98" y1="128" x2="98" y2="234" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
-        <polygon points="94,234 98,242 102,234" fill="rgba(224,123,48,0.5)" />
+        <text x="22" y="110" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(0,212,198,0.7)">Habilitamos antes de automatizar.</text>
+        <line x1="98" y1="128" x2="98" y2="234" stroke="rgba(0,212,198,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="94,234 98,242 102,234" fill="rgba(0,212,198,0.5)" />
 
         {/* CALLOUT 2 */}
         <rect x="324" y="32" width="172" height="80" rx="6"
-          fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.30)" strokeWidth=".8" />
+          fill="rgba(0,212,198,0.10)" stroke="rgba(0,212,198,0.30)" strokeWidth=".8" />
         <text x="334" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">ANTES DE LA IA</text>
         <text x="334" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Sin automatización sólida,</text>
         <text x="334" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">la IA no tiene datos limpios</text>
         <text x="334" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">ni procesos para aprender.</text>
-        <line x1="410" y1="112" x2="410" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
-        <polygon points="406,194 410,202 414,194" fill="rgba(224,123,48,0.5)" />
+        <line x1="410" y1="112" x2="410" y2="194" stroke="rgba(0,212,198,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="406,194 410,202 414,194" fill="rgba(0,212,198,0.5)" />
 
         {/* CALLOUT 3 */}
         <rect x="566" y="32" width="172" height="80" rx="6"
-          fill="rgba(224,123,48,0.10)" stroke="rgba(224,123,48,0.35)" strokeWidth=".8" />
+          fill="rgba(0,212,198,0.10)" stroke="rgba(0,212,198,0.35)" strokeWidth=".8" />
         <text x="576" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_ORANGE} letterSpacing="1">PROPÓSITO SISTÉMICO</text>
         <text x="576" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">Si no impacta el ROI,</text>
         <text x="576" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">el proyecto no cumple</text>
         <text x="576" y="88"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.75)">su propósito.</text>
-        <line x1="652" y1="112" x2="652" y2="194" stroke="rgba(224,123,48,0.4)" strokeWidth="1" strokeDasharray="3 3" />
-        <polygon points="648,194 652,202 656,194" fill="rgba(224,123,48,0.5)" />
+        <line x1="652" y1="112" x2="652" y2="194" stroke="rgba(0,212,198,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+        <polygon points="648,194 652,202 656,194" fill="rgba(0,212,198,0.5)" />
 
         {/* TRACKS */}
-        <path d="M148,270 L180,270" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
-        <path d="M304,270 C340,270 340,230 358,230" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
-        <path d="M482,230 C516,230 516,270 584,270" stroke="rgba(224,123,48,0.20)" strokeWidth="1.5" fill="none" />
+        <path d="M148,270 L180,270" stroke="rgba(0,212,198,0.20)" strokeWidth="1.5" fill="none" />
+        <path d="M304,270 C340,270 340,230 358,230" stroke="rgba(0,212,198,0.20)" strokeWidth="1.5" fill="none" />
+        <path d="M482,230 C516,230 516,270 584,270" stroke="rgba(0,212,198,0.20)" strokeWidth="1.5" fill="none" />
         <path d="M420,262 L420,322" stroke="rgba(120,60,160,0.30)" strokeWidth="1.5" fill="none" strokeDasharray="4 4" />
         <path d="M482,350 C516,350 516,270 584,270" stroke="rgba(120,60,160,0.20)" strokeWidth="1.5" fill="none" />
 
@@ -222,27 +222,27 @@ export function ValueFlow() {
 
         {/* N1 PROCESO */}
         <rect x="16" y="242" width="132" height="56" rx="10"
-          fill={C_NODE} stroke="rgba(224,123,48,0.40)" strokeWidth="1" />
+          fill={C_NODE} stroke="rgba(0,212,198,0.40)" strokeWidth="1" />
         <text x="82" y="264" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">PROCESO</text>
         <text x="82" y="279" textAnchor="middle" fontSize="8"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">habilitado para tecnología</text>
         <circle cx="148" cy="270" r="3" fill={C_ORANGE} />
 
         {/* N2 DATO */}
         <rect x="180" y="242" width="124" height="56" rx="10"
-          fill={C_NODE} stroke="rgba(224,123,48,0.35)" strokeWidth="1" />
+          fill={C_NODE} stroke="rgba(0,212,198,0.35)" strokeWidth="1" />
         <text x="242" y="264" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">DATO</text>
         <text x="242" y="279" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">confiable</text>
         <circle cx="180" cy="270" r="3" fill={C_ORANGE} />
-        <circle cx="304" cy="270" r="4" fill="rgba(224,123,48,0.55)" />
+        <circle cx="304" cy="270" r="4" fill="rgba(0,212,198,0.55)" />
 
         {/* N3 AUTOMATIZACION */}
         <rect x="358" y="202" width="124" height="60" rx="10"
-          fill={C_NODE} stroke="rgba(224,123,48,0.50)" strokeWidth="1.2" />
+          fill={C_NODE} stroke="rgba(0,212,198,0.50)" strokeWidth="1.2" />
         <text x="420" y="222" textAnchor="middle" fontSize="10" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">AUTOMATIZACIÓN</text>
         <text x="420" y="236" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">RPA · SOPs · Flujos</text>
         <text x="420" y="252" textAnchor="middle" fontSize="13" fontWeight="800" fontFamily="var(--font-geist-mono)" fill={C_ORANGE}>70–80%</text>
         <rect x="488" y="207" width="80" height="16" rx="3"
-          fill="rgba(224,123,48,0.15)" stroke="rgba(224,123,48,0.40)" strokeWidth=".8" />
+          fill="rgba(0,212,198,0.15)" stroke="rgba(0,212,198,0.40)" strokeWidth=".8" />
         <text x="528" y="219" textAnchor="middle" fontSize="8" fontFamily="var(--font-geist-mono)" fill={C_ORANGE}>ROI DIRECTO</text>
         <circle cx="358" cy="230" r="3" fill={C_ORANGE} />
         <circle cx="482" cy="230" r="3" fill={C_ORANGE} />
@@ -277,9 +277,9 @@ export function ValueFlow() {
               style={{ animation: 'roiPulse 2s ease-out 1.1s infinite' }} />
           </>
         )}
-        <circle cx="630" cy="270" r="46" fill="rgba(224,123,48,0.05)" stroke="rgba(224,123,48,0.10)" strokeWidth="1" />
-        <circle cx="630" cy="270" r="32" fill="rgba(224,123,48,0.09)" stroke="rgba(224,123,48,0.18)" strokeWidth="1" />
-        <circle cx="630" cy="270" r="18" fill="rgba(224,123,48,0.18)" stroke="rgba(224,123,48,0.35)" strokeWidth="1" />
+        <circle cx="630" cy="270" r="46" fill="rgba(0,212,198,0.05)" stroke="rgba(0,212,198,0.10)" strokeWidth="1" />
+        <circle cx="630" cy="270" r="32" fill="rgba(0,212,198,0.09)" stroke="rgba(0,212,198,0.18)" strokeWidth="1" />
+        <circle cx="630" cy="270" r="18" fill="rgba(0,212,198,0.18)" stroke="rgba(0,212,198,0.35)" strokeWidth="1" />
         <circle cx="630" cy="270" r="7"  fill={C_ORANGE} />
         <text x="630" y="322" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.95)">ROI MEDIBLE</text>
         <text x="630" y="336" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="rgba(255,255,255,0.70)">el único resultado</text>
@@ -336,36 +336,36 @@ export function ValueFlow() {
         {/* BLOQUE 1 — FUNDAMENTOS */}
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>FUNDAMENTOS</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid #E07B30', background: 'rgba(224,123,48,0.06)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
+        <div style={{ padding: '12px 14px', borderLeft: '2px solid #F28F6B', background: 'rgba(0,212,198,0.06)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_ORANGE, margin: '0 0 5px' }}>★ NUESTRO DIFERENCIAL</p>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 0 5px' }}>
             Los procesos se degradan y quedan obsoletos. Mejorar esta base ya genera resultados — sin tecnología.
           </p>
-          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(224,123,48,0.8)', margin: 0 }}>Habilitamos antes de automatizar.</p>
+          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(0,212,198,0.8)', margin: 0 }}>Habilitamos antes de automatizar.</p>
         </div>
 
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(0,212,198,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: '0 0 3px' }}>PROCESO</p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: 0 }}>habilitado para tecnología</p>
         </div>
 
         {/* Conector entre PROCESO y DATO */}
         <div style={{ height: 28, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: 2, height: '100%', background: 'rgba(224,123,48,0.3)' }} />
+          <div style={{ width: 2, height: '100%', background: 'rgba(0,212,198,0.3)' }} />
         </div>
 
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(0,212,198,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: '0 0 3px' }}>DATO</p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: 0 }}>confiable</p>
         </div>
 
         {/* Conector 1 — naranja */}
         <div style={{ height: 48, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: 2, height: '100%', background: 'linear-gradient(to bottom, rgba(224,123,48,0.6), rgba(224,123,48,0.15))', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ width: 2, height: '100%', background: 'linear-gradient(to bottom, rgba(0,212,198,0.6), rgba(0,212,198,0.15))', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out infinite' : 'none', top: -6 }} />
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 0.9s infinite' : 'none', top: -6 }} />
           </div>
-          <div style={{ borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(224,123,48,0.5)', flexShrink: 0 }} />
+          <div style={{ borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(0,212,198,0.5)', flexShrink: 0 }} />
         </div>
 
         {/* BLOQUE 2 — HABILITACION TECNOLOGICA */}
@@ -382,10 +382,10 @@ export function ValueFlow() {
         </div>
 
         {/* Nodo AUTOMATIZACIÓN */}
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(224,123,48,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(0,212,198,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: 0 }}>AUTOMATIZACIÓN</p>
-            <span style={{ background: 'rgba(224,123,48,0.1)', border: '1px solid rgba(224,123,48,0.3)', color: C_ORANGE, fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)' }}>ROI DIRECTO</span>
+            <span style={{ background: 'rgba(0,212,198,0.1)', border: '1px solid rgba(0,212,198,0.3)', color: C_ORANGE, fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)' }}>ROI DIRECTO</span>
           </div>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.5)', margin: '4px 0 0' }}>RPA · SOPs · Flujos</p>
           <p style={{ fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 800, fontFamily: 'var(--font-geist-mono)', color: C_ORANGE, marginTop: 8, marginBottom: 0 }}>70–80%</p>
@@ -394,7 +394,7 @@ export function ValueFlow() {
         {/* Zona de fork: naranja centro baja a ROI, punteado derecha baja a IA */}
         <div style={{ position: 'relative', height: 52 }}>
           {/* Naranja al centro — ruta principal */}
-          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(224,123,48,0.7), rgba(224,123,48,0.3))', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(0,212,198,0.7), rgba(0,212,198,0.3))', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.2s infinite' : 'none', top: -6 }} />
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 2.1s infinite' : 'none', top: -6 }} />
           </div>
@@ -403,7 +403,7 @@ export function ValueFlow() {
             <div style={{ position: 'absolute', width: 5, height: 5, borderRadius: '50%', background: C_PURPLE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 2s ease-in-out 0.4s infinite' : 'none', top: -5 }} />
           </div>
           {/* Flecha naranja */}
-          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(224,123,48,0.6)' }} />
+          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(0,212,198,0.6)' }} />
           {/* Flecha punteada derecha */}
           <div style={{ position: 'absolute', right: '8%', bottom: 0, transform: 'translateX(50%)', borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '6px solid rgba(120,60,160,0.5)' }} />
         </div>
@@ -411,7 +411,7 @@ export function ValueFlow() {
         {/* IA QUE DECIDE — ancho completo, naranja pasa por su lado derecho */}
         <div style={{ position: 'relative' }}>
           {/* Línea naranja que pasa por el lado derecho de la caja de IA */}
-          <div style={{ position: 'absolute', right: '8%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, rgba(224,123,48,0.3), rgba(224,123,48,0.3))', zIndex: 1 }}>
+          <div style={{ position: 'absolute', right: '8%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, rgba(0,212,198,0.3), rgba(0,212,198,0.3))', zIndex: 1 }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.5s infinite' : 'none', top: -6 }} />
           </div>
           <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(120,60,160,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
@@ -427,21 +427,21 @@ export function ValueFlow() {
         {/* Conector: naranja sale del lado derecho y converge al centro hacia ROI */}
         <div style={{ position: 'relative', height: 52 }}>
           {/* Línea naranja derecha que baja y converge */}
-          <div style={{ position: 'absolute', right: '8%', top: 0, height: '60%', width: 2, background: 'rgba(224,123,48,0.4)' }} />
+          <div style={{ position: 'absolute', right: '8%', top: 0, height: '60%', width: 2, background: 'rgba(0,212,198,0.4)' }} />
           {/* Línea horizontal que une derecha con centro */}
-          <div style={{ position: 'absolute', right: '8%', top: '60%', left: '50%', height: 2, background: 'rgba(224,123,48,0.4)', transform: 'translateY(-50%)' }} />
+          <div style={{ position: 'absolute', right: '8%', top: '60%', left: '50%', height: 2, background: 'rgba(0,212,198,0.4)', transform: 'translateY(-50%)' }} />
           {/* Línea naranja centro que baja a ROI */}
-          <div style={{ position: 'absolute', left: '50%', top: '60%', bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(224,123,48,0.5), rgba(224,123,48,0.2))', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '50%', top: '60%', bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(0,212,198,0.5), rgba(0,212,198,0.2))', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_ORANGE, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 0.6s infinite' : 'none', top: -6 }} />
           </div>
           {/* Flecha al ROI */}
-          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(224,123,48,0.5)', flexShrink: 0 }} />
+          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(0,212,198,0.5)', flexShrink: 0 }} />
         </div>
 
         {/* BLOQUE 3 — IMPACTO MEDIBLE */}
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>IMPACTO MEDIBLE</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid rgba(224,123,48,0.6)', background: 'rgba(224,123,48,0.08)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
+        <div style={{ padding: '12px 14px', borderLeft: '2px solid rgba(0,212,198,0.6)', background: 'rgba(0,212,198,0.08)', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_ORANGE, margin: '0 0 5px' }}>◆ PROPÓSITO SISTÉMICO</p>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: '0 0 5px' }}>
             Si no impacta el ROI, el proyecto no cumple su propósito.
@@ -449,8 +449,8 @@ export function ValueFlow() {
           <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: C_ORANGE, margin: 0 }}>Medimos relaciones, no eventos.</p>
         </div>
 
-        <div style={{ padding: '20px 14px', background: 'rgba(224,123,48,0.08)', border: '1px solid #E07B30', borderRadius: 10, textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
-          <div style={{ width: 52, height: 52, borderRadius: '50%', background: C_ORANGE, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(224,123,48,0.3)' }}>
+        <div style={{ padding: '20px 14px', background: 'rgba(0,212,198,0.08)', border: '1px solid #F28F6B', borderRadius: 10, textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ width: 52, height: 52, borderRadius: '50%', background: C_ORANGE, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(0,212,198,0.3)' }}>
             <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#0E0B14' }} />
           </div>
           <p style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#fff', margin: 0 }}>ROI MEDIBLE</p>

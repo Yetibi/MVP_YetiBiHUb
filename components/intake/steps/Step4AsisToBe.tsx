@@ -14,7 +14,7 @@ interface Step4Props {
 export function Step4AsisToBe({ data, update, showErrors }: Step4Props) {
   return (
     <section aria-labelledby="step4-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-[#E07B30] uppercase mb-3">
+      <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase mb-3">
         Capa 3 — As-Is / To-Be
       </p>
       <h2
@@ -44,7 +44,7 @@ export function Step4AsisToBe({ data, update, showErrors }: Step4Props) {
             onChange={(e) => update("toBe", e.target.value)}
             placeholder="Ej: Quiero saber en tiempo real cuánto cuesta cada orden de producción y poder compararlo contra lo presupuestado…"
             rows={4}
-            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#E07B30] resize-none"
+            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#00D4C6] resize-none"
             aria-required="true"
           />
           <AnimatePresence>

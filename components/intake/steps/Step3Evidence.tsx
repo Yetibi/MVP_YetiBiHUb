@@ -13,7 +13,7 @@ interface Step3Props {
 export function Step3Evidence({ data, update, showErrors }: Step3Props) {
   return (
     <section aria-labelledby="step3-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-[#E07B30] uppercase mb-3">
+      <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase mb-3">
         Capa 2 — Evidencia
       </p>
       <h2

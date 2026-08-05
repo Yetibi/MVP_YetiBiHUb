@@ -29,7 +29,7 @@ const PROFILES: { value: ProfileType; label: string; sub: string }[] = [
 export function Step1Profile({ data, update }: Step1Props) {
   return (
     <section aria-labelledby="step1-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-[#E07B30] uppercase mb-3">
+      <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase mb-3">
         Perfil
       </p>
       <h2
@@ -54,9 +54,9 @@ export function Step1Profile({ data, update }: Step1Props) {
                 className={`
                   flex items-start gap-4 p-5 rounded-xl border cursor-pointer
                   transition-all duration-200 group
-                  focus-within:ring-2 focus-within:ring-[#E07B30]
+                  focus-within:ring-2 focus-within:ring-[#00D4C6]
                   ${selected
-                    ? "border-[#E07B30] bg-[#E07B30]/10"
+                    ? "border-[#00D4C6] bg-[#00D4C6]/10"
                     : "border-white/10 bg-white/3 hover:border-white/25"
                   }
                 `}
@@ -77,7 +77,7 @@ export function Step1Profile({ data, update }: Step1Props) {
                     mt-0.5 w-4 h-4 rounded-full border-2 shrink-0 transition-colors
                     flex items-center justify-center
                     ${selected
-                      ? "border-[#E07B30] bg-[#E07B30]"
+                      ? "border-[#00D4C6] bg-[#00D4C6]"
                       : "border-white/30"
                     }
                   `}

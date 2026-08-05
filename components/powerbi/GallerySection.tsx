@@ -128,7 +128,7 @@ function Thumbnail({ project, index, isActive, onSelect, rm }: ThumbnailProps) {
       style={{
         position: "relative",
         aspectRatio: "16 / 9",
-        border: `1px solid ${isActive ? "#E07B30" : "rgba(255,255,255,0.08)"}`,
+        border: `1px solid ${isActive ? "#00D4C6" : "rgba(255,255,255,0.08)"}`,
         opacity: isActive ? 1 : 0.5,
         backgroundColor: "#141020",
         cursor: isActive ? "default" : "pointer",
@@ -195,7 +195,7 @@ export default function GallerySection() {
               fontSize: 11,
               textTransform: "uppercase",
               letterSpacing: "3px",
-              color: "#E07B30",
+              color: "#F28F6B",
               marginBottom: 16,
             }}
           >
@@ -205,7 +205,7 @@ export default function GallerySection() {
                 display: "inline-block",
                 width: 24,
                 height: 1,
-                backgroundColor: "#E07B30",
+                backgroundColor: "#F28F6B",
                 marginRight: 12,
               }}
             />
@@ -266,7 +266,7 @@ export default function GallerySection() {
                   fontSize: 10,
                   textTransform: "uppercase",
                   letterSpacing: "2px",
-                  color: "#E07B30",
+                  color: "#F28F6B",
                   margin: 0,
                 }}
               >
@@ -386,7 +386,7 @@ export default function GallerySection() {
           opacity: 1;
         }
         .gallery-thumb:focus-visible {
-          outline: 2px solid #E07B30;
+          outline: 2px solid #F28F6B;
           outline-offset: 2px;
         }
         .gallery-thumbs > .gallery-thumb {

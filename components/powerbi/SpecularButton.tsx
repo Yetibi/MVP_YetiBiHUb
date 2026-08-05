@@ -38,7 +38,7 @@ export function SpecularButton({
   href,
   size = "lg",
   radius = 0,
-  tint = "#E07B30",
+  tint = "#F28F6B",
   tintOpacity = 0.5,
   darkenColor = "#C45A2A",
   textColor = "#0E0B14",

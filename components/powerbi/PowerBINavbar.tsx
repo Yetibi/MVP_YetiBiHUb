@@ -27,7 +27,7 @@ export function PowerBINavbar() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0 clamp(16px,4vw,40px)",
-        borderBottom: "1px solid rgba(224,123,48,0.08)",
+        borderBottom: "1px solid rgba(242,143,107,0.08)",
         background: "#0E0B14",
         zIndex: 100,
       }}
@@ -59,19 +59,25 @@ export function PowerBINavbar() {
             letterSpacing: "3px",
           }}
         >
-          YETI·<span style={{ color: "#E07B30" }}>BI</span>
+          YETI·<span style={{ color: "#F28F6B" }}>BI</span>
         </span>
       </Link>
 
       <Link
         href="/powerbi/formulario"
         aria-label="Agendar diagnóstico — acceso rápido desde el menú"
-        className="btn-primary text-[10px] sm:text-[11px] px-3 sm:px-4"
+        className="btn-primary powerbi-navbar-cta text-[10px] sm:text-[11px] px-3 sm:px-4"
         style={NAVBAR_BTN_EXTRA}
       >
         <span className="hidden sm:inline">Agendar diagnóstico</span>
         <span className="sm:hidden">Agendar</span>
       </Link>
+
+      {/* .btn-primary es compartida con el home: el coral del micrositio se
+         aplica como override local para no alterar el naranja global. */}
+      <style>{`
+        .powerbi-navbar-cta::after { background-color: #F28F6B !important; }
+      `}</style>
     </nav>
   );
 }

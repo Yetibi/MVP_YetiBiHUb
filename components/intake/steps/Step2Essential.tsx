@@ -27,7 +27,7 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
 
   return (
     <section aria-labelledby="step2-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-[#E07B30] uppercase mb-3">
+      <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase mb-3">
         Capa 1 — Lo esencial
       </p>
       <h2
@@ -55,7 +55,7 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
           >
             <SelectTrigger
               id="sector"
-              className="w-full border-white/15 text-white bg-transparent focus:ring-[#E07B30]"
+              className="w-full border-white/15 text-white bg-transparent focus:ring-[#00D4C6]"
               aria-required="true"
             >
               <SelectValue placeholder="Selecciona el sector" />
@@ -97,7 +97,7 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
             value={data.scope}
             onChange={(e) => update("scope", e.target.value)}
             placeholder={copy.scopePlaceholder}
-            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#E07B30]"
+            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#00D4C6]"
             aria-required="true"
           />
           <AnimatePresence>
@@ -130,7 +130,7 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
             value={data.email}
             onChange={(e) => update("email", e.target.value)}
             placeholder="tucorreo@empresa.com"
-            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#E07B30]"
+            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#00D4C6]"
             aria-required="true"
           />
           <AnimatePresence>
@@ -219,7 +219,7 @@ export function Step2Essential({ data, update, showErrors }: Step2Props) {
             onChange={(e) => update("painDetail", e.target.value)}
             placeholder="Un ejemplo concreto, un número, una situación que se repite…"
             rows={3}
-            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#E07B30] resize-none"
+            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#00D4C6] resize-none"
           />
         </div>
       </div>

@@ -28,7 +28,7 @@ export function NavigationButtons({
             <button
               type="button"
               onClick={onBack}
-              className="text-sm text-white/50 hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E07B30] rounded px-2 py-1"
+              className="text-sm text-white/50 hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded px-2 py-1"
             >
               ← Volver
             </button>
@@ -41,7 +41,7 @@ export function NavigationButtons({
             <button
               type="button"
               onClick={onNext}
-              className="text-xs text-white/40 hover:text-white/60 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E07B30] rounded px-2 py-1"
+              className="text-xs text-white/40 hover:text-white/60 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded px-2 py-1"
             >
               Saltar este paso
             </button>
@@ -55,7 +55,7 @@ export function NavigationButtons({
               type="button"
               onClick={onNext}
               disabled={!canProceed}
-              className="bg-[#E07B30] text-white hover:bg-[#C96B22] disabled:opacity-40 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors"
+              className="bg-[#00D4C6] text-[#0E0B14] hover:bg-[#00A89D] disabled:opacity-40 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors"
             >
               {step === 5 ? "Continuar →" : "Siguiente →"}
             </Button>
@@ -66,7 +66,7 @@ export function NavigationButtons({
               type="button"
               onClick={onSubmit}
               disabled={isSubmitting}
-              className="bg-[#E07B30] text-white hover:bg-[#C96B22] disabled:opacity-60 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors min-w-[160px]"
+              className="bg-[#00D4C6] text-[#0E0B14] hover:bg-[#00A89D] disabled:opacity-60 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors min-w-[160px]"
             >
               {isSubmitting ? "Enviando…" : "Enviar diagnóstico"}
             </Button>

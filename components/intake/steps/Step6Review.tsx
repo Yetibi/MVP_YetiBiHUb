@@ -33,7 +33,7 @@ export function Step6Review({ data }: Step6Props) {
 
   return (
     <section aria-labelledby="step6-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-[#E07B30] uppercase mb-3">
+      <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase mb-3">
         Capa 5 — Revisión
       </p>
       <h2

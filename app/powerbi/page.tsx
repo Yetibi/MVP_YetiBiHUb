@@ -88,7 +88,7 @@ export default function PowerBIPage() {
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 70% 35%, rgba(224,123,48,0.07) 0%, transparent 55%)",
+            "radial-gradient(circle at 70% 35%, rgba(242,143,107,0.07) 0%, transparent 55%)",
         }}
       />
 

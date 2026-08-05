@@ -10,7 +10,7 @@ export function ConfirmationScreen() {
       className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
     >
       {/* Ícono */}
-      <div className="w-16 h-16 rounded-full bg-[#E07B30]/15 border border-[#E07B30]/30 flex items-center justify-center text-2xl mb-8">
+      <div className="w-16 h-16 rounded-full bg-[#00D4C6]/15 border border-[#00D4C6]/30 flex items-center justify-center text-2xl mb-8">
         ✓
       </div>
 
@@ -28,7 +28,7 @@ export function ConfirmationScreen() {
       </p>
 
       {/* Separador */}
-      <div className="w-8 h-px bg-[#E07B30]/40 mb-8" />
+      <div className="w-8 h-px bg-[#00D4C6]/40 mb-8" />
 
       {/* Próximos pasos */}
       <div className="text-left max-w-sm w-full space-y-4">
@@ -48,7 +48,7 @@ export function ConfirmationScreen() {
           },
         ].map(({ n, text }) => (
           <div key={n} className="flex items-start gap-4">
-            <span className="text-xs font-black text-[#E07B30]/60 tabular-nums mt-0.5">
+            <span className="text-xs font-black text-[#00D4C6]/60 tabular-nums mt-0.5">
               {n}
             </span>
             <p className="text-sm text-white/50">{text}</p>
