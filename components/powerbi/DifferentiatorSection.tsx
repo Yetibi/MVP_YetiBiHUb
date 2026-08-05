@@ -35,9 +35,9 @@ function ClockIcon() {
 function TargetIcon() {
   return (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" stroke="#E07B30" strokeWidth={1.5} />
-      <circle cx="12" cy="12" r="4.5" stroke="#E07B30" strokeWidth={1.5} />
-      <circle cx="12" cy="12" r="1" fill="#E07B30" />
+      <circle cx="12" cy="12" r="9" stroke="#F28F6B" strokeWidth={1.5} />
+      <circle cx="12" cy="12" r="4.5" stroke="#F28F6B" strokeWidth={1.5} />
+      <circle cx="12" cy="12" r="1" fill="#F28F6B" />
     </svg>
   );
 }
@@ -89,7 +89,7 @@ function CheckIcon() {
     >
       <motion.path
         d="M3 8.5 L6.5 12"
-        stroke="#E07B30"
+        stroke="#F28F6B"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -99,7 +99,7 @@ function CheckIcon() {
       />
       <motion.path
         d="M6.5 12 L13 4"
-        stroke="#E07B30"
+        stroke="#F28F6B"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -179,7 +179,7 @@ function ContinuousConnectorLine() {
         bottom: 8,
         left: 7,
         width: 0,
-        borderLeft: "1.5px solid rgba(224,123,48,0.4)",
+        borderLeft: "1.5px solid rgba(242,143,107,0.4)",
         transformOrigin: "top",
         zIndex: 0,
       }}
@@ -261,8 +261,13 @@ const leftItemVariants: Variants = {
 // solo se ve "tradicional" se acortó (de 2.8s a 1.6s de LEFT_DIM_DELAY)
 // tras revisión de UX: era demasiado tiempo parado en una sola card para
 // el ritmo real de scroll de un usuario.
-const LEFT_SEQUENCE_END = 2.2; // show (0.5s) + lista (~0.6s) + dimmed (1.6s inicio + 0.6s)
-const RIGHT_CARD_DELAY = LEFT_SEQUENCE_END + 0.2;
+// La card derecha ya no espera a que termine toda la secuencia izquierda: con
+// 2.6s de retraso quedaba invisible hasta que el usuario ya había pasado de
+// largo (en móvil, apiladas, obligaba a llegar a la sección siguiente). Entra
+// mientras la izquierda aún se atenúa: se conserva el orden narrativo
+// —tradicional primero, Yeti BI después— sin dejar un hueco vacío.
+const LEFT_SEQUENCE_END = 0.8; // show (0.5s) + primeros ítems de la lista
+const RIGHT_CARD_DELAY = LEFT_SEQUENCE_END + 0.1;
 
 const rightBarVariants: Variants = {
   hidden: { scaleX: 0 },
@@ -356,7 +361,7 @@ export default function DifferentiatorSection() {
     <section
       className="relative w-full differentiator-section"
       style={{
-        backgroundColor: "#0E0B14",
+        background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14",
         overflow: "hidden",
       }}
     >
@@ -376,7 +381,7 @@ export default function DifferentiatorSection() {
             fontSize: 11,
             textTransform: "uppercase",
             letterSpacing: "3px",
-            color: "#E07B30",
+            color: "#F28F6B",
             marginBottom: 16,
           }}
         >
@@ -386,7 +391,7 @@ export default function DifferentiatorSection() {
               display: "inline-block",
               width: 24,
               height: 1,
-              backgroundColor: "#E07B30",
+              backgroundColor: "#F28F6B",
               marginRight: 12,
             }}
           />
@@ -433,7 +438,7 @@ export default function DifferentiatorSection() {
                   }, LEFT_DIM_DELAY * 1000);
                 }
           }
-          viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+          viewport={{ once: true, margin: "0px 0px 15% 0px" }}
           variants={rm ? undefined : leftCardVariants}
           style={{
             ...cardBase,
@@ -518,11 +523,13 @@ export default function DifferentiatorSection() {
           className="differentiator-card"
           initial={rm ? undefined : "hidden"}
           whileInView={rm ? undefined : "show"}
-          viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+          // Se dispara en cuanto asoma por abajo (antes exigía 80px dentro del
+          // viewport, lo que en móvil retrasaba la card hasta la sección siguiente).
+          viewport={{ once: true, margin: "0px 0px 15% 0px" }}
           variants={rm ? undefined : rightCardVariants}
           style={{
             ...cardBase,
-            borderTop: "2px solid #E07B30",
+            borderTop: "2px solid #F28F6B",
             overflow: "hidden",
           }}
         >
@@ -532,7 +539,7 @@ export default function DifferentiatorSection() {
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage: "radial-gradient(circle at 50% 0%, rgba(224,123,48,0.18) 0%, transparent 65%)",
+              backgroundImage: "radial-gradient(circle at 50% 0%, rgba(242,143,107,0.18) 0%, transparent 65%)",
               pointerEvents: "none",
             }}
           />
@@ -546,14 +553,14 @@ export default function DifferentiatorSection() {
               left: 0,
               right: 0,
               height: 2,
-              backgroundColor: "#E07B30",
+              backgroundColor: "#F28F6B",
               transformOrigin: "left",
             }}
           />
 
           {/* Brackets laterales — los superiores se omiten para no duplicar la barra */}
-          <CornerBracket corner="bl" color="rgba(224,123,48,0.4)" />
-          <CornerBracket corner="br" color="rgba(224,123,48,0.4)" />
+          <CornerBracket corner="bl" color="rgba(242,143,107,0.4)" />
+          <CornerBracket corner="br" color="rgba(242,143,107,0.4)" />
 
           {/* Banda de header */}
           <motion.div
@@ -562,8 +569,8 @@ export default function DifferentiatorSection() {
             style={{
               gap: 16,
               padding: "28px 36px",
-              backgroundColor: "rgba(224,123,48,0.04)",
-              borderBottom: "1px solid rgba(224,123,48,0.15)",
+              backgroundColor: "rgba(242,143,107,0.04)",
+              borderBottom: "1px solid rgba(242,143,107,0.15)",
             }}
           >
             <div
@@ -571,8 +578,8 @@ export default function DifferentiatorSection() {
                 width: 48,
                 height: 48,
                 flexShrink: 0,
-                border: "1px solid rgba(224,123,48,0.3)",
-                backgroundColor: "rgba(224,123,48,0.06)",
+                border: "1px solid rgba(242,143,107,0.3)",
+                backgroundColor: "rgba(242,143,107,0.06)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -592,7 +599,7 @@ export default function DifferentiatorSection() {
               >
                 Enfoque Yeti BI
               </h3>
-              <p style={{ ...kickerLabelBase, color: "#E07B30" }}>
+              <p style={{ ...kickerLabelBase, color: "#F28F6B" }}>
                 PROCESO PRIMERO, DATO SEGUNDO
               </p>
             </div>
@@ -625,7 +632,7 @@ export default function DifferentiatorSection() {
             <motion.div
               variants={rm ? undefined : rightClosingVariants}
               style={{
-                borderTop: "1px solid rgba(224,123,48,0.15)",
+                borderTop: "1px solid rgba(242,143,107,0.15)",
                 paddingTop: 24,
                 marginTop: 28,
               }}
@@ -634,7 +641,7 @@ export default function DifferentiatorSection() {
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: "#E07B30",
+                  color: "#F28F6B",
                   lineHeight: 1.6,
                   margin: 0,
                 }}
@@ -654,7 +661,7 @@ export default function DifferentiatorSection() {
           marginTop: 48,
           fontSize: 14,
           fontWeight: 600,
-          color: "#E07B30",
+          color: "#F28F6B",
           textDecoration: "none",
         }}
       >

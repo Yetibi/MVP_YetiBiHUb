@@ -39,7 +39,7 @@ function CycleIcon() {
     <svg width={28} height={28} viewBox="0 0 28 28" fill="none" aria-hidden="true">
       <path
         d="M6 10a8 8 0 0 1 14.5-4.5M22 6v4h-4"
-        stroke="#7B4F96"
+        stroke="#023859"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -76,10 +76,10 @@ const phaseVariants: Variants = {
 };
 
 const nodeSweepVariants: Variants = {
-  hidden: { borderColor: "rgba(224,123,48,0.3)", backgroundColor: "#141020" },
+  hidden: { borderColor: "rgba(0,212,198,0.3)", backgroundColor: "#141020" },
   show: {
-    borderColor: ["rgba(224,123,48,0.3)", "#E07B30", "rgba(224,123,48,0.3)"],
-    backgroundColor: ["#141020", "rgba(224,123,48,0.12)", "#141020"],
+    borderColor: ["rgba(0,212,198,0.3)", "#00D4C6", "rgba(0,212,198,0.3)"],
+    backgroundColor: ["#141020", "rgba(0,212,198,0.12)", "#141020"],
     transition: { duration: 0.6, times: [0, 0.5, 1], ease: "easeOut" },
   },
 };
@@ -87,7 +87,7 @@ const nodeSweepVariants: Variants = {
 const titleSweepVariants: Variants = {
   hidden: { color: "#FFFFFF" },
   show: {
-    color: ["#FFFFFF", "#E07B30", "#FFFFFF"],
+    color: ["#FFFFFF", "#00D4C6", "#FFFFFF"],
     transition: { duration: 0.6, times: [0, 0.5, 1], ease: "easeOut" },
   },
 };
@@ -104,27 +104,18 @@ const connectorSweepVariants: Variants = {
 // 4 fases de stagger (0.25s c/u) + 0.6s de duración de la última ≈ 1.6s
 const ARCS_DELAY = 4 * 0.25 + 0.6;
 
-// Tras dibujarse (pathLength 0→1), el trazo punteado fluye en loop continuo
-// (strokeDashoffset) para transmitir que la retroalimentación es un ciclo
-// vivo, no una imagen estática. El flujo arranca justo cuando termina el
-// dibujo del arco (ARCS_DELAY + 0.8).
+// El arco iba en morado al 50% de opacidad: 1.63:1 sobre el fondo de la
+// sección, es decir, invisible. Ahora el canal va en naranja brillante
+// (8.03:1) y el pulso de corriente que lo recorre vive en CSS (.arc-flow),
+// porque Motion se apropia de strokeDasharray cuando anima pathLength.
 const arcVariants: Variants = {
-  hidden: { pathLength: 0, opacity: 0, strokeDashoffset: 0 },
+  hidden: { pathLength: 0, opacity: 0 },
   show: {
     pathLength: 1,
-    opacity: 0.5,
-    strokeDashoffset: [0, 0, -16],
+    opacity: 0.32,
     transition: {
       pathLength: { duration: 0.8, delay: ARCS_DELAY, ease: "easeInOut" },
       opacity: { duration: 0.8, delay: ARCS_DELAY, ease: "easeInOut" },
-      strokeDashoffset: {
-        duration: 1.2,
-        delay: ARCS_DELAY,
-        times: [0, 0.667, 1],
-        repeat: Infinity,
-        repeatDelay: 0,
-        ease: "linear",
-      },
     },
   },
 };
@@ -165,7 +156,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             left: 54,
             right: -20,
             height: 2,
-            background: "linear-gradient(to right, #E07B30, rgba(224,123,48,0.3))",
+            background: "linear-gradient(to right, #00D4C6, rgba(0,212,198,0.3))",
             zIndex: 0,
           }}
         />
@@ -179,7 +170,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
           zIndex: 2,
           width: 54,
           height: 54,
-          border: "1px solid rgba(224,123,48,0.3)",
+          border: "1px solid rgba(0,212,198,0.3)",
           backgroundColor: "#141020",
           display: "flex",
           alignItems: "center",
@@ -192,7 +183,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             fontFamily: "var(--font-mono)",
             fontSize: 15,
             fontWeight: 600,
-            color: "#E07B30",
+            color: "#F28F6B",
           }}
         >
           {String(index + 1).padStart(2, "0")}
@@ -205,8 +196,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             left: -1,
             width: 7,
             height: 7,
-            borderTop: "1.5px solid #E07B30",
-            borderLeft: "1.5px solid #E07B30",
+            borderTop: "1.5px solid #00D4C6",
+            borderLeft: "1.5px solid #00D4C6",
           }}
         />
         <span
@@ -217,8 +208,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             right: -1,
             width: 7,
             height: 7,
-            borderBottom: "1.5px solid #E07B30",
-            borderRight: "1.5px solid #E07B30",
+            borderBottom: "1.5px solid #00D4C6",
+            borderRight: "1.5px solid #00D4C6",
           }}
         />
       </motion.div>
@@ -301,35 +292,46 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
         overflow: "visible",
       }}
     >
-      <motion.path
-        d={arc3to2}
-        stroke="#7B4F96"
-        strokeWidth={1.5}
-        strokeDasharray="4 4"
-        fill="none"
-        initial={rm ? "show" : "hidden"}
-        animate="show"
-        variants={arcVariants}
-      />
-      <motion.path
-        d={arc4to2}
-        stroke="#7B4F96"
-        strokeWidth={1.5}
-        strokeDasharray="4 4"
-        fill="none"
-        initial={rm ? "show" : "hidden"}
-        animate="show"
-        variants={arcVariants}
-      />
+      {/* Cada arco son dos capas: el canal (traza el recorrido y se queda) y
+          el pulso de corriente que lo recorre en loop. Van separadas porque
+          Motion toma control de strokeDasharray al animar pathLength: si el
+          flujo viviera en el mismo path, el dasharray se sobrescribiría y el
+          movimiento no se vería. */}
+      {[arc3to2, arc4to2].map((d, i) => (
+        <g key={i}>
+          <motion.path
+            d={d}
+            stroke="#FF8A3D"
+            strokeWidth={2}
+            strokeLinecap="round"
+            fill="none"
+            initial={rm ? "show" : "hidden"}
+            animate="show"
+            variants={arcVariants}
+          />
+          {!rm && (
+            <path
+              d={d}
+              stroke="#FF8A3D"
+              strokeWidth={2.4}
+              strokeLinecap="round"
+              fill="none"
+              pathLength={100}
+              className="arc-flow"
+              style={{ animationDelay: `${ARCS_DELAY + i * 0.35}s` }}
+            />
+          )}
+        </g>
+      ))}
       <text
         x={colCenters[1] + (colCenters[2] - colCenters[1]) / 2}
         y={12}
         textAnchor="middle"
         fontFamily="var(--font-mono)"
-        fontSize={8}
-        fill="#7B4F96"
+        fontSize={9}
+        fill="#FF8A3D"
         letterSpacing="1"
-        opacity={0.8}
+        opacity={1}
       >
         RETROALIMENTACIÓN
       </text>
@@ -347,7 +349,7 @@ export default function ExecutionSection() {
       id="ejecucion"
       className="relative w-full execution-section"
       style={{
-        backgroundColor: "#0E0B14",
+        background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14",
         overflow: "hidden",
       }}
     >
@@ -376,7 +378,7 @@ export default function ExecutionSection() {
               fontSize: 11,
               textTransform: "uppercase",
               letterSpacing: "3px",
-              color: "#E07B30",
+              color: "#F28F6B",
               marginBottom: 16,
             }}
           >
@@ -386,7 +388,7 @@ export default function ExecutionSection() {
                 display: "inline-block",
                 width: 24,
                 height: 1,
-                backgroundColor: "#E07B30",
+                backgroundColor: "#00D4C6",
                 marginRight: 12,
               }}
             />
@@ -518,8 +520,27 @@ export default function ExecutionSection() {
             right: auto !important;
             width: 2px !important;
             height: calc(100% + 8px) !important;
-            background: linear-gradient(to bottom, #E07B30, rgba(224,123,48,0.3)) !important;
+            background: linear-gradient(to bottom, #00D4C6, rgba(0,212,198,0.3)) !important;
           }
+        }
+
+        /* Pulso de corriente: un tramo corto de trazo recorre el arco en bucle,
+           para que la retroalimentación se lea como información circulando. */
+        /* pathLength=100 normaliza el trazo: el pulso recorre igual arcos de
+           222px y de 432px. 6 unidades = tramo brillante; 100 = resto vacío. */
+        .arc-flow {
+          stroke-dasharray: 6 100;
+          animation: arcFlow 2.4s linear infinite;
+          opacity: 0;
+        }
+        @keyframes arcFlow {
+          0%   { stroke-dashoffset: 106; opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .arc-flow { animation: none; opacity: 0; }
         }
       `}</style>
     </div>
