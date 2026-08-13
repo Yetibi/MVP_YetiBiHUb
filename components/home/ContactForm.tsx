@@ -52,9 +52,9 @@ const inputBase: React.CSSProperties = {
   transition: "border-bottom-color 0.15s, box-shadow 0.15s",
 };
 
-// Contraste mejorado: #A89DC0 (3.8:1) → #C3B9D6 (~5.8:1) sobre #0E0B14
+// Contraste mejorado: #5D6B7A (3.8:1) → #8B95A5 (~5.8:1) sobre #0B1420
 const labelStyle: React.CSSProperties = {
-  color: "#C3B9D6",
+  color: "#8B95A5",
   fontSize: 11,
   fontWeight: 400,
   letterSpacing: "0.2em",
@@ -76,7 +76,7 @@ function Field({
       <label htmlFor={id} style={labelStyle}>{label}</label>
       {children}
       {error && (
-        <p id={`${id}-err`} role="alert" style={{ color: "#F28F6B", fontSize: 13 }}>
+        <p id={`${id}-err`} role="alert" style={{ color: "#4FD1E0", fontSize: 13 }}>
           {error}
         </p>
       )}
@@ -105,8 +105,8 @@ export function ContactForm() {
   }
 
   function bottomBorderColor(field: keyof FieldError, focused: boolean) {
-    if (errors[field]) return "#F28F6B";
-    if (focused) return "#00D4C6";
+    if (errors[field]) return "#4FD1E0";
+    if (focused) return "#4FD1E0";
     return "rgba(255,255,255,0.15)";
   }
 
@@ -176,15 +176,15 @@ export function ContactForm() {
               gap: 14,
             }}
           >
-            <span aria-hidden style={{ color: "#00D4C6", fontSize: 18, lineHeight: 1 }}>✓</span>
+            <span aria-hidden style={{ color: "#4FD1E0", fontSize: 18, lineHeight: 1 }}>✓</span>
             <div className="flex flex-col" style={{ gap: 4 }}>
               <p className="font-semibold" style={{ color: "#FFFFFF", fontSize: 15 }}>Recibido.</p>
-              <p style={{ color: "#C3B9D6", fontSize: 14, lineHeight: 1.6 }}>
+              <p style={{ color: "#8B95A5", fontSize: 14, lineHeight: 1.6 }}>
                 Te respondemos a{" "}
                 <a
                   href={`mailto:${submittedEmail}`}
                   className="underline hover:text-white transition-colors"
-                  style={{ color: "#00D4C6" }}
+                  style={{ color: "#4FD1E0" }}
                 >
                   {submittedEmail}
                 </a>{" "}
@@ -205,7 +205,7 @@ export function ContactForm() {
           >
             {/* Indicador de campos requeridos */}
             <p style={{ color: "rgba(255,255,255,0.50)", fontSize: 12, margin: 0 }}>
-              Los campos marcados con <span aria-hidden style={{ color: "#F28F6B" }}>*</span>
+              Los campos marcados con <span aria-hidden style={{ color: "#4FD1E0" }}>*</span>
               <span className="sr-only">asterisco</span> son obligatorios.
             </p>
 
@@ -231,11 +231,11 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.nombre
-                      ? "#F28F6B"
+                      ? "#4FD1E0"
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { e.target.style.borderBottomColor = "#00D4C6"; e.target.style.boxShadow = "0 2px 0 0 #00D4C6"; }}
+                  onFocus={(e) => { e.target.style.borderBottomColor = "#4FD1E0"; e.target.style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
                   onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("nombre", false); e.target.style.boxShadow = "none"; }}
                   placeholder="Ej: Ana García"
                 />
@@ -257,12 +257,12 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.correo
-                      ? "#F28F6B"
+                      ? "#4FD1E0"
                       : "rgba(255,255,255,0.15)",
                   }}
                   spellCheck={false}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { e.target.style.borderBottomColor = "#00D4C6"; e.target.style.boxShadow = "0 2px 0 0 #00D4C6"; }}
+                  onFocus={(e) => { e.target.style.borderBottomColor = "#4FD1E0"; e.target.style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
                   onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("correo", false); e.target.style.boxShadow = "none"; }}
                   placeholder="tu@empresa.co"
                 />
@@ -282,11 +282,11 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.empresa
-                      ? "#F28F6B"
+                      ? "#4FD1E0"
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { e.target.style.borderBottomColor = "#00D4C6"; e.target.style.boxShadow = "0 2px 0 0 #00D4C6"; }}
+                  onFocus={(e) => { e.target.style.borderBottomColor = "#4FD1E0"; e.target.style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
                   onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("empresa", false); e.target.style.boxShadow = "none"; }}
                   placeholder="Ej: Acme S.A.S."
                 />
@@ -317,12 +317,12 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.mensaje
-                      ? "#F28F6B"
+                      ? "#4FD1E0"
                       : "rgba(255,255,255,0.15)",
                     resize: "none",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = "#00D4C6"; (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #00D4C6"; }}
+                  onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = "#4FD1E0"; (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
                   onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = bottomBorderColor("mensaje", false); (e.target as HTMLTextAreaElement).style.boxShadow = "none"; }}
                   placeholder="¿En qué estás trabajando o qué quieres entender?…"
                 />
@@ -344,9 +344,9 @@ export function ContactForm() {
                   gap: 12,
                 }}
               >
-                <p style={{ color: "#C3B9D6", fontSize: 13 }}>
+                <p style={{ color: "#8B95A5", fontSize: 13 }}>
                   Algo salió mal. Escríbenos a{" "}
-                  <a href="mailto:data@yetibi.com" className="underline" style={{ color: "#00D4C6" }}>
+                  <a href="mailto:data@yetibi.com" className="underline" style={{ color: "#4FD1E0" }}>
                     data@yetibi.com
                   </a>.
                 </p>
@@ -354,7 +354,7 @@ export function ContactForm() {
                   type="button"
                   onClick={handleRetry}
                   className="shrink-0 text-sm font-medium underline hover:no-underline"
-                  style={{ color: "#00D4C6" }}
+                  style={{ color: "#4FD1E0" }}
                 >
                   Reintentar
                 </button>
@@ -395,7 +395,7 @@ export function ContactForm() {
                         width: 14,
                         height: 14,
                         border: "2px solid #1c142644",
-                        borderTopColor: "#1c1426",
+                        borderTopColor: "#1C2836",
                         borderRadius: "50%",
                         animation: "spin 0.7s linear infinite",
                       }}

@@ -12,9 +12,9 @@ const bgFadeVariants: Variants = {
   show: { opacity: 1, transition: { duration: 0.6 } },
 };
 
-const TEAL = "#00D4C6";
-const ORANGE = "#F28F6B";
-const MUTED = "#8B7BA8";
+const TEAL = "#4FD1E0";
+const ORANGE = "#4FD1E0";
+const MUTED = "#7A8BA0";
 
 // ─── Fondo: grid pattern + ambient glow (se conserva del diseño previo) ──────
 
@@ -43,7 +43,7 @@ function HeroBackground({ rm }: { rm: boolean | null }) {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 50% 50%, rgba(0,212,198,0.05) 0%, transparent 60%)",
+            "radial-gradient(circle at 50% 50%, rgba(79,209,224,0.05) 0%, transparent 60%)",
         }}
       />
     </motion.div>
@@ -123,7 +123,7 @@ export default function HeroSection() {
         paddingTop: 64,
         boxSizing: "border-box",
         borderBottom: "1px solid rgba(255,255,255,0.08)",
-        backgroundColor: "#0E0B14",
+        backgroundColor: "#0B1420",
       }}
     >
       <HeroBackground rm={rm} />
@@ -219,7 +219,7 @@ export default function HeroSection() {
           className="flex items-center hero-divider"
           style={{ gap: 10 }}
         >
-          <span style={{ display: "block", flex: 1, height: 1, backgroundColor: "rgba(0,212,198,0.3)" }} />
+          <span style={{ display: "block", flex: 1, height: 1, backgroundColor: "rgba(79,209,224,0.3)" }} />
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: TEAL }}>▼</span>
         </motion.div>
 
@@ -247,7 +247,7 @@ export default function HeroSection() {
           style={{
             fontFamily: "var(--font-roboto)",
             fontWeight: 400,
-            color: "#A89DC0",
+            color: "#5D6B7A",
             lineHeight: 1.7,
             marginTop: 0,
           }}
@@ -257,7 +257,7 @@ export default function HeroSection() {
             style={{
               fontFamily: "var(--font-mono)",
               color: TEAL,
-              backgroundColor: "rgba(0,212,198,0.08)",
+              backgroundColor: "rgba(79,209,224,0.08)",
               padding: "1px 6px",
               borderRadius: 2,
             }}
@@ -285,7 +285,7 @@ export default function HeroSection() {
               style={{
                 flex: 1,
                 backgroundColor: TEAL,
-                color: "#0E0B14",
+                color: "#0B1420",
                 fontFamily: "var(--font-roboto-condensed)",
                 fontWeight: 800,
                 letterSpacing: "0.8px",
@@ -298,7 +298,7 @@ export default function HeroSection() {
             <span
               aria-hidden="true"
               style={{
-                backgroundColor: "#003D66",
+                backgroundColor: "#1C2836",
                 color: "#FFFFFF",
                 padding: "15px 16px",
                 display: "flex",
@@ -412,18 +412,18 @@ export default function HeroSection() {
           letter-spacing: 0;
         }
         .headline-outline {
-          color: rgba(0, 212, 198, 0.12);
-          -webkit-text-stroke: 1.8px #00D4C6;
+          color: rgba(79,209,224,0.10);
+          -webkit-text-stroke: 1.8px #4FD1E0;
           paint-order: stroke fill;
         }
         @supports not (-webkit-text-stroke: 2px teal) {
           .headline-outline {
-            color: #00D4C6;
+            color: #4FD1E0;
             -webkit-text-stroke: 0;
           }
         }
         .hero-cursor {
-          color: #00D4C6;
+          color: #4FD1E0;
           -webkit-text-stroke: 0;
         }
         @media (prefers-reduced-motion: no-preference) {
@@ -446,7 +446,7 @@ export default function HeroSection() {
         .hero-cta { transition: opacity 0.15s ease; }
         .hero-cta:hover { opacity: 0.9; }
         .hero-cta:focus-visible {
-          outline: 2px solid #00D4C6;
+          outline: 2px solid #4FD1E0;
           outline-offset: 2px;
         }
 

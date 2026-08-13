@@ -27,8 +27,8 @@ export function PowerBINavbar() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0 clamp(16px,4vw,40px)",
-        borderBottom: "1px solid rgba(242,143,107,0.08)",
-        background: "#0E0B14",
+        borderBottom: "1px solid rgba(79,209,224,0.08)",
+        background: "#0B1420",
         zIndex: 100,
       }}
     >
@@ -59,7 +59,7 @@ export function PowerBINavbar() {
             letterSpacing: "3px",
           }}
         >
-          <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
+          <span translate="no">YETI·<span style={{ color: "#4FD1E0" }}>BI</span></span>
         </span>
       </Link>
 
@@ -76,7 +76,7 @@ export function PowerBINavbar() {
       {/* .btn-primary es compartida con el home: el coral del micrositio se
          aplica como override local para no alterar el naranja global. */}
       <style>{`
-        .powerbi-navbar-cta::after { background-color: #F28F6B !important; }
+        .powerbi-navbar-cta::after { background-color: #4FD1E0 !important; }
       `}</style>
     </nav>
   );

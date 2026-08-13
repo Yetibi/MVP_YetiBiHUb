@@ -35,7 +35,7 @@ export function Step5Optional({ data, update }: Step5Props) {
   return (
     <section aria-labelledby="step5-title">
       <div className="flex items-center gap-3 mb-3">
-        <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase">
+        <p className="text-xs font-semibold tracking-[0.2em] text-(--primary) uppercase">
           Capa 4 — Capacidad
         </p>
         <span className="text-xs bg-white/10 text-white/50 px-2 py-0.5 rounded-full">
@@ -106,7 +106,7 @@ export function Step5Optional({ data, update }: Step5Props) {
             onChange={(e) => update("metric", e.target.value)}
             placeholder="Ej: el porcentaje de despachos a tiempo, el costo por lead, el nivel de satisfacción del cliente…"
             rows={2}
-            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#00D4C6] resize-none"
+            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-(--primary) resize-none"
           />
         </div>
 
@@ -125,7 +125,7 @@ export function Step5Optional({ data, update }: Step5Props) {
               onChange={(e) => update(field, e.target.value)}
               placeholder={placeholder}
               rows={2}
-              className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-[#00D4C6] resize-none"
+              className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-(--primary) resize-none"
             />
           </div>
         ))}

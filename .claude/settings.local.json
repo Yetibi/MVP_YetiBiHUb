@@ -13,7 +13,18 @@
       "Bash(grep -n 'errors\\\\.\\\\w* *$\\\\|? \"#00D4C6\"' components/home/ContactForm.tsx)",
       "Bash(npx --yes lighthouse http://localhost:3000/ --only-categories=accessibility --quiet --chrome-flags=\"--headless --no-sandbox\" --output=json --output-path=/tmp/lh-home.json)",
       "Bash(rm -rf .tmp-audit /tmp/lh-home.json)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(node -e ' *)",
+      "Bash(grep -v ':0$')",
+      "Bash(echo \"---exit $?\")",
+      "Bash(mkdir -p /tmp/glaciar-shots)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/glaciar-shots/**)",
+      "Read(//tmp/glaciar-shots/**)",
+      "Bash(grep -rnoE 'rgba?\\\\\\([0-9]{1,3}, ?[0-9]{1,3}, ?[0-9]{1,3}' components/powerbi/AnimatedWidgets.tsx components/powerbi/HeroSection.tsx)",
+      "Bash(grep -n -E 'rgba?\\\\\\(|#[0-9A-Fa-f]{3,6}|const \\(C_|COLOR|TEAL|CORAL|ORANGE|AMBER\\)' components/ParticleDashboard.tsx)",
+      "Bash(sed -i '' -e \"s/const TEAL = '0,212,198'/const CIAN = '79,209,224'/\" -e \"s/const ORANGE = '242,143,107'/const AMBAR = '255,176,32'/\" -e \"s/const PURPLE_LIGHT = '168,157,192'   \\\\/\\\\/ #5D6B7A — morado claro de marca/const NEBLINA = '93,107,122'         \\\\/\\\\/ #5D6B7A — neblina tenue/\" -e 's/\\\\${TEAL}/\\\\${CIAN}/g' -e 's/\\\\${ORANGE}/\\\\${AMBAR}/g' -e 's/\\\\${PURPLE_LIGHT}/\\\\${NEBLINA}/g' components/ParticleDashboard.tsx)",
+      "Bash(echo \"exit:$? \\(1 = sin restos\\)\")"
     ]
   }
 }

@@ -33,7 +33,7 @@ export function Step6Review({ data }: Step6Props) {
 
   return (
     <section aria-labelledby="step6-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-[#F28F6B] uppercase mb-3">
+      <p className="text-xs font-semibold tracking-[0.2em] text-(--primary) uppercase mb-3">
         Capa 5 — Revisión
       </p>
       <h2
@@ -44,7 +44,7 @@ export function Step6Review({ data }: Step6Props) {
       </h2>
       <p className="text-sm text-white/50 mb-8 max-w-md leading-relaxed">
         Al enviar, tu información queda guardada. El diagnóstico{" "}
-        <strong className="text-[#FFA500] font-medium">
+        <strong className="text-(--warning) font-medium">
           no se procesa en este momento
         </strong>{" "}
         — eso ocurre en la siguiente etapa del sistema.

@@ -72,7 +72,7 @@ const labelStyle: React.CSSProperties = {
   fontSize: 9,
   textTransform: "uppercase",
   letterSpacing: "1.5px",
-  color: "#A89DC0",
+  color: "#5D6B7A",
   margin: "0 0 6px",
 };
 
@@ -128,9 +128,9 @@ function Thumbnail({ project, index, isActive, onSelect, rm }: ThumbnailProps) {
       style={{
         position: "relative",
         aspectRatio: "16 / 9",
-        border: `1px solid ${isActive ? "#00D4C6" : "rgba(255,255,255,0.08)"}`,
+        border: `1px solid ${isActive ? "#4FD1E0" : "rgba(255,255,255,0.08)"}`,
         opacity: isActive ? 1 : 0.5,
-        backgroundColor: "#141020",
+        backgroundColor: "#141F2E",
         cursor: isActive ? "default" : "pointer",
         padding: 0,
         overflow: "hidden",
@@ -163,7 +163,7 @@ export default function GallerySection() {
       id="galeria"
       className="relative w-full gallery-section"
       style={{
-        background: "#211A32",
+        background: "#1F2C3C",
       }}
     >
     <div
@@ -195,7 +195,7 @@ export default function GallerySection() {
               fontSize: 11,
               textTransform: "uppercase",
               letterSpacing: "3px",
-              color: "#F28F6B",
+              color: "#4FD1E0",
               marginBottom: 16,
             }}
           >
@@ -205,7 +205,7 @@ export default function GallerySection() {
                 display: "inline-block",
                 width: 24,
                 height: 1,
-                backgroundColor: "#F28F6B",
+                backgroundColor: "#4FD1E0",
                 marginRight: 12,
               }}
             />
@@ -226,7 +226,7 @@ export default function GallerySection() {
         </div>
 
         <div style={{ alignSelf: "end" }}>
-          <p style={{ fontSize: 16, color: "#A89DC0", lineHeight: 1.7, margin: 0 }}>
+          <p style={{ fontSize: 16, color: "#5D6B7A", lineHeight: 1.7, margin: 0 }}>
             Cinco proyectos en cinco sectores. Un mismo principio: el
             dashboard es la superficie visible de un sistema de decisión
             construido desde el proceso.
@@ -266,7 +266,7 @@ export default function GallerySection() {
                   fontSize: 10,
                   textTransform: "uppercase",
                   letterSpacing: "2px",
-                  color: "#F28F6B",
+                  color: "#4FD1E0",
                   margin: 0,
                 }}
               >
@@ -298,7 +298,7 @@ export default function GallerySection() {
             >
               <div>
                 <p style={labelStyle}>EL PROBLEMA</p>
-                <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: 14, color: "#5D6B7A", lineHeight: 1.6, margin: 0 }}>
                   {active.problem}
                 </p>
               </div>
@@ -310,7 +310,7 @@ export default function GallerySection() {
                 }}
               >
                 <p style={labelStyle}>LO QUE CONSTRUIMOS</p>
-                <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: 14, color: "#5D6B7A", lineHeight: 1.6, margin: 0 }}>
                   {active.solution}
                 </p>
               </div>
@@ -386,7 +386,7 @@ export default function GallerySection() {
           opacity: 1;
         }
         .gallery-thumb:focus-visible {
-          outline: 2px solid #00D4C6;
+          outline: 2px solid #4FD1E0;
           outline-offset: 2px;
         }
         .gallery-thumbs > .gallery-thumb {

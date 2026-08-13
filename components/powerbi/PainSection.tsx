@@ -37,11 +37,12 @@ const PAINS = [
   },
 ] as const;
 
-// ─── Paleta E+ v2 — distribución 50% teal / 30% marino / 20% naranja por card ─
-// Nota: #003D66 (marino) tiene contraste real ~1.7:1 sobre #0E0B14/#171225 —
+// ─── Paleta Plano Glaciar — acento cian por card, acero como variante muda ───
+// Nota: #1C2836 (acero) tiene contraste ~1.7:1 sobre #0B1420/#182534 —
 // insuficiente para texto legible, así que solo se usa en el número decorativo
-// de fondo (elemento visual, no informativo) y no en labels/texto.
-const PAIN_ACCENTS = ["#00D4C6", "#003D66", "#F28F6B", "#00D4C6"] as const;
+// de fondo (elemento visual, no informativo); en labels/texto se sustituye
+// por ámbar #FFB020 (tensión/fuga).
+const PAIN_ACCENTS = ["#4FD1E0", "#1C2836", "#4FD1E0", "#4FD1E0"] as const;
 
 // ─── Sección desktop: pasos con scroll (clon de HowItWorks/StepsSection) ─────
 
@@ -65,7 +66,7 @@ function StepsSection() {
         top: 0,
         height: "100vh",
         overflow: "hidden",
-        background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14",
+        background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420",
         display: "flex",
         flexDirection: "column",
         paddingTop: 80,
@@ -74,11 +75,11 @@ function StepsSection() {
         {/* Header */}
         <div style={{ flexShrink: 0, marginBottom: 96, paddingLeft: 48, paddingRight: 48 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#F28F6B" }} />
+            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0" }} />
             <span style={{
               fontFamily: "var(--font-mono)",
               fontSize: "clamp(11px, 1.2vw, 13px)",
-              color: "#F28F6B",
+              color: "#4FD1E0",
               letterSpacing: "3px",
               textTransform: "uppercase" as const,
             }}>
@@ -155,7 +156,7 @@ function StepsSection() {
                       <p style={{
                         fontFamily: "var(--font-mono)",
                         fontSize: "clamp(9px,1vw,11px)",
-                        color: accent === "#003D66" ? "#4A9FD8" : accent,
+                        color: accent === "#1C2836" ? "#FFB020" : accent,
                         textTransform: "uppercase" as const,
                         letterSpacing: "2px",
                         margin: "0 0 12px",
@@ -179,7 +180,7 @@ function StepsSection() {
                           style={{
                             fontFamily: "var(--font-sans)",
                             fontSize: "clamp(14px,1.6vw,16px)",
-                            color: "#A89DC0",
+                            color: "#5D6B7A",
                             lineHeight: 1.7,
                             margin: 0,
                           }}
@@ -194,7 +195,7 @@ function StepsSection() {
                     <p style={{
                       fontFamily: "var(--font-mono)",
                       fontSize: "clamp(9px,1vw,11px)",
-                      color: accent === "#003D66" ? "#4A9FD8" : accent,
+                      color: accent === "#1C2836" ? "#FFB020" : accent,
                       textTransform: "uppercase" as const, letterSpacing: "1.5px",
                       margin: "0 0 8px",
                     }}>
@@ -219,16 +220,16 @@ function StepsSection() {
         <div style={{
           flex: 3, minHeight: 0,
           padding: "0 48px",
-          borderTop: "1px solid rgba(242,143,107,0.18)",
+          borderTop: "1px solid rgba(79,209,224,0.10)",
           display: "flex", alignItems: "center",
         }}>
           <p style={{
-            borderLeft: "2px solid #F28F6B",
+            borderLeft: "2px solid #4FD1E0",
             paddingLeft: 24,
             fontFamily: "var(--font-sans)",
             fontSize: "clamp(15px,1.8vw,18px)",
             fontStyle: "italic",
-            color: "#A89DC0",
+            color: "#5D6B7A",
             lineHeight: 1.6,
             maxWidth: 640,
             margin: 0,
@@ -271,16 +272,16 @@ function MobileLayout() {
 
   return (
     <section style={{
-      background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14",
+      background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420",
       padding: "56px 24px 40px",
     }}>
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
-          <div aria-hidden style={{ width: 24, height: 1, background: "#00D4C6" }} />
+          <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0" }} />
           <span style={{
             fontFamily: "var(--font-mono)", fontSize: "clamp(11px, 1.2vw, 13px)",
-            color: "#00D4C6", letterSpacing: "3px",
+            color: "#4FD1E0", letterSpacing: "3px",
             textTransform: "uppercase" as const,
           }}>
             EL DIAGNÓSTICO EMPIEZA AQUÍ
@@ -300,7 +301,7 @@ function MobileLayout() {
         <p style={{
           fontFamily: "var(--font-sans)",
           fontSize: "clamp(15px, 1.8vw, 18px)",
-          color: "#A89DC0",
+          color: "#5D6B7A",
           lineHeight: 1.8,
           marginTop: 16,
           marginBottom: 0,
@@ -316,7 +317,7 @@ function MobileLayout() {
           const isActive = allSeen || i === activeStep;
           const hasSeen = allSeen || i <= activeStep;
           const accent = PAIN_ACCENTS[i];
-          const accentText = accent === "#003D66" ? "#4A9FD8" : accent;
+          const accentText = accent === "#1C2836" ? "#FFB020" : accent;
 
           return (
             <div
@@ -369,7 +370,7 @@ function MobileLayout() {
               {/* Descripción */}
               <p style={{
                 fontFamily: "var(--font-sans)", fontSize: "clamp(14px, 1.6vw, 16px)",
-                color: isActive ? "#A89DC0" : "rgba(255,255,255,0.45)",
+                color: isActive ? "#5D6B7A" : "rgba(255,255,255,0.45)",
                 lineHeight: 1.7, margin: 0,
                 transition: "color 0.45s ease",
               }}>
@@ -382,7 +383,7 @@ function MobileLayout() {
 
       {/* Cierre */}
       <div style={{
-        borderLeft: "2px solid #F28F6B",
+        borderLeft: "2px solid #4FD1E0",
         paddingLeft: 24,
         marginTop: 32,
       }}>

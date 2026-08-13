@@ -103,9 +103,9 @@ export function Dropzone({ files, onChange }: DropzoneProps) {
         className={`
           relative border-2 border-dashed rounded-lg p-10 text-center cursor-pointer
           transition-colors duration-200 select-none
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6]
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)
           ${isDragging
-            ? "border-[#00D4C6] bg-[#00D4C6]/10"
+            ? "border-(--primary) bg-(--primary)/10"
             : "border-white/20 hover:border-white/40 bg-white/3"
           }
         `}
@@ -122,7 +122,7 @@ export function Dropzone({ files, onChange }: DropzoneProps) {
         <p className="text-3xl mb-3 select-none">📎</p>
         <p className="text-sm text-white/80 font-medium">
           Arrastra archivos aquí o{" "}
-          <span className="text-[#00D4C6] underline underline-offset-2">
+          <span className="text-(--primary) underline underline-offset-2">
             selecciónalos
           </span>
         </p>
@@ -174,7 +174,7 @@ export function Dropzone({ files, onChange }: DropzoneProps) {
               type="button"
               onClick={() => removeFile(f.id)}
               aria-label={`Eliminar ${f.name}`}
-              className="text-white/30 hover:text-white/70 transition-colors ml-3 shrink-0 text-lg leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6] rounded"
+              className="text-white/30 hover:text-white/70 transition-colors ml-3 shrink-0 text-lg leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) rounded"
             >
               ×
             </button>
@@ -188,7 +188,7 @@ export function Dropzone({ files, onChange }: DropzoneProps) {
           variants={fadeIn}
           initial="initial"
           animate="animate"
-          className="text-xs text-[#00D4C6]/80 flex items-start gap-1.5"
+          className="text-xs text-(--primary)/80 flex items-start gap-1.5"
           role="note"
         >
           <span aria-hidden className="mt-0.5">💡</span>

@@ -26,8 +26,8 @@ const YETIBI_ITEMS = [
 function ClockIcon() {
   return (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" stroke="#A89DC0" strokeWidth={1.5} />
-      <path d="M12 7v5l3.5 2" stroke="#A89DC0" strokeWidth={1.5} strokeLinecap="round" />
+      <circle cx="12" cy="12" r="9" stroke="#5D6B7A" strokeWidth={1.5} />
+      <path d="M12 7v5l3.5 2" stroke="#5D6B7A" strokeWidth={1.5} strokeLinecap="round" />
     </svg>
   );
 }
@@ -35,9 +35,9 @@ function ClockIcon() {
 function TargetIcon() {
   return (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" stroke="#F28F6B" strokeWidth={1.5} />
-      <circle cx="12" cy="12" r="4.5" stroke="#F28F6B" strokeWidth={1.5} />
-      <circle cx="12" cy="12" r="1" fill="#F28F6B" />
+      <circle cx="12" cy="12" r="9" stroke="#4FD1E0" strokeWidth={1.5} />
+      <circle cx="12" cy="12" r="4.5" stroke="#4FD1E0" strokeWidth={1.5} />
+      <circle cx="12" cy="12" r="1" fill="#4FD1E0" />
     </svg>
   );
 }
@@ -51,11 +51,11 @@ function CrossIcon() {
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden="true"
-      style={{ flexShrink: 0, position: "relative", zIndex: 1, backgroundColor: "#141020" }}
+      style={{ flexShrink: 0, position: "relative", zIndex: 1, backgroundColor: "#141F2E" }}
     >
       <motion.path
         d="M3 3 L13 13"
-        stroke="#B85C5C"
+        stroke="#FFB020"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -65,7 +65,7 @@ function CrossIcon() {
       />
       <motion.path
         d="M13 3 L3 13"
-        stroke="#B85C5C"
+        stroke="#FFB020"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -85,11 +85,11 @@ function CheckIcon() {
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden="true"
-      style={{ flexShrink: 0, position: "relative", zIndex: 1, backgroundColor: "#141020" }}
+      style={{ flexShrink: 0, position: "relative", zIndex: 1, backgroundColor: "#141F2E" }}
     >
       <motion.path
         d="M3 8.5 L6.5 12"
-        stroke="#F28F6B"
+        stroke="#4FD1E0"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -99,7 +99,7 @@ function CheckIcon() {
       />
       <motion.path
         d="M6.5 12 L13 4"
-        stroke="#F28F6B"
+        stroke="#4FD1E0"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -179,7 +179,7 @@ function ContinuousConnectorLine() {
         bottom: 8,
         left: 7,
         width: 0,
-        borderLeft: "1.5px solid rgba(242,143,107,0.4)",
+        borderLeft: "1.5px solid rgba(79,209,224,0.4)",
         transformOrigin: "top",
         zIndex: 0,
       }}
@@ -190,7 +190,7 @@ function ContinuousConnectorLine() {
 // ─── estilos compartidos ─────────────────────────────────────────────────────
 
 const cardBase: React.CSSProperties = {
-  backgroundColor: "#161225",
+  backgroundColor: "#182534",
   borderRadius: 0,
   boxShadow: "none",
   position: "relative",
@@ -361,7 +361,7 @@ export default function DifferentiatorSection() {
     <section
       className="relative w-full differentiator-section"
       style={{
-        background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14",
+        background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420",
         overflow: "hidden",
       }}
     >
@@ -381,7 +381,7 @@ export default function DifferentiatorSection() {
             fontSize: 11,
             textTransform: "uppercase",
             letterSpacing: "3px",
-            color: "#F28F6B",
+            color: "#4FD1E0",
             marginBottom: 16,
           }}
         >
@@ -391,7 +391,7 @@ export default function DifferentiatorSection() {
               display: "inline-block",
               width: 24,
               height: 1,
-              backgroundColor: "#F28F6B",
+              backgroundColor: "#4FD1E0",
               marginRight: 12,
             }}
           />
@@ -477,7 +477,7 @@ export default function DifferentiatorSection() {
                   fontFamily: "var(--font-sans)",
                   fontWeight: 700,
                   fontSize: 20,
-                  color: "#A89DC0",
+                  color: "#5D6B7A",
                   margin: "0 0 4px",
                 }}
               >
@@ -508,7 +508,7 @@ export default function DifferentiatorSection() {
                   }}
                 >
                   <CrossIcon />
-                  <p style={{ ...itemTextBase, color: "#A89DC0" }}>{item}</p>
+                  <p style={{ ...itemTextBase, color: "#5D6B7A" }}>{item}</p>
                 </motion.li>
               ))}
             </motion.ul>
@@ -526,7 +526,7 @@ export default function DifferentiatorSection() {
           variants={rm ? undefined : rightCardVariants}
           style={{
             ...cardBase,
-            borderTop: "2px solid #F28F6B",
+            borderTop: "2px solid #4FD1E0",
             overflow: "hidden",
           }}
         >
@@ -536,7 +536,7 @@ export default function DifferentiatorSection() {
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage: "radial-gradient(circle at 50% 0%, rgba(242,143,107,0.18) 0%, transparent 65%)",
+              backgroundImage: "radial-gradient(circle at 50% 0%, rgba(79,209,224,0.10) 0%, transparent 65%)",
               pointerEvents: "none",
             }}
           />
@@ -550,14 +550,14 @@ export default function DifferentiatorSection() {
               left: 0,
               right: 0,
               height: 2,
-              backgroundColor: "#F28F6B",
+              backgroundColor: "#4FD1E0",
               transformOrigin: "left",
             }}
           />
 
           {/* Brackets laterales — los superiores se omiten para no duplicar la barra */}
-          <CornerBracket corner="bl" color="rgba(242,143,107,0.4)" />
-          <CornerBracket corner="br" color="rgba(242,143,107,0.4)" />
+          <CornerBracket corner="bl" color="rgba(79,209,224,0.4)" />
+          <CornerBracket corner="br" color="rgba(79,209,224,0.4)" />
 
           {/* Banda de header */}
           <motion.div
@@ -566,8 +566,8 @@ export default function DifferentiatorSection() {
             style={{
               gap: 16,
               padding: "28px 36px",
-              backgroundColor: "rgba(242,143,107,0.04)",
-              borderBottom: "1px solid rgba(242,143,107,0.15)",
+              backgroundColor: "rgba(79,209,224,0.04)",
+              borderBottom: "1px solid rgba(79,209,224,0.10)",
             }}
           >
             <div
@@ -575,8 +575,8 @@ export default function DifferentiatorSection() {
                 width: 48,
                 height: 48,
                 flexShrink: 0,
-                border: "1px solid rgba(242,143,107,0.3)",
-                backgroundColor: "rgba(242,143,107,0.06)",
+                border: "1px solid rgba(79,209,224,0.3)",
+                backgroundColor: "rgba(79,209,224,0.06)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -596,7 +596,7 @@ export default function DifferentiatorSection() {
               >
                 Enfoque Yeti BI
               </h3>
-              <p style={{ ...kickerLabelBase, color: "#F28F6B" }}>
+              <p style={{ ...kickerLabelBase, color: "#4FD1E0" }}>
                 PROCESO PRIMERO, DATO SEGUNDO
               </p>
             </div>
@@ -629,7 +629,7 @@ export default function DifferentiatorSection() {
             <motion.div
               variants={rm ? undefined : rightClosingVariants}
               style={{
-                borderTop: "1px solid rgba(242,143,107,0.15)",
+                borderTop: "1px solid rgba(79,209,224,0.10)",
                 paddingTop: 24,
                 marginTop: 28,
               }}
@@ -638,7 +638,7 @@ export default function DifferentiatorSection() {
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: "#F28F6B",
+                  color: "#4FD1E0",
                   lineHeight: 1.6,
                   margin: 0,
                 }}
@@ -658,7 +658,7 @@ export default function DifferentiatorSection() {
           marginTop: 48,
           fontSize: 14,
           fontWeight: 600,
-          color: "#F28F6B",
+          color: "#4FD1E0",
           textDecoration: "none",
         }}
       >
@@ -668,7 +668,7 @@ export default function DifferentiatorSection() {
       <style>{`
         /* las cards son focalizables (tabIndex=0): indicador de foco propio */
         .differentiator-card:focus-visible {
-          outline: 2px solid #00D4C6;
+          outline: 2px solid #4FD1E0;
           outline-offset: 2px;
         }
         .differentiator-card-left:hover,
@@ -679,7 +679,7 @@ export default function DifferentiatorSection() {
           transition: opacity 0.3s ease;
         }
         .differentiator-cta:hover {
-          color: #C45A2A;
+          color: #3BB8C7;
           text-decoration: underline;
         }
         @media (max-width: 960px) {

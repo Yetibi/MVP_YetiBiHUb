@@ -12,7 +12,7 @@ export function CtaFinal() {
       id="contacto"
       aria-label="Contacto"
       className="relative w-full overflow-hidden px-5 md:px-10 lg:px-20"
-      style={{ background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14", paddingTop: "clamp(72px,10vw,140px)", paddingBottom: "clamp(80px,12vw,160px)" }}
+      style={{ background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420", paddingTop: "clamp(72px,10vw,140px)", paddingBottom: "clamp(80px,12vw,160px)" }}
     >
 
       <motion.div
@@ -41,7 +41,7 @@ export function CtaFinal() {
             style={{
               fontFamily: "var(--font-playfair)",
               fontWeight: 700,
-              color: "#F28F6B",
+              color: "#4FD1E0",
               fontSize: "clamp(36px, 6vw, 80px)",
             }}
           >
@@ -103,7 +103,7 @@ export function CtaFinal() {
             }}
           >
             ¿Tienes una pregunta{" "}
-            <span style={{ color: "#F28F6B" }}>antes de empezar?</span>
+            <span style={{ color: "#4FD1E0" }}>antes de empezar?</span>
           </p>
         </motion.div>
 

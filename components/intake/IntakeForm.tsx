@@ -58,7 +58,7 @@ export function IntakeForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0E0B14]">
+    <div className="min-h-screen bg-(--background)">
       <ProgressBar step={step} />
 
       <main

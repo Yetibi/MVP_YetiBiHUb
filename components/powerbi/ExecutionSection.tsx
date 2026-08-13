@@ -47,7 +47,7 @@ function CycleIcon() {
       />
       <path
         d="M22 18a8 8 0 0 1-14.5 4.5M6 22v-4h4"
-        stroke="#7B4F96"
+        stroke="#4A78A0"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -77,10 +77,10 @@ const phaseVariants: Variants = {
 };
 
 const nodeSweepVariants: Variants = {
-  hidden: { borderColor: "rgba(0,212,198,0.3)", backgroundColor: "#141020" },
+  hidden: { borderColor: "rgba(79,209,224,0.3)", backgroundColor: "#141F2E" },
   show: {
-    borderColor: ["rgba(0,212,198,0.3)", "#00D4C6", "rgba(0,212,198,0.3)"],
-    backgroundColor: ["#141020", "rgba(0,212,198,0.12)", "#141020"],
+    borderColor: ["rgba(79,209,224,0.3)", "#4FD1E0", "rgba(79,209,224,0.3)"],
+    backgroundColor: ["#141F2E", "rgba(79,209,224,0.10)", "#141F2E"],
     transition: { duration: 0.6, times: [0, 0.5, 1], ease: "easeOut" },
   },
 };
@@ -88,7 +88,7 @@ const nodeSweepVariants: Variants = {
 const titleSweepVariants: Variants = {
   hidden: { color: "#FFFFFF" },
   show: {
-    color: ["#FFFFFF", "#00D4C6", "#FFFFFF"],
+    color: ["#FFFFFF", "#4FD1E0", "#FFFFFF"],
     transition: { duration: 0.6, times: [0, 0.5, 1], ease: "easeOut" },
   },
 };
@@ -166,7 +166,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             left: 54,
             right: -20,
             height: 2,
-            background: "linear-gradient(to right, #00D4C6, rgba(0,212,198,0.3))",
+            background: "linear-gradient(to right, #4FD1E0, rgba(79,209,224,0.3))",
             zIndex: 0,
           }}
         />
@@ -180,8 +180,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
           zIndex: 2,
           width: 54,
           height: 54,
-          border: "1px solid rgba(0,212,198,0.3)",
-          backgroundColor: "#141020",
+          border: "1px solid rgba(79,209,224,0.3)",
+          backgroundColor: "#141F2E",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -193,7 +193,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             fontFamily: "var(--font-mono)",
             fontSize: 15,
             fontWeight: 600,
-            color: "#F28F6B",
+            color: "#4FD1E0",
           }}
         >
           {String(index + 1).padStart(2, "0")}
@@ -206,8 +206,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             left: -1,
             width: 7,
             height: 7,
-            borderTop: "1.5px solid #00D4C6",
-            borderLeft: "1.5px solid #00D4C6",
+            borderTop: "1.5px solid #4FD1E0",
+            borderLeft: "1.5px solid #4FD1E0",
           }}
         />
         <span
@@ -218,8 +218,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             right: -1,
             width: 7,
             height: 7,
-            borderBottom: "1.5px solid #00D4C6",
-            borderRight: "1.5px solid #00D4C6",
+            borderBottom: "1.5px solid #4FD1E0",
+            borderRight: "1.5px solid #4FD1E0",
           }}
         />
       </motion.div>
@@ -231,7 +231,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             fontSize: 9,
             textTransform: "uppercase",
             letterSpacing: "1.5px",
-            color: "#A89DC0",
+            color: "#5D6B7A",
             margin: "0 0 8px",
           }}
         >
@@ -252,7 +252,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
         <p
           style={{
             fontSize: 12.5,
-            color: "#B5ACC8",
+            color: "#8B95A5",
             lineHeight: 1.55,
             margin: 0,
           }}
@@ -304,7 +304,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
     >
       <motion.path
         d={arc3to2}
-        stroke="#7B4F96"
+        stroke="#4A78A0"
         strokeWidth={1.5}
         strokeDasharray="4 4"
         fill="none"
@@ -314,7 +314,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
       />
       <motion.path
         d={arc4to2}
-        stroke="#7B4F96"
+        stroke="#4A78A0"
         strokeWidth={1.5}
         strokeDasharray="4 4"
         fill="none"
@@ -328,7 +328,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
         textAnchor="middle"
         fontFamily="var(--font-mono)"
         fontSize={8}
-        fill="#7B4F96"
+        fill="#4A78A0"
         letterSpacing="1"
         opacity={0.8}
       >
@@ -348,7 +348,7 @@ export default function ExecutionSection() {
       id="ejecucion"
       className="relative w-full execution-section"
       style={{
-        backgroundColor: "#003D66",   // banda marino (ritmo alterno)
+        backgroundColor: "#1C2836",   // banda marino (ritmo alterno)
         overflow: "hidden",
       }}
     >
@@ -377,7 +377,7 @@ export default function ExecutionSection() {
               fontSize: 11,
               textTransform: "uppercase",
               letterSpacing: "3px",
-              color: "#F28F6B",
+              color: "#4FD1E0",
               marginBottom: 16,
             }}
           >
@@ -387,7 +387,7 @@ export default function ExecutionSection() {
                 display: "inline-block",
                 width: 24,
                 height: 1,
-                backgroundColor: "#00D4C6",
+                backgroundColor: "#4FD1E0",
                 marginRight: 12,
               }}
             />
@@ -411,7 +411,7 @@ export default function ExecutionSection() {
           <p
             style={{
               fontSize: 16,
-              color: "#A89DC0",
+              color: "#5D6B7A",
               lineHeight: 1.7,
               margin: 0,
             }}
@@ -469,14 +469,14 @@ export default function ExecutionSection() {
           gap: 16,
           marginTop: 80,
           padding: "20px 24px",
-          backgroundColor: "rgba(123,79,150,0.06)",
-          borderLeft: "2px solid #7B4F96",
+          backgroundColor: "rgba(79,209,224,0.06)",
+          borderLeft: "2px solid #4A78A0",
         }}
       >
         <span style={{ flexShrink: 0 }}>
           <CycleIcon />
         </span>
-        <p style={{ fontSize: 14, color: "#A89DC0", lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: 14, color: "#5D6B7A", lineHeight: 1.6, margin: 0 }}>
           Metodología basada en{" "}
           <strong style={{ color: "#FFFFFF", fontWeight: 600 }}>CRISP-DM</strong>
           , el estándar de la industria para proyectos de datos. Las flechas
@@ -519,7 +519,7 @@ export default function ExecutionSection() {
             right: auto !important;
             width: 2px !important;
             height: calc(100% + 8px) !important;
-            background: linear-gradient(to bottom, #00D4C6, rgba(0,212,198,0.3)) !important;
+            background: linear-gradient(to bottom, #4FD1E0, rgba(79,209,224,0.3)) !important;
           }
         }
       `}</style>

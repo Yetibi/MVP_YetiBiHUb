@@ -38,10 +38,10 @@ export function SpecularButton({
   href,
   size = "lg",
   radius = 0,
-  tint = "#F28F6B",
+  tint = "#4FD1E0",
   tintOpacity = 0.5,
-  darkenColor = "#C45A2A",
-  textColor = "#0E0B14",
+  darkenColor = "#3BB8C7",
+  textColor = "#0B1420",
   ariaLabel,
 }: SpecularButtonProps) {
   return (

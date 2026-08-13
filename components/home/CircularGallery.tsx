@@ -85,7 +85,7 @@ function createCanvas(item: Item, width: number, height: number): HTMLCanvasElem
   const maxW = width - PAD * 2
 
   // Fondo oscuro
-  ctx.fillStyle = '#0E0B14'
+  ctx.fillStyle = '#0B1420'
   ctx.fillRect(0, 0, width, height)
 
   // Línea superior sutil
@@ -95,7 +95,7 @@ function createCanvas(item: Item, width: number, height: number): HTMLCanvasElem
   // Número decorativo de fondo — anclado a la esquina superior derecha
   ctx.save()
   ctx.font = 'bold 100px sans-serif'
-  ctx.fillStyle = 'rgba(0,212,198,0.07)'
+  ctx.fillStyle = 'rgba(79,209,224,0.07)'
   ctx.textAlign = 'right'
   ctx.fillText(item.num, width - PAD, 90)
   ctx.restore()
@@ -104,13 +104,13 @@ function createCanvas(item: Item, width: number, height: number): HTMLCanvasElem
   const iconCY = 52
   ctx.beginPath()
   ctx.arc(PAD + 22, iconCY, 22, 0, Math.PI * 2)
-  ctx.strokeStyle = 'rgba(0,212,198,0.35)'
+  ctx.strokeStyle = 'rgba(79,209,224,0.35)'
   ctx.lineWidth = 1
   ctx.stroke()
   // dot central
   ctx.beginPath()
   ctx.arc(PAD + 22, iconCY, 6, 0, Math.PI * 2)
-  ctx.fillStyle = '#00D4C6'
+  ctx.fillStyle = '#4FD1E0'
   ctx.fill()
 
   // ── Título (debajo del ícono, con margen) ──
@@ -132,16 +132,16 @@ function createCanvas(item: Item, width: number, height: number): HTMLCanvasElem
   // ── Alerta (solo paso 1) ──
   if (item.alert) {
     const alertH = 78
-    ctx.fillStyle = 'rgba(0,212,198,0.07)'
+    ctx.fillStyle = 'rgba(79,209,224,0.07)'
     ctx.fillRect(PAD, y, maxW, alertH)
     // borde izquierdo
-    ctx.fillStyle = '#00D4C6'
+    ctx.fillStyle = '#4FD1E0'
     ctx.fillRect(PAD, y, 2, alertH)
 
     const ax = PAD + 10
     // título alerta
     ctx.font = 'bold 8px sans-serif'
-    ctx.fillStyle = '#00D4C6'
+    ctx.fillStyle = '#4FD1E0'
     ctx.fillText(item.alert.title.toUpperCase(), ax, y + 14)
     // texto alerta
     ctx.font = '10px sans-serif'
@@ -156,7 +156,7 @@ function createCanvas(item: Item, width: number, height: number): HTMLCanvasElem
 
   // ── Tag ──
   ctx.font = '9px monospace'
-  ctx.fillStyle = '#00D4C6'
+  ctx.fillStyle = '#4FD1E0'
   ctx.textAlign = 'left'
   ctx.fillText(item.tag.toUpperCase(), PAD, y + 10)
 

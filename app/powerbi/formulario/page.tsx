@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 
 export default function PowerBIFormularioPage() {
   return (
-    <main style={{ backgroundColor: "#0E0B14", minHeight: "100vh" }}>
+    <main style={{ backgroundColor: "#0B1420", minHeight: "100vh" }}>
       <div className="max-w-3xl mx-auto px-6 py-20 md:py-28">
         <div className="mb-12">
           <p
             className="font-mono uppercase"
-            style={{ color: "#F28F6B", fontSize: 12, letterSpacing: "0.2em" }}
+            style={{ color: "#4FD1E0", fontSize: 12, letterSpacing: "0.2em" }}
           >
             SERVICIOS POWER BI
           </p>
@@ -29,7 +29,7 @@ export default function PowerBIFormularioPage() {
           >
             Antes de reunirnos, cuéntanos sobre tu operación
           </h1>
-          <p style={{ color: "#A89DC0", fontSize: 15, marginTop: 16 }}>
+          <p style={{ color: "#5D6B7A", fontSize: 15, marginTop: 16 }}>
             Con esta información llegamos preparados a tu diagnóstico. Toma 3
             minutos.
           </p>

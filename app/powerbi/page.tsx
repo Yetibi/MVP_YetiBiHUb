@@ -66,7 +66,7 @@ export default function PowerBIPage() {
     <main
       id="main-content"
       className="relative w-full"
-      style={{ backgroundColor: "#0E0B14", scrollMarginTop: 80 }}
+      style={{ backgroundColor: "#0B1420", scrollMarginTop: 80 }}
     >
       <script
         type="application/ld+json"
@@ -94,7 +94,7 @@ export default function PowerBIPage() {
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 70% 35%, rgba(242,143,107,0.07) 0%, transparent 55%)",
+            "radial-gradient(circle at 70% 35%, rgba(79,209,224,0.07) 0%, transparent 55%)",
         }}
       />
 

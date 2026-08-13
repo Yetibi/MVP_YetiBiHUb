@@ -94,7 +94,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0E0B14",
+  themeColor: "#0B1420",
 };
 
 export default function RootLayout({
@@ -152,7 +152,7 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-[#00D4C6] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#1c1426]"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-(--primary) focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-(--primary-foreground)"
         >
           Saltar al contenido principal
         </a>

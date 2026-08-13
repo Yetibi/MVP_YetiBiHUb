@@ -60,7 +60,7 @@ export function ProjectFrame({
           borderRadius: 16,
           overflow: "hidden",
           border: borderColor ? `${borderWidth}px solid ${borderColor}` : undefined,
-          boxShadow: "0 24px 48px rgba(242,143,107,0.08)",
+          boxShadow: "0 24px 48px rgba(79,209,224,0.08)",
           transformStyle: rm ? undefined : "preserve-3d",
           transform: rm ? undefined : `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(0deg)`,
           transition: "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",

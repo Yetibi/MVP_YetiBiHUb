@@ -6,7 +6,7 @@ export default function DifferentiatorSection() {
   return (
     <section
       className="relative w-full"
-      style={{ background: "linear-gradient(180deg, rgba(0,61,102,0.12) 0%, rgba(0,61,102,0.05) 100%), #0E0B14" }}
+      style={{ background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420" }}
     >
     <div
       className="relative mx-auto px-6 md:px-12 lg:px-16 py-16"
@@ -50,9 +50,9 @@ export default function DifferentiatorSection() {
         {/* Enfoque Yeti BI */}
         <div
           className="relative border-l-4 pl-6"
-          style={{ borderColor: "#00D4C6" }}
+          style={{ borderColor: "#4FD1E0" }}
         >
-          <p className="text-sm font-semibold text-[#F28F6B] uppercase mb-4">
+          <p className="text-sm font-semibold text-(--primary) uppercase mb-4">
             ENFOQUE YETI BI
           </p>
           <h3 className="text-xl font-bold text-white mb-4">
@@ -73,7 +73,7 @@ export default function DifferentiatorSection() {
 
       <a
         href="#proceso"
-        className="inline-block mt-12 text-sm font-semibold text-[#00D4C6] hover:underline"
+        className="inline-block mt-12 text-sm font-semibold text-(--primary) hover:underline"
       >
         Conoce el proceso completo ↓
       </a>

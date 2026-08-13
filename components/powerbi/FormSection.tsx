@@ -21,7 +21,7 @@ export default function FormSection() {
     <section
       id="formulario"
       className="form-section"
-      style={{ backgroundColor: "#0E0B14", padding: "80px 24px" }}
+      style={{ backgroundColor: "#0B1420", padding: "80px 24px" }}
     >
       <div
         className="form-section-grid"
@@ -42,7 +42,7 @@ export default function FormSection() {
         >
           <p
             className="font-mono uppercase"
-            style={{ color: "#F28F6B", fontSize: 11, letterSpacing: "0.2em" }}
+            style={{ color: "#4FD1E0", fontSize: 11, letterSpacing: "0.2em" }}
           >
             EVALÚA LA VIABILIDAD
           </p>
@@ -57,7 +57,7 @@ export default function FormSection() {
           >
             Antes de reunirnos, cuéntanos lo básico
           </h2>
-          <p style={{ color: "#A89DC0", fontSize: 16, marginTop: 16, lineHeight: 1.7 }}>
+          <p style={{ color: "#5D6B7A", fontSize: 16, marginTop: 16, lineHeight: 1.7 }}>
             Con esta información llegamos preparados a tu diagnóstico. Toma 3
             minutos, y todo se responde en una sola pantalla — sin repetir
             nada.
@@ -68,8 +68,8 @@ export default function FormSection() {
             aria-label="Continuar con la evaluación de viabilidad"
             className="form-section-cta relative inline-flex items-center justify-center overflow-hidden"
             style={{
-              backgroundColor: "#F28F6B",
-              color: "#0E0B14",
+              backgroundColor: "#4FD1E0",
+              color: "#0B1420",
               padding: "14px 28px",
               fontSize: 13,
               fontWeight: 700,
@@ -84,7 +84,7 @@ export default function FormSection() {
           <p
             style={{
               fontSize: 12,
-              color: "#A89DC0",
+              color: "#5D6B7A",
               marginTop: 16,
             }}
           >
@@ -120,7 +120,7 @@ export default function FormSection() {
           position: absolute;
           inset: 0;
           width: 0%;
-          background-color: #C45A2A;
+          background-color: #3BB8C7;
           transition: width 0.3s ease;
           z-index: 0;
         }
@@ -128,7 +128,7 @@ export default function FormSection() {
           width: 100%;
         }
         .form-section-cta:focus-visible {
-          outline: 2px solid #F28F6B;
+          outline: 2px solid #4FD1E0;
           outline-offset: 2px;
         }
         @media (max-width: 960px) {

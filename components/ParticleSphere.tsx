@@ -71,8 +71,8 @@ export default function ParticleSphere({ size = 380, className = '' }: ParticleS
         ctx.beginPath()
         ctx.arc(px, py, dotSize, 0, Math.PI * 2)
         ctx.fillStyle = p.orange
-          ? `rgba(242,143,107,${alpha.toFixed(2)})`
-          : `rgba(0,212,198,${alpha.toFixed(2)})`
+          ? `rgba(79,209,224,${alpha.toFixed(2)})`
+          : `rgba(79,209,224,${alpha.toFixed(2)})`
         ctx.fill()
       }
     }

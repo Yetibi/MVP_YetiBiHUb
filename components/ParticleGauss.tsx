@@ -91,7 +91,7 @@ export default function ParticleGauss({
       : [[-2, '−2σ'], [-1, '−1σ'], [0, 'μ'], [1, '+1σ'], [2, '+2σ']]
 
     const drawAxes = () => {
-      ctx.strokeStyle = 'rgba(168,157,192,0.45)'
+      ctx.strokeStyle = 'rgba(93,107,122,0.45)'
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(cx + dx - maxX - 16, baseY + dy + 0.5)
@@ -102,23 +102,23 @@ export default function ParticleGauss({
       ctx.textAlign = 'center'
       for (const [k, label] of marks) {
         const mx = cx + dx + k * sigma
-        ctx.strokeStyle = 'rgba(168,157,192,0.45)'
+        ctx.strokeStyle = 'rgba(93,107,122,0.45)'
         ctx.beginPath()
         ctx.moveTo(mx, baseY + dy)
         ctx.lineTo(mx, baseY + dy + 5)
         ctx.stroke()
-        ctx.fillStyle = k === 0 ? 'rgba(0,212,198,0.9)' : 'rgba(139,123,168,0.9)'
+        ctx.fillStyle = k === 0 ? 'rgba(79,209,224,0.9)' : 'rgba(139,123,168,0.9)'
         ctx.fillText(label, mx, baseY + dy + 17)
       }
 
       ctx.setLineDash([3, 4])
-      ctx.strokeStyle = 'rgba(0,212,198,0.28)'
+      ctx.strokeStyle = 'rgba(79,209,224,0.28)'
       ctx.beginPath()
       ctx.moveTo(cx + dx, baseY + dy)
       ctx.lineTo(cx + dx, baseY + dy - A - 8)
       ctx.stroke()
 
-      ctx.strokeStyle = 'rgba(242,143,107,0.4)'
+      ctx.strokeStyle = 'rgba(79,209,224,0.4)'
       for (const s of [-1, 1]) {
         const lx = cx + dx + s * 2 * sigma
         ctx.beginPath()
@@ -130,7 +130,7 @@ export default function ParticleGauss({
     }
 
     const drawCurve = () => {
-      ctx.strokeStyle = 'rgba(0,212,198,0.85)'
+      ctx.strokeStyle = 'rgba(79,209,224,0.85)'
       ctx.lineWidth = 1.6
       ctx.beginPath()
       for (let x = -maxX - 10; x <= maxX + 10; x += 3) {
@@ -144,7 +144,7 @@ export default function ParticleGauss({
     const drawCounter = () => {
       ctx.font = '10px var(--font-mono, monospace)'
       ctx.textAlign = 'right'
-      ctx.fillStyle = 'rgba(0,212,198,0.9)'
+      ctx.fillStyle = 'rgba(79,209,224,0.9)'
       ctx.fillText('n = ' + nCount.toLocaleString('es-CO'), W - 14, 20)
     }
 
@@ -165,8 +165,8 @@ export default function ParticleGauss({
         ctx.beginPath()
         ctx.arc(cx + dx + p.x, py, p.sz, 0, 6.2832)
         ctx.fillStyle = out
-          ? `rgba(242,143,107,${a.toFixed(2)})`
-          : `rgba(0,212,198,${a.toFixed(2)})`
+          ? `rgba(79,209,224,${a.toFixed(2)})`
+          : `rgba(79,209,224,${a.toFixed(2)})`
         ctx.fill()
       }
 
@@ -192,11 +192,11 @@ export default function ParticleGauss({
             const outF = Math.abs(q.x) > 2 * sigma
             ctx.beginPath()
             ctx.arc(cx + dx + q.x, q.y, 1.6, 0, 6.2832)
-            ctx.fillStyle = outF ? 'rgba(242,143,107,0.95)' : 'rgba(0,212,198,0.95)'
+            ctx.fillStyle = outF ? 'rgba(79,209,224,0.95)' : 'rgba(79,209,224,0.95)'
             ctx.fill()
             ctx.beginPath()
             ctx.arc(cx + dx + q.x, q.y - 5, 1.0, 0, 6.2832)
-            ctx.fillStyle = outF ? 'rgba(242,143,107,0.3)' : 'rgba(0,212,198,0.3)'
+            ctx.fillStyle = outF ? 'rgba(79,209,224,0.3)' : 'rgba(79,209,224,0.3)'
             ctx.fill()
           }
         }

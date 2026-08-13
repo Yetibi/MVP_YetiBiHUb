@@ -49,9 +49,9 @@ export default function ParticleDashboard({
     canvas.height = H * dpr
     ctx.scale(dpr, dpr)
 
-    const TEAL = '0,212,198'
-    const ORANGE = '242,143,107'
-    const PURPLE_LIGHT = '168,157,192'   // #A89DC0 — morado claro de marca
+    const CIAN = '79,209,224'
+    const AMBAR = '255,176,32'
+    const NEBLINA = '93,107,122'         // #5D6B7A — neblina tenue
     const GRAY = '139,123,168'
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -216,7 +216,7 @@ export default function ParticleDashboard({
 
       // Marco + divisores. El borde real de la pieza lo da el wrapper (tarjeta
       // con radius y sombra), así que aquí sólo queda una insinuación teal.
-      ctx.strokeStyle = `rgba(${TEAL},0.12)`
+      ctx.strokeStyle = `rgba(${CIAN},0.12)`
       ctx.lineWidth = 1
       ctx.strokeRect(0.5, 0.5, W - 1, H - 1)
       ctx.strokeStyle = 'rgba(255,255,255,0.12)'
@@ -236,7 +236,7 @@ export default function ParticleDashboard({
       const headBase = headerH - (compact ? 6 : 9)
       ctx.fillText('TABLERO.OPERACIONAL', compact ? 12 : 14, headBase)
       ctx.textAlign = 'right'
-      ctx.fillStyle = `rgba(${TEAL},0.9)`
+      ctx.fillStyle = `rgba(${CIAN},0.9)`
       ctx.fillText('n = ' + nCount.toLocaleString('es-CO'), W - (compact ? 12 : 14), headBase)
 
       // KPI A
@@ -246,14 +246,14 @@ export default function ParticleDashboard({
       ctx.fillStyle = `rgba(${GRAY},1)`
       ctx.fillText('VENTAS.MES', PADX, kpiY0 + OY.label)
       mono(FS.kpiNum, '800')
-      ctx.fillStyle = `rgba(${TEAL},0.95)`
+      ctx.fillStyle = `rgba(${CIAN},0.95)`
       ctx.fillText('$' + kpiA.toLocaleString('es-CO', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + 'M', PADX, kpiY0 + OY.num)
       mono(FS.delta)
       ctx.fillText('▲ +6,2%', PADX, kpiY0 + OY.delta)
       // sparkline A
       const sx0 = W * (compact ? 0.30 : 0.245), sx1 = W / 2 - PADX
       const sy0 = kpiY0 + OY.spark, sh = OY.sparkH
-      ctx.strokeStyle = `rgba(${TEAL},0.4)`
+      ctx.strokeStyle = `rgba(${CIAN},0.4)`
       ctx.lineWidth = 1
       ctx.beginPath()
       sparkA.forEach((v, i) => {
@@ -270,10 +270,10 @@ export default function ParticleDashboard({
       ctx.fillStyle = `rgba(${GRAY},1)`
       ctx.fillText('OTIF.ENTREGAS', bx, kpiY0 + OY.label)
       mono(FS.kpiNum, '800')
-      ctx.fillStyle = `rgba(${TEAL},0.95)`
+      ctx.fillStyle = `rgba(${CIAN},0.95)`
       ctx.fillText(kpiB.toLocaleString('es-CO', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%', bx, kpiY0 + OY.num)
       mono(FS.delta)
-      ctx.fillStyle = `rgba(${ORANGE},0.95)`
+      ctx.fillStyle = `rgba(${AMBAR},0.95)`
       ctx.fillText('▼ −1,8%', bx, kpiY0 + OY.delta)
       // sparkline B (últimos puntos naranjas)
       const tx0 = bx + W * (compact ? 0.20 : 0.155), tx1 = W - PADX
@@ -283,7 +283,7 @@ export default function ParticleDashboard({
         const late = i >= sparkB.length - 7
         ctx.beginPath()
         ctx.arc(x, y, 1, 0, 6.2832)
-        ctx.fillStyle = late ? `rgba(${ORANGE},0.9)` : `rgba(${TEAL},0.75)`
+        ctx.fillStyle = late ? `rgba(${AMBAR},0.9)` : `rgba(${CIAN},0.75)`
         ctx.fill()
       })
 
@@ -294,7 +294,7 @@ export default function ParticleDashboard({
 
       const metaY = barArea.base - metaFrac * maxBarH
       ctx.setLineDash([3, 4])
-      ctx.strokeStyle = `rgba(${ORANGE},0.4)`
+      ctx.strokeStyle = `rgba(${AMBAR},0.4)`
       ctx.beginPath()
       ctx.moveTo(barArea.x0, metaY); ctx.lineTo(barArea.x1, metaY)
       ctx.stroke()
@@ -302,7 +302,7 @@ export default function ParticleDashboard({
       // el label va sobre la línea, a la izquierda: a la derecha chocaba con
       // la última vela
       mono(FS.meta); ctx.textAlign = 'left'
-      ctx.fillStyle = `rgba(${ORANGE},0.7)`
+      ctx.fillStyle = `rgba(${AMBAR},0.7)`
       ctx.fillText('META', barArea.x0, metaY - 4)
 
       // retarget suave de una barra aleatoria cada ~3.5s (sin cambiar
@@ -327,7 +327,7 @@ export default function ParticleDashboard({
         const cxB = barArea.x0 + b * barSlot + barSlot / 2
         const topY = barArea.base - bh
         const below = targetH[b] < metaFrac
-        const col = b === highestIdx ? PURPLE_LIGHT : below ? ORANGE : TEAL
+        const col = b === highestIdx ? NEBLINA : below ? AMBAR : CIAN
 
         // cuerpo: vela delgada 3px
         ctx.fillStyle = `rgba(${col},0.55)`
@@ -353,7 +353,7 @@ export default function ParticleDashboard({
       const lh = lineArea.y1 - lineArea.y0
       const lMetaY = lineArea.y1 - lineMeta * lh
       ctx.setLineDash([3, 4])
-      ctx.strokeStyle = `rgba(${ORANGE},0.4)`
+      ctx.strokeStyle = `rgba(${AMBAR},0.4)`
       ctx.beginPath()
       ctx.moveTo(lineArea.x0, lMetaY); ctx.lineTo(lineArea.x1, lMetaY)
       ctx.stroke()
@@ -378,7 +378,7 @@ export default function ParticleDashboard({
         const xB2 = lineArea.x0 + (lineArea.x1 - lineArea.x0) * i / (nPts - 1)
         const yB = lineArea.y1 - serie[i] * lh
         const below = serie[i - 1] < lineMeta || serie[i] < lineMeta
-        ctx.strokeStyle = below ? `rgba(${ORANGE},0.85)` : `rgba(${TEAL},0.85)`
+        ctx.strokeStyle = below ? `rgba(${AMBAR},0.85)` : `rgba(${CIAN},0.85)`
         ctx.beginPath()
         ctx.moveTo(xA, yA); ctx.lineTo(xB2, yB)
         ctx.stroke()
@@ -388,7 +388,7 @@ export default function ParticleDashboard({
         const hy = lineArea.y1 - serie[lastIdx] * lh
         ctx.beginPath()
         ctx.arc(hx, hy, 2.2, 0, 6.2832)
-        ctx.fillStyle = serie[lastIdx] < lineMeta ? `rgba(${ORANGE},1)` : `rgba(${TEAL},1)`
+        ctx.fillStyle = serie[lastIdx] < lineMeta ? `rgba(${AMBAR},1)` : `rgba(${CIAN},1)`
         ctx.fill()
       }
 
@@ -397,7 +397,7 @@ export default function ParticleDashboard({
       mono(FS.panel); ctx.textAlign = 'left'
       ctx.fillStyle = `rgba(${GRAY},1)`
       ctx.fillText('PROCESO.σ', gA.x0 + 2, lineY1 + 18)
-      ctx.strokeStyle = 'rgba(168,157,192,0.4)'
+      ctx.strokeStyle = 'rgba(93,107,122,0.4)'
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(gA.x0 + 4, gA.base + 0.5); ctx.lineTo(gA.x1 - 4, gA.base + 0.5)
@@ -405,7 +405,7 @@ export default function ParticleDashboard({
       mono(7); ctx.textAlign = 'center'
       const gm: [number, string][] = [[-2, '−2σ'], [0, 'μ'], [2, '+2σ']]
       for (const [k, label] of gm) {
-        ctx.fillStyle = k === 0 ? `rgba(${TEAL},0.9)` : `rgba(${GRAY},0.85)`
+        ctx.fillStyle = k === 0 ? `rgba(${CIAN},0.9)` : `rgba(${GRAY},0.85)`
         ctx.fillText(label, gCx + k * gSigma, gA.base + 11)
       }
       for (const gp of gSettled) {
@@ -414,8 +414,8 @@ export default function ParticleDashboard({
         ctx.beginPath()
         ctx.arc(gCx + gp.x, gA.base - gp.yF * gF(gp.x) - 1, 0.8, 0, 6.2832)
         ctx.fillStyle = gout
-          ? `rgba(${ORANGE},${(0.75 * gtw).toFixed(2)})`
-          : `rgba(${TEAL},${(0.5 * gtw).toFixed(2)})`
+          ? `rgba(${AMBAR},${(0.75 * gtw).toFixed(2)})`
+          : `rgba(${CIAN},${(0.5 * gtw).toFixed(2)})`
         ctx.fill()
       }
       if (!reduced) {
@@ -439,12 +439,12 @@ export default function ParticleDashboard({
             const gof = Math.abs(q.x) > 2 * gSigma
             ctx.beginPath()
             ctx.arc(gCx + q.x, q.y, 1.2, 0, 6.2832)
-            ctx.fillStyle = gof ? `rgba(${ORANGE},0.95)` : `rgba(${TEAL},0.95)`
+            ctx.fillStyle = gof ? `rgba(${AMBAR},0.95)` : `rgba(${CIAN},0.95)`
             ctx.fill()
           }
         }
       }
-      ctx.strokeStyle = `rgba(${TEAL},0.8)`
+      ctx.strokeStyle = `rgba(${CIAN},0.8)`
       ctx.lineWidth = 1.2
       ctx.beginPath()
       for (let x = -gMaxX; x <= gMaxX; x += 3) {
@@ -486,8 +486,8 @@ export default function ParticleDashboard({
     <div
       className={className}
       style={{
-        background: '#16121F',
-        border: '1px solid rgba(0,212,198,0.18)',
+        background: '#141F2E',
+        border: '1px solid rgba(79,209,224,0.10)',
         borderRadius: 12,
         padding: 10,
         boxShadow: '0 16px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.4)',

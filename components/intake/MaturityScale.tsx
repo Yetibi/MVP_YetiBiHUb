@@ -29,9 +29,9 @@ export function MaturityScale({ value, onChange }: MaturityScaleProps) {
               aria-pressed={selected}
               className={`
                 relative text-left p-3 rounded-lg border transition-all duration-200
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4C6]
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)
                 ${selected
-                  ? "border-[#00D4C6] bg-[#00D4C6]/12"
+                  ? "border-(--primary) bg-(--primary)/12"
                   : "border-white/10 bg-white/3 hover:border-white/25"
                 }
               `}
@@ -40,7 +40,7 @@ export function MaturityScale({ value, onChange }: MaturityScaleProps) {
               <span
                 className={`
                   block text-2xl font-black tracking-tight leading-none mb-2
-                  ${selected ? "text-[#00D4C6]" : "text-white/20"}
+                  ${selected ? "text-(--primary)" : "text-white/20"}
                 `}
               >
                 {level}
@@ -79,7 +79,7 @@ export function MaturityScale({ value, onChange }: MaturityScaleProps) {
               {/* Indicador de selección */}
               {selected && (
                 <span
-                  className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#00D4C6]"
+                  className="absolute top-2 right-2 w-2 h-2 rounded-full bg-(--primary)"
                   aria-hidden
                 />
               )}
@@ -99,7 +99,7 @@ export function MaturityScale({ value, onChange }: MaturityScaleProps) {
             className="text-xs text-white/40 flex items-start gap-1.5 pt-1"
             role="note"
           >
-            <span aria-hidden className="mt-0.5 text-[#00D4C6]/60">→</span>
+            <span aria-hidden className="mt-0.5 text-(--primary)/60">→</span>
             Si no tienes claro a dónde quieres llegar, el piso mínimo
             recomendado antes de pensar en IA es el nivel{" "}
             <strong className="text-white/60">2 — Diagnóstico</strong>: datos

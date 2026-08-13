@@ -117,9 +117,9 @@ export async function POST(req: NextRequest) {
         subject: `Nuevo contacto: ${n}${e ? ` — ${e}` : ""}`,
         html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
-        background:#0E0B14;color:#fff;padding:32px;border-radius:8px">
+        background:#0B1420;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
-          <span style="color:#F28F6B;font-size:12px;letter-spacing:3px;
+          <span style="color:#4FD1E0;font-size:12px;letter-spacing:3px;
             text-transform:uppercase">NUEVO CONTACTO — YETI BI</span>
         </div>
         <h2 style="color:#fff;margin:0 0 24px;font-size:20px">${n}</h2>
@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
               border-bottom:1px solid rgba(255,255,255,0.1);width:120px">Correo</td>
             <td style="color:#fff;font-size:14px;padding:8px 0;
               border-bottom:1px solid rgba(255,255,255,0.1)">
-              <a href="mailto:${c}" style="color:#F28F6B">${c}</a>
+              <a href="mailto:${c}" style="color:#4FD1E0">${c}</a>
             </td>
           </tr>
           ${e ? `
@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
         <div style="margin-top:32px;padding-top:24px;
           border-top:1px solid rgba(255,255,255,0.1)">
           <a href="mailto:${c}?subject=Re: Tu mensaje a Yeti BI"
-            style="display:inline-block;background:#F28F6B;color:#0E0B14;
+            style="display:inline-block;background:#4FD1E0;color:#0B1420;
             font-weight:700;font-size:14px;padding:12px 24px;
             border-radius:4px;text-decoration:none">
             Responder a ${n} →
@@ -166,9 +166,9 @@ export async function POST(req: NextRequest) {
         subject: "Recibimos tu mensaje — Yeti BI",
         html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
-        background:#0E0B14;color:#fff;padding:32px;border-radius:8px">
+        background:#0B1420;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
-          <span style="color:#F28F6B;font-size:12px;letter-spacing:3px;
+          <span style="color:#4FD1E0;font-size:12px;letter-spacing:3px;
             text-transform:uppercase">YETI BI</span>
         </div>
         <h2 style="color:#fff;margin:0 0 16px;font-size:20px">
@@ -176,7 +176,7 @@ export async function POST(req: NextRequest) {
         </h2>
         <p style="color:rgba(255,255,255,0.7);line-height:1.7;margin:0 0 24px">
           Gracias por escribirnos. Te responderemos a
-          <strong style="color:#F28F6B">${c}</strong> a la brevedad.
+          <strong style="color:#4FD1E0">${c}</strong> a la brevedad.
         </p>
         <p style="color:rgba(255,255,255,0.5);font-size:13px;line-height:1.6;margin:0">
           Si mientras tanto quieres hacer el diagnóstico de madurez
@@ -184,7 +184,7 @@ export async function POST(req: NextRequest) {
         </p>
         <div style="margin-top:32px">
           <a href="https://yetibi.com/diagnostico"
-            style="display:inline-block;background:#F28F6B;color:#0E0B14;
+            style="display:inline-block;background:#4FD1E0;color:#0B1420;
             font-weight:700;font-size:14px;padding:12px 24px;
             border-radius:4px;text-decoration:none">
             Hacer el diagnóstico →

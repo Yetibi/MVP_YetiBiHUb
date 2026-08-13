@@ -180,13 +180,13 @@ export async function POST(req: NextRequest) {
           subject: `[Power BI Lead] ${data.empresa} — ${estrellas}`,
           html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
-        background:#0E0B14;color:#fff;padding:32px;border-radius:8px">
+        background:#0B1420;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
-          <span style="color:#F28F6B;font-size:12px;letter-spacing:3px;
+          <span style="color:#4FD1E0;font-size:12px;letter-spacing:3px;
             text-transform:uppercase">NUEVO LEAD POWER BI — YETI BI</span>
         </div>
         <h2 style="color:#fff;margin:0 0 4px;font-size:20px">${data.empresa}</h2>
-        <p style="color:#F28F6B;font-size:16px;margin:0 0 24px;letter-spacing:2px">${estrellas} (${score}/6)</p>
+        <p style="color:#4FD1E0;font-size:16px;margin:0 0 24px;letter-spacing:2px">${estrellas} (${score}/6)</p>
         <table style="width:100%;border-collapse:collapse">
           <tr>
             <td style="color:rgba(255,255,255,0.5);font-size:12px;padding:8px 0;
@@ -199,7 +199,7 @@ export async function POST(req: NextRequest) {
               border-bottom:1px solid rgba(255,255,255,0.1);vertical-align:top">Correo</td>
             <td style="color:#fff;font-size:14px;padding:8px 0;
               border-bottom:1px solid rgba(255,255,255,0.1)">
-              <a href="mailto:${data.correo}" style="color:#F28F6B">${data.correo}</a>
+              <a href="mailto:${data.correo}" style="color:#4FD1E0">${data.correo}</a>
             </td>
           </tr>
           <tr>
@@ -235,12 +235,12 @@ export async function POST(req: NextRequest) {
         </table>
         <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1)">
           <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0">Criterios que sumaron puntos:</p>
-          <p style="color:#C3B9D6;font-size:13px;margin:4px 0 0">${criteriosTexto || "Ninguno"}</p>
+          <p style="color:#8B95A5;font-size:13px;margin:4px 0 0">${criteriosTexto || "Ninguno"}</p>
         </div>
         <div style="margin-top:32px;padding-top:24px;
           border-top:1px solid rgba(255,255,255,0.1)">
           <a href="mailto:${data.correo}?subject=Re: Tu solicitud a Yeti BI"
-            style="display:inline-block;background:#F28F6B;color:#0E0B14;
+            style="display:inline-block;background:#4FD1E0;color:#0B1420;
             font-weight:700;font-size:14px;padding:12px 24px;
             border-radius:4px;text-decoration:none">
             Responder a ${data.nombre} →
@@ -263,9 +263,9 @@ export async function POST(req: NextRequest) {
           subject: "Recibimos tu solicitud — Yeti BI",
           html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;
-        background:#0E0B14;color:#fff;padding:32px;border-radius:8px">
+        background:#0B1420;color:#fff;padding:32px;border-radius:8px">
         <div style="margin-bottom:24px">
-          <span style="color:#F28F6B;font-size:12px;letter-spacing:3px;
+          <span style="color:#4FD1E0;font-size:12px;letter-spacing:3px;
             text-transform:uppercase">YETI BI</span>
         </div>
         <h2 style="color:#fff;margin:0 0 16px;font-size:20px">
@@ -277,7 +277,7 @@ export async function POST(req: NextRequest) {
         </p>
         <div style="margin-top:8px">
           <a href="${CAL_BOOKING_URL}"
-            style="display:inline-block;background:#F28F6B;color:#0E0B14;
+            style="display:inline-block;background:#4FD1E0;color:#0B1420;
             font-weight:700;font-size:14px;padding:12px 24px;
             border-radius:4px;text-decoration:none">
             Agendar reunión →

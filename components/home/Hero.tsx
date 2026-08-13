@@ -186,7 +186,7 @@ function DrumRoll({ onIndexChange, reduced }: {
         fontWeight: 900,
         fontSize: FS,
         letterSpacing: "-1px",
-        color: "#00D4C6",
+        color: "#4FD1E0",
       }}>
         claridad
       </span>
@@ -222,7 +222,7 @@ function DrumRoll({ onIndexChange, reduced }: {
             style={{
               position: "absolute",
               width: 6, height: 6,
-              borderColor: "#00D4C6",
+              borderColor: "#4FD1E0",
               borderStyle: "solid",
               opacity: 0.8,
               zIndex: 10,
@@ -271,7 +271,7 @@ function DrumRoll({ onIndexChange, reduced }: {
                     fontSize:   FS,
                     letterSpacing: "-1px",
                     fontStyle:  "normal",
-                    color:      isActive ? "#00D4C6" : "rgba(255,255,255,0.04)",
+                    color:      isActive ? "#4FD1E0" : "rgba(255,255,255,0.04)",
                     opacity:    isActive ? 1 : 0,
                     transition: "color 0.3s ease, opacity 0.3s ease",
                   }}
@@ -301,8 +301,8 @@ function Navbar() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0 clamp(16px,4vw,40px)",
-        borderBottom: "1px solid rgba(0,212,198,0.08)",
-        background: "#0E0B14",
+        borderBottom: "1px solid rgba(79,209,224,0.08)",
+        background: "#0B1420",
         zIndex: 100,
       }}
     >
@@ -318,7 +318,7 @@ function Navbar() {
           color: "#fff",
           letterSpacing: "3px",
         }}>
-          <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
+          <span translate="no">YETI·<span style={{ color: "#4FD1E0" }}>BI</span></span>
         </span>
       </Link>
 
@@ -358,8 +358,8 @@ function Navbar() {
       {/* El CTA del navbar es el único elemento coral grande permitido:
          acento de conversión. El resto de .btn-primary ya es teal. */}
       <style>{`
-        .home-navbar-cta::after { background-color: #F28F6B !important; }
-        .home-navbar-cta::before { background-color: #D9714C !important; }
+        .home-navbar-cta::after { background-color: #4FD1E0 !important; }
+        .home-navbar-cta::before { background-color: #3BB8C7 !important; }
       `}</style>
     </nav>
   );
@@ -454,7 +454,7 @@ function LeftPanel({
           col === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)
         );
         const gy = row / ROWS;
-        ctx.strokeStyle = `rgba(0,212,198,${0.02 + gy * 0.04})`;
+        ctx.strokeStyle = `rgba(79,209,224,${0.02 + gy * 0.04})`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
       }
@@ -466,7 +466,7 @@ function LeftPanel({
             ? ctx.moveTo(row[col].px, row[col].py)
             : ctx.lineTo(row[col].px, row[col].py)
         );
-        ctx.strokeStyle = "rgba(0,212,198,0.025)";
+        ctx.strokeStyle = "rgba(79,209,224,0.025)";
         ctx.lineWidth = 0.6;
         ctx.stroke();
       }
@@ -476,7 +476,7 @@ function LeftPanel({
           const { px, py, gy } = pts[row][col];
           ctx.beginPath();
           ctx.arc(px, py, 1.2, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,212,198,${0.1 + gy * 0.09})`;
+          ctx.fillStyle = `rgba(79,209,224,${0.1 + gy * 0.09})`;
           ctx.fill();
         }
       }
@@ -484,10 +484,10 @@ function LeftPanel({
       // Use cached gradient — recreate only when size changes
       if (!cachedFade) {
         cachedFade = ctx.createLinearGradient(0, canvas.height * 0.75, 0, canvas.height * 0.85);
-        cachedFade.addColorStop(0, "#0E0B14");
+        cachedFade.addColorStop(0, "#0B1420");
         cachedFade.addColorStop(1, "transparent");
       }
-      ctx.fillStyle = "#0E0B14";
+      ctx.fillStyle = "#0B1420";
       ctx.fillRect(0, 0, canvas.width, canvas.height * 0.75);
       ctx.fillStyle = cachedFade;
       ctx.fillRect(0, canvas.height * 0.75, canvas.width, canvas.height * 0.10);
@@ -523,7 +523,7 @@ function LeftPanel({
         height: "100vh",
         display: "flex",
         flexDirection: "column",
-        background: "#0E0B14",
+        background: "#0B1420",
         overflow: "hidden",
         padding: "0 clamp(24px,5vw,48px)",
         boxSizing: "border-box",
@@ -563,18 +563,18 @@ function LeftPanel({
         }}>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 16 }}>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#F28F6B", flexShrink: 0 }} />
+            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)",
               fontSize: 12,
-              color: "#A89DC0",
+              color: "#5D6B7A",
               letterSpacing: "2px",
               textTransform: "uppercase",
               fontWeight: 500,
             }}>
               DIAGNÓSTICO DE MADUREZ OPERACIONAL
             </span>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#F28F6B", flexShrink: 0 }} />
+            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0", flexShrink: 0 }} />
           </div>
 
           <p style={{
@@ -609,7 +609,7 @@ function LeftPanel({
                 fontFamily: "var(--font-geist-sans)",
                 fontWeight: 900,
                 fontSize: FS,
-                color: "#00D4C6",
+                color: "#4FD1E0",
                 letterSpacing: "-1px",
                 lineHeight: 1.05,
               }}>
@@ -690,7 +690,7 @@ function LeftPanel({
                   fontFamily: "var(--font-geist-mono)",
                   fontSize: "clamp(11px,1vw,14px)",
                   fontWeight: item.accent ? 600 : 400,
-                  color: item.accent ? "#00D4C6" : "rgba(255,255,255,0.9)",
+                  color: item.accent ? "#4FD1E0" : "rgba(255,255,255,0.9)",
                   letterSpacing: "0.04em",
                   whiteSpace: "nowrap",
                 }}>
@@ -773,7 +773,7 @@ function RightPanel({
           {PAINS.map((pain, i) => {
             const isActive = allVisible || i === activePain;
             const Icon = PAIN_ICONS[i];
-            const iconColor = isActive ? "#C3B9D6" : "rgba(168,157,192,0.3)";
+            const iconColor = isActive ? "#8B95A5" : "rgba(93,107,122,0.3)";
             return (
               <li key={pain.num} style={{
                 paddingTop: 14,
@@ -802,7 +802,7 @@ function RightPanel({
                   fontFamily: "var(--font-geist-sans)",
                   fontWeight: 400,
                   fontSize: "clamp(11px,1.1vw,15px)",
-                  color: isActive ? "#F28F6B" : "rgba(242,143,107,0.35)",
+                  color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.35)",
                   margin: 0,
                   lineHeight: 1.5,
                   paddingLeft: 38,
@@ -868,7 +868,7 @@ function MobilePainList() {
             }}
           >
             <span style={{ flexShrink: 0, paddingTop: 1 }}>
-              <Icon color={isActive ? "#C3B9D6" : "rgba(168,157,192,0.25)"} />
+              <Icon color={isActive ? "#8B95A5" : "rgba(93,107,122,0.25)"} />
             </span>
             <div>
               <p style={{
@@ -880,7 +880,7 @@ function MobilePainList() {
               </p>
               <p style={{
                 fontFamily: "var(--font-geist-sans)", fontSize: 13,
-                color: isActive ? "#F28F6B" : "rgba(242,143,107,0.20)",
+                color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.10)",
                 margin: "4px 0 0", lineHeight: 1.55,
                 transition: "color 0.45s ease",
               }}>
@@ -939,7 +939,7 @@ export default function Hero() {
 
   if (reduced || isMobile) {
     return (
-      <div id="el-problema" style={{ background: "#0E0B14" }}>
+      <div id="el-problema" style={{ background: "#0B1420" }}>
         <Navbar />
 
         {/* ── Hero mobile: flujo normal, compacto ── */}
@@ -951,10 +951,10 @@ export default function Hero() {
         }}>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div aria-hidden style={{ width: 20, height: 1, background: "#F28F6B", flexShrink: 0 }} />
+            <div aria-hidden style={{ width: 20, height: 1, background: "#4FD1E0", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)", fontSize: 9,
-              color: "#F28F6B", letterSpacing: "2px", textTransform: "uppercase" as const,
+              color: "#4FD1E0", letterSpacing: "2px", textTransform: "uppercase" as const,
             }}>
               DIAGNÓSTICO DE MADUREZ OPERACIONAL
             </span>
@@ -968,7 +968,7 @@ export default function Hero() {
           <div aria-hidden="true" style={{ margin: 0, padding: 0, lineHeight: 1.05 }}>
             <span style={{
               fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-              fontSize: 40, color: "#00D4C6",
+              fontSize: 40, color: "#4FD1E0",
               letterSpacing: "-1px", display: "block",
             }}>
               Todos quieren IA.
@@ -1022,12 +1022,12 @@ export default function Hero() {
                   <span aria-hidden style={{ color: "rgba(255,255,255,0.15)", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
                 )}
                 {i === arr.length - 1 && (
-                  <span aria-hidden style={{ color: "#00D4C6", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
+                  <span aria-hidden style={{ color: "#4FD1E0", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
                 )}
                 <span style={{
                   fontFamily: "var(--font-geist-mono)", fontSize: 11,
                   fontWeight: item.accent ? 600 : 400,
-                  color: item.accent ? "#00D4C6" : "rgba(255,255,255,0.55)",
+                  color: item.accent ? "#4FD1E0" : "rgba(255,255,255,0.55)",
                 }}>
                   {item.label}
                 </span>
@@ -1037,7 +1037,7 @@ export default function Hero() {
         </div>
 
         {/* Pain items — animados con scroll via IntersectionObserver */}
-        <div style={{ padding: "0 24px 56px", borderTop: "1px solid rgba(0,212,198,0.10)" }}>
+        <div style={{ padding: "0 24px 56px", borderTop: "1px solid rgba(79,209,224,0.10)" }}>
           <h2 style={{
             fontFamily: "var(--font-geist-sans)", fontWeight: 700,
             fontSize: 20, color: "rgba(255,255,255,0.9)",
@@ -1065,7 +1065,7 @@ export default function Hero() {
             top: 0,
             height: "100vh",
             overflow: "hidden",
-            background: "#0E0B14",
+            background: "#0B1420",
             display: "flex",
             width: "100%",
           }}
@@ -1090,8 +1090,8 @@ export default function Hero() {
               width: rightWidth,
               height: "100%",
               background:
-                "linear-gradient(135deg, rgba(123,79,150,0.14) 0%, rgba(123,79,150,0.06) 100%), #0E0B14",
-              borderLeft: "1px solid rgba(0,212,198,0.12)",
+                "linear-gradient(135deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.06) 100%), #0B1420",
+              borderLeft: "1px solid rgba(79,209,224,0.10)",
               position: "relative",
               flexShrink: 0,
               overflow: "hidden",

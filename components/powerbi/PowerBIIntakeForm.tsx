@@ -181,7 +181,7 @@ const inputBase: React.CSSProperties = {
 };
 
 const labelStyle: React.CSSProperties = {
-  color: "#C3B9D6",
+  color: "#8B95A5",
   fontSize: 11,
   fontWeight: 400,
   letterSpacing: "0.2em",
@@ -189,7 +189,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 const groupHeaderStyle: React.CSSProperties = {
-  color: "#A89DC0",
+  color: "#5D6B7A",
   fontSize: 11,
   fontWeight: 500,
   letterSpacing: "0.15em",
@@ -218,10 +218,10 @@ function Field({
       </label>
       {children}
       {hint && !error && (
-        <p style={{ color: "#A89DC0", fontSize: 13, fontStyle: "italic" }}>{hint}</p>
+        <p style={{ color: "#5D6B7A", fontSize: 13, fontStyle: "italic" }}>{hint}</p>
       )}
       {error && (
-        <p id={`${id}-err`} role="alert" style={{ color: "#F28F6B", fontSize: 13 }}>
+        <p id={`${id}-err`} role="alert" style={{ color: "#4FD1E0", fontSize: 13 }}>
           {error}
         </p>
       )}
@@ -247,7 +247,7 @@ export function PowerBIIntakeForm() {
       const cal = await getCalApi();
       cal("ui", {
         theme: "dark",
-        styles: { branding: { brandColor: "#F28F6B" } },
+        styles: { branding: { brandColor: "#4FD1E0" } },
       });
     })();
   }, [formState]);
@@ -282,7 +282,7 @@ export function PowerBIIntakeForm() {
   }
 
   function bottomBorderColor(field: keyof FieldError, focused: boolean) {
-    if (errors[field] || focused) return "#F28F6B";
+    if (errors[field] || focused) return "#4FD1E0";
     return "rgba(255,255,255,0.15)";
   }
 
@@ -354,7 +354,7 @@ export function PowerBIIntakeForm() {
             <div className="flex items-start" style={{ gap: 14 }}>
               <span
                 aria-hidden
-                style={{ color: "#F28F6B", fontSize: 22, lineHeight: 1 }}
+                style={{ color: "#4FD1E0", fontSize: 22, lineHeight: 1 }}
               >
                 ✓
               </span>
@@ -365,7 +365,7 @@ export function PowerBIIntakeForm() {
                 >
                   ¡Listo! Ahora elige el horario que mejor te funcione
                 </p>
-                <p style={{ color: "#A89DC0", fontSize: 14 }}>
+                <p style={{ color: "#5D6B7A", fontSize: 14 }}>
                   Reunión de diagnóstico · 30 minutos · Virtual
                 </p>
               </div>
@@ -373,7 +373,7 @@ export function PowerBIIntakeForm() {
 
             <div
               style={{
-                backgroundColor: "#141020",
+                backgroundColor: "#141F2E",
                 borderRadius: 8,
                 overflow: "hidden",
                 minHeight: 500,
@@ -390,14 +390,14 @@ export function PowerBIIntakeForm() {
               />
             </div>
 
-            <p style={{ color: "#A89DC0", fontSize: 13 }}>
+            <p style={{ color: "#5D6B7A", fontSize: 13 }}>
               ¿Problemas para ver el calendario?{" "}
               <a
                 href={CAL_BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-white transition-colors"
-                style={{ color: "#F28F6B" }}
+                style={{ color: "#4FD1E0" }}
               >
                 Agenda directamente aquí →
               </a>
@@ -441,8 +441,8 @@ export function PowerBIIntakeForm() {
                   }}
                   className="focus-visible:outline-none"
                   onFocus={(e) => {
-                    e.target.style.borderBottomColor = "#F28F6B";
-                    e.target.style.boxShadow = "0 2px 0 0 #F28F6B";
+                    e.target.style.borderBottomColor = "#4FD1E0";
+                    e.target.style.boxShadow = "0 2px 0 0 #4FD1E0";
                   }}
                   onBlur={(e) => {
                     e.target.style.borderBottomColor = bottomBorderColor("nombre", false);
@@ -479,8 +479,8 @@ export function PowerBIIntakeForm() {
                   spellCheck={false}
                   className="focus-visible:outline-none"
                   onFocus={(e) => {
-                    e.target.style.borderBottomColor = "#F28F6B";
-                    e.target.style.boxShadow = "0 2px 0 0 #F28F6B";
+                    e.target.style.borderBottomColor = "#4FD1E0";
+                    e.target.style.boxShadow = "0 2px 0 0 #4FD1E0";
                   }}
                   onBlur={(e) => {
                     e.target.style.borderBottomColor = bottomBorderColor("correo", false);
@@ -513,8 +513,8 @@ export function PowerBIIntakeForm() {
                   }}
                   className="focus-visible:outline-none"
                   onFocus={(e) => {
-                    e.target.style.borderBottomColor = "#F28F6B";
-                    e.target.style.boxShadow = "0 2px 0 0 #F28F6B";
+                    e.target.style.borderBottomColor = "#4FD1E0";
+                    e.target.style.boxShadow = "0 2px 0 0 #4FD1E0";
                   }}
                   onBlur={(e) => {
                     e.target.style.borderBottomColor = bottomBorderColor("empresa", false);
@@ -575,8 +575,8 @@ export function PowerBIIntakeForm() {
                       }}
                       className="focus-visible:outline-none"
                       onFocus={(e) => {
-                        e.target.style.borderBottomColor = "#F28F6B";
-                        e.target.style.boxShadow = "0 2px 0 0 #F28F6B";
+                        e.target.style.borderBottomColor = "#4FD1E0";
+                        e.target.style.boxShadow = "0 2px 0 0 #4FD1E0";
                       }}
                       onBlur={(e) => {
                         e.target.style.borderBottomColor = bottomBorderColor(
@@ -598,7 +598,7 @@ export function PowerBIIntakeForm() {
                 <label style={labelStyle}>
                   ¿Dónde viven los datos de su operación hoy?
                 </label>
-                <p style={{ color: "#A89DC0", fontSize: 13 }}>
+                <p style={{ color: "#5D6B7A", fontSize: 13 }}>
                   Seleccione todas las que apliquen
                 </p>
               </div>
@@ -638,7 +638,7 @@ export function PowerBIIntakeForm() {
               </div>
 
               {errors.fuentes_datos && (
-                <p role="alert" style={{ color: "#F28F6B", fontSize: 13, marginTop: 12 }}>
+                <p role="alert" style={{ color: "#4FD1E0", fontSize: 13, marginTop: 12 }}>
                   {errors.fuentes_datos}
                 </p>
               )}
@@ -668,8 +668,8 @@ export function PowerBIIntakeForm() {
                   }}
                   className="focus-visible:outline-none placeholder:italic"
                   onFocus={(e) => {
-                    (e.target as HTMLTextAreaElement).style.borderBottomColor = "#F28F6B";
-                    (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #F28F6B";
+                    (e.target as HTMLTextAreaElement).style.borderBottomColor = "#4FD1E0";
+                    (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #4FD1E0";
                   }}
                   onBlur={(e) => {
                     (e.target as HTMLTextAreaElement).style.borderBottomColor =
@@ -700,7 +700,7 @@ export function PowerBIIntakeForm() {
                       value={opcion}
                       checked={fields.herramientas_previas === opcion}
                       onChange={() => setField("herramientas_previas", opcion)}
-                      style={{ accentColor: "#F28F6B", width: 16, height: 16 }}
+                      style={{ accentColor: "#4FD1E0", width: 16, height: 16 }}
                     />
                     <span className="text-sm" style={{ color: "#FFFFFF" }}>
                       {opcion}
@@ -709,7 +709,7 @@ export function PowerBIIntakeForm() {
                 ))}
               </div>
               {errors.herramientas_previas && (
-                <p role="alert" style={{ color: "#F28F6B", fontSize: 13, marginTop: 10 }}>
+                <p role="alert" style={{ color: "#4FD1E0", fontSize: 13, marginTop: 10 }}>
                   {errors.herramientas_previas}
                 </p>
               )}
@@ -739,8 +739,8 @@ export function PowerBIIntakeForm() {
                       }}
                       className="focus-visible:outline-none"
                       onFocus={(e) => {
-                        e.target.style.borderBottomColor = "#F28F6B";
-                        e.target.style.boxShadow = "0 2px 0 0 #F28F6B";
+                        e.target.style.borderBottomColor = "#4FD1E0";
+                        e.target.style.boxShadow = "0 2px 0 0 #4FD1E0";
                       }}
                       onBlur={(e) => {
                         e.target.style.borderBottomColor = bottomBorderColor(
@@ -780,8 +780,8 @@ export function PowerBIIntakeForm() {
                   }}
                   className="focus-visible:outline-none placeholder:italic"
                   onFocus={(e) => {
-                    (e.target as HTMLTextAreaElement).style.borderBottomColor = "#F28F6B";
-                    (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #F28F6B";
+                    (e.target as HTMLTextAreaElement).style.borderBottomColor = "#4FD1E0";
+                    (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #4FD1E0";
                   }}
                   onBlur={(e) => {
                     (e.target as HTMLTextAreaElement).style.borderBottomColor =
@@ -808,12 +808,12 @@ export function PowerBIIntakeForm() {
                   gap: 12,
                 }}
               >
-                <p style={{ color: "#C3B9D6", fontSize: 13 }}>
+                <p style={{ color: "#8B95A5", fontSize: 13 }}>
                   Algo salió mal. Escríbenos a{" "}
                   <a
                     href="mailto:data@yetibi.com"
                     className="underline"
-                    style={{ color: "#F28F6B" }}
+                    style={{ color: "#4FD1E0" }}
                   >
                     data@yetibi.com
                   </a>
@@ -823,7 +823,7 @@ export function PowerBIIntakeForm() {
                   type="button"
                   onClick={handleRetry}
                   className="shrink-0 text-sm font-medium underline hover:no-underline"
-                  style={{ color: "#F28F6B" }}
+                  style={{ color: "#4FD1E0" }}
                 >
                   Reintentar
                 </button>
@@ -870,7 +870,7 @@ export function PowerBIIntakeForm() {
                         width: 14,
                         height: 14,
                         border: "2px solid #1c142644",
-                        borderTopColor: "#1c1426",
+                        borderTopColor: "#1C2836",
                         borderRadius: "50%",
                         animation: "spin 0.7s linear infinite",
                       }}

@@ -43,7 +43,7 @@ const STEPS = [
 function IconClipboard() {
   return (
     <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none"
-      stroke="#00D4C6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      stroke="#4FD1E0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
       <rect x="9" y="3" width="6" height="4" rx="1"/>
       <path d="M9 12h6M9 16h4"/>
@@ -54,7 +54,7 @@ function IconClipboard() {
 function IconGear({ reduced }: { reduced: boolean }) {
   return (
     <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none"
-      stroke="#00D4C6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+      stroke="#4FD1E0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
       style={{
         animation: reduced ? "none" : "spin 6s linear infinite",
         transformOrigin: "center center",
@@ -68,7 +68,7 @@ function IconGear({ reduced }: { reduced: boolean }) {
 function IconBox() {
   return (
     <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none"
-      stroke="#00D4C6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      stroke="#4FD1E0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 12V22H4V12"/>
       <path d="M22 7H2v5h20V7z"/>
       <path d="M12 22V7"/>
@@ -105,7 +105,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
         top: 0,
         height: "100vh",
         overflow: "hidden",
-        background: "#0E0B14",
+        background: "#0B1420",
         display: "flex",
         flexDirection: "column",
         paddingTop: 32,
@@ -114,7 +114,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
         {/* Header */}
         <div style={{ flexShrink: 0, marginBottom: 24, paddingLeft: 48, paddingRight: 48 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#F28F6B" }} />
+            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0" }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)",
               fontSize: 10,
@@ -129,7 +129,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
             <span style={{ fontWeight: 900, color: "#fff", fontFamily: "var(--font-geist-sans)" }}>
               Tres pasos.{" "}
             </span>
-            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#F28F6B" }}>
+            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#4FD1E0" }}>
             Resultado en tu correo.{" "}
             </span>
             <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 800, color: "#FFFFFF" }}>
@@ -182,7 +182,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                   fontWeight: 900,
                   fontSize: isActive ? "clamp(160px,20vw,240px)" : 80,
                   lineHeight: 0.8,
-                  color: "rgba(0,212,198,0.25)",
+                  color: "rgba(79,209,224,0.25)",
                   userSelect: "none",
                   pointerEvents: "none",
                 }}>
@@ -195,8 +195,8 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                     <div style={{ position: "relative", zIndex: 1 }}>
                       <div style={{
                         width: 52, height: 52, borderRadius: "50%",
-                        border: "1px solid rgba(0,212,198,0.3)",
-                        background: "rgba(0,212,198,0.07)",
+                        border: "1px solid rgba(79,209,224,0.3)",
+                        background: "rgba(79,209,224,0.07)",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         marginBottom: 20,
                       }}>
@@ -240,13 +240,13 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                           exit={{ opacity: 0, y: -8 }}
                           transition={{ duration: 0.3, delay: 0.05 }}
                           style={{
-                            borderLeft: "2px solid #00D4C6",
-                            background: "rgba(0,212,198,0.06)",
+                            borderLeft: "2px solid #4FD1E0",
+                            background: "rgba(79,209,224,0.06)",
                             padding: "12px 14px",
                             position: "relative", zIndex: 1,
                           }}
                         >
-                          <p style={{ fontSize: 12, color: "#00D4C6", textTransform: "uppercase" as const, letterSpacing: "1px", fontWeight: 700, margin: "0 0 6px" }}>
+                          <p style={{ fontSize: 12, color: "#4FD1E0", textTransform: "uppercase" as const, letterSpacing: "1px", fontWeight: 700, margin: "0 0 6px" }}>
                             {step.alert.title}
                           </p>
                           {/* contraste mejorado: 0.5 → 0.75 */}
@@ -264,7 +264,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                     {/* Tag */}
                     <span style={{
                       fontFamily: "var(--font-geist-mono)",
-                      fontSize: 13, color: "#00D4C6",
+                      fontSize: 13, color: "#4FD1E0",
                       textTransform: "uppercase" as const, letterSpacing: "2px",
                       position: "relative", zIndex: 1,
                     }}>
@@ -285,7 +285,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                     </div>
                     <span style={{
                       fontFamily: "var(--font-geist-mono)",
-                      fontSize: 11, color: "#00D4C6",
+                      fontSize: 11, color: "#4FD1E0",
                       textTransform: "uppercase" as const, letterSpacing: "1px",
                       position: "relative", zIndex: 1,
                     }}>
@@ -302,13 +302,13 @@ function StepsSection({ reduced }: { reduced: boolean }) {
         <div style={{
           flex: 3, minHeight: 0,
           padding: "0 48px",
-          borderTop: "1px solid rgba(0,212,198,0.18)",
-          background: "#150D20",
+          borderTop: "1px solid rgba(79,209,224,0.10)",
+          background: "#0F1826",
           display: "flex", justifyContent: "space-between", alignItems: "center", gap: 32,
         }}>
           <div style={{ flex: 1 }}>
             <p style={{
-              fontFamily: "var(--font-geist-mono)", fontSize: 13, color: "#00D4C6",
+              fontFamily: "var(--font-geist-mono)", fontSize: 13, color: "#4FD1E0",
               textTransform: "uppercase" as const, letterSpacing: "2px", fontWeight: 700,
               margin: "0 0 8px",
             }}>
@@ -319,7 +319,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
               color: "#fff", margin: "0 0 10px", lineHeight: 1.2,
             }}>
               Asesoría personalizada{" "}
-              <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#F28F6B" }}>
+              <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#4FD1E0" }}>
                 para ampliar tu diagnóstico.
               </span>
             </p>
@@ -385,12 +385,12 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
     <>
       <section
         id="como-funciona"
-        style={{ background: "#0E0B14", padding: "56px 24px 40px" }}
+        style={{ background: "#0B1420", padding: "56px 24px 40px" }}
       >
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#F28F6B" }} />
+            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0" }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)", fontSize: 10,
               color: "rgba(255,255,255,0.35)", letterSpacing: "3px",
@@ -403,7 +403,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
             <span style={{ fontWeight: 900, color: "#fff", fontFamily: "var(--font-geist-sans)" }}>
               Tres pasos.{" "}
             </span>
-            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#F28F6B" }}>
+            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#4FD1E0" }}>
             Resultado en tu correo.{" "}
             </span>
             <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 800, color: "#FFFFFF" }}>
@@ -423,7 +423,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                 key={step.num}
                 ref={(el) => { stepRefs.current[i] = el; }}
                 style={{
-                  borderTop: `1px solid ${isActive ? "rgba(0,212,198,0.30)" : "rgba(255,255,255,0.06)"}`,
+                  borderTop: `1px solid ${isActive ? "rgba(79,209,224,0.30)" : "rgba(255,255,255,0.06)"}`,
                   padding: "24px 0",
                   display: "flex", flexDirection: "column", gap: 12,
                   opacity: isActive ? 1 : hasSeen ? 0.22 : 0.08,
@@ -438,7 +438,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                     position: "absolute", top: -8, right: 0,
                     fontFamily: "var(--font-geist-sans)", fontWeight: 900,
                     fontSize: 80, lineHeight: 1,
-                    color: isActive ? "rgba(0,212,198,0.18)" : "rgba(255,255,255,0.04)",
+                    color: isActive ? "rgba(79,209,224,0.10)" : "rgba(255,255,255,0.04)",
                     userSelect: "none", pointerEvents: "none",
                     transition: "color 0.45s ease",
                   }}>
@@ -448,8 +448,8 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                   {/* Icono */}
                   <div style={{
                     width: 48, height: 48, borderRadius: "50%",
-                    border: `1px solid ${isActive ? "rgba(0,212,198,0.40)" : "rgba(255,255,255,0.10)"}`,
-                    background: isActive ? "rgba(0,212,198,0.09)" : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${isActive ? "rgba(79,209,224,0.40)" : "rgba(255,255,255,0.10)"}`,
+                    background: isActive ? "rgba(79,209,224,0.09)" : "rgba(255,255,255,0.03)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     transition: "border-color 0.45s ease, background 0.45s ease",
                   }}>
@@ -480,11 +480,11 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                 {/* Alerta paso 1 */}
                 {step.alert && isActive && (
                   <div style={{
-                    borderLeft: "2px solid #00D4C6",
-                    background: "rgba(0,212,198,0.06)",
+                    borderLeft: "2px solid #4FD1E0",
+                    background: "rgba(79,209,224,0.06)",
                     padding: "10px 12px",
                   }}>
-                    <p style={{ fontSize: 10, color: "#00D4C6", textTransform: "uppercase" as const, letterSpacing: 1, fontWeight: 700, margin: "0 0 4px" }}>
+                    <p style={{ fontSize: 10, color: "#4FD1E0", textTransform: "uppercase" as const, letterSpacing: 1, fontWeight: 700, margin: "0 0 4px" }}>
                       {step.alert.title}
                     </p>
                     <p style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", lineHeight: 1.5, margin: "0 0 3px" }}>
@@ -499,7 +499,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                 {/* Tag */}
                 <span style={{
                   fontFamily: "var(--font-geist-mono)", fontSize: 10,
-                  color: isActive ? "#00D4C6" : "rgba(0,212,198,0.30)",
+                  color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.30)",
                   textTransform: "uppercase" as const, letterSpacing: "1.5px",
                   transition: "color 0.45s ease",
                 }}>
@@ -515,14 +515,14 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
       <section
         id="asesoria"
         style={{
-          background: "#150D20",
-          borderTop: "1px solid rgba(0,212,198,0.12)",
+          background: "#0F1826",
+          borderTop: "1px solid rgba(79,209,224,0.10)",
           padding: "40px 24px 48px",
           display: "flex", flexDirection: "column", gap: 16,
         }}
       >
         <p style={{
-          fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#00D4C6",
+          fontFamily: "var(--font-geist-mono)", fontSize: 10, color: "#4FD1E0",
           letterSpacing: "2px", textTransform: "uppercase" as const, fontWeight: 600, margin: 0,
         }}>
           ¿QUIERES IR MÁS LEJOS?
@@ -532,7 +532,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
           fontSize: "clamp(22px,5vw,32px)", color: "#fff", lineHeight: 1.15, margin: 0,
         }}>
           Asesoría personalizada{" "}
-          <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#F28F6B" }}>
+          <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#4FD1E0" }}>
             para ampliar tu diagnóstico.
           </span>
         </h3>

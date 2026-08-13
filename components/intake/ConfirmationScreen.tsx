@@ -10,25 +10,25 @@ export function ConfirmationScreen() {
       className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
     >
       {/* Ícono */}
-      <div className="w-16 h-16 rounded-full bg-[#00D4C6]/15 border border-[#00D4C6]/30 flex items-center justify-center text-2xl mb-8">
+      <div className="w-16 h-16 rounded-full bg-(--primary)/15 border border-(--primary)/30 flex items-center justify-center text-2xl mb-8">
         ✓
       </div>
 
       {/* Título */}
-      <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-[#FF6600] mb-4">
+      <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-(--primary) mb-4">
         Información recibida.
       </h1>
 
       {/* Subtítulo */}
       <p className="text-base text-white/100 max-w-sm leading-relaxed mb-10">
         Tu información quedó guardada. El diagnóstico{" "}
-        <span className="text-[#FFA07A]">aún no se ha procesado</span> —
+        <span className="text-(--warning)">aún no se ha procesado</span> —
         eso ocurre en la siguiente etapa, donde el motor de análisis evalúa
         tus respuestas y genera el reporte de AI Readiness.
       </p>
 
       {/* Separador */}
-      <div className="w-8 h-px bg-[#00D4C6]/40 mb-8" />
+      <div className="w-8 h-px bg-(--primary)/40 mb-8" />
 
       {/* Próximos pasos */}
       <div className="text-left max-w-sm w-full space-y-4">
@@ -48,7 +48,7 @@ export function ConfirmationScreen() {
           },
         ].map(({ n, text }) => (
           <div key={n} className="flex items-start gap-4">
-            <span className="text-xs font-black text-[#00D4C6]/60 tabular-nums mt-0.5">
+            <span className="text-xs font-black text-(--primary)/60 tabular-nums mt-0.5">
               {n}
             </span>
             <p className="text-sm text-white/50">{text}</p>
@@ -62,7 +62,7 @@ export function ConfirmationScreen() {
       {/* Botón para volver al Home */}
       <a
         href="https://yetibi.com/"
-        className="mt-8 inline-block bg-[#FF6600] text-white font-semibold text-sm px-6 py-3 rounded-lg hover:bg-[#E05500] transition-colors"
+        className="mt-8 inline-block bg-(--primary) text-(--primary-foreground) font-semibold text-sm px-6 py-3 rounded-lg hover:bg-(--primary-hover) transition-colors"
       >
         Volver al Home
       </a>
