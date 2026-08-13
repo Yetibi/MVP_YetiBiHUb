@@ -1,7 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(rm -rf .tmp-audit)",
+      "Bash(pkill -f \"next start\")",
+      "Bash(rm -rf .tmp-audit .v.mjs .h.mjs)",
+      "Bash(python3 -c \"print\\('ciclo 9px x 4 =', 9*4, '-> strokeDashoffset -36 cierra exacto'\\)\")",
+      "Bash(git check-ignore *)",
+      "Bash(npx --yes lighthouse http://localhost:3000/powerbi --only-categories=accessibility --quiet --chrome-flags=\"--headless --no-sandbox\" --output=json --output-path=/tmp/lh.json)",
+      "Bash(python3 -)",
+      "Bash(rm -rf .tmp-audit /tmp/lh.json)",
+      "Bash(grep -n 'errors\\\\.\\\\w* *$\\\\|? \"#00D4C6\"' components/home/ContactForm.tsx)",
+      "Bash(npx --yes lighthouse http://localhost:3000/ --only-categories=accessibility --quiet --chrome-flags=\"--headless --no-sandbox\" --output=json --output-path=/tmp/lh-home.json)",
+      "Bash(rm -rf .tmp-audit /tmp/lh-home.json)",
+      "Bash(git checkout *)"
     ]
   }
 }
