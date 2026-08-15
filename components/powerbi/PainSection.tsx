@@ -41,7 +41,7 @@ const PAINS = [
 // Nota: #1C2836 (acero) tiene contraste ~1.7:1 sobre #0B1420/#182534 —
 // insuficiente para texto legible, así que solo se usa en el número decorativo
 // de fondo (elemento visual, no informativo); en labels/texto se sustituye
-// por ámbar #FFB020 (tensión/fuga).
+// por ámbar #F2921D (tensión/fuga).
 const PAIN_ACCENTS = ["#4FD1E0", "#1C2836", "#4FD1E0", "#4FD1E0"] as const;
 
 // ─── Sección desktop: pasos con scroll (clon de HowItWorks/StepsSection) ─────
@@ -156,7 +156,7 @@ function StepsSection() {
                       <p style={{
                         fontFamily: "var(--font-mono)",
                         fontSize: "clamp(9px,1vw,11px)",
-                        color: accent === "#1C2836" ? "#FFB020" : accent,
+                        color: accent === "#1C2836" ? "#F2921D" : accent,
                         textTransform: "uppercase" as const,
                         letterSpacing: "2px",
                         margin: "0 0 12px",
@@ -195,7 +195,7 @@ function StepsSection() {
                     <p style={{
                       fontFamily: "var(--font-mono)",
                       fontSize: "clamp(9px,1vw,11px)",
-                      color: accent === "#1C2836" ? "#FFB020" : accent,
+                      color: accent === "#1C2836" ? "#F2921D" : accent,
                       textTransform: "uppercase" as const, letterSpacing: "1.5px",
                       margin: "0 0 8px",
                     }}>
@@ -317,7 +317,7 @@ function MobileLayout() {
           const isActive = allSeen || i === activeStep;
           const hasSeen = allSeen || i <= activeStep;
           const accent = PAIN_ACCENTS[i];
-          const accentText = accent === "#1C2836" ? "#FFB020" : accent;
+          const accentText = accent === "#1C2836" ? "#F2921D" : accent;
 
           return (
             <div

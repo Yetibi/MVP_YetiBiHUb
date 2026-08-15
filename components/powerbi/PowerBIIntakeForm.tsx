@@ -802,7 +802,7 @@ export function PowerBIIntakeForm() {
                 animate="animate"
                 className="flex items-center justify-between"
                 style={{
-                  border: "1px solid #F28F6B66",
+                  border: "1px solid #4FD1E066",
                   borderRadius: 4,
                   padding: "12px 16px",
                   gap: 12,

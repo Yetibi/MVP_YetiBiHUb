@@ -24,7 +24,31 @@
       "Bash(grep -rnoE 'rgba?\\\\\\([0-9]{1,3}, ?[0-9]{1,3}, ?[0-9]{1,3}' components/powerbi/AnimatedWidgets.tsx components/powerbi/HeroSection.tsx)",
       "Bash(grep -n -E 'rgba?\\\\\\(|#[0-9A-Fa-f]{3,6}|const \\(C_|COLOR|TEAL|CORAL|ORANGE|AMBER\\)' components/ParticleDashboard.tsx)",
       "Bash(sed -i '' -e \"s/const TEAL = '0,212,198'/const CIAN = '79,209,224'/\" -e \"s/const ORANGE = '242,143,107'/const AMBAR = '255,176,32'/\" -e \"s/const PURPLE_LIGHT = '168,157,192'   \\\\/\\\\/ #5D6B7A — morado claro de marca/const NEBLINA = '93,107,122'         \\\\/\\\\/ #5D6B7A — neblina tenue/\" -e 's/\\\\${TEAL}/\\\\${CIAN}/g' -e 's/\\\\${ORANGE}/\\\\${AMBAR}/g' -e 's/\\\\${PURPLE_LIGHT}/\\\\${NEBLINA}/g' components/ParticleDashboard.tsx)",
-      "Bash(echo \"exit:$? \\(1 = sin restos\\)\")"
+      "Bash(echo \"exit:$? \\(1 = sin restos\\)\")",
+      "Bash(cd \"/Users/julianag/Library/CloudStorage/OneDrive-Yeti/•YetiBi•/MVP Yeti Bi Hub\" && mkdir -p preview-plano-glaciar && cp /tmp/glaciar-shots/*.png preview-plano-glaciar/ && echo \"preview-plano-glaciar/\" >> .git/info/exclude && ls preview-plano-glaciar/ && git diff master -- app/globals.css | head -0; git diff master --shortstat -- app/globals.css)",
+      "Bash(curl -s -o /dev/null -w \"GET / → %{http_code} en %{time_total}s\\\\n\" --max-time 15 http://localhost:3000/)",
+      "Bash(head -40 /var/folders/m2/rt1v8w154qx_tsmbs3g2qbd00000gn/T/next-panic-998c5dae0f300d3e6558c5c12a85e664.log 2>/dev/null | cut -c1-250; ls -la \"/Users/julianag/Library/CloudStorage/OneDrive-Yeti/•YetiBi•/MVP Yeti Bi Hub/node_modules/next/package.json\" 2>&1 | head -2)",
+      "Read(//private/var/folders/m2/rt1v8w154qx_tsmbs3g2qbd00000gn/T/**)",
+      "Bash(awk -F: '{print $1\" → \"$3}')",
+      "Bash(awk -F: '{print $1\":\"$2}')",
+      "Bash(sed -i '' 's/#00D4C6\\\\\\([0-9A-Fa-f]\\\\{2\\\\}\\\\\\)/#4FD1E0\\\\1/g' components/home/CtaFinal.tsx components/home/ContactForm.tsx)",
+      "Bash(sed -i '' 's/#F28F6B\\\\\\([0-9A-Fa-f]\\\\{2\\\\}\\\\\\)/#4FD1E0\\\\1/g' components/powerbi/PowerBIIntakeForm.tsx)",
+      "Bash(grep -rn -ioE '#\\(F28F6B|00D4C6\\)[0-9A-Fa-f]{0,2}' app components --include='*.tsx' --include='*.ts' --include='*.css')",
+      "Bash(echo \"exit $? — limpio si no hay líneas arriba\")",
+      "Bash(curl -s -o /dev/null -w \"fonts.googleapis.com → %{http_code}\\\\n\" --max-time 8 https://fonts.googleapis.com)",
+      "Bash(npm run *)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(curl -s -o /dev/null -w \"dev / → %{http_code} \\(%{time_total}s\\)\\\\n\" --max-time 30 http://localhost:3000/)",
+      "Bash(awk -F: '{print $1}')",
+      "Bash(perl -0pi -e 's/borderBottomColor: errors\\\\.\\(\\\\w+\\)\\\\n\\(\\\\s+\\)\\\\? \"#4FD1E0\"/borderBottomColor: errors.$1\\\\n$2? \"#F2921D\"/g' components/home/ContactForm.tsx)",
+      "Bash(sed -i '' 's/border: \"1px solid #4FD1E066\"/border: \"1px solid #F2921D66\"/g' components/home/ContactForm.tsx)",
+      "Bash(node)",
+      "Bash(sed -i '' 's/color: \"rgba\\(255,255,255,0.85\\)\",\\\\n            lineHeight: 1.6,/color: \"#8B95A5\",\\\\n            lineHeight: 1.6,/' components/home/Hero.tsx)",
+      "Bash(perl -0pi -e 's/fontSize: 17,\\\\n            color: \"rgba\\\\\\(255,255,255,0\\\\.85\\\\\\)\",/fontSize: 17,\\\\n            color: \"#8B95A5\",/' components/home/Hero.tsx)",
+      "Bash(echo \"BUILD EXIT: $?\")"
+    ],
+    "additionalDirectories": [
+      "/tmp/glaciar-shots"
     ]
   }
 }

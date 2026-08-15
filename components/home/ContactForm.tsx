@@ -76,7 +76,7 @@ function Field({
       <label htmlFor={id} style={labelStyle}>{label}</label>
       {children}
       {error && (
-        <p id={`${id}-err`} role="alert" style={{ color: "#4FD1E0", fontSize: 13 }}>
+        <p id={`${id}-err`} role="alert" style={{ color: "#F2921D", fontSize: 13 }}>
           {error}
         </p>
       )}
@@ -105,7 +105,7 @@ export function ContactForm() {
   }
 
   function bottomBorderColor(field: keyof FieldError, focused: boolean) {
-    if (errors[field]) return "#4FD1E0";
+    if (errors[field]) return "#F2921D";
     if (focused) return "#4FD1E0";
     return "rgba(255,255,255,0.15)";
   }
@@ -170,7 +170,7 @@ export function ContactForm() {
             exit="exit"
             className="flex items-start"
             style={{
-              border: "1px solid #00D4C666",
+              border: "1px solid #4FD1E066",
               borderRadius: 6,
               padding: "20px 24px",
               gap: 14,
@@ -231,7 +231,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.nombre
-                      ? "#4FD1E0"
+                      ? "#F2921D"
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
@@ -257,7 +257,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.correo
-                      ? "#4FD1E0"
+                      ? "#F2921D"
                       : "rgba(255,255,255,0.15)",
                   }}
                   spellCheck={false}
@@ -282,7 +282,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.empresa
-                      ? "#4FD1E0"
+                      ? "#F2921D"
                       : "rgba(255,255,255,0.15)",
                   }}
                   className="focus-visible:outline-none"
@@ -317,7 +317,7 @@ export function ContactForm() {
                   style={{
                     ...inputBase,
                     borderBottomColor: errors.mensaje
-                      ? "#4FD1E0"
+                      ? "#F2921D"
                       : "rgba(255,255,255,0.15)",
                     resize: "none",
                   }}
@@ -338,7 +338,7 @@ export function ContactForm() {
                 animate="animate"
                 className="flex items-center justify-between"
                 style={{
-                  border: "1px solid #00D4C666",
+                  border: "1px solid #F2921D66",
                   borderRadius: 4,
                   padding: "12px 16px",
                   gap: 12,

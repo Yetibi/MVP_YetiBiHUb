@@ -6,7 +6,7 @@ export default function DifferentiatorSection() {
   return (
     <section
       className="relative w-full"
-      style={{ background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420" }}
+      style={{ background: "#0B1420" }}
     >
     <div
       className="relative mx-auto px-6 md:px-12 lg:px-16 py-16"
@@ -15,7 +15,7 @@ export default function DifferentiatorSection() {
         borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
-      <span className="block text-sm uppercase tracking-widest text-gray-400 mb-8">
+      <span className="block text-sm uppercase tracking-widest text-(--muted-foreground) mb-8">
         S3 · DIFERENCIADOR
       </span>
 
@@ -28,20 +28,23 @@ export default function DifferentiatorSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Enfoque Tradicional */}
-        <div className="opacity-60">
-          <p className="text-sm font-semibold text-gray-400 uppercase mb-4">
+        <div
+          className="opacity-60 rounded-xl"
+          style={{ background: "#141F2E", border: "1px solid #1C2836", padding: "28px" }}
+        >
+          <p className="text-sm font-semibold text-(--muted-foreground) uppercase mb-4">
             ENFOQUE TRADICIONAL
           </p>
           <h3 className="text-xl font-bold text-white mb-4">
             Conectan datos, construyen dashboards
           </h3>
-          <p className="text-sm text-gray-400 mb-4">
+          <p className="text-sm text-(--muted-foreground) mb-4">
             Toman tus fuentes tal como están, las conectan a Power BI y
             construyen visualizaciones. Si el proceso que genera esos datos
             tiene variabilidad, errores de captura o excepciones manuales, el
             dashboard los hereda. Resultado: un instrumento que miente bonito.
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-(--muted-foreground)">
             Entregan → desaparecen → en 6 meses el dashboard ya no refleja la
             operación real.
           </p>
@@ -49,8 +52,13 @@ export default function DifferentiatorSection() {
 
         {/* Enfoque Yeti BI */}
         <div
-          className="relative border-l-4 pl-6"
-          style={{ borderColor: "#4FD1E0" }}
+          className="relative rounded-xl"
+          style={{
+            background: "#141F2E",
+            border: "1px solid rgba(79,209,224,0.5)",
+            boxShadow: "0 12px 32px rgba(0,0,0,0.45)",
+            padding: "28px",
+          }}
         >
           <p className="text-sm font-semibold text-(--primary) uppercase mb-4">
             ENFOQUE YETI BI
@@ -58,13 +66,13 @@ export default function DifferentiatorSection() {
           <h3 className="text-xl font-bold text-white mb-4">
             Diagnosticamos el proceso que genera los datos
           </h3>
-          <p className="text-sm text-gray-400 mb-4">
+          <p className="text-sm text-(--muted-foreground) mb-4">
             Antes de construir, evaluamos: ¿el proceso captura lo que necesita
             capturar? ¿El dato es confiable en origen? ¿Las decisiones que
             quieres tomar son sostenibles con esta arquitectura? Si la respuesta
             es no, te lo decimos antes de facturar una sola línea.
           </p>
-          <p className="text-xs text-gray-400 font-semibold">
+          <p className="text-xs text-(--muted-foreground) font-semibold">
             Diagnosticamos → construimos con propósito → programamos checkpoints
             de pertinencia.
           </p>

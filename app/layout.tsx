@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display, Roboto_Condensed, Roboto, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display, Roboto_Condensed, Roboto, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,6 +38,13 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   style: ["normal", "italic"],
   weight: ["700", "900"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["500", "700"],
+  display: "swap",
 });
 
 const dmSerif = DM_Serif_Display({
@@ -105,7 +112,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} ${robotoCondensed.variable} ${roboto.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} ${robotoCondensed.variable} ${roboto.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
       <body className={`${playfair.variable} ${dmSerif.variable} min-h-full flex flex-col`}>
@@ -152,7 +159,7 @@ export default function RootLayout({
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-(--primary) focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-(--primary-foreground)"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-(--warning) focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-(--primary-foreground)"
         >
           Saltar al contenido principal
         </a>

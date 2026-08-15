@@ -5,24 +5,22 @@
 /* ─── REGLA DE SISTEMA — "Plano Glaciar" (modo noche único) ──────────────────
  *
  * Semántica del color:
- *   · Cian #4FD1E0  = diseño / acción / insight — CTA, links, foco, highlights,
- *     flujo de valor. Donde va el cian, va la mirada.
- *   · Ámbar #FFB020 = tensión / fuga / alerta — la cifra dura, la fuga de
- *     valor. Dosificado: grita solo cuando debe. (El antiguo "azul informativo"
- *     pasa a ámbar: en Yeti BI la información de alerta ES fuga de valor.)
- *   · Gris  #8B95A5 = contexto — cuerpo de texto, lo que ya se sabe.
+ *   · Naranja #F2921D = ACCIÓN y ALERTA — botones/CTAs, tuberías del flujo,
+ *     cifras de fuga, dolores activos, deltas negativos. Hover ocre #BF7A24.
+ *   · Cian #4FD1E0    = diseño / insight — links inline, kickers informativos,
+ *     bordes destacados, nodos sanos del flujo, énfasis de promesa.
+ *   · Morado #A78BC4  = ruta opcional "IA que decide" en el flujo de valor.
+ *   · Gris  #8B95A5   = contexto — cuerpo de texto, lo que ya se sabe.
  *
- * Proporción objetivo 90 / 7 / 3:
- *   90% neutros (fondo, texto, cards) · 7% cian · 3% ámbar.
- *   Si una pantalla tiene más ámbar que cian, grita en vez de diagnosticar.
+ * Proporción: los neutros dominan; naranja y cian son acentos dosificados.
+ * Naranja/cian = SOLO acento. PROHIBIDO cualquier color como fondo o tinte
+ * de sección: los fondos alternan --noche (#0B1420) y aceros
+ * (#141F2E/#1C2836). La profundidad la dan cards de acero, no tintes.
  *
- * Cian = SOLO acento. PROHIBIDO como fondo de sección o tinte de superficie.
- * Franjas/overlays permitidos: base #0B1420, aceros #141F2E/#1C2836 y
- * cian tenue rgba(79,209,224,0.05–0.10). No existen ya marino ni morado.
- *
- * Contraste sobre #0B1420: nieve 17.0:1 · cian 10.2:1 · ámbar 10.1:1 ·
+ * Contraste sobre #0B1420: nieve 17.0:1 · cian 10.2:1 · naranja 7.8:1 ·
  * gris neblina 6.1:1 (AA texto normal) · neblina tenue #5D6B7A 3.4:1 —
  * SOLO para texto grande o metadatos no esenciales.
+ * Texto sobre naranja (botones): noche #0B1420, 7.8:1 — nunca blanco.
  * ─────────────────────────────────────────────────────────────────────────── */
 
 @custom-variant dark (&:is(.dark *));
@@ -51,6 +49,8 @@
   --color-border: var(--border);
   --color-destructive: var(--destructive);
   --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-morado: var(--morado);
   --color-primary-hover: var(--primary-hover);
   --color-foreground-dim: var(--foreground-dim);
   --color-accent-foreground: var(--accent-foreground);
@@ -92,7 +92,9 @@
   --foreground-dim: #5D6B7A;                 /* neblina tenue — solo metadatos/texto grande */
   --accent: #1C2836;
   --accent-foreground: #F2F6F9;
-  --warning: #FFB020;                        /* ámbar Andon — tensión / fuga */
+  --warning: #F2921D;                        /* naranja Andon — tensión / fuga / CTA */
+  --warning-hover: #BF7A24;                  /* ocre — hover/activo del naranja */
+  --morado: #A78BC4;                         /* morado — ruta opcional IA en el flujo */
   --destructive: oklch(0.62 0.22 25);
   --border: rgba(79, 209, 224, 0.16);        /* línea cian */
   --input: rgba(79, 209, 224, 0.12);
@@ -191,7 +193,7 @@ section[id] { scroll-margin-top: 80px; }
   h2, h3 { text-wrap: pretty; }
 }
 
-/* ── Botón primario cian con hover fill ──────────────────────── */
+/* ── Botón primario naranja con hover fill ocre ──────────────── */
 .btn-primary {
   display: inline-block;
   padding: 12px 24px;
@@ -201,7 +203,7 @@ section[id] { scroll-margin-top: 80px; }
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-space-grotesk), var(--font-geist-sans);
   text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
@@ -220,7 +222,7 @@ section[id] { scroll-margin-top: 80px; }
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--primary);
+  background-color: var(--warning);
   border-radius: 4px;
   z-index: -2;
 }
@@ -231,14 +233,14 @@ section[id] { scroll-margin-top: 80px; }
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: var(--primary-hover);
+  background-color: var(--warning-hover);
   transition: all 0.3s ease;
   border-radius: 4px;
   z-index: -1;
 }
 .btn-primary:hover::before { width: 100%; }
-/* El hover rellena con cian-hover (#3BB8C7): el texto sigue oscuro —
-   blanco sobre ese cian daría ~2.6:1 y fallaría AA */
+/* El hover rellena con ocre (#BF7A24): el texto sigue oscuro —
+   noche sobre ocre da 5.3:1 (AA); blanco fallaría */
 .btn-primary:hover { color: var(--primary-foreground) !important; }
 .btn-primary:active { color: var(--primary-foreground) !important; }
 /* Mobile: estado pressed/tap */
@@ -253,6 +255,27 @@ section[id] { scroll-margin-top: 80px; }
 /* ── Keyframes ──────────────────────────────────────────────── */
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Tuberías del flujo de valor: el "líquido" naranja recorre el path.
+   dasharray 14 120 → un ciclo completo = 134 */
+@keyframes tubeFlow {
+  to { stroke-dashoffset: -134; }
+}
+
+/* Partícula de tubería vertical (móvil): gota que cae por el conector */
+@keyframes mobileParticle {
+  0%   { top: -6px; opacity: 0; }
+  12%  { opacity: 1; }
+  82%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Pulso concéntrico del nodo ROI */
+.vf-rp { transform-box: fill-box; transform-origin: center; }
+@keyframes roiPulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
 }
 
 /* ── Sección Diferenciador (S3) ─────────────────────────────── */

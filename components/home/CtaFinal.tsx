@@ -71,7 +71,7 @@ export function CtaFinal() {
               fontSize: "clamp(14px, 2vw, 18px)",
               padding: "18px 40px",
               gap: 10,
-              boxShadow: "0 0 80px 20px #00D4C626, 0 8px 30px -8px #00D4C699",
+              boxShadow: "0 0 80px 20px #F2921D26, 0 8px 30px -8px #F2921D99",
             }}
           >
             Diagnóstica tu proceso

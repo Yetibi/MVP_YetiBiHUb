@@ -109,35 +109,44 @@ function DrumRoll({ onIndexChange, reduced }: {
 
   const [slotH, setSlotH] = useState(0);
   const [slotW, setSlotW] = useState(0);
+  // fontPx ≠ null → la palabra más larga no cabe al tamaño clamp y se reduce
+  const [fontPx, setFontPx] = useState<number | null>(null);
   const [current, setCurrent] = useState<number>(WORDS.length);
 
   const OFFSET   = WORDS.length;
   const extended = [...WORDS, ...WORDS, ...WORDS];
   const FS       = "clamp(32px,4.5vw,60px)";
+  // Aire lateral para los corner brackets (sobresalen 6px por lado + margen)
+  const BRACKET_PAD = 44;
 
+  // El marco reserva el ancho de la palabra MÁS LARGA del set: no salta al
+  // rotar. Si esa palabra + brackets no cabe en el viewport (móvil), se
+  // reduce el font-size hasta que ambos brackets queden con margen.
   useEffect(() => {
-    if (!sizerRef.current) return;
-    setSlotH(sizerRef.current.offsetHeight);
-    const onResize = () => {
-      if (!sizerRef.current) return;
-      setSlotH(sizerRef.current.offsetHeight);
-      const el = sizerRefs.current[current % WORDS.length];
-      if (!el) return;
+    const measure = () => {
+      const els = sizerRefs.current.filter(
+        (el): el is HTMLSpanElement => el != null,
+      );
+      if (!sizerRef.current || els.length === 0) return;
+      const baseH  = sizerRef.current.offsetHeight;
+      const basePx = parseFloat(getComputedStyle(els[0]).fontSize);
+      const maxW   = Math.max(...els.map((el) => el.offsetWidth));
       const isMobile = window.innerWidth < 768;
-      const maxRatio = isMobile ? 0.42 : 0.55;
-      setSlotW(Math.min(el.offsetWidth + 44, window.innerWidth * maxRatio));
+      const maxRatio = isMobile ? 0.62 : 0.55;
+      // nunca más ancho que el viewport menos el padding lateral del hero
+      const avail = Math.min(
+        window.innerWidth * maxRatio,
+        window.innerWidth - 2 * 24 - 12,
+      );
+      const scale = maxW + BRACKET_PAD > avail ? (avail - BRACKET_PAD) / maxW : 1;
+      setFontPx(scale < 1 ? Math.floor(basePx * scale) : null);
+      setSlotH(Math.round(baseH * scale));
+      setSlotW(Math.round(maxW * scale) + BRACKET_PAD);
     };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [current]);
-
-  useEffect(() => {
-    const el = sizerRefs.current[current % WORDS.length];
-    if (!el) return;
-    const isMobile = window.innerWidth < 768;
-    const maxRatio = isMobile ? 0.42 : 0.55;
-    setSlotW(Math.min(el.offsetWidth + 44, window.innerWidth * maxRatio));
-  }, [current]);
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
   useEffect(() => {
     onIndexChange(current % WORDS.length);
@@ -186,7 +195,7 @@ function DrumRoll({ onIndexChange, reduced }: {
         fontWeight: 900,
         fontSize: FS,
         letterSpacing: "-1px",
-        color: "#4FD1E0",
+        color: "#F2921D",
       }}>
         claridad
       </span>
@@ -222,7 +231,7 @@ function DrumRoll({ onIndexChange, reduced }: {
             style={{
               position: "absolute",
               width: 6, height: 6,
-              borderColor: "#4FD1E0",
+              borderColor: "#F2921D",
               borderStyle: "solid",
               opacity: 0.8,
               zIndex: 10,
@@ -268,10 +277,10 @@ function DrumRoll({ onIndexChange, reduced }: {
                     whiteSpace: "nowrap",
                     fontFamily: "var(--font-geist-sans)",
                     fontWeight: 900,
-                    fontSize:   FS,
+                    fontSize:   fontPx ?? FS,
                     letterSpacing: "-1px",
                     fontStyle:  "normal",
-                    color:      isActive ? "#4FD1E0" : "rgba(255,255,255,0.04)",
+                    color:      isActive ? "#F2921D" : "rgba(255,255,255,0.04)",
                     opacity:    isActive ? 1 : 0,
                     transition: "color 0.3s ease, opacity 0.3s ease",
                   }}
@@ -315,10 +324,12 @@ function Navbar() {
           fontFamily: "var(--font-geist-sans)",
           fontWeight: 700,
           fontSize: 13,
-          color: "#fff",
+          color: "#F2F6F9",
           letterSpacing: "3px",
         }}>
-          <span translate="no">YETI·<span style={{ color: "#4FD1E0" }}>BI</span></span>
+          {/* Logo bicolor — excepción de identidad deliberada:
+              YETI nieve · cian BI ámbar */}
+          <span translate="no">YETI<span style={{ color: "#4FD1E0" }}>·</span><span style={{ color: "#F2921D" }}>BI</span></span>
         </span>
       </Link>
 
@@ -358,8 +369,7 @@ function Navbar() {
       {/* El CTA del navbar es el único elemento coral grande permitido:
          acento de conversión. El resto de .btn-primary ya es teal. */}
       <style>{`
-        .home-navbar-cta::after { background-color: #4FD1E0 !important; }
-        .home-navbar-cta::before { background-color: #3BB8C7 !important; }
+        /* hereda el naranja de .btn-primary; sin overrides de color */
       `}</style>
     </nav>
   );
@@ -580,7 +590,7 @@ function LeftPanel({
           <p style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: 17,
-            color: "rgba(255,255,255,0.85)",
+            color: "#8B95A5",
             lineHeight: 1.6,
             maxWidth: 560,
             margin: "0 auto 28px",
@@ -773,11 +783,15 @@ function RightPanel({
           {PAINS.map((pain, i) => {
             const isActive = allVisible || i === activePain;
             const Icon = PAIN_ICONS[i];
-            const iconColor = isActive ? "#8B95A5" : "rgba(93,107,122,0.3)";
+            // Andon: los dolores son fuga activa — el marcador se enciende en ámbar
+            const iconColor = isActive ? "#F2921D" : "rgba(242,146,29,0.3)";
             return (
               <li key={pain.num} style={{
-                paddingTop: 14,
-                paddingBottom: 14,
+                background: "#141F2E",
+                border: "1px solid #1C2836",
+                borderRadius: 12,
+                padding: "14px 18px",
+                marginBottom: 10,
                 transition: "opacity 0.4s ease",
                 opacity: isActive ? 1 : 0.2,
               }}>
@@ -802,7 +816,7 @@ function RightPanel({
                   fontFamily: "var(--font-geist-sans)",
                   fontWeight: 400,
                   fontSize: "clamp(11px,1.1vw,15px)",
-                  color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.35)",
+                  color: isActive ? "#8B95A5" : "rgba(139,149,165,0.35)",
                   margin: 0,
                   lineHeight: 1.5,
                   paddingLeft: 38,
@@ -860,15 +874,18 @@ function MobilePainList() {
             ref={(el) => { itemRefs.current[i] = el; }}
             style={{
               display: "flex", gap: 14,
-              paddingTop: 16, paddingBottom: 16,
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              background: "#141F2E",
+              border: "1px solid #1C2836",
+              borderRadius: 12,
+              padding: "14px 16px",
+              marginBottom: 10,
               opacity: isActive ? 1 : hasBeenSeen ? 0.25 : 0.12,
               transform: hasBeenSeen ? "translateY(0)" : "translateY(14px)",
               transition: "opacity 0.45s ease, transform 0.45s ease",
             }}
           >
             <span style={{ flexShrink: 0, paddingTop: 1 }}>
-              <Icon color={isActive ? "#8B95A5" : "rgba(93,107,122,0.25)"} />
+              <Icon color={isActive ? "#F2921D" : "rgba(242,146,29,0.25)"} />
             </span>
             <div>
               <p style={{
@@ -880,7 +897,7 @@ function MobilePainList() {
               </p>
               <p style={{
                 fontFamily: "var(--font-geist-sans)", fontSize: 13,
-                color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.10)",
+                color: isActive ? "#8B95A5" : "rgba(139,149,165,0.10)",
                 margin: "4px 0 0", lineHeight: 1.55,
                 transition: "color 0.45s ease",
               }}>
@@ -980,8 +997,10 @@ export default function Hero() {
             }}>
               Pero
             </span>
+            {/* wrap: si "primero." no cabe, baja de línea; la palabra rotativa
+                + brackets siempre caben porque DrumRoll reduce su font-size */}
             <span style={{
-              display: "flex", flexWrap: "nowrap", overflow: "hidden", alignItems: "center", gap: 10,
+              display: "flex", flexWrap: "wrap", overflowX: "hidden", alignItems: "center", gap: 10,
             }}>
               <span data-necesitan style={{
                 fontFamily: "var(--font-geist-sans)", fontWeight: 900,
@@ -1004,7 +1023,7 @@ export default function Hero() {
           {/* Subtítulo */}
           <p style={{
             fontFamily: "var(--font-geist-sans)", fontSize: 15,
-            color: "rgba(255,255,255,0.60)", lineHeight: 1.6, margin: 0,
+            color: "#8B95A5", lineHeight: 1.6, margin: 0,
           }}>
             Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
           </p>

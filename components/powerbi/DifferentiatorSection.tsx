@@ -55,7 +55,7 @@ function CrossIcon() {
     >
       <motion.path
         d="M3 3 L13 13"
-        stroke="#FFB020"
+        stroke="#F2921D"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}
@@ -65,7 +65,7 @@ function CrossIcon() {
       />
       <motion.path
         d="M13 3 L3 13"
-        stroke="#FFB020"
+        stroke="#F2921D"
         strokeWidth={1.8}
         strokeLinecap="square"
         initial={{ pathLength: 0 }}

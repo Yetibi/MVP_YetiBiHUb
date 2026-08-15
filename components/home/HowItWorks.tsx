@@ -164,8 +164,10 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                   width: isActive ? undefined : 180,
                   flex: isActive ? 1 : undefined,
                   flexShrink: isActive ? 1 : 0,
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
-                  padding: "28px 28px 24px 0",
+                  background: "#141F2E",
+                  border: "1px solid #1C2836",
+                  borderRadius: 12,
+                  padding: "28px 28px 24px 28px",
                   position: "relative",
                   overflow: "hidden",
                   display: "flex",
@@ -220,7 +222,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                           style={{
                             fontFamily: "var(--font-geist-sans)",
                             fontSize: 16,
-                            color: "rgba(255,255,255,0.65)",
+                            color: "#8B95A5",
                             lineHeight: 1.7,
                             margin: 0,
                           }}
@@ -241,7 +243,8 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                           transition={{ duration: 0.3, delay: 0.05 }}
                           style={{
                             borderLeft: "2px solid #4FD1E0",
-                            background: "rgba(79,209,224,0.06)",
+                            background: "#1C2836",
+                            borderRadius: "0 8px 8px 0",
                             padding: "12px 14px",
                             position: "relative", zIndex: 1,
                           }}
@@ -250,11 +253,11 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                             {step.alert.title}
                           </p>
                           {/* contraste mejorado: 0.5 → 0.75 */}
-                          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.6, margin: "0 0 4px" }}>
+                          <p style={{ fontSize: 13, color: "#8B95A5", lineHeight: 1.6, margin: "0 0 4px" }}>
                             {step.alert.text}
                           </p>
                           {/* contraste mejorado: 0.25 → 0.65 */}
-                          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.65)", margin: 0 }}>
+                          <p style={{ fontSize: 11, color: "#8B95A5", margin: 0 }}>
                             {step.alert.formats}
                           </p>
                         </motion.div>
@@ -325,7 +328,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
             </p>
             <p style={{
               fontFamily: "var(--font-geist-sans)", fontSize: 17,
-              color: "rgba(255,255,255,0.6)", lineHeight: 1.6,
+              color: "#8B95A5", lineHeight: 1.6,
               margin: 0, maxWidth: 560,
             }}>
               El reporte te da la claridad. La asesoría te da el plan.
@@ -385,7 +388,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
     <>
       <section
         id="como-funciona"
-        style={{ background: "#0B1420", padding: "56px 24px 40px" }}
+        style={{ background: "#0B1420", padding: "56px 24px 40px", overflowX: "hidden" }}
       >
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
@@ -423,8 +426,11 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                 key={step.num}
                 ref={(el) => { stepRefs.current[i] = el; }}
                 style={{
-                  borderTop: `1px solid ${isActive ? "rgba(79,209,224,0.30)" : "rgba(255,255,255,0.06)"}`,
-                  padding: "24px 0",
+                  background: "#141F2E",
+                  border: `1px solid ${isActive ? "rgba(79,209,224,0.30)" : "#1C2836"}`,
+                  borderRadius: 12,
+                  padding: "20px 16px",
+                  marginBottom: 12,
                   display: "flex", flexDirection: "column", gap: 12,
                   opacity: isActive ? 1 : hasSeen ? 0.22 : 0.08,
                   transform: hasSeen ? "translateX(0) scale(1)" : "translateX(32px) scale(0.97)",
@@ -538,7 +544,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
         </h3>
         <p style={{
           fontFamily: "var(--font-geist-sans)", fontSize: 14,
-          color: "rgba(255,255,255,0.65)", lineHeight: 1.7, margin: 0,
+          color: "#8B95A5", lineHeight: 1.7, margin: 0,
         }}>
           El reporte te da la claridad. La asesoría te da el plan.
         </p>
