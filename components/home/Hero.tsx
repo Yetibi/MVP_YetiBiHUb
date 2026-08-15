@@ -116,8 +116,9 @@ function DrumRoll({ onIndexChange, reduced }: {
   const OFFSET   = WORDS.length;
   const extended = [...WORDS, ...WORDS, ...WORDS];
   const FS       = "clamp(32px,4.5vw,60px)";
-  // Aire lateral para los corner brackets (sobresalen 6px por lado + margen)
-  const BRACKET_PAD = 44;
+  // Aire lateral para los corner brackets (sobresalen 6px por lado + margen);
+  // la palabra va centrada, así que el aire se reparte simétrico
+  const BRACKET_PAD = 32;
 
   // El marco reserva el ancho de la palabra MÁS LARGA del set: no salta al
   // rotar. Si esa palabra + brackets no cabe en el viewport (móvil), se
@@ -274,6 +275,7 @@ function DrumRoll({ onIndexChange, reduced }: {
                     overflow:   isBelow ? "hidden" : undefined,
                     display:    "flex",
                     alignItems: "center",
+                    justifyContent: "center",
                     whiteSpace: "nowrap",
                     fontFamily: "var(--font-geist-sans)",
                     fontWeight: 900,
