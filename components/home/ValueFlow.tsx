@@ -330,7 +330,7 @@ export function ValueFlow() {
               return (
                 <>
                   {scrambleText.slice(0, ai)}
-                  <span style={{ color: C_CIAN, fontWeight: 900 }}>
+                  <span style={{ color: C_NARANJA, fontWeight: 900 }}>
                     {scrambleText.slice(ai)}
                   </span>
                 </>
@@ -498,7 +498,7 @@ export function ValueFlow() {
           <p style={{ fontSize: 15, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.9)', fontWeight: 700, marginTop: 8, marginBottom: 0 }}>
             Antes de buscar inteligencia artificial,
           </p>
-          <p style={{ fontSize: 15, fontFamily: 'var(--font-geist-mono)', color: C_CIAN, fontWeight: 700, marginTop: 0, marginBottom: 0 }}>
+          <p style={{ fontSize: 15, fontFamily: 'var(--font-geist-mono)', color: C_NARANJA, fontWeight: 700, marginTop: 0, marginBottom: 0 }}>
             busca procesos inteligentes.
           </p>
         </div>
