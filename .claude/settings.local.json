@@ -45,7 +45,22 @@
       "Bash(node)",
       "Bash(sed -i '' 's/color: \"rgba\\(255,255,255,0.85\\)\",\\\\n            lineHeight: 1.6,/color: \"#8B95A5\",\\\\n            lineHeight: 1.6,/' components/home/Hero.tsx)",
       "Bash(perl -0pi -e 's/fontSize: 17,\\\\n            color: \"rgba\\\\\\(255,255,255,0\\\\.85\\\\\\)\",/fontSize: 17,\\\\n            color: \"#8B95A5\",/' components/home/Hero.tsx)",
-      "Bash(echo \"BUILD EXIT: $?\")"
+      "Bash(echo \"BUILD EXIT: $?\")",
+      "Bash(curl -s -o /dev/null -w \"dev / → %{http_code}\\\\n\" --max-time 30 http://localhost:3000/)",
+      "Bash(git ls-remote *)",
+      "Bash(echo \"REMOTO: $\\(git ls-remote origin refs/heads/feat/plano-glaciar\\)\")",
+      "Bash(git fetch *)",
+      "Bash(curl -s --max-time 15 \"https://api.github.com/repos/Yetibi/MVP_YetiBiHUb/pulls?state=all\")",
+      "Bash(curl -s --max-time 15 \"https://api.github.com/repos/Yetibi/MVP_YetiBiHUb/pulls/1\")",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('número:', p['number']\\); print\\('título:', p['title']\\); print\\('estado:', p['state']\\); print\\('merged:', p['merged']\\); print\\('base:', p['base']['ref'], '←', p['head']['ref']\\); print\\('head SHA:', p['head']['sha']\\); print\\('url:', p['html_url']\\)\")",
+      "Bash(curl -s --max-time 15 \"https://api.github.com/repos/Yetibi/MVP_YetiBiHUb/commits/c8298daca2aad74a757d8a1beda7b505ab2d80b4/check-runs\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('total:', d.get\\('total_count'\\)\\); [print\\('-', c['name'], '·', c['status'], '·', c.get\\('conclusion'\\)\\) for c in d.get\\('check_runs', []\\)]\")",
+      "Bash(curl -s --max-time 15 \"https://api.github.com/repos/Yetibi/MVP_YetiBiHUb/deployments?per_page=6\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s --max-time 15 \"https://api.github.com/repos/Yetibi/MVP_YetiBiHUb/deployments?per_page=1\")",
+      "Bash(python3 -c \"import json,sys; print\\(json.load\\(sys.stdin\\)[0]['statuses_url']\\)\")",
+      "Bash(xargs -I{} curl -s --max-time 15 {})",
+      "Bash(python3 -c \"import json,sys; ss=json.load\\(sys.stdin\\); [print\\('-', s['state'], '|', s.get\\('description',''\\)[:60], '|', s.get\\('environment_url'\\) or s.get\\('target_url',''\\)\\) for s in ss[:3]]\")"
     ],
     "additionalDirectories": [
       "/tmp/glaciar-shots"

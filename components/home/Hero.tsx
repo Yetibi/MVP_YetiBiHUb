@@ -15,16 +15,9 @@ import {
 
 const NAV_LINKS = [
   { label: "El problema",   href: "#el-problema" },
-  { label: "Cómo funciona", href: "#como-funciona" },
+  { label: "Las 3 capas",   href: "#como-funciona" },
   { label: "El enfoque",    href: "#el-enfoque" },
   { label: "Contacto",      href: "#contacto" },
-] as const;
-
-const WORDS = [
-  "claridad",
-  "diagnóstico",
-  "madurez",
-  "decisión",
 ] as const;
 
 const PAIN_ICONS: React.FC<{ color: string }>[] = [
@@ -97,204 +90,36 @@ const NAVBAR_BTN_EXTRA: React.CSSProperties = {
   minHeight: 44,
 };
 
-// ─── DrumRoll ─────────────────────────────────────────────────────────────────
+// ─── BracketFrame ─────────────────────────────────────────────────────────────
+// Marco de énfasis con 4 corner brackets cian. Decorativo: las esquinas van
+// aria-hidden; el texto interior sí es parte del contenido visual (que a su
+// vez vive dentro de un contenedor aria-hidden — el H1 real es sr-only).
 
-function DrumRoll({ onIndexChange, reduced }: {
-  onIndexChange: (i: number) => void;
-  reduced: boolean;
-}) {
-  const sizerRef  = useRef<HTMLSpanElement>(null);
-  const sizerRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const trackRef  = useRef<HTMLDivElement>(null);
-
-  const [slotH, setSlotH] = useState(0);
-  const [slotW, setSlotW] = useState(0);
-  // fontPx ≠ null → la palabra más larga no cabe al tamaño clamp y se reduce
-  const [fontPx, setFontPx] = useState<number | null>(null);
-  const [current, setCurrent] = useState<number>(WORDS.length);
-
-  const OFFSET   = WORDS.length;
-  const extended = [...WORDS, ...WORDS, ...WORDS];
-  const FS       = "clamp(32px,4.5vw,60px)";
-  // Aire lateral para los corner brackets (sobresalen 6px por lado + margen);
-  // la palabra va centrada, así que el aire se reparte simétrico
-  const BRACKET_PAD = 32;
-
-  // El marco reserva el ancho de la palabra MÁS LARGA del set: no salta al
-  // rotar. Si esa palabra + brackets no cabe en el viewport (móvil), se
-  // reduce el font-size hasta que ambos brackets queden con margen.
-  useEffect(() => {
-    const measure = () => {
-      const els = sizerRefs.current.filter(
-        (el): el is HTMLSpanElement => el != null,
-      );
-      if (!sizerRef.current || els.length === 0) return;
-      const baseH  = sizerRef.current.offsetHeight;
-      const basePx = parseFloat(getComputedStyle(els[0]).fontSize);
-      const maxW   = Math.max(...els.map((el) => el.offsetWidth));
-      const isMobile = window.innerWidth < 768;
-      const maxRatio = isMobile ? 0.62 : 0.55;
-      // nunca más ancho que el viewport menos el padding lateral del hero
-      const avail = Math.min(
-        window.innerWidth * maxRatio,
-        window.innerWidth - 2 * 24 - 12,
-      );
-      const scale = maxW + BRACKET_PAD > avail ? (avail - BRACKET_PAD) / maxW : 1;
-      setFontPx(scale < 1 ? Math.floor(basePx * scale) : null);
-      setSlotH(Math.round(baseH * scale));
-      setSlotW(Math.round(maxW * scale) + BRACKET_PAD);
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, []);
-
-  useEffect(() => {
-    onIndexChange(current % WORDS.length);
-  }, [current, onIndexChange]);
-
-  useEffect(() => {
-    if (slotH === 0 || reduced) return;
-    let curr = OFFSET;
-    const id = setInterval(() => {
-      curr++;
-      if (curr >= OFFSET + WORDS.length) {
-        if (trackRef.current) {
-          trackRef.current.style.transition = "none";
-          curr = OFFSET;
-          setCurrent(curr);
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              if (trackRef.current) trackRef.current.style.transition = "";
-              curr++;
-              setCurrent(curr);
-            });
-          });
-          return;
-        }
-      }
-      setCurrent(curr);
-    }, 2500);
-    return () => clearInterval(id);
-  }, [slotH, reduced]);
-
-  const sizerBase: React.CSSProperties = {
-    visibility: "hidden",
+function BracketFrame({ children }: { children: React.ReactNode }) {
+  const corner: React.CSSProperties = {
     position: "absolute",
-    fontFamily: "var(--font-geist-sans)",
-    fontWeight: 900,
-    fontSize: FS,
-    whiteSpace: "nowrap",
-    letterSpacing: "-1px",
+    width: 16,
+    height: 16,
+    borderColor: "#4FD1E0",
+    borderStyle: "solid",
     pointerEvents: "none",
   };
-
-  if (reduced) {
-    return (
-      <span style={{
-        fontFamily: "var(--font-geist-sans)",
-        fontWeight: 900,
-        fontSize: FS,
-        letterSpacing: "-1px",
-        color: "#F2921D",
-      }}>
-        claridad
-      </span>
-    );
-  }
-
   return (
-    <>
-      {/* Sin aria-live: el H1 ya expone la frase completa y fija, así que
-          anunciar cada rotación sería una interrupción en bucle sin valor. */}
-      <span ref={sizerRef} aria-hidden style={sizerBase}>A</span>
-      {WORDS.map((w, i) => (
-        <span key={w} ref={(el) => { sizerRefs.current[i] = el; }} aria-hidden style={sizerBase}>{w}</span>
-      ))}
-
-      <div
-        aria-hidden
-        style={{
-          display: "inline-flex",
-          alignItems: "flex-start",
-          verticalAlign: "top",
-          position: "relative",
-          flexShrink: 0,
-          width: slotW || "auto",
-          height: slotH || "1.1em",
-          overflow: "visible",
-          transition: "width 0.4s cubic-bezier(0.4,0,0.2,1)",
-        }}>
-        {slotH > 0 && (["tl","tr","bl","br"] as const).map((pos) => (
-          <span
-            key={pos}
-            aria-hidden
-            style={{
-              position: "absolute",
-              width: 6, height: 6,
-              borderColor: "#F2921D",
-              borderStyle: "solid",
-              opacity: 0.8,
-              zIndex: 10,
-              ...(pos === "tl" && { top: -3,        left:  -6, borderWidth: "1.5px 0 0 1.5px" }),
-              ...(pos === "tr" && { top: -3,        right: -6, borderWidth: "1.5px 1.5px 0 0" }),
-              ...(pos === "bl" && { top: slotH - 3, left:  -6, borderWidth: "0 0 1.5px 1.5px" }),
-              ...(pos === "br" && { top: slotH - 3, right: -6, borderWidth: "0 1.5px 1.5px 0" }),
-            }}
-          />
-        ))}
-
-        <div style={{
-          position: "relative",
-          width: "100%",
-          height: slotH ? slotH : "1.1em",
-          overflow: "hidden",
-        }}>
-          <div
-            ref={trackRef}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              transform: `translateY(${-current * slotH}px)`,
-              transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
-              willChange: "transform",
-              overflow: "visible",
-            }}
-          >
-            {extended.map((word, i) => {
-              const d        = i - current;
-              const isActive = d === 0;
-              const isBelow  = d === 1;
-              return (
-                <div
-                  key={`${word}-${i}`}
-                  aria-hidden
-                  style={{
-                    height:     isBelow ? 0 : (slotH || undefined),
-                    lineHeight: slotH ? `${slotH}px` : undefined,
-                    overflow:   isBelow ? "hidden" : undefined,
-                    display:    "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    fontFamily: "var(--font-geist-sans)",
-                    fontWeight: 900,
-                    fontSize:   fontPx ?? FS,
-                    letterSpacing: "-1px",
-                    fontStyle:  "normal",
-                    color:      isActive ? "#F2921D" : "rgba(255,255,255,0.04)",
-                    opacity:    isActive ? 1 : 0,
-                    transition: "color 0.3s ease, opacity 0.3s ease",
-                  }}
-                >
-                  {word}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </>
+    <span style={{
+      position: "relative",
+      display: "inline-block",
+      // padding lateral para que los brackets no toquen el texto (16px móvil → 26px desktop)
+      padding: "0 clamp(16px, 2.2vw, 26px)",
+      boxSizing: "border-box",
+      color: "#4FD1E0",
+      whiteSpace: "nowrap",
+    }}>
+      <span aria-hidden style={{ ...corner, top: -8, left: 0, borderWidth: "2.5px 0 0 2.5px" }} />
+      <span aria-hidden style={{ ...corner, top: -8, right: 0, borderWidth: "2.5px 2.5px 0 0" }} />
+      <span aria-hidden style={{ ...corner, bottom: -8, left: 0, borderWidth: "0 0 2.5px 2.5px" }} />
+      <span aria-hidden style={{ ...corner, bottom: -8, right: 0, borderWidth: "0 2.5px 2.5px 0" }} />
+      {children}
+    </span>
   );
 }
 
@@ -323,7 +148,7 @@ function Navbar() {
       >
         <Image src="/yeti-logo.png" alt="Yeti BI" width={32} height={32} style={{ objectFit: "contain" }} priority />
         <span style={{
-          fontFamily: "var(--font-geist-sans)",
+          fontFamily: "var(--font-space-grotesk)",
           fontWeight: 700,
           fontSize: 13,
           color: "#F2F6F9",
@@ -364,7 +189,7 @@ function Navbar() {
         className="btn-primary home-navbar-cta"
         style={NAVBAR_BTN_EXTRA}
       >
-        DIAGNÓSTICA TU PROCESO
+        EVALUAR MI PROCESO
         <span className="sr-only"> (abre en nueva pestaña)</span>
       </a>
 
@@ -386,7 +211,8 @@ function LeftPanel({
   opacityMV: MotionValue<number>;
   reduced: boolean;
 }) {
-  const FS = "clamp(32px,4.5vw,60px)";
+  // mínimo 26px: garantiza que "el que encuentra." + brackets quepa a 320px
+  const H1_FS = "clamp(26px, 4.5vw, 58px)";
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -535,7 +361,7 @@ function LeftPanel({
         height: "100vh",
         display: "flex",
         flexDirection: "column",
-        background: "#0B1420",
+        background: "radial-gradient(ellipse 60% 42% at 50% 0%, rgba(79,209,224,0.04), transparent 70%), #0B1420",
         overflow: "hidden",
         padding: "0 clamp(24px,5vw,48px)",
         boxSizing: "border-box",
@@ -574,135 +400,107 @@ function LeftPanel({
           textAlign: "center",
         }}>
           {/* Kicker */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 16 }}>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0", flexShrink: 0 }} />
+          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 24 }}>
+            <div aria-hidden style={{ width: 28, height: 1, background: "#F2921D", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)",
               fontSize: 12,
-              color: "#5D6B7A",
-              letterSpacing: "2px",
+              color: "#F2921D",
+              letterSpacing: "3px",
               textTransform: "uppercase",
               fontWeight: 500,
             }}>
-              DIAGNÓSTICO DE MADUREZ OPERACIONAL
+              EVALUACIÓN DE PROCESO · ANTES DE AUTOMATIZAR
             </span>
-            <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0", flexShrink: 0 }} />
           </div>
 
+          {/* h1 de la página — el accesible es la frase limpia; el visual va
+              aria-hidden para que los brackets no rompan la lectura */}
+          <h1 className="sr-only">
+            La IA no arregla un proceso. Amplifica el que encuentra.
+          </h1>
+          <div aria-hidden="true" style={{
+            fontFamily: "var(--font-space-grotesk)",
+            fontWeight: 700,
+            fontSize: H1_FS,
+            lineHeight: 1.04,
+            letterSpacing: "-0.025em",
+            color: "#F2F6F9",
+          }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              La IA no arregla un proceso.
+            </div>
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.18em 0.28em",
+              marginTop: "0.18em",
+            }}>
+              <span style={{ color: "#F2921D" }}>Amplifica</span>
+              <BracketFrame>el que encuentra.</BracketFrame>
+            </div>
+          </div>
+
+          {/* Lead */}
           <p style={{
             fontFamily: "var(--font-geist-sans)",
             fontSize: 17,
             color: "#8B95A5",
-            lineHeight: 1.6,
-            maxWidth: 560,
-            margin: "0 auto 28px",
+            lineHeight: 1.65,
+            maxWidth: 590,
+            margin: "28px auto 0",
             fontWeight: 400,
           }}>
-            Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
+            Tu proceso no tiene que estar roto — puede solo{" "}
+            <span style={{ color: "#4FD1E0", fontWeight: 500 }}>no estar listo</span>.
+            Evaluamos sus tres capas (<span style={{ color: "#F2F6F9", fontWeight: 500 }}>propósito, personas y flujo</span>)
+            antes de que la tecnología amplifique lo que haya.
           </p>
 
-          {/* h1 de la página */}
-          {/* El H1 accesible es una frase fija y limpia. Todo el tratamiento
-              visual —las tres líneas y el rotador de palabras— queda como capa
-              decorativa aria-hidden: los divs de layout no aportan espacios al
-              texto accesible, así que sin esto se leía "IA.PeroNecesitan...". */}
-          <h1 className="sr-only">
-            Todos quieren IA. Pero necesitan claridad primero.
-          </h1>
-          <div aria-hidden="true" style={{
-            margin: 0,
-            padding: 0,
-            display: "contents",
-            fontFamily: "var(--font-geist-sans)",
-            fontWeight: 900,
-          }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1.05 }}>
-              <span style={{
-                fontFamily: "var(--font-geist-sans)",
-                fontWeight: 900,
-                fontSize: FS,
-                color: "#4FD1E0",
-                letterSpacing: "-1px",
-                lineHeight: 1.05,
-              }}>
-                Todos quieren IA.
-              </span>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1.05 }}>
-              <span style={{
-                fontFamily: "var(--font-geist-sans)",
-                fontWeight: 900,
-                fontSize: FS,
-                letterSpacing: "-1px",
-                color: "rgba(255,255,255,0.9)",
-                lineHeight: 1.05,
-              }}>
-                Pero
-              </span>
-            </div>
-
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              lineHeight: 1.05,
-              marginTop: 2,
-              flexWrap: "nowrap",
-              overflow: "visible",
+          {/* CTA principal */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 18, marginTop: 36 }}>
+            <a
+              href="/diagnostico"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-eval-cta"
+            >
+              Evaluar mi proceso <span aria-hidden>→</span>
+              <span className="sr-only"> (abre en nueva pestaña)</span>
+            </a>
+            <span style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: 11,
+              color: "#5D6B7A",
+              letterSpacing: "2px",
             }}>
-              <span data-necesitan style={{
-                fontFamily: "var(--font-geist-sans)",
-                fontWeight: 900,
-                fontSize: FS,
-                letterSpacing: "-1px",
-                color: "rgba(255,255,255,0.9)",
-                lineHeight: 1.05,
-                flexShrink: 0,
-                whiteSpace: "nowrap",
-              }}>
-                Necesitan
-              </span>
-
-              <DrumRoll onIndexChange={() => {}} reduced={reduced} />
-
-              <span data-primero style={{
-                fontFamily: "var(--font-geist-sans)",
-                fontWeight: 900,
-                fontSize: FS,
-                letterSpacing: "-1px",
-                color: "rgba(255,255,255,0.9)",
-                lineHeight: 1.05,
-                flexShrink: 0,
-                whiteSpace: "nowrap",
-              }}>
-                primero.
-              </span>
-            </div>
+              UN PROCESO · SIN COSTO
+            </span>
           </div>
 
-          {/* Cadena de valor */}
+          {/* Mini-flujo */}
           <div style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexWrap: "wrap",
             gap: "8px 0",
-            marginTop: 120,
+            marginTop: 72,
           }}>
             {[
-              { label: "Proceso habilitado para desplegar tecnología", accent: false },
-              { label: "Dato confiable", accent: false },
-              { label: "La ruta correcta", accent: false },
-              { label: "Impacto financiero medible", accent: true },
+              { label: "Proceso que debe existir", accent: false },
+              { label: "Personas correctas", accent: false },
+              { label: "Flujo optimizado", accent: false },
+              { label: "Impacto financiero", accent: true },
             ].map((item, i, arr) => (
               <span key={item.label} style={{ display: "flex", alignItems: "center" }}>
                 <span style={{
                   fontFamily: "var(--font-geist-mono)",
                   fontSize: "clamp(11px,1vw,14px)",
                   fontWeight: item.accent ? 600 : 400,
-                  color: item.accent ? "#4FD1E0" : "rgba(255,255,255,0.9)",
+                  color: item.accent ? "#F2921D" : "#8B95A5",
                   letterSpacing: "0.04em",
                   whiteSpace: "nowrap",
                 }}>
@@ -711,7 +509,7 @@ function LeftPanel({
                 {i < arr.length - 1 && (
                   <span aria-hidden style={{
                     margin: "0 10px",
-                    color: "rgba(255,255,255,0.2)",
+                    color: "#5D6B7A",
                     fontSize: 13,
                     fontFamily: "var(--font-geist-mono)",
                   }}>
@@ -721,20 +519,6 @@ function LeftPanel({
               </span>
             ))}
           </div>
-
-          {/* Tagline */}
-          <p style={{
-            fontFamily: "var(--font-geist-sans)",
-            fontSize: "clamp(13px,1.1vw,16px)",
-            color: "rgba(255,255,255,0.7)",
-            lineHeight: 1.65,
-            maxWidth: 440,
-            margin: "20px auto 0",
-            textAlign: "center",
-            fontWeight: 400,
-          }}>
-            Antes de apostarle a la IA, mide si tu operación está lista para que dé resultados.
-          </p>
         </div>
       </div>
     </div>
@@ -967,88 +751,93 @@ export default function Hero() {
           display: "flex",
           flexDirection: "column",
           gap: 16,
+          overflowX: "hidden",
+          background: "radial-gradient(ellipse 90% 36% at 50% 0%, rgba(79,209,224,0.04), transparent 70%), transparent",
         }}>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div aria-hidden style={{ width: 20, height: 1, background: "#4FD1E0", flexShrink: 0 }} />
+            <div aria-hidden style={{ width: 20, height: 1, background: "#F2921D", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)", fontSize: 9,
-              color: "#4FD1E0", letterSpacing: "2px", textTransform: "uppercase" as const,
+              color: "#F2921D", letterSpacing: "2px", textTransform: "uppercase" as const,
             }}>
-              DIAGNÓSTICO DE MADUREZ OPERACIONAL
+              EVALUACIÓN DE PROCESO · ANTES DE AUTOMATIZAR
             </span>
           </div>
 
-          {/* H1 — DrumRoll activo en mobile, misma lógica que desktop.
-              El h1 semántico es la frase fija; lo visual va aria-hidden. */}
+          {/* H1 — el accesible es la frase limpia; el visual va aria-hidden */}
           <h1 className="sr-only">
-            Todos quieren IA. Pero necesitan claridad primero.
+            La IA no arregla un proceso. Amplifica el que encuentra.
           </h1>
-          <div aria-hidden="true" style={{ margin: 0, padding: 0, lineHeight: 1.05 }}>
-            <span style={{
-              fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-              fontSize: 40, color: "#4FD1E0",
-              letterSpacing: "-1px", display: "block",
+          <div aria-hidden="true" style={{
+            fontFamily: "var(--font-space-grotesk)",
+            fontWeight: 700,
+            fontSize: "clamp(26px, 8.5vw, 34px)",
+            lineHeight: 1.04,
+            letterSpacing: "-0.025em",
+            color: "#F2F6F9",
+          }}>
+            <div>La IA no arregla un proceso.</div>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.2em 0.28em",
+              marginTop: "0.2em",
             }}>
-              Todos quieren IA.
-            </span>
-            <span style={{
-              fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-              fontSize: 40, color: "rgba(255,255,255,0.9)",
-              letterSpacing: "-1px", display: "block",
-            }}>
-              Pero
-            </span>
-            {/* wrap: si "primero." no cabe, baja de línea; la palabra rotativa
-                + brackets siempre caben porque DrumRoll reduce su font-size */}
-            <span style={{
-              display: "flex", flexWrap: "wrap", overflowX: "hidden", alignItems: "center", gap: 10,
-            }}>
-              <span data-necesitan style={{
-                fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-                fontSize: 40, color: "rgba(255,255,255,0.9)", letterSpacing: "-1px",
-                flexShrink: 0,
-              }}>
-                Necesitan
-              </span>
-              <DrumRoll onIndexChange={() => {}} reduced={reduced} />
-              <span data-primero style={{
-                fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-                fontSize: 40, color: "rgba(255,255,255,0.9)", letterSpacing: "-1px",
-                flexShrink: 0,
-              }}>
-                primero.
-              </span>
-            </span>
+              <span style={{ color: "#F2921D" }}>Amplifica</span>
+              <BracketFrame>el que encuentra.</BracketFrame>
+            </div>
           </div>
 
-          {/* Subtítulo */}
+          {/* Lead */}
           <p style={{
             fontFamily: "var(--font-geist-sans)", fontSize: 15,
             color: "#8B95A5", lineHeight: 1.6, margin: 0,
           }}>
-            Analizamos cómo operas hoy y medimos qué tan listo está tu proceso para automatizar o desplegar IA.
+            Tu proceso no tiene que estar roto — puede solo{" "}
+            <span style={{ color: "#4FD1E0", fontWeight: 500 }}>no estar listo</span>.
+            Evaluamos sus tres capas (<span style={{ color: "#F2F6F9", fontWeight: 500 }}>propósito, personas y flujo</span>)
+            antes de que la tecnología amplifique lo que haya.
           </p>
 
-          {/* Cadena de valor — vertical en mobile */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
+          {/* CTA principal */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 10, marginTop: 8 }}>
+            <a
+              href="/diagnostico"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-eval-cta"
+            >
+              Evaluar mi proceso <span aria-hidden>→</span>
+              <span className="sr-only"> (abre en nueva pestaña)</span>
+            </a>
+            <span style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: 10,
+              color: "#5D6B7A",
+              letterSpacing: "2px",
+            }}>
+              UN PROCESO · SIN COSTO
+            </span>
+          </div>
+
+          {/* Mini-flujo — vertical en mobile */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 8 }}>
             {[
-              { label: "Proceso habilitado para desplegar tecnología", accent: false },
-              { label: "Dato confiable", accent: false },
-              { label: "La ruta correcta", accent: false },
-              { label: "Impacto financiero medible", accent: true },
+              { label: "Proceso que debe existir", accent: false },
+              { label: "Personas correctas", accent: false },
+              { label: "Flujo optimizado", accent: false },
+              { label: "Impacto financiero", accent: true },
             ].map((item, i, arr) => (
               <span key={item.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                {i < arr.length - 1 && (
-                  <span aria-hidden style={{ color: "rgba(255,255,255,0.15)", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
-                )}
-                {i === arr.length - 1 && (
-                  <span aria-hidden style={{ color: "#4FD1E0", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
+                {i > 0 && (
+                  <span aria-hidden style={{ color: "#5D6B7A", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
                 )}
                 <span style={{
                   fontFamily: "var(--font-geist-mono)", fontSize: 11,
                   fontWeight: item.accent ? 600 : 400,
-                  color: item.accent ? "#4FD1E0" : "rgba(255,255,255,0.55)",
+                  color: item.accent ? "#F2921D" : "#8B95A5",
                 }}>
                   {item.label}
                 </span>
