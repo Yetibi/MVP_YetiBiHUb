@@ -52,10 +52,10 @@ export function CtaFinal() {
           {/* ── Columna izquierda · mensaje ── */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-              <span aria-hidden style={{ width: 22, height: 1, background: "#F2921D", flexShrink: 0 }} />
+              <span aria-hidden style={{ width: 22, height: 1, background: "#F28F6B", flexShrink: 0 }} />
               <span style={{
                 fontFamily: "var(--font-geist-mono)", fontSize: 11, fontWeight: 500,
-                color: "#F2921D", letterSpacing: "2.5px", textTransform: "uppercase",
+                color: "#F28F6B", letterSpacing: "2.5px", textTransform: "uppercase",
               }}>
                 EMPIEZA AHORA
               </span>

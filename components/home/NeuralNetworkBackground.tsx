@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 // prefers-reduced-motion (prop reduced) → un solo frame estático, sin rAF loop.
 
 const CIAN = "79,209,224";
-const NARANJA = "242,146,29";
+const NARANJA = "242,143,107";
 const LINK_DIST = 130;
 
 type Nodo = { x: number; y: number; vx: number; vy: number; r: number; energy: boolean };

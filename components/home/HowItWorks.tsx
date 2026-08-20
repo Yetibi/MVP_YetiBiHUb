@@ -181,7 +181,7 @@ function StepsSection({ reduced }: { reduced: boolean }) {
                   fontWeight: 900,
                   fontSize: isActive ? "clamp(160px,20vw,240px)" : 80,
                   lineHeight: 0.8,
-                  color: "rgba(242,146,29,0.22)",
+                  color: "rgba(242,143,107,0.22)",
                   userSelect: "none",
                   pointerEvents: "none",
                 }}>
@@ -438,7 +438,7 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                     position: "absolute", top: -6, right: 0,
                     fontFamily: "var(--font-geist-sans)", fontWeight: 900,
                     fontSize: 52, lineHeight: 1,
-                    color: isActive ? "rgba(242,146,29,0.16)" : "rgba(255,255,255,0.04)",
+                    color: isActive ? "rgba(242,143,107,0.16)" : "rgba(255,255,255,0.04)",
                     userSelect: "none", pointerEvents: "none",
                     transition: "color 0.45s ease",
                   }}>

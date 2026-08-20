@@ -7,7 +7,7 @@ import { useInView, useReducedMotion } from 'motion/react'
 const C_BG     = '#0B1420'
 const C_NODE   = '#141F2E'
 const C_CIAN    = '#4FD1E0'   // nodos sanos, kickers informativos, énfasis de promesa
-const C_NARANJA = '#F2921D'   // el líquido de las tuberías — el valor fluyendo
+const C_NARANJA = '#F28F6B'   // el líquido de las tuberías — el valor fluyendo
 const C_MORADO  = '#A78BC4'   // ruta opcional "IA que decide"
 
 // ─── Secuencia Estratégica ────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ function BadgeEtapa({ n, hot }: { n: string; hot?: boolean }) {
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       fontFamily: 'var(--font-geist-mono)', fontSize: 9, fontWeight: 700, flexShrink: 0,
       ...(hot
-        ? { background: '#F2921D', color: '#0B1420' }
+        ? { background: '#F28F6B', color: '#0B1420' }
         : { background: 'rgba(79,209,224,0.15)', color: '#4FD1E0', border: '1px solid rgba(79,209,224,0.5)' }),
     }}>{n}</span>
   )
@@ -35,15 +35,15 @@ function BadgeEtapa({ n, hot }: { n: string; hot?: boolean }) {
 function SecuenciaEstrategica({ compact }: { compact?: boolean }) {
   return (
     <div style={{
-      background: 'rgba(242,146,29,0.06)',
-      border: '1px solid rgba(242,146,29,0.25)',
+      background: 'rgba(242,143,107,0.06)',
+      border: '1px solid rgba(242,143,107,0.25)',
       borderRadius: 12,
       padding: compact ? '12px 14px' : '16px 20px',
       marginBottom: compact ? 16 : 24,
     }}>
       <p style={{
         fontFamily: 'var(--font-geist-mono)', fontSize: compact ? 9 : 10, fontWeight: 700,
-        color: '#F2921D', letterSpacing: compact ? '1px' : '1.5px', textTransform: 'uppercase',
+        color: '#F28F6B', letterSpacing: compact ? '1px' : '1.5px', textTransform: 'uppercase',
         margin: compact ? '0 0 10px' : '0 0 14px', textAlign: compact ? 'left' : 'center',
       }}>
         LA SECUENCIA ESTRATÉGICA — el orden es ingeniería, no sugerencia
@@ -56,7 +56,7 @@ function SecuenciaEstrategica({ compact }: { compact?: boolean }) {
               <BadgeEtapa n={e.n} hot={e.hot} />
               <span style={{
                 fontFamily: 'var(--font-space-grotesk)', fontSize: 12.5, fontWeight: 600,
-                color: e.hot ? '#F2921D' : '#F2F6F9', whiteSpace: 'nowrap',
+                color: e.hot ? '#F28F6B' : '#F2F6F9', whiteSpace: 'nowrap',
               }}>{e.nombre}</span>
               <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 9.5, color: '#5D6B7A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>· {e.q}</span>
             </span>
@@ -71,7 +71,7 @@ function SecuenciaEstrategica({ compact }: { compact?: boolean }) {
                   <BadgeEtapa n={e.n} hot={e.hot} />
                   <span style={{
                     fontFamily: 'var(--font-space-grotesk)', fontSize: 13, fontWeight: 600,
-                    color: e.hot ? '#F2921D' : '#F2F6F9', whiteSpace: 'nowrap',
+                    color: e.hot ? '#F28F6B' : '#F2F6F9', whiteSpace: 'nowrap',
                   }}>{e.nombre}</span>
                 </span>
                 <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 10, color: '#5D6B7A' }}>{e.q}</span>
@@ -164,7 +164,7 @@ export function ValueFlow() {
       ? {
           animation: `tubeFlow 2.6s linear ${delay} infinite`,
           strokeDasharray: '14 120',
-          filter: 'drop-shadow(0 0 4px rgba(242,146,29,0.7))',
+          filter: 'drop-shadow(0 0 4px rgba(242,143,107,0.7))',
           strokeLinecap: 'round' as const,
           fill: 'none',
         }
@@ -288,7 +288,7 @@ export function ValueFlow() {
 
         {/* CALLOUT 2 */}
         <rect x="324" y="32" width="172" height="80" rx="6"
-          fill="#1C2836" stroke="rgba(242,146,29,0.35)" strokeWidth=".8" />
+          fill="#1C2836" stroke="rgba(242,143,107,0.35)" strokeWidth=".8" />
         <text x="334" y="48"  fontSize="8" fontFamily="var(--font-geist-mono)" fontWeight="700" fill={C_NARANJA} letterSpacing="1">ANTES DE LA IA</text>
         <text x="334" y="62"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5">Sin automatización sólida,</text>
         <text x="334" y="75"  fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5">la IA no tiene datos limpios</text>
@@ -307,9 +307,9 @@ export function ValueFlow() {
         <polygon points="648,194 652,202 656,194" fill="rgba(79,209,224,0.5)" />
 
         {/* TUBERÍAS — path base tenue naranja (la cañería) */}
-        <path d="M148,270 L180,270" stroke="rgba(242,146,29,0.15)" strokeWidth="3" fill="none" />
-        <path d="M304,270 C340,270 340,230 358,230" stroke="rgba(242,146,29,0.15)" strokeWidth="3" fill="none" />
-        <path d="M482,230 C516,230 516,270 584,270" stroke="rgba(242,146,29,0.15)" strokeWidth="3" fill="none" />
+        <path d="M148,270 L180,270" stroke="rgba(242,143,107,0.15)" strokeWidth="3" fill="none" />
+        <path d="M304,270 C340,270 340,230 358,230" stroke="rgba(242,143,107,0.15)" strokeWidth="3" fill="none" />
+        <path d="M482,230 C516,230 516,270 584,270" stroke="rgba(242,143,107,0.15)" strokeWidth="3" fill="none" />
         <path d="M420,262 L420,322" stroke="rgba(167,139,196,0.35)" strokeWidth="1.5" fill="none" strokeDasharray="4 4" />
         <path d="M482,350 C516,350 516,270 584,270" stroke="rgba(167,139,196,0.15)" strokeWidth="1.5" fill="none" strokeDasharray="4 4" />
 
@@ -338,7 +338,7 @@ export function ValueFlow() {
         <text x="242" y="264" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#F2F6F9">DATO</text>
         <text x="242" y="279" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="#8B95A5">confiable</text>
         <circle cx="180" cy="270" r="3" fill={C_NARANJA} />
-        <circle cx="304" cy="270" r="4" fill="rgba(242,146,29,0.55)" />
+        <circle cx="304" cy="270" r="4" fill="rgba(242,143,107,0.55)" />
 
         {/* N3 AUTOMATIZACION */}
         <rect x="358" y="202" width="124" height="60" rx="10"
@@ -372,7 +372,7 @@ export function ValueFlow() {
         <text x="26" y="245" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#4FD1E0">1</text>
         <rect x="188" y="233.5" width="32" height="17" rx="8.5" fill="rgba(79,209,224,0.15)" stroke="rgba(79,209,224,0.6)" strokeWidth=".8" />
         <text x="204" y="245" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#4FD1E0">2·3</text>
-        <circle cx="368" cy="202" r="9" fill="#F2921D" />
+        <circle cx="368" cy="202" r="9" fill="#F28F6B" />
         <text x="368" y="205" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#0B1420">4</text>
         <circle cx="678" cy="228" r="9" fill="rgba(79,209,224,0.15)" stroke="rgba(79,209,224,0.6)" strokeWidth=".8" />
         <text x="678" y="231" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#4FD1E0">5</text>
@@ -396,7 +396,7 @@ export function ValueFlow() {
         <circle cx="630" cy="270" r="32" fill="rgba(79,209,224,0.09)" stroke="rgba(79,209,224,0.10)" strokeWidth="1" />
         <circle cx="630" cy="270" r="18" fill="rgba(79,209,224,0.10)" stroke="rgba(79,209,224,0.35)" strokeWidth="1" />
         <circle cx="630" cy="270" r="7"  fill={C_CIAN} />
-        <text x="630" y="320" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-space-grotesk)" fill="#F2921D" letterSpacing="0.5">IMPACTO FINANCIERO</text>
+        <text x="630" y="320" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-space-grotesk)" fill="#F28F6B" letterSpacing="0.5">IMPACTO FINANCIERO</text>
         <text x="630" y="334" textAnchor="middle" fontSize="7.5" fontFamily="var(--font-geist-mono)" fill="#8B95A5">no horas liberadas —</text>
         <text x="630" y="352" textAnchor="middle" fontSize="7.5" fontFamily="var(--font-geist-mono)" fill="#8B95A5">ingreso o ahorro que llega a la utilidad</text>
         <circle cx="584" cy="270" r="3" fill={C_NARANJA} />
@@ -473,7 +473,7 @@ export function ValueFlow() {
 
         {/* Conector entre PROCESO y DATO */}
         <div style={{ height: 18, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: 2, height: '100%', background: 'rgba(242,146,29,0.3)' }} />
+          <div style={{ width: 2, height: '100%', background: 'rgba(242,143,107,0.3)' }} />
         </div>
 
         <div style={{ padding: '10px 12px', background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
@@ -486,18 +486,18 @@ export function ValueFlow() {
 
         {/* Conector 1 — naranja */}
         <div style={{ height: 30, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: 2, height: '100%', background: 'linear-gradient(to bottom, rgba(242,146,29,0.6), rgba(242,146,29,0.10))', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ width: 2, height: '100%', background: 'linear-gradient(to bottom, rgba(242,143,107,0.6), rgba(242,143,107,0.10))', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out infinite' : 'none', top: -6 }} />
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 0.9s infinite' : 'none', top: -6 }} />
           </div>
-          <div style={{ borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,146,29,0.5)', flexShrink: 0 }} />
+          <div style={{ borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,143,107,0.5)', flexShrink: 0 }} />
         </div>
 
         {/* BLOQUE 2 — HABILITACION TECNOLOGICA */}
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>HABILITACIÓN TECNOLÓGICA</p>
         <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapa 4 — aquí, y solo aquí, la IA</p>
 
-        <div style={{ padding: '10px 12px', borderLeft: '2px solid #F2921D', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
+        <div style={{ padding: '10px 12px', borderLeft: '2px solid #F28F6B', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_NARANJA, margin: '0 0 5px' }}>⚡ ANTES DE LA IA</p>
           <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.5, margin: 0 }}>
             Sin automatización sólida, la IA no tiene datos limpios ni procesos para aprender.
@@ -520,7 +520,7 @@ export function ValueFlow() {
         {/* Zona de fork: naranja centro baja a ROI, punteado derecha baja a IA */}
         <div style={{ position: 'relative', height: 38 }}>
           {/* Naranja al centro — ruta principal */}
-          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(242,146,29,0.7), rgba(242,146,29,0.3))', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(242,143,107,0.7), rgba(242,143,107,0.3))', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.2s infinite' : 'none', top: -6 }} />
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 2.1s infinite' : 'none', top: -6 }} />
           </div>
@@ -529,7 +529,7 @@ export function ValueFlow() {
             <div style={{ position: 'absolute', width: 5, height: 5, borderRadius: '50%', background: C_MORADO, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 2s ease-in-out 0.4s infinite' : 'none', top: -5 }} />
           </div>
           {/* Flecha naranja */}
-          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,146,29,0.6)' }} />
+          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,143,107,0.6)' }} />
           {/* Flecha punteada derecha */}
           <div style={{ position: 'absolute', right: '8%', bottom: 0, transform: 'translateX(50%)', borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '6px solid rgba(167,139,196,0.5)' }} />
         </div>
@@ -537,7 +537,7 @@ export function ValueFlow() {
         {/* IA QUE DECIDE — ancho completo, naranja pasa por su lado derecho */}
         <div style={{ position: 'relative' }}>
           {/* Línea naranja que pasa por el lado derecho de la caja de IA */}
-          <div style={{ position: 'absolute', right: '8%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, rgba(242,146,29,0.3), rgba(242,146,29,0.3))', zIndex: 1 }}>
+          <div style={{ position: 'absolute', right: '8%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, rgba(242,143,107,0.3), rgba(242,143,107,0.3))', zIndex: 1 }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.5s infinite' : 'none', top: -6 }} />
           </div>
           <div style={{ padding: '10px 12px', background: C_NODE, border: '1px solid rgba(79,209,224,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
@@ -553,15 +553,15 @@ export function ValueFlow() {
         {/* Conector: naranja sale del lado derecho y converge al centro hacia ROI */}
         <div style={{ position: 'relative', height: 38 }}>
           {/* Línea naranja derecha que baja y converge */}
-          <div style={{ position: 'absolute', right: '8%', top: 0, height: '60%', width: 2, background: 'rgba(242,146,29,0.4)' }} />
+          <div style={{ position: 'absolute', right: '8%', top: 0, height: '60%', width: 2, background: 'rgba(242,143,107,0.4)' }} />
           {/* Línea horizontal que une derecha con centro */}
-          <div style={{ position: 'absolute', right: '8%', top: '60%', left: '50%', height: 2, background: 'rgba(242,146,29,0.4)', transform: 'translateY(-50%)' }} />
+          <div style={{ position: 'absolute', right: '8%', top: '60%', left: '50%', height: 2, background: 'rgba(242,143,107,0.4)', transform: 'translateY(-50%)' }} />
           {/* Línea naranja centro que baja a ROI */}
-          <div style={{ position: 'absolute', left: '50%', top: '60%', bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(242,146,29,0.5), rgba(242,146,29,0.10))', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: '50%', top: '60%', bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(242,143,107,0.5), rgba(242,143,107,0.10))', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 0.6s infinite' : 'none', top: -6 }} />
           </div>
           {/* Flecha al ROI */}
-          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,146,29,0.5)', flexShrink: 0 }} />
+          <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,143,107,0.5)', flexShrink: 0 }} />
         </div>
 
         {/* BLOQUE 3 — IMPACTO FINANCIERO */}
@@ -583,7 +583,7 @@ export function ValueFlow() {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
             <BadgeEtapa n="5" />
           </div>
-          <p style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-space-grotesk)', color: '#F2921D', margin: 0 }}>IMPACTO FINANCIERO</p>
+          <p style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-space-grotesk)', color: '#F28F6B', margin: 0 }}>IMPACTO FINANCIERO</p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', marginTop: 4, marginBottom: 0, lineHeight: 1.5 }}>
             no horas liberadas —<br />ingreso o ahorro que llega a la utilidad
           </p>

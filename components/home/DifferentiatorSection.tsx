@@ -28,10 +28,10 @@ const SEC_YETI: Eslabon[] = [
 
 function chipStyle(tipo: "mercado" | "yeti", hot?: boolean): React.CSSProperties {
   if (hot) {
-    return { background: "#F2921D", border: "1px solid #F2921D", color: "#0B1420", fontWeight: 700 };
+    return { background: "#F28F6B", border: "1px solid #F28F6B", color: "#0B1420", fontWeight: 700 };
   }
   return tipo === "mercado"
-    ? { background: "rgba(242,146,29,0.06)", border: "1px solid rgba(242,146,29,0.3)", color: "#8B95A5" }
+    ? { background: "rgba(242,143,107,0.06)", border: "1px solid rgba(242,143,107,0.3)", color: "#8B95A5" }
     : { background: "rgba(79,209,224,0.06)", border: "1px solid rgba(79,209,224,0.35)", color: "#F2F6F9" };
 }
 
@@ -44,11 +44,11 @@ function CadenaCard({
   items: Eslabon[];
   cierre: string;
 }) {
-  const acento = tipo === "mercado" ? "#F2921D" : "#4FD1E0";
+  const acento = tipo === "mercado" ? "#F28F6B" : "#4FD1E0";
   return (
     <div style={{
       background: "#141F2E",
-      border: `1px solid ${tipo === "mercado" ? "rgba(242,146,29,0.25)" : "rgba(79,209,224,0.4)"}`,
+      border: `1px solid ${tipo === "mercado" ? "rgba(242,143,107,0.25)" : "rgba(79,209,224,0.4)"}`,
       borderRadius: 14,
       padding: "clamp(16px, 4.5vw, 24px) clamp(13px, 3.8vw, 22px)",
       boxShadow: tipo === "yeti" ? "0 12px 40px rgba(0,0,0,0.4)" : undefined,
@@ -182,13 +182,13 @@ export default function DifferentiatorSection() {
           marginTop: 32,
           background: "#141F2E",
           border: "1px solid #1C2836",
-          borderLeft: "3px solid #F2921D",
+          borderLeft: "3px solid #F28F6B",
           borderRadius: "0 14px 14px 0",
           padding: "26px 26px",
         }}>
           <p style={{
             fontFamily: "var(--font-geist-mono)", fontSize: 10, fontWeight: 700,
-            color: "#F2921D", letterSpacing: "2px", textTransform: "uppercase", margin: "0 0 10px",
+            color: "#F28F6B", letterSpacing: "2px", textTransform: "uppercase", margin: "0 0 10px",
           }}>
             POR QUÉ EL ORDEN NO ES OPCIONAL
           </p>
@@ -198,7 +198,7 @@ export default function DifferentiatorSection() {
             lineHeight: 1.3, margin: "0 0 12px",
           }}>
             La Ley de Amplificación: la tecnología no corrige lo que encuentra.{" "}
-            <span style={{ color: "#F2921D" }}>Lo amplifica.</span>
+            <span style={{ color: "#F28F6B" }}>Lo amplifica.</span>
           </h3>
           <p style={{
             fontFamily: "var(--font-geist-sans)", fontSize: 14.5, color: "#8B95A5",

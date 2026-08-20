@@ -27,7 +27,7 @@ export function Footer() {
             />
             <span className="font-bold" style={{ color: "#F2F6F9", fontSize: 16, letterSpacing: 3 }}>
               {/* Logo bicolor — misma identidad que el header */}
-              <span translate="no">YETI<span style={{ color: "#4FD1E0" }}>·</span><span style={{ color: "#F2921D" }}>BI</span></span>
+              <span translate="no">YETI<span style={{ color: "#4FD1E0" }}>·</span><span style={{ color: "#F28F6B" }}>BI</span></span>
             </span>
           </Link>
           <p

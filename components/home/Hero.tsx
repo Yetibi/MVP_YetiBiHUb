@@ -59,7 +59,7 @@ const PAIN_ICONS: React.FC<{ color: string }>[] = [
 
 // Énfasis naranja dentro de las descripciones (fuga activa)
 const Hl = ({ children }: { children: React.ReactNode }) => (
-  <span style={{ color: "#F2921D", fontWeight: 500 }}>{children}</span>
+  <span style={{ color: "#F28F6B", fontWeight: 500 }}>{children}</span>
 );
 
 const PAINS = [
@@ -178,7 +178,7 @@ function Navbar() {
         }}>
           {/* Logo bicolor — excepción de identidad deliberada:
               YETI nieve · cian BI ámbar */}
-          <span translate="no">YETI<span style={{ color: "#4FD1E0" }}>·</span><span style={{ color: "#F2921D" }}>BI</span></span>
+          <span translate="no">YETI<span style={{ color: "#4FD1E0" }}>·</span><span style={{ color: "#F28F6B" }}>BI</span></span>
         </span>
       </Link>
 
@@ -288,11 +288,11 @@ function LeftPanel({
           <div>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 30 }}>
-            <div aria-hidden style={{ width: 28, height: 1, background: "#F2921D", flexShrink: 0 }} />
+            <div aria-hidden style={{ width: 28, height: 1, background: "#F28F6B", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)",
               fontSize: 13,
-              color: "#F2921D",
+              color: "#F28F6B",
               letterSpacing: "3px",
               textTransform: "uppercase",
               fontWeight: 500,
@@ -326,7 +326,7 @@ function LeftPanel({
               gap: "0.18em 0.28em",
               marginTop: "0.18em",
             }}>
-              <span style={{ color: "#F2921D" }}>Sin rediseñar antes</span>
+              <span style={{ color: "#F28F6B" }}>Sin rediseñar antes</span>
               <BracketFrame>el proceso</BracketFrame>
             </div>
           </div>
@@ -342,7 +342,7 @@ function LeftPanel({
             fontWeight: 400,
           }}>
             La IA no arregla lo que encuentra:{" "}
-            <span style={{ color: "#F2921D", fontWeight: 500 }}>lo amplifica</span>.
+            <span style={{ color: "#F28F6B", fontWeight: 500 }}>lo amplifica</span>.
             Sobre un proceso sin rediseñar,{" "}
             <span style={{ color: "#F2F6F9", fontWeight: 500 }}>multiplica el costo de lo que está mal</span>{" "}
             — más rápido y a mayor escala.
@@ -368,7 +368,7 @@ function LeftPanel({
                   fontFamily: "var(--font-space-grotesk)",
                   fontSize: 22,
                   fontWeight: 700,
-                  color: "#F2921D",
+                  color: "#F28F6B",
                   whiteSpace: "nowrap",
                 } : {
                   fontFamily: "var(--font-geist-mono)",
@@ -462,7 +462,7 @@ function RightPanel({
           <p style={{
             fontFamily: "var(--font-geist-mono)",
             fontSize: 11,
-            color: "#F2921D",
+            color: "#F28F6B",
             letterSpacing: "3px",
             textTransform: "uppercase",
             fontWeight: 500,
@@ -479,7 +479,7 @@ function RightPanel({
             lineHeight: 1.15,
           }}>
             La IA no corrige un proceso roto.<br />
-            <span style={{ color: "#F2921D" }}>Lo acelera.</span>
+            <span style={{ color: "#F28F6B" }}>Lo acelera.</span>
           </h2>
           <p className="pain-teaser-hide" style={{
                   ...(narrow ? { display: "none" } : null),
@@ -505,7 +505,7 @@ function RightPanel({
             const isActive = allVisible || i === activePain;
             const Icon = PAIN_ICONS[i];
             // Andon: los dolores son fuga activa — el marcador se enciende en ámbar
-            const iconColor = isActive ? "#F2921D" : "rgba(242,146,29,0.3)";
+            const iconColor = isActive ? "#F28F6B" : "rgba(242,143,107,0.3)";
             return (
               <li key={pain.num} className="pain-card" style={{
                 background: "#141F2E",
@@ -565,7 +565,7 @@ function RightPanel({
                   paddingLeft: 38,
                   transition: "color 0.4s ease",
                 }}>
-                  <span aria-hidden style={{ color: isActive ? "#F2921D" : "rgba(242,146,29,0.35)", marginRight: 8 }}>●</span>
+                  <span aria-hidden style={{ color: isActive ? "#F28F6B" : "rgba(242,143,107,0.35)", marginRight: 8 }}>●</span>
                   {pain.fuga}
                 </p>
               </li>
@@ -629,7 +629,7 @@ function MobilePainList() {
             }}
           >
             <span style={{ flexShrink: 0, paddingTop: 1 }}>
-              <Icon color={isActive ? "#F2921D" : "rgba(242,146,29,0.25)"} />
+              <Icon color={isActive ? "#F28F6B" : "rgba(242,143,107,0.25)"} />
             </span>
             <div>
               <p style={{
@@ -660,7 +660,7 @@ function MobilePainList() {
                 color: isActive ? "#5D6B7A" : "rgba(93,107,122,0.25)",
                 margin: "6px 0 0", transition: "color 0.45s ease",
               }}>
-                <span aria-hidden style={{ color: isActive ? "#F2921D" : "rgba(242,146,29,0.25)", marginRight: 6 }}>●</span>
+                <span aria-hidden style={{ color: isActive ? "#F28F6B" : "rgba(242,143,107,0.25)", marginRight: 6 }}>●</span>
                 {pain.fuga}
               </p>
             </div>
@@ -743,10 +743,10 @@ export default function Hero() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16, textAlign: "center", alignItems: "center", position: "relative", zIndex: 1 }}>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-            <div aria-hidden style={{ width: 20, height: 1, background: "#F2921D", flexShrink: 0 }} />
+            <div aria-hidden style={{ width: 20, height: 1, background: "#F28F6B", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)", fontSize: 9,
-              color: "#F2921D", letterSpacing: "2px", textTransform: "uppercase" as const,
+              color: "#F28F6B", letterSpacing: "2px", textTransform: "uppercase" as const,
             }}>
               EVALUACIÓN DE PROCESO · ANTES DE AUTOMATIZAR
             </span>
@@ -773,7 +773,7 @@ export default function Hero() {
               gap: "0.2em 0.28em",
               marginTop: "0.2em",
             }}>
-              <span style={{ color: "#F2921D" }}>Sin antes rediseñar</span>
+              <span style={{ color: "#F28F6B" }}>Sin antes rediseñar</span>
               <BracketFrame>el proceso</BracketFrame>
             </div>
           </div>
@@ -784,7 +784,7 @@ export default function Hero() {
             color: "#8B95A5", lineHeight: 1.6, margin: 0, maxWidth: 600,
           }}>
             La IA no arregla lo que encuentra:{" "}
-            <span style={{ color: "#F2921D", fontWeight: 500 }}>lo amplifica</span>.
+            <span style={{ color: "#F28F6B", fontWeight: 500 }}>lo amplifica</span>.
             Sobre un proceso sin rediseñar,{" "}
             <span style={{ color: "#F2F6F9", fontWeight: 500 }}>multiplica el costo de lo que está mal</span>{" "}
             — más rápido y a mayor escala.
@@ -805,7 +805,7 @@ export default function Hero() {
               <span key={item.label} style={{ display: "flex", alignItems: "center", gap: 7 }}>
                 <span style={item.accent ? {
                   fontFamily: "var(--font-space-grotesk)", fontSize: 19, fontWeight: 700,
-                  color: "#F2921D", whiteSpace: "nowrap",
+                  color: "#F28F6B", whiteSpace: "nowrap",
                 } : {
                   fontFamily: "var(--font-geist-mono)", fontSize: 12,
                   fontWeight: 400, color: "#8B95A5", whiteSpace: "nowrap",
@@ -838,7 +838,7 @@ export default function Hero() {
           <div style={{ margin: "32px 0 20px" }}>
             <p style={{
               fontFamily: "var(--font-geist-mono)", fontSize: 10,
-              color: "#F2921D", letterSpacing: "2.5px", textTransform: "uppercase" as const,
+              color: "#F28F6B", letterSpacing: "2.5px", textTransform: "uppercase" as const,
               fontWeight: 500, margin: "0 0 10px",
             }}>
               EL PROBLEMA
@@ -849,7 +849,7 @@ export default function Hero() {
               margin: "0 0 10px", lineHeight: 1.15,
             }}>
               La IA no corrige un proceso roto.<br />
-              <span style={{ color: "#F2921D" }}>Lo acelera.</span>
+              <span style={{ color: "#F28F6B" }}>Lo acelera.</span>
             </h2>
             <p style={{
               fontFamily: "var(--font-geist-sans)", fontSize: 14,

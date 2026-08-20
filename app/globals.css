@@ -5,7 +5,7 @@
 /* ─── REGLA DE SISTEMA — "Plano Glaciar" (modo noche único) ──────────────────
  *
  * Semántica del color:
- *   · Naranja #F2921D = ACCIÓN y ALERTA — botones/CTAs, tuberías del flujo,
+ *   · Coral #F28F6B = ACCIÓN y ALERTA — botones/CTAs, tuberías del flujo,
  *     cifras de fuga, dolores activos, deltas negativos. Hover ocre #BF7A24.
  *   · Cian #4FD1E0    = diseño / insight — links inline, kickers informativos,
  *     bordes destacados, nodos sanos del flujo, énfasis de promesa.
@@ -92,8 +92,8 @@
   --foreground-dim: #5D6B7A;                 /* neblina tenue — solo metadatos/texto grande */
   --accent: #1C2836;
   --accent-foreground: #F2F6F9;
-  --warning: #F2921D;                        /* naranja Andon — tensión / fuga / CTA */
-  --warning-hover: #BF7A24;                  /* ocre — hover/activo del naranja */
+  --warning: #F28F6B;                        /* naranja Andon — tensión / fuga / CTA */
+  --warning-hover: #D9714C;                  /* ocre — hover/activo del naranja */
   --morado: #A78BC4;                         /* morado — ruta opcional IA en el flujo */
   --destructive: oklch(0.62 0.22 25);
   --border: rgba(79, 209, 224, 0.16);        /* línea cian */

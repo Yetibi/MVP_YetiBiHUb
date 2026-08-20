@@ -78,7 +78,7 @@ function Field({
       <label htmlFor={id} style={labelStyle}>{label}</label>
       {children}
       {error && (
-        <p id={`${id}-err`} role="alert" style={{ color: "#F2921D", fontSize: 13 }}>
+        <p id={`${id}-err`} role="alert" style={{ color: "#F28F6B", fontSize: 13 }}>
           {error}
         </p>
       )}
@@ -107,7 +107,7 @@ export function ContactForm() {
   }
 
   function bottomBorderColor(field: keyof FieldError, focused: boolean) {
-    if (errors[field]) return "#F2921D";
+    if (errors[field]) return "#F28F6B";
     if (focused) return "#4FD1E0";
     return "#1C2836";
   }
@@ -207,7 +207,7 @@ export function ContactForm() {
           >
             {/* Indicador de campos requeridos */}
             <p style={{ fontFamily: "var(--font-geist-mono)", color: "#5D6B7A", fontSize: 11, margin: 0 }}>
-              Los campos con <span aria-hidden style={{ color: "#F2921D" }}>*</span>
+              Los campos con <span aria-hidden style={{ color: "#F28F6B" }}>*</span>
               <span className="sr-only">asterisco</span> son obligatorios.
             </p>
 
@@ -232,7 +232,7 @@ export function ContactForm() {
                   aria-describedby={errors.nombre ? "cf-nombre-err" : undefined}
                   style={{
                     ...inputBase,
-                    borderColor: errors.nombre ? "#F2921D" : "#1C2836",
+                    borderColor: errors.nombre ? "#F28F6B" : "#1C2836",
                   }}
                   className="focus-visible:outline-none"
                   onFocus={(e) => { e.target.style.borderColor = "#4FD1E0"; e.target.style.boxShadow = "0 0 0 1px #4FD1E0"; }}
@@ -256,7 +256,7 @@ export function ContactForm() {
                   aria-describedby={errors.correo ? "cf-correo-err" : undefined}
                   style={{
                     ...inputBase,
-                    borderColor: errors.correo ? "#F2921D" : "#1C2836",
+                    borderColor: errors.correo ? "#F28F6B" : "#1C2836",
                   }}
                   spellCheck={false}
                   className="focus-visible:outline-none"
@@ -279,7 +279,7 @@ export function ContactForm() {
                   onChange={handleChange}
                   style={{
                     ...inputBase,
-                    borderColor: errors.empresa ? "#F2921D" : "#1C2836",
+                    borderColor: errors.empresa ? "#F28F6B" : "#1C2836",
                   }}
                   className="focus-visible:outline-none"
                   onFocus={(e) => { e.target.style.borderColor = "#4FD1E0"; e.target.style.boxShadow = "0 0 0 1px #4FD1E0"; }}
@@ -312,7 +312,7 @@ export function ContactForm() {
                   }}
                   style={{
                     ...inputBase,
-                    borderColor: errors.mensaje ? "#F2921D" : "#1C2836",
+                    borderColor: errors.mensaje ? "#F28F6B" : "#1C2836",
                     height: 64,
                     resize: "none",
                   }}
@@ -333,7 +333,7 @@ export function ContactForm() {
                 animate="animate"
                 className="flex items-center justify-between"
                 style={{
-                  border: "1px solid #F2921D66",
+                  border: "1px solid #F28F6B66",
                   borderRadius: 4,
                   padding: "12px 16px",
                   gap: 12,
@@ -381,7 +381,7 @@ export function ContactForm() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 10,
-                  background: "#F2921D",
+                  background: "#F28F6B",
                   color: "#0B1420",
                   fontFamily: "var(--font-space-grotesk), var(--font-geist-sans)",
                   fontWeight: 700,
