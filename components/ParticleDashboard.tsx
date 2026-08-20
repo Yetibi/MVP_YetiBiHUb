@@ -50,7 +50,7 @@ export default function ParticleDashboard({
     ctx.scale(dpr, dpr)
 
     const CIAN = '79,209,224'
-    const AMBAR = '242,146,29'
+    const AMBAR = '242,143,107'
     const NEBLINA = '93,107,122'         // #5D6B7A — neblina tenue
     const GRAY = '139,123,168'
 

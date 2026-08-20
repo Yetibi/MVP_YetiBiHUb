@@ -59,7 +59,7 @@ export function PowerBINavbar() {
             letterSpacing: "3px",
           }}
         >
-          <span translate="no">YETI·<span style={{ color: "#4FD1E0" }}>BI</span></span>
+          <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
         </span>
       </Link>
 
@@ -73,7 +73,11 @@ export function PowerBINavbar() {
         <span className="sm:hidden">Agendar</span>
       </Link>
 
-      {/* hereda el naranja global de .btn-primary (cian = estructura, naranja = acción) */}
+      {/* Prueba: CTA coral (paleta previa) — override local, el resto del sitio no cambia */}
+      <style>{`
+        .powerbi-navbar-cta::after { background-color: #F28F6B !important; }
+        .powerbi-navbar-cta::before { background-color: #D9714C !important; }
+      `}</style>
     </nav>
   );
 }

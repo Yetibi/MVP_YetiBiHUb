@@ -38,7 +38,7 @@ const PAINS = [
 ] as const;
 
 // ─── Paleta: cian estructural con la señal 02 en naranja (ritmo Andon) ───
-const PAIN_ACCENTS = ["#4FD1E0", "#F2921D", "#4FD1E0", "#4FD1E0"] as const;
+const PAIN_ACCENTS = ["#4FD1E0", "#F28F6B", "#4FD1E0", "#4FD1E0"] as const;
 
 // ─── Sección desktop: pasos con scroll (clon de HowItWorks/StepsSection) ─────
 

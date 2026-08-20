@@ -68,7 +68,7 @@ export default function FormSection() {
             aria-label="Continuar con la evaluación de viabilidad"
             className="form-section-cta relative inline-flex items-center justify-center overflow-hidden"
             style={{
-              backgroundColor: "#F2921D",
+              backgroundColor: "#00D4C6",
               color: "#0B1420",
               padding: "14px 28px",
               fontSize: 13,

@@ -47,7 +47,7 @@ function CycleIcon() {
       />
       <path
         d="M22 18a8 8 0 0 1-14.5 4.5M6 22v-4h4"
-        stroke="#F2921D"
+        stroke="#F28F6B"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -182,7 +182,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
           zIndex: 2,
           width: 54,
           height: 54,
-          border: hito ? "1px solid rgba(242,146,29,0.45)" : "1px solid rgba(79,209,224,0.3)",
+          border: hito ? "1px solid rgba(242,143,107,0.45)" : "1px solid rgba(79,209,224,0.3)",
           backgroundColor: "#141F2E",
           display: "flex",
           alignItems: "center",
@@ -195,7 +195,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             fontFamily: "var(--font-mono)",
             fontSize: 15,
             fontWeight: 600,
-            color: hito ? "#F2921D" : "#4FD1E0",
+            color: hito ? "#F28F6B" : "#4FD1E0",
           }}
         >
           {String(index + 1).padStart(2, "0")}
@@ -208,8 +208,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             left: -1,
             width: 7,
             height: 7,
-            borderTop: `1.5px solid ${hito ? "#F2921D" : "#4FD1E0"}`,
-            borderLeft: `1.5px solid ${hito ? "#F2921D" : "#4FD1E0"}`,
+            borderTop: `1.5px solid ${hito ? "#F28F6B" : "#4FD1E0"}`,
+            borderLeft: `1.5px solid ${hito ? "#F28F6B" : "#4FD1E0"}`,
           }}
         />
         <span
@@ -220,8 +220,8 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             right: -1,
             width: 7,
             height: 7,
-            borderBottom: `1.5px solid ${hito ? "#F2921D" : "#4FD1E0"}`,
-            borderRight: `1.5px solid ${hito ? "#F2921D" : "#4FD1E0"}`,
+            borderBottom: `1.5px solid ${hito ? "#F28F6B" : "#4FD1E0"}`,
+            borderRight: `1.5px solid ${hito ? "#F28F6B" : "#4FD1E0"}`,
           }}
         />
       </motion.div>
@@ -233,7 +233,7 @@ function Phase({ phase, index, isLast, rm }: PhaseProps) {
             fontSize: 9,
             textTransform: "uppercase",
             letterSpacing: "1.5px",
-            color: hito ? "#F2921D" : "#5D6B7A",
+            color: hito ? "#F28F6B" : "#5D6B7A",
             margin: "0 0 8px",
           }}
         >
@@ -306,7 +306,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
     >
       <motion.path
         d={arc3to2}
-        stroke="#F2921D"
+        stroke="#F28F6B"
         strokeWidth={1.5}
         strokeDasharray="4 4"
         fill="none"
@@ -316,7 +316,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
       />
       <motion.path
         d={arc4to2}
-        stroke="#F2921D"
+        stroke="#F28F6B"
         strokeWidth={1.5}
         strokeDasharray="4 4"
         fill="none"
@@ -330,7 +330,7 @@ function ReturnArcs({ rm }: { rm: boolean | null }) {
         textAnchor="middle"
         fontFamily="var(--font-mono)"
         fontSize={8}
-        fill="#F2921D"
+        fill="#F28F6B"
         letterSpacing="1"
         opacity={0.8}
       >

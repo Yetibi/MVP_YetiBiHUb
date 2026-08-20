@@ -220,7 +220,7 @@ export default function HeroSection() {
           }}
         >
           <span className="hero-headline-line">
-            <span style={{ color: "#F2921D" }}>No solo</span><span className="hero-headline-br"> </span>necesitas un
+            <span style={{ color: "#F28F6B" }}>No solo</span><span className="hero-headline-br"> </span>necesitas un
           </span>
           {/* Espacio real entre "un" y "dashboard": sin él los lectores de
               pantalla leían "undashboard". El salto visual lo sigue dando el
@@ -289,71 +289,7 @@ export default function HeroSection() {
         </motion.p>
 
         {/* Fila CTA */}
-        <motion.div
-          variants={heroItem}
-          className="flex items-center hero-ctarow"
-          style={{ gap: 20, flexWrap: "wrap" }}
-        >
-          <a
-            href="/powerbi/formulario"
-            aria-label="Evalúa la viabilidad de tu proyecto"
-            className="hero-cta flex items-stretch"
-            style={{ textDecoration: "none", borderRadius: 0 }}
-          >
-            <span
-              style={{
-                flex: 1,
-                backgroundColor: "#F2921D",
-                color: "#0B1420",
-                fontFamily: "var(--font-space-grotesk)",
-                fontWeight: 800,
-                letterSpacing: "0.8px",
-                padding: 15,
-                textAlign: "center",
-              }}
-            >
-              EVALÚA LA VIABILIDAD
-            </span>
-            <span
-              aria-hidden="true"
-              style={{
-                backgroundColor: "#1C2836",
-                color: "#FFFFFF",
-                padding: "15px 16px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              →
-            </span>
-          </a>
-
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 9,
-              letterSpacing: "1px",
-              color: TEAL,
-            }}
-          >
-          
-          </span>
-        </motion.div>
-
-        {/* Footer técnico */}
-        <motion.p
-          variants={heroItem}
-          className="hero-footnote"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 9,
-            letterSpacing: "1.2px",
-            color: "#8B95A5",
-            margin: 0,
-          }}
-        >
-          DIAGNÓSTICO.OPERACIONAL — 15 MIN — SIN COSTO
-        </motion.p>
+        {/* CTA retirado del héroe: el prospecto primero entiende el sitio; la conversión vive en el navbar */}
       </motion.div>
 
       <style>{`

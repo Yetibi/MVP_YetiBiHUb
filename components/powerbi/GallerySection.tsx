@@ -10,7 +10,7 @@ const CIFRA_RE = /(entre \$[\d.,]+M y \$[\d.,]+M COP(?: mensuales| anuales)?|\$[
 function resaltarCifras(texto: string) {
   return texto.split(CIFRA_RE).map((parte, i) =>
     i % 2 === 1
-      ? <span key={i} style={{ color: "#F2921D", fontWeight: 600 }}>{parte}</span>
+      ? <span key={i} style={{ color: "#F28F6B", fontWeight: 600 }}>{parte}</span>
       : parte
   );
 }
@@ -331,7 +331,7 @@ export default function GallerySection() {
                   marginTop: 16,
                 }}
               >
-                <p style={{ ...labelStyle, color: "#F2921D" }}>EL IMPACTO</p>
+                <p style={{ ...labelStyle, color: "#F28F6B" }}>EL IMPACTO</p>
                 <p style={{ fontSize: 14, color: "#F2F6F9", lineHeight: 1.6, margin: 0 }}>
                   {resaltarCifras(active.impact)}
                 </p>

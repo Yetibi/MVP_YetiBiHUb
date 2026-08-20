@@ -454,8 +454,8 @@ function GaussianWidget({ rm }: { rm: boolean | null }) {
             <stop offset="100%" stopColor="#4A78A0" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <path d={GAUSS_TAIL_LEFT} fill="rgba(242,146,29,0.10)" />
-        <path d={GAUSS_TAIL_RIGHT} fill="rgba(242,146,29,0.10)" />
+        <path d={GAUSS_TAIL_LEFT} fill="rgba(242,143,107,0.10)" />
+        <path d={GAUSS_TAIL_RIGHT} fill="rgba(242,143,107,0.10)" />
         <motion.path
           d={GAUSS_AREA}
           fill="url(#gaussFill)"
