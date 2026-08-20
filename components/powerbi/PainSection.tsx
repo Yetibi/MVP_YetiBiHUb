@@ -274,6 +274,7 @@ function MobileLayout() {
     <section style={{
       background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420",
       padding: "56px 24px 40px",
+      overflowX: "hidden",
     }}>
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
