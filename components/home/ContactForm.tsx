@@ -381,7 +381,7 @@ export function ContactForm() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 10,
-                  background: "#F28F6B",
+                  background: "#00D4C6",
                   color: "#0B1420",
                   fontFamily: "var(--font-space-grotesk), var(--font-geist-sans)",
                   fontWeight: 700,
