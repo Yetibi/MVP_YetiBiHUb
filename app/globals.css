@@ -373,3 +373,9 @@ section[id] { scroll-margin-top: 80px; }
 .section-differentiator a.cta-secondary:hover {
   color: var(--primary-hover);
 }
+/* ── Fila de chips (tesis): si no cabe (≤320px) panea sin barra visible ── */
+.chip-row {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chip-row::-webkit-scrollbar { display: none; }
