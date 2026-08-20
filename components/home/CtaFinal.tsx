@@ -34,7 +34,7 @@ export function CtaFinal() {
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}
         className="relative mx-auto"
-        style={{ maxWidth: 1080, zIndex: 1 }}
+        style={{ maxWidth: 1152, zIndex: 1 }}
       >
         {/* Card de acero elevada que separa la sección como plano */}
         <motion.div
