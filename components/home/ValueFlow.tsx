@@ -499,11 +499,8 @@ export function ValueFlow() {
 
         <div style={{ padding: '10px 12px', borderLeft: '2px solid #F2921D', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_NARANJA, margin: '0 0 5px' }}>⚡ ANTES DE LA IA</p>
-          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.5, margin: '0 0 5px' }}>
+          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.5, margin: 0 }}>
             Sin automatización sólida, la IA no tiene datos limpios ni procesos para aprender.
-          </p>
-          <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-            <span translate="no">McKinsey</span>: <span style={{ color: '#F2921D', fontWeight: 700 }}>70%</span> de proyectos de IA en pymes fallan por no automatizar primero.
           </p>
         </div>
 
