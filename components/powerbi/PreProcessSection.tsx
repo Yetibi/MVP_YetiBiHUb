@@ -140,7 +140,7 @@ function DecisionNode() {
           width: 40,
           height: 40,
           backgroundColor: "#141F2E",
-          border: "1.5px solid #4FD1E0",
+          border: "1.5px solid #F2921D",
           transform: "rotate(45deg)",
           display: "flex",
           alignItems: "center",
@@ -153,7 +153,7 @@ function DecisionNode() {
             fontFamily: "var(--font-mono)",
             fontSize: 9,
             fontWeight: 700,
-            color: "#4FD1E0",
+            color: "#F2921D",
             textAlign: "center",
             lineHeight: 1,
           }}
@@ -200,7 +200,7 @@ function Step({ number, meta, title, desc, highlight, isLast, rm }: StepProps) {
           borderLeft: highlight ? "2px solid #4FD1E0" : cardBase.border,
         }}
       >
-        <p style={metaLabelBase}>{meta}</p>
+        <p style={{ ...metaLabelBase, ...(meta.startsWith("GO") ? { color: "#F2921D" } : null) }}>{meta}</p>
         <h3 style={stepTitleBase}>{title}</h3>
         <p style={stepDescBase}>{desc}</p>
       </div>
@@ -231,11 +231,11 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
           style={{
             ...cardBase,
             padding: 28,
-            borderColor: "rgba(79,209,224,0.3)",
-            borderTop: "2px solid #4FD1E0",
+            borderColor: "rgba(242,146,29,0.35)",
+            borderTop: "2px solid #F2921D",
           }}
         >
-          <p style={{ ...metaLabelBase, color: "#4FD1E0", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ GO</p>
+          <p style={{ ...metaLabelBase, color: "#F2921D", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ GO</p>
           <h3 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 15, color: "#FFFFFF", margin: "0 0 6px" }}>
             Hay proyecto viable
           </h3>
@@ -253,7 +253,7 @@ function DecisionStep({ rm }: { rm: boolean | null }) {
             padding: 28,
           }}
         >
-          <p style={{ ...metaLabelBase, color: "#5D6B7A", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ NO GO</p>
+          <p style={{ ...metaLabelBase, color: "#F2921D", fontSize: "clamp(13px, 1.6vw, 16px)", fontWeight: 600, textTransform: "none", letterSpacing: "normal" }}>→ NO GO</p>
           <h3 style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: 15, color: "#FFFFFF", margin: "0 0 6px" }}>
             Cerramos con claridad
           </h3>

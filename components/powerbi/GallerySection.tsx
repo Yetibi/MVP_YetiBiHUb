@@ -5,6 +5,16 @@ import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 import { ProjectFrame } from "@/components/powerbi/ProjectFrame";
 
+// Cifras de dinero/resultado en naranja: son el hito del caso.
+const CIFRA_RE = /(entre \$[\d.,]+M y \$[\d.,]+M COP(?: mensuales| anuales)?|\$[\d.,]+M COP(?: mensuales| anuales)?|menos de \d+ semanas?|\d+ productos|\d+% más)/g;
+function resaltarCifras(texto: string) {
+  return texto.split(CIFRA_RE).map((parte, i) =>
+    i % 2 === 1
+      ? <span key={i} style={{ color: "#F2921D", fontWeight: 600 }}>{parte}</span>
+      : parte
+  );
+}
+
 // ─── contenido ───────────────────────────────────────────────────────────────
 
 const PROJECTS = [
@@ -298,7 +308,7 @@ export default function GallerySection() {
             >
               <div>
                 <p style={labelStyle}>EL PROBLEMA</p>
-                <p style={{ fontSize: 14, color: "#5D6B7A", lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: 14, color: "#8B95A5", lineHeight: 1.6, margin: 0 }}>
                   {active.problem}
                 </p>
               </div>
@@ -310,7 +320,7 @@ export default function GallerySection() {
                 }}
               >
                 <p style={labelStyle}>LO QUE CONSTRUIMOS</p>
-                <p style={{ fontSize: 14, color: "#5D6B7A", lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: 14, color: "#8B95A5", lineHeight: 1.6, margin: 0 }}>
                   {active.solution}
                 </p>
               </div>
@@ -321,9 +331,9 @@ export default function GallerySection() {
                   marginTop: 16,
                 }}
               >
-                <p style={labelStyle}>EL IMPACTO</p>
-                <p style={{ fontSize: 14, color: "#FFFFFF", lineHeight: 1.6, margin: 0 }}>
-                  {active.impact}
+                <p style={{ ...labelStyle, color: "#F2921D" }}>EL IMPACTO</p>
+                <p style={{ fontSize: 14, color: "#F2F6F9", lineHeight: 1.6, margin: 0 }}>
+                  {resaltarCifras(active.impact)}
                 </p>
               </div>
             </motion.div>

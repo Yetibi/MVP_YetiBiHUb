@@ -194,7 +194,7 @@ export default function HeroSection() {
           variants={heroItem}
           className="hero-headline"
           style={{
-            fontFamily: "var(--font-roboto-condensed)",
+            fontFamily: "var(--font-space-grotesk)",
             fontWeight: 800,
             letterSpacing: "-0.5px",
             marginTop: 0,
@@ -228,7 +228,7 @@ export default function HeroSection() {
           variants={heroItem}
           className="hero-subheadline"
           style={{
-            fontFamily: "var(--font-roboto-condensed)",
+            fontFamily: "var(--font-space-grotesk)",
             fontWeight: 700,
             color: TEAL,
             borderLeft: `2px solid ${TEAL}`,
@@ -245,7 +245,7 @@ export default function HeroSection() {
           variants={heroItem}
           className="hero-body"
           style={{
-            fontFamily: "var(--font-roboto)",
+            fontFamily: "var(--font-geist-sans)",
             fontWeight: 400,
             color: "#5D6B7A",
             lineHeight: 1.7,
@@ -284,9 +284,9 @@ export default function HeroSection() {
             <span
               style={{
                 flex: 1,
-                backgroundColor: TEAL,
+                backgroundColor: "#F2921D",
                 color: "#0B1420",
-                fontFamily: "var(--font-roboto-condensed)",
+                fontFamily: "var(--font-space-grotesk)",
                 fontWeight: 800,
                 letterSpacing: "0.8px",
                 padding: 15,

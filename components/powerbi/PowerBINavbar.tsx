@@ -73,11 +73,7 @@ export function PowerBINavbar() {
         <span className="sm:hidden">Agendar</span>
       </Link>
 
-      {/* .btn-primary es compartida con el home: el coral del micrositio se
-         aplica como override local para no alterar el naranja global. */}
-      <style>{`
-        .powerbi-navbar-cta::after { background-color: #4FD1E0 !important; }
-      `}</style>
+      {/* hereda el naranja global de .btn-primary (cian = estructura, naranja = acción) */}
     </nav>
   );
 }
