@@ -484,7 +484,24 @@ export default function PreProcessSection() {
         }
         @media (max-width: 768px) {
           .pre-process-inner {
-            padding: 56px 24px !important;
+            padding: 44px 20px !important;
+          }
+          /* compacto: menos aire entre pasos y cards más ceñidas */
+          .pre-process-step {
+            padding-bottom: 28px !important;
+          }
+          .pre-process-step > div:last-child {
+            padding: 14px 14px !important;
+          }
+          .decision-branch {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+          }
+          .decision-branch > div {
+            padding: 14px 14px !important;
+          }
+          .pre-process-header {
+            margin-bottom: 40px !important;
           }
           .pre-process-header {
             grid-template-columns: 1fr !important;

@@ -120,7 +120,8 @@ export default function HeroSection() {
     const measure = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      let w = Math.min(vw * 0.94, 1680);
+      // móvil: el tablero sangra los bordes para leerse como backdrop
+      let w = vw < 1024 ? Math.min(vw * 1.35, 720) : Math.min(vw * 0.94, 1680);
       let h = w / AR_BG;
       const maxH = (vh - 64) * 0.92;
       if (h > maxH) { h = maxH; w = h * AR_BG; }
@@ -373,8 +374,31 @@ export default function HeroSection() {
           max-width: 100%;
         }
         /* Desktop-only: campana absolute + scrim */
-        .hero-gauss-wrap { display: none; }
-        .hero-scrim { display: none; }
+        /* Móvil: mismo experimento — tablero al fondo, texto encima */
+        .hero-gauss-wrap {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+          z-index: 0;
+          opacity: 0.5;
+        }
+        .hero-scrim {
+          display: block;
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          pointer-events: none;
+          background: radial-gradient(ellipse 80% 62% at 50% 46%,
+            rgba(11,20,32,0.85),
+            rgba(11,20,32,0.6) 55%,
+            rgba(11,20,32,0.16) 85%,
+            transparent 100%);
+        }
+        .hero-gauss-inline { display: none; }
+        .hero-content { position: relative; z-index: 3; }
 
         /* ── Contenido ──────────────────────────────────────────── */
         /* Todo el hero debe caber en una pantalla: los espaciados escalan con
@@ -385,6 +409,14 @@ export default function HeroSection() {
           flex-direction: column;
           align-items: flex-start;
           text-align: left;
+        }
+        /* móvil: el contenido llena el viewport y se reparte el alto */
+        @media (max-width: 1023px) {
+          .hero-content {
+            min-height: calc(100svh - 64px);
+            box-sizing: border-box;
+            justify-content: space-evenly;
+          }
         }
         .hero-kicker      { margin-bottom: clamp(6px, 0.9vh, 10px); }
         .hero-gauss-inline{ margin-bottom: clamp(10px, 1.4vh, 14px); }

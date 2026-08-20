@@ -37,12 +37,8 @@ const PAINS = [
   },
 ] as const;
 
-// ─── Paleta Plano Glaciar — acento cian por card, acero como variante muda ───
-// Nota: #1C2836 (acero) tiene contraste ~1.7:1 sobre #0B1420/#182534 —
-// insuficiente para texto legible, así que solo se usa en el número decorativo
-// de fondo (elemento visual, no informativo); en labels/texto se sustituye
-// por ámbar #F2921D (tensión/fuga).
-const PAIN_ACCENTS = ["#4FD1E0", "#1C2836", "#4FD1E0", "#4FD1E0"] as const;
+// ─── Paleta: cian estructural con la señal 02 en naranja (ritmo Andon) ───
+const PAIN_ACCENTS = ["#4FD1E0", "#F2921D", "#4FD1E0", "#4FD1E0"] as const;
 
 // ─── Sección desktop: pasos con scroll (clon de HowItWorks/StepsSection) ─────
 
@@ -156,7 +152,7 @@ function StepsSection() {
                       <p style={{
                         fontFamily: "var(--font-mono)",
                         fontSize: "clamp(9px,1vw,11px)",
-                        color: accent === "#1C2836" ? "#F2921D" : accent,
+                        color: accent,
                         textTransform: "uppercase" as const,
                         letterSpacing: "2px",
                         margin: "0 0 12px",
@@ -195,7 +191,7 @@ function StepsSection() {
                     <p style={{
                       fontFamily: "var(--font-mono)",
                       fontSize: "clamp(9px,1vw,11px)",
-                      color: accent === "#1C2836" ? "#F2921D" : accent,
+                      color: accent,
                       textTransform: "uppercase" as const, letterSpacing: "1.5px",
                       margin: "0 0 8px",
                     }}>
@@ -273,11 +269,11 @@ function MobileLayout() {
   return (
     <section style={{
       background: "linear-gradient(180deg, rgba(79,209,224,0.10) 0%, rgba(79,209,224,0.05) 100%), #0B1420",
-      padding: "56px 24px 40px",
+      padding: "44px 24px 36px",
       overflowX: "hidden",
     }}>
       {/* Header */}
-      <div style={{ marginBottom: 40 }}>
+      <div style={{ marginBottom: 22 }}>
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
           <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0" }} />
           <span style={{
@@ -303,8 +299,8 @@ function MobileLayout() {
           fontFamily: "var(--font-sans)",
           fontSize: "clamp(15px, 1.8vw, 18px)",
           color: "#5D6B7A",
-          lineHeight: 1.8,
-          marginTop: 16,
+          lineHeight: 1.6,
+          marginTop: 10,
           marginBottom: 0,
         }}>
           Cuatro señales que aparecen antes de que cualquier proyecto de
@@ -318,16 +314,17 @@ function MobileLayout() {
           const isActive = allSeen || i === activeStep;
           const hasSeen = allSeen || i <= activeStep;
           const accent = PAIN_ACCENTS[i];
-          const accentText = accent === "#1C2836" ? "#F2921D" : accent;
+          const accentText = accent;
 
           return (
             <div
               key={pain.num}
               ref={(el) => { stepRefs.current[i] = el; }}
               style={{
+                position: "relative",
                 borderTop: `1px solid ${isActive ? `${accent}4D` : "rgba(255,255,255,0.06)"}`,
-                padding: "24px 0",
-                display: "flex", flexDirection: "column", gap: 10,
+                padding: "14px 0",
+                display: "flex", flexDirection: "column", gap: 6,
                 opacity: isActive ? 1 : hasSeen ? 0.22 : 0.08,
                 transform: hasSeen ? "translateX(0) scale(1)" : "translateX(32px) scale(0.97)",
                 filter: hasSeen ? "blur(0px)" : "blur(3px)",
@@ -336,11 +333,12 @@ function MobileLayout() {
             >
               {/* Número grande decorativo */}
               <span aria-hidden="true" style={{
-                position: "relative",
-                display: "block",
+                position: "absolute",
+                top: 8,
+                right: 0,
                 fontFamily: "var(--font-sans)", fontWeight: 900,
-                fontSize: "clamp(48px, 6vw, 72px)", lineHeight: 1,
-                color: isActive ? `${accent}2E` : "rgba(255,255,255,0.04)",
+                fontSize: 46, lineHeight: 1,
+                color: isActive ? `${accent}38` : "rgba(255,255,255,0.04)",
                 userSelect: "none", pointerEvents: "none",
                 transition: "color 0.45s ease",
               }}>
@@ -370,9 +368,9 @@ function MobileLayout() {
 
               {/* Descripción */}
               <p style={{
-                fontFamily: "var(--font-sans)", fontSize: "clamp(14px, 1.6vw, 16px)",
-                color: isActive ? "#5D6B7A" : "rgba(255,255,255,0.45)",
-                lineHeight: 1.7, margin: 0,
+                fontFamily: "var(--font-sans)", fontSize: 13.5,
+                color: isActive ? "#8B95A5" : "rgba(255,255,255,0.45)",
+                lineHeight: 1.55, margin: 0, paddingRight: 44,
                 transition: "color 0.45s ease",
               }}>
                 {pain.desc}
