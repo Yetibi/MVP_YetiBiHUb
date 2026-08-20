@@ -531,6 +531,38 @@ function LeftPanel({
             }}>
               ↓
             </span>
+
+            {/* Cita de tesis — cierra el argumento del héroe */}
+            <div style={{ flexBasis: "100%", marginTop: 40, display: "flex", justifyContent: "flex-start" }}>
+              <figure style={{
+                margin: 0,
+                maxWidth: 520,
+                textAlign: "left",
+                borderLeft: "2px solid #F2921D",
+                paddingLeft: 20,
+              }}>
+                <blockquote style={{
+                  margin: 0,
+                  fontFamily: "var(--font-space-grotesk)",
+                  fontWeight: 300,
+                  fontSize: 22,
+                  lineHeight: 1.45,
+                  color: "#F2F6F9",
+                }}>
+                  “Cuando construir soluciones es barato,{" "}
+                  <span style={{ color: "#4FD1E0", fontWeight: 600 }}>pensar la estrategia es lo caro.</span>”
+                </blockquote>
+                <figcaption style={{
+                  marginTop: 10,
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: 11,
+                  color: "#5D6B7A",
+                  letterSpacing: "2px",
+                }}>
+                  — LA TESIS DE YETI BI
+                </figcaption>
+              </figure>
+            </div>
           </div>
         </div>
       </div>
@@ -939,6 +971,36 @@ export default function Hero() {
             }}>
               ↓
             </span>
+
+            {/* Cita de tesis — centrada como bloque, texto anclado al borde naranja */}
+            <figure style={{
+              margin: "36px auto 0",
+              maxWidth: "100%",
+              textAlign: "left",
+              borderLeft: "2px solid #F2921D",
+              paddingLeft: 16,
+            }}>
+              <blockquote style={{
+                margin: 0,
+                fontFamily: "var(--font-space-grotesk)",
+                fontWeight: 300,
+                fontSize: 18,
+                lineHeight: 1.5,
+                color: "#F2F6F9",
+              }}>
+                “Cuando construir soluciones es barato,{" "}
+                <span style={{ color: "#4FD1E0", fontWeight: 600 }}>pensar la estrategia es lo caro.</span>”
+              </blockquote>
+              <figcaption style={{
+                marginTop: 8,
+                fontFamily: "var(--font-geist-mono)",
+                fontSize: 10,
+                color: "#5D6B7A",
+                letterSpacing: "2px",
+              }}>
+                — LA TESIS DE YETI BI
+              </figcaption>
+            </figure>
           </div>
         </div>
 
