@@ -358,17 +358,23 @@ function LeftPanel({
             gap: "8px 0",
           }}>
             {[
-              { label: "Proceso que debe existir", accent: false },
-              { label: "Personas correctas", accent: false },
-              { label: "Flujo optimizado", accent: false },
+              { label: "¿Debe existir?", accent: false },
+              { label: "¿Quién lo hace?", accent: false },
+              { label: "¿Cómo fluye?", accent: false },
               { label: "Impacto financiero", accent: true },
             ].map((item, i, arr) => (
               <span key={item.label} style={{ display: "flex", alignItems: "center" }}>
-                <span style={{
+                <span style={item.accent ? {
+                  fontFamily: "var(--font-space-grotesk)",
+                  fontSize: 22,
+                  fontWeight: 700,
+                  color: "#F2921D",
+                  whiteSpace: "nowrap",
+                } : {
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: "clamp(13px,1.15vw,16px)",
-                  fontWeight: item.accent ? 600 : 400,
-                  color: item.accent ? "#F2921D" : "#8B95A5",
+                  fontSize: 14,
+                  fontWeight: 400,
+                  color: "#8B95A5",
                   letterSpacing: "0.04em",
                   whiteSpace: "nowrap",
                 }}>
@@ -378,7 +384,8 @@ function LeftPanel({
                   <span aria-hidden style={{
                     margin: "0 10px",
                     color: "#5D6B7A",
-                    fontSize: 13,
+                    // la flecha previa al clímax acompaña el salto de tamaño
+                    fontSize: i === arr.length - 2 ? 17 : 14,
                     fontFamily: "var(--font-geist-mono)",
                   }}>
                     →
@@ -784,25 +791,34 @@ export default function Hero() {
           </p>
           </div>
 
-          {/* Mini-flujo — el cierre del héroe móvil */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center", position: "relative", zIndex: 1 }}>
+          {/* Mini-flujo — el cierre del héroe móvil: en fila, clímax grande */}
+          <div style={{
+            display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center",
+            gap: "6px 7px", position: "relative", zIndex: 1,
+          }}>
             {[
-              { label: "Proceso que debe existir", accent: false },
-              { label: "Personas correctas", accent: false },
-              { label: "Flujo optimizado", accent: false },
+              { label: "¿Debe existir?", accent: false },
+              { label: "¿Quién lo hace?", accent: false },
+              { label: "¿Cómo fluye?", accent: false },
               { label: "Impacto financiero", accent: true },
             ].map((item, i, arr) => (
-              <span key={item.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                {i > 0 && (
-                  <span aria-hidden style={{ color: "#5D6B7A", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
-                )}
-                <span style={{
+              <span key={item.label} style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                <span style={item.accent ? {
+                  fontFamily: "var(--font-space-grotesk)", fontSize: 19, fontWeight: 700,
+                  color: "#F2921D", whiteSpace: "nowrap",
+                } : {
                   fontFamily: "var(--font-geist-mono)", fontSize: 12,
-                  fontWeight: item.accent ? 600 : 400,
-                  color: item.accent ? "#F2921D" : "#8B95A5",
+                  fontWeight: 400, color: "#8B95A5", whiteSpace: "nowrap",
                 }}>
                   {item.label}
                 </span>
+                {i < arr.length - 1 && (
+                  <span aria-hidden style={{
+                    color: "#5D6B7A",
+                    fontSize: i === arr.length - 2 ? 14 : 11,
+                    fontFamily: "var(--font-geist-mono)",
+                  }}>→</span>
+                )}
               </span>
             ))}
             <span aria-hidden style={{
