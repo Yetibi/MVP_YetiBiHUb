@@ -231,8 +231,9 @@ function LeftPanel({
   opacityMV: MotionValue<number>;
   reduced: boolean;
 }) {
-  // mínimo 26px: garantiza que "el que encuentra." + brackets quepa a 320px
-  const H1_FS = "clamp(28px, 4.2vw, 68px)";
+  // Línea 1 = protagonista (impacto); línea 2 = apoyo con el marco cian
+  const H1_LINE1 = "clamp(42px, 7vw, 104px)";
+  const H1_FS = "clamp(26px, 4vw, 58px)";
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -405,21 +406,27 @@ function LeftPanel({
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
+        minHeight: 0,
+        paddingTop: 64,
       }}>
         <div style={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-evenly",
+          height: "100%",
           gap: 0,
           lineHeight: 1.05,
           width: "100%",
           textAlign: "center",
         }}>
+          {/* Grupo mensaje: kicker + H1 + lead */}
+          <div>
           {/* Kicker */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 30 }}>
             <div aria-hidden style={{ width: 28, height: 1, background: "#F2921D", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 12,
+              fontSize: 13,
               color: "#F2921D",
               letterSpacing: "3px",
               textTransform: "uppercase",
@@ -442,8 +449,8 @@ function LeftPanel({
             letterSpacing: "-0.025em",
             color: "#F2F6F9",
           }}>
-            {/* Línea 1: contexto — más pequeña; el mensaje fuerte es la línea 2 */}
-            <div style={{ display: "flex", justifyContent: "center", fontSize: "0.6em" }}>
+            {/* Línea 1: LA protagonista del héroe */}
+            <div style={{ display: "flex", justifyContent: "center", fontSize: H1_LINE1, lineHeight: 1.02 }}>
             No implementes IA
             </div>
             <div style={{
@@ -462,11 +469,11 @@ function LeftPanel({
           {/* Lead */}
           <p style={{
             fontFamily: "var(--font-geist-sans)",
-            fontSize: 18,
+            fontSize: 19,
             color: "#8B95A5",
             lineHeight: 1.65,
-            maxWidth: 620,
-            margin: "28px auto 0",
+            maxWidth: 640,
+            margin: "34px auto 0",
             fontWeight: 400,
           }}>
             Tu proceso no tiene que estar roto — puede solo{" "}
@@ -474,9 +481,10 @@ function LeftPanel({
             Evaluamos sus tres capas (<span style={{ color: "#F2F6F9", fontWeight: 500 }}>propósito, personas y flujo</span>)
             antes de que la tecnología amplifique lo que haya.
           </p>
+          </div>
 
           {/* CTA principal */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 18, marginTop: 36 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 20 }}>
             <a
               href="/diagnostico"
               target="_blank"
@@ -503,7 +511,6 @@ function LeftPanel({
             justifyContent: "center",
             flexWrap: "wrap",
             gap: "8px 0",
-            marginTop: 72,
           }}>
             {[
               { label: "Proceso que debe existir", accent: false },
@@ -514,7 +521,7 @@ function LeftPanel({
               <span key={item.label} style={{ display: "flex", alignItems: "center" }}>
                 <span style={{
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: "clamp(11px,1vw,14px)",
+                  fontSize: "clamp(12px,1.05vw,15px)",
                   fontWeight: item.accent ? 600 : 400,
                   color: item.accent ? "#F2921D" : "#8B95A5",
                   letterSpacing: "0.04em",
@@ -583,8 +590,12 @@ function RightPanel({
       }}
       className="pain-panel"
     >
-      <motion.div style={{ scale: textScaleMV, transformOrigin: "center center" }}>
-        <div style={{ textAlign: "center", margin: "0 0 22px" }}>
+      <motion.div style={{
+        scale: textScaleMV,
+        transformOrigin: "center center",
+        ...(narrow ? { height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-evenly" } : null),
+      }}>
+        <div style={{ textAlign: "center", margin: narrow ? "0 0 8px" : "0 0 22px" }}>
           <p style={{
             fontFamily: "var(--font-geist-mono)",
             fontSize: 11,
@@ -599,7 +610,7 @@ function RightPanel({
           <h2 className="pain-h2" style={{
             fontFamily: "var(--font-space-grotesk)",
             fontWeight: 700,
-            fontSize: narrow ? 18 : "clamp(20px,2.2vw,30px)",
+            fontSize: narrow ? 23 : "clamp(20px,2.2vw,30px)",
             color: "#F2F6F9",
             margin: "0 0 10px",
             lineHeight: 1.15,
@@ -623,7 +634,10 @@ function RightPanel({
         </div>
 
         {/* Semántica de lista para los pain items */}
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <ul style={{
+          listStyle: "none", padding: 0, margin: 0,
+          ...(narrow ? { flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-evenly" } : null),
+        }}>
           {PAINS.map((pain, i) => {
             const isActive = allVisible || i === activePain;
             const Icon = PAIN_ICONS[i];
@@ -633,8 +647,8 @@ function RightPanel({
               <li key={pain.num} className="pain-card" style={{
                 background: "#141F2E",
                 borderRadius: 12,
-                padding: "12px 16px",
-                marginBottom: 8,
+                padding: narrow ? "22px 18px" : "12px 16px",
+                marginBottom: narrow ? 0 : 8,
                 transition: "opacity 0.4s ease",
                 opacity: isActive ? 1 : 0.2,
               }}>
@@ -644,7 +658,7 @@ function RightPanel({
                   fontWeight: 500,
                   letterSpacing: "2.5px",
                   color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.35)",
-                  margin: "0 0 5px",
+                  margin: narrow ? "0 0 8px" : "0 0 5px",
                   paddingLeft: 38,
                   transition: "color 0.4s ease",
                 }}>
@@ -657,7 +671,7 @@ function RightPanel({
                   <p style={{
                     fontFamily: "var(--font-space-grotesk)",
                     fontWeight: 600,
-                    fontSize: "clamp(15px,1.5vw,21px)",
+                    fontSize: narrow ? 21 : "clamp(15px,1.5vw,21px)",
                     color: isActive ? "#F2F6F9" : "rgba(242,246,249,0.5)",
                     margin: 0,
                     lineHeight: 1.2,
@@ -874,7 +888,7 @@ export default function Hero() {
             letterSpacing: "-0.025em",
             color: "#F2F6F9",
           }}>
-            <div style={{ fontSize: "0.68em" }}>No implementes IA.</div>
+            <div style={{ fontSize: "clamp(28px, 9vw, 40px)", lineHeight: 1.05 }}>No implementes IA.</div>
             <div style={{
               display: "flex",
               alignItems: "center",
