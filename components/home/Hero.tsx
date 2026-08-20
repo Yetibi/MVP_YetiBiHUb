@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { NeuralNetworkBackground } from "@/components/home/NeuralNetworkBackground";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import {
@@ -235,140 +236,6 @@ function LeftPanel({
   // Línea 1 = protagonista (impacto); línea 2 = apoyo con el marco cian
   const H1_LINE1 = "clamp(42px, 7vw, 104px)";
   const H1_FS = "clamp(26px, 4vw, 58px)";
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    if (reduced) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    let running = true;
-    let t = 0;
-    const COLS = 24;
-    const ROWS = 16;
-
-    // Gradient cached outside the draw loop — recreated only on resize
-    let cachedFade: CanvasGradient | null = null;
-
-    const resize = () => {
-      canvas.width  = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      cachedFade = null; // invalidate on resize
-    };
-    resize();
-
-    // Debounced resize
-    let resizeTimer: ReturnType<typeof setTimeout>;
-    const onResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resize, 100);
-    };
-    window.addEventListener("resize", onResize, { passive: true });
-
-    // Plano vertical: la malla cubre todo el alto del héroe; la onda desplaza
-    // cada punto levemente (la cadencia de la animación no cambia)
-    const project = (gx: number, gy: number, w: number) => {
-      const px = canvas.width  * (0.05 + gx * 0.90) + w * canvas.width  * 0.025;
-      const py = canvas.height * (0.02 + gy * 0.96) + w * canvas.height * 0.045;
-      return { px, py };
-    };
-
-    const wave = (gx: number, gy: number, time: number) =>
-      Math.sin(Math.sqrt((gx - 0.5) ** 2 + (gy - 0.3) ** 2) * 8 - time * 1.8) * 0.18
-      + Math.sin(gx * 5 + time * 1.2) * 0.08
-      + Math.sin(gy * 4 - time * 0.9) * 0.06;
-
-    const draw = () => {
-      if (!running) return;
-      // Pause when tab is hidden
-      if (document.visibilityState === "hidden") {
-        animId = requestAnimationFrame(draw);
-        return;
-      }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      t += 0.012;
-
-      const pts: { px: number; py: number; gy: number }[][] = [];
-      for (let row = 0; row <= ROWS; row++) {
-        pts[row] = [];
-        for (let col = 0; col <= COLS; col++) {
-          const gx = col / COLS;
-          const gy = row / ROWS;
-          const { px, py } = project(gx, gy, wave(gx, gy, t));
-          pts[row][col] = { px, py, gy };
-        }
-      }
-
-      for (let row = 0; row <= ROWS; row++) {
-        ctx.beginPath();
-        pts[row].forEach(({ px, py }, col) =>
-          col === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)
-        );
-        const gy = row / ROWS;
-        ctx.strokeStyle = `rgba(79,209,224,${0.03 + gy * 0.03})`;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-      }
-
-      for (let col = 0; col <= COLS; col++) {
-        ctx.beginPath();
-        pts.forEach((row, ri) =>
-          ri === 0
-            ? ctx.moveTo(row[col].px, row[col].py)
-            : ctx.lineTo(row[col].px, row[col].py)
-        );
-        ctx.strokeStyle = "rgba(79,209,224,0.03)";
-        ctx.lineWidth = 0.6;
-        ctx.stroke();
-      }
-
-      for (let row = 0; row <= ROWS; row += 2) {
-        for (let col = 0; col <= COLS; col += 2) {
-          const { px, py, gy } = pts[row][col];
-          ctx.beginPath();
-          ctx.arc(px, py, 1.2, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(79,209,224,${0.1 + gy * 0.09})`;
-          ctx.fill();
-        }
-      }
-
-      // Fundido en los bordes superior e inferior para integrar la malla
-      if (!cachedFade) {
-        cachedFade = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        cachedFade.addColorStop(0, "rgba(11,20,32,1)");
-        cachedFade.addColorStop(0.14, "rgba(11,20,32,0)");
-        cachedFade.addColorStop(0.86, "rgba(11,20,32,0)");
-        cachedFade.addColorStop(1, "rgba(11,20,32,1)");
-      }
-      ctx.fillStyle = cachedFade;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    // Start via RAF so animId is always defined before cleanup
-    animId = requestAnimationFrame(draw);
-
-    // Pause when tab hidden
-    const onVisibility = () => {
-      if (document.visibilityState === "visible" && running) {
-        animId = requestAnimationFrame(draw);
-      }
-    };
-    document.addEventListener("visibilitychange", onVisibility);
-
-    return () => {
-      running = false;
-      cancelAnimationFrame(animId);
-      clearTimeout(resizeTimer);
-      window.removeEventListener("resize", onResize);
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, [reduced]);
 
   return (
     <div
@@ -378,25 +245,22 @@ function LeftPanel({
         height: "100vh",
         display: "flex",
         flexDirection: "column",
-        background: "radial-gradient(ellipse 60% 42% at 50% 0%, rgba(79,209,224,0.04), transparent 70%), #0B1420",
+        background: "#0B1420",
         overflow: "hidden",
         padding: "0 clamp(24px,5vw,48px)",
         boxSizing: "border-box",
       }}
     >
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        role="presentation"
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
+      <NeuralNetworkBackground reduced={reduced} />
+      {/* Velo radial: oscurece detrás del titular para que el texto no
+          compita con los nodos brillantes */}
+      <div aria-hidden style={{
+        position: "absolute",
+        inset: 0,
+        zIndex: 0,
+        pointerEvents: "none",
+        background: "radial-gradient(ellipse 54% 48% at 50% 42%, rgba(11,20,32,0.8), rgba(11,20,32,0.3) 60%, transparent 82%)",
+      }} />
 
       <div style={{
         position: "relative",
@@ -533,37 +397,6 @@ function LeftPanel({
               ↓
             </span>
 
-            {/* Cita de tesis — cierra el argumento del héroe */}
-            <div style={{ flexBasis: "100%", marginTop: 40, display: "flex", justifyContent: "flex-start" }}>
-              <figure style={{
-                margin: 0,
-                maxWidth: 520,
-                textAlign: "left",
-                borderLeft: "2px solid #F2921D",
-                paddingLeft: 20,
-              }}>
-                <blockquote style={{
-                  margin: 0,
-                  fontFamily: "var(--font-space-grotesk)",
-                  fontWeight: 300,
-                  fontSize: 22,
-                  lineHeight: 1.45,
-                  color: "#F2F6F9",
-                }}>
-                  “Cuando construir soluciones es barato,{" "}
-                  <span style={{ color: "#4FD1E0", fontWeight: 600 }}>pensar la estrategia es lo caro.</span>”
-                </blockquote>
-                <figcaption style={{
-                  marginTop: 10,
-                  fontFamily: "var(--font-geist-mono)",
-                  fontSize: 11,
-                  color: "#5D6B7A",
-                  letterSpacing: "2px",
-                }}>
-                  — LA TESIS DE YETI BI
-                </figcaption>
-              </figure>
-            </div>
           </div>
         </div>
       </div>
@@ -889,10 +722,18 @@ export default function Hero() {
           justifyContent: "space-evenly",
           gap: 0,
           overflowX: "hidden",
-          background: "radial-gradient(ellipse 90% 36% at 50% 0%, rgba(79,209,224,0.04), transparent 70%), transparent",
+          position: "relative",
         }}>
+          <NeuralNetworkBackground reduced={reduced} />
+          <div aria-hidden style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 0,
+            pointerEvents: "none",
+            background: "radial-gradient(ellipse 85% 46% at 50% 40%, rgba(11,20,32,0.8), rgba(11,20,32,0.3) 60%, transparent 85%)",
+          }} />
           {/* Grupo mensaje: kicker + H1 + lead */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16, textAlign: "center", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, textAlign: "center", alignItems: "center", position: "relative", zIndex: 1 }}>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <div aria-hidden style={{ width: 20, height: 1, background: "#F2921D", flexShrink: 0 }} />
@@ -944,7 +785,7 @@ export default function Hero() {
           </div>
 
           {/* Mini-flujo — el cierre del héroe móvil */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center", position: "relative", zIndex: 1 }}>
             {[
               { label: "Proceso que debe existir", accent: false },
               { label: "Personas correctas", accent: false },
@@ -973,35 +814,6 @@ export default function Hero() {
               ↓
             </span>
 
-            {/* Cita de tesis — centrada como bloque, texto anclado al borde naranja */}
-            <figure style={{
-              margin: "36px auto 0",
-              maxWidth: "100%",
-              textAlign: "left",
-              borderLeft: "2px solid #F2921D",
-              paddingLeft: 16,
-            }}>
-              <blockquote style={{
-                margin: 0,
-                fontFamily: "var(--font-space-grotesk)",
-                fontWeight: 300,
-                fontSize: 18,
-                lineHeight: 1.5,
-                color: "#F2F6F9",
-              }}>
-                “Cuando construir soluciones es barato,{" "}
-                <span style={{ color: "#4FD1E0", fontWeight: 600 }}>pensar la estrategia es lo caro.</span>”
-              </blockquote>
-              <figcaption style={{
-                marginTop: 8,
-                fontFamily: "var(--font-geist-mono)",
-                fontSize: 10,
-                color: "#5D6B7A",
-                letterSpacing: "2px",
-              }}>
-                — LA TESIS DE YETI BI
-              </figcaption>
-            </figure>
           </div>
         </div>
 
