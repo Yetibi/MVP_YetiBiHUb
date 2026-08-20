@@ -472,39 +472,19 @@ function LeftPanel({
             fontSize: 19,
             color: "#8B95A5",
             lineHeight: 1.65,
-            maxWidth: 640,
+            maxWidth: 600,
             margin: "34px auto 0",
             fontWeight: 400,
           }}>
-            Tu proceso no tiene que estar roto — puede solo{" "}
-            <span style={{ color: "#4FD1E0", fontWeight: 500 }}>no estar listo</span>.
-            Evaluamos sus tres capas (<span style={{ color: "#F2F6F9", fontWeight: 500 }}>propósito, personas y flujo</span>)
-            antes de que la tecnología amplifique lo que haya.
+            La IA no arregla lo que encuentra:{" "}
+            <span style={{ color: "#F2921D", fontWeight: 500 }}>lo amplifica</span>.
+            Sobre un proceso sin rediseñar,{" "}
+            <span style={{ color: "#F2F6F9", fontWeight: 500 }}>multiplica el costo de lo que está mal</span>{" "}
+            — más rápido y a mayor escala.
           </p>
           </div>
 
-          {/* CTA principal */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 20 }}>
-            <a
-              href="/diagnostico"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-eval-cta"
-            >
-              Evaluar mi proceso <span aria-hidden>→</span>
-              <span className="sr-only"> (abre en nueva pestaña)</span>
-            </a>
-            <span style={{
-              fontFamily: "var(--font-geist-mono)",
-              fontSize: 11,
-              color: "#5D6B7A",
-              letterSpacing: "2px",
-            }}>
-              UN PROCESO · SIN COSTO
-            </span>
-          </div>
-
-          {/* Mini-flujo */}
+          {/* Mini-flujo — el cierre del héroe: convence e invita a bajar */}
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -521,7 +501,7 @@ function LeftPanel({
               <span key={item.label} style={{ display: "flex", alignItems: "center" }}>
                 <span style={{
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: "clamp(12px,1.05vw,15px)",
+                  fontSize: "clamp(13px,1.15vw,16px)",
                   fontWeight: item.accent ? 600 : 400,
                   color: item.accent ? "#F2921D" : "#8B95A5",
                   letterSpacing: "0.04em",
@@ -541,6 +521,16 @@ function LeftPanel({
                 )}
               </span>
             ))}
+            <span aria-hidden style={{
+              flexBasis: "100%",
+              textAlign: "center",
+              marginTop: 18,
+              color: "#5D6B7A",
+              fontSize: 14,
+              fontFamily: "var(--font-geist-mono)",
+            }}>
+              ↓
+            </span>
           </div>
         </div>
       </div>
@@ -910,39 +900,18 @@ export default function Hero() {
           {/* Lead */}
           <p style={{
             fontFamily: "var(--font-geist-sans)", fontSize: 15,
-            color: "#8B95A5", lineHeight: 1.6, margin: 0,
+            color: "#8B95A5", lineHeight: 1.6, margin: 0, maxWidth: 600,
           }}>
-            Tu proceso no tiene que estar roto — puede solo{" "}
-            <span style={{ color: "#4FD1E0", fontWeight: 500 }}>no estar listo</span>.
-            Evaluamos sus tres capas (<span style={{ color: "#F2F6F9", fontWeight: 500 }}>propósito, personas y flujo</span>)
-            antes de que la tecnología amplifique lo que haya.
+            La IA no arregla lo que encuentra:{" "}
+            <span style={{ color: "#F2921D", fontWeight: 500 }}>lo amplifica</span>.
+            Sobre un proceso sin rediseñar,{" "}
+            <span style={{ color: "#F2F6F9", fontWeight: 500 }}>multiplica el costo de lo que está mal</span>{" "}
+            — más rápido y a mayor escala.
           </p>
           </div>
 
-          {/* CTA principal — el ancla del héroe móvil: centrado y grande */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-            <a
-              href="/diagnostico"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-eval-cta"
-              style={{ fontSize: 18, padding: "18px 40px", width: "100%", maxWidth: 380, justifyContent: "center" }}
-            >
-              Evaluar mi proceso <span aria-hidden>→</span>
-              <span className="sr-only"> (abre en nueva pestaña)</span>
-            </a>
-            <span style={{
-              fontFamily: "var(--font-geist-mono)",
-              fontSize: 10,
-              color: "#5D6B7A",
-              letterSpacing: "2px",
-            }}>
-              UN PROCESO · SIN COSTO
-            </span>
-          </div>
-
-          {/* Mini-flujo — vertical en mobile */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 5, alignItems: "center" }}>
+          {/* Mini-flujo — el cierre del héroe móvil */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
             {[
               { label: "Proceso que debe existir", accent: false },
               { label: "Personas correctas", accent: false },
@@ -954,7 +923,7 @@ export default function Hero() {
                   <span aria-hidden style={{ color: "#5D6B7A", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}>→</span>
                 )}
                 <span style={{
-                  fontFamily: "var(--font-geist-mono)", fontSize: 11,
+                  fontFamily: "var(--font-geist-mono)", fontSize: 12,
                   fontWeight: item.accent ? 600 : 400,
                   color: item.accent ? "#F2921D" : "#8B95A5",
                 }}>
@@ -962,6 +931,14 @@ export default function Hero() {
                 </span>
               </span>
             ))}
+            <span aria-hidden style={{
+              marginTop: 14,
+              color: "#5D6B7A",
+              fontSize: 13,
+              fontFamily: "var(--font-geist-mono)",
+            }}>
+              ↓
+            </span>
           </div>
         </div>
 
