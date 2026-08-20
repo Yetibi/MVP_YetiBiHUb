@@ -16,6 +16,21 @@ alter table intakes
 
 -- Estados del intake (§6.4): recibido → clasificado → redactado → aprobado →
 -- enviado (+ atascado, cuando el cron agota los 3 reintentos).
+-- El CHECK viejo solo admitía recibido/procesando/enviado:
+alter table intakes drop constraint if exists intakes_estado_check;
+alter table intakes add constraint intakes_estado_check
+  check (estado = any (array[
+    'recibido'::text, 'procesando'::text, 'clasificado'::text,
+    'redactado'::text, 'aprobado'::text, 'enviado'::text, 'atascado'::text
+  ]));
+
+-- Campos del flujo viejo que el instrumento nuevo ya no envía:
+alter table intakes
+  alter column perfil drop not null,
+  alter column sector drop not null,
+  alter column alcance drop not null,
+  alter column dolor_declarado drop not null,
+  alter column to_be_objetivo drop not null;
 
 -- diagnosticos: el veredicto clasificado por código
 alter table diagnosticos
