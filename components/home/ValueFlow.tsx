@@ -38,37 +38,51 @@ function SecuenciaEstrategica({ compact }: { compact?: boolean }) {
       background: 'rgba(242,146,29,0.06)',
       border: '1px solid rgba(242,146,29,0.25)',
       borderRadius: 12,
-      padding: '16px 20px',
-      marginBottom: compact ? 20 : 24,
+      padding: compact ? '12px 14px' : '16px 20px',
+      marginBottom: compact ? 16 : 24,
     }}>
       <p style={{
         fontFamily: 'var(--font-geist-mono)', fontSize: compact ? 9 : 10, fontWeight: 700,
-        color: '#F2921D', letterSpacing: '1.5px', textTransform: 'uppercase',
-        margin: '0 0 14px', textAlign: 'center',
+        color: '#F2921D', letterSpacing: compact ? '1px' : '1.5px', textTransform: 'uppercase',
+        margin: compact ? '0 0 10px' : '0 0 14px', textAlign: compact ? 'left' : 'center',
       }}>
         LA SECUENCIA ESTRATÉGICA — el orden es ingeniería, no sugerencia
       </p>
-      <div style={compact
-        ? { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px 10px', justifyItems: 'start' }
-        : { display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: 8 }}>
-        {SEQ.map((e, i) => (
-          <span key={e.n} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-            <span style={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: compact ? 'flex-start' : 'center' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                <BadgeEtapa n={e.n} hot={e.hot} />
-                <span style={{
-                  fontFamily: 'var(--font-space-grotesk)', fontSize: compact ? 12 : 13, fontWeight: 600,
-                  color: e.hot ? '#F2921D' : '#F2F6F9', whiteSpace: 'nowrap',
-                }}>{e.nombre}</span>
-              </span>
-              <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: compact ? 9 : 10, color: '#5D6B7A', paddingLeft: compact ? 25 : 0 }}>{e.q}</span>
+      {compact ? (
+        /* Móvil: 5 filas de una línea — badge + nombre + pregunta */
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          {SEQ.map((e) => (
+            <span key={e.n} style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+              <BadgeEtapa n={e.n} hot={e.hot} />
+              <span style={{
+                fontFamily: 'var(--font-space-grotesk)', fontSize: 12.5, fontWeight: 600,
+                color: e.hot ? '#F2921D' : '#F2F6F9', whiteSpace: 'nowrap',
+              }}>{e.nombre}</span>
+              <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 9.5, color: '#5D6B7A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>· {e.q}</span>
             </span>
-            {!compact && i < SEQ.length - 1 && (
-              <span aria-hidden style={{ color: '#5D6B7A', fontFamily: 'var(--font-geist-mono)', fontSize: 12, marginTop: 2 }}>→</span>
-            )}
-          </span>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: 8 }}>
+          {SEQ.map((e, i) => (
+            <span key={e.n} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <BadgeEtapa n={e.n} hot={e.hot} />
+                  <span style={{
+                    fontFamily: 'var(--font-space-grotesk)', fontSize: 13, fontWeight: 600,
+                    color: e.hot ? '#F2921D' : '#F2F6F9', whiteSpace: 'nowrap',
+                  }}>{e.nombre}</span>
+                </span>
+                <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 10, color: '#5D6B7A' }}>{e.q}</span>
+              </span>
+              {i < SEQ.length - 1 && (
+                <span aria-hidden style={{ color: '#5D6B7A', fontFamily: 'var(--font-geist-mono)', fontSize: 12, marginTop: 2 }}>→</span>
+              )}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -441,15 +455,15 @@ export function ValueFlow() {
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>FUNDAMENTOS</p>
         <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapas 1·2·3 — antes de tecnología</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid #4FD1E0', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
+        <div style={{ padding: '10px 12px', borderLeft: '2px solid #4FD1E0', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_CIAN, margin: '0 0 5px' }}>★ NUESTRO DIFERENCIAL</p>
-          <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.6, margin: '0 0 5px' }}>
+          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.5, margin: '0 0 5px' }}>
             Los procesos se degradan y quedan obsoletos. Mejorar esta base ya genera resultados — sin tecnología.
           </p>
           <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(79,209,224,0.8)', margin: 0 }}>Habilitamos antes de automatizar.</p>
         </div>
 
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ padding: '10px 12px', background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 3px' }}>
             <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>PROCESO</p>
             <BadgeEtapa n="1" />
@@ -458,11 +472,11 @@ export function ValueFlow() {
         </div>
 
         {/* Conector entre PROCESO y DATO */}
-        <div style={{ height: 28, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ height: 18, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ width: 2, height: '100%', background: 'rgba(242,146,29,0.3)' }} />
         </div>
 
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ padding: '10px 12px', background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 3px' }}>
             <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>DATO</p>
             <BadgeEtapa n="2·3" />
@@ -471,7 +485,7 @@ export function ValueFlow() {
         </div>
 
         {/* Conector 1 — naranja */}
-        <div style={{ height: 48, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ height: 30, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ width: 2, height: '100%', background: 'linear-gradient(to bottom, rgba(242,146,29,0.6), rgba(242,146,29,0.10))', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out infinite' : 'none', top: -6 }} />
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 0.9s infinite' : 'none', top: -6 }} />
@@ -483,9 +497,9 @@ export function ValueFlow() {
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>HABILITACIÓN TECNOLÓGICA</p>
         <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapa 4 — aquí, y solo aquí, la IA</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid #F2921D', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
+        <div style={{ padding: '10px 12px', borderLeft: '2px solid #F2921D', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_NARANJA, margin: '0 0 5px' }}>⚡ ANTES DE LA IA</p>
-          <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.6, margin: '0 0 5px' }}>
+          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.5, margin: '0 0 5px' }}>
             Sin automatización sólida, la IA no tiene datos limpios ni procesos para aprender.
           </p>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
@@ -494,7 +508,7 @@ export function ValueFlow() {
         </div>
 
         {/* Nodo AUTOMATIZACIÓN */}
-        <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ padding: '10px 12px', background: C_NODE, border: '1px solid rgba(79,209,224,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>AUTOMATIZACIÓN</p>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -507,7 +521,7 @@ export function ValueFlow() {
         </div>
 
         {/* Zona de fork: naranja centro baja a ROI, punteado derecha baja a IA */}
-        <div style={{ position: 'relative', height: 52 }}>
+        <div style={{ position: 'relative', height: 38 }}>
           {/* Naranja al centro — ruta principal */}
           <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(242,146,29,0.7), rgba(242,146,29,0.3))', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.2s infinite' : 'none', top: -6 }} />
@@ -529,7 +543,7 @@ export function ValueFlow() {
           <div style={{ position: 'absolute', right: '8%', top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, rgba(242,146,29,0.3), rgba(242,146,29,0.3))', zIndex: 1 }}>
             <div style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: C_NARANJA, left: '50%', transform: 'translateX(-50%)', animation: shouldAnimate ? 'mobileParticle 1.8s ease-in-out 1.5s infinite' : 'none', top: -6 }} />
           </div>
-          <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ padding: '10px 12px', background: C_NODE, border: '1px solid rgba(79,209,224,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>IA QUE DECIDE</p>
               <span style={{ background: 'rgba(167,139,196,0.10)', border: '1px solid rgba(167,139,196,0.35)', color: C_MORADO, fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)', marginRight: 18 }}>SI LO JUSTIFICA</span>
@@ -540,7 +554,7 @@ export function ValueFlow() {
         </div>
 
         {/* Conector: naranja sale del lado derecho y converge al centro hacia ROI */}
-        <div style={{ position: 'relative', height: 52 }}>
+        <div style={{ position: 'relative', height: 38 }}>
           {/* Línea naranja derecha que baja y converge */}
           <div style={{ position: 'absolute', right: '8%', top: 0, height: '60%', width: 2, background: 'rgba(242,146,29,0.4)' }} />
           {/* Línea horizontal que une derecha con centro */}
@@ -557,16 +571,16 @@ export function ValueFlow() {
         <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>IMPACTO FINANCIERO</p>
         <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapa 5 — verificar el rediseño</p>
 
-        <div style={{ padding: '12px 14px', borderLeft: '2px solid rgba(79,209,224,0.6)', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
+        <div style={{ padding: '10px 12px', borderLeft: '2px solid rgba(79,209,224,0.6)', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_CIAN, margin: '0 0 5px' }}>◆ PROPÓSITO SISTÉMICO</p>
-          <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.6, margin: '0 0 5px' }}>
+          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.5, margin: '0 0 5px' }}>
             Si no impacta el ROI, el proyecto no cumple su propósito.
           </p>
           <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', fontStyle: 'italic', color: C_CIAN, margin: 0 }}>Medimos relaciones, no eventos.</p>
         </div>
 
-        <div style={{ padding: '20px 14px', background: '#141F2E', border: '1px solid #4FD1E0', borderRadius: 10, boxShadow: '0 12px 32px rgba(0,0,0,0.45)', textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
-          <div style={{ width: 52, height: 52, borderRadius: '50%', background: C_CIAN, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(79,209,224,0.3)' }}>
+        <div style={{ padding: '14px 12px', background: '#141F2E', border: '1px solid #4FD1E0', borderRadius: 10, boxShadow: '0 12px 32px rgba(0,0,0,0.45)', textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ width: 44, height: 44, borderRadius: '50%', background: C_CIAN, margin: '0 auto 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(79,209,224,0.3)' }}>
             <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#0B1420' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
