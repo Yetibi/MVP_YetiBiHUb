@@ -684,17 +684,29 @@ export default function DifferentiatorSection() {
         }
         @media (max-width: 960px) {
           .differentiator-inner {
-            padding: 60px 24px !important;
+            padding: 40px 20px !important;
+          }
+          .differentiator-inner > div:first-child {
+            margin-bottom: 24px !important;
           }
           .differentiator-grid {
             grid-template-columns: 1fr !important;
-            gap: 32px !important;
+            gap: 16px !important;
           }
           .card-header-band {
-            padding: 20px 24px !important;
+            padding: 13px 16px !important;
+            gap: 12px !important;
           }
           .card-body {
-            padding: 24px 24px 28px !important;
+            padding: 14px 16px 16px !important;
+          }
+          .card-body li {
+            margin-bottom: 11px !important;
+            gap: 10px !important;
+          }
+          .card-body li p {
+            font-size: 13.5px !important;
+            line-height: 1.5 !important;
           }
           .corner-bracket {
             width: 18px !important;

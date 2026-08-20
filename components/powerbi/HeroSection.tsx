@@ -220,7 +220,7 @@ export default function HeroSection() {
           }}
         >
           <span className="hero-headline-line">
-            No solo<span className="hero-headline-br"> </span>necesitas un
+            <span style={{ color: "#F2921D" }}>No solo</span><span className="hero-headline-br"> </span>necesitas un
           </span>
           {/* Espacio real entre "un" y "dashboard": sin él los lectores de
               pantalla leían "undashboard". El salto visual lo sigue dando el
@@ -248,11 +248,11 @@ export default function HeroSection() {
           className="hero-subheadline"
           style={{
             fontFamily: "var(--font-space-grotesk)",
-            fontWeight: 700,
-            color: TEAL,
+            fontWeight: 600,
+            color: "#F2F6F9",
             borderLeft: `2px solid ${TEAL}`,
             paddingLeft: 14,
-            lineHeight: 1.3,
+            lineHeight: 1.35,
             marginTop: 0,
           }}
         >
@@ -416,7 +416,14 @@ export default function HeroSection() {
             min-height: calc(100svh - 64px);
             box-sizing: border-box;
             justify-content: space-evenly;
+            align-items: center;
+            text-align: center;
           }
+          .hero-subheadline {
+            border-left: none !important;
+            padding-left: 0 !important;
+          }
+          .hero-divider { margin-left: auto; margin-right: auto; }
         }
         .hero-kicker      { margin-bottom: clamp(6px, 0.9vh, 10px); }
         .hero-gauss-inline{ margin-bottom: clamp(10px, 1.4vh, 14px); }
