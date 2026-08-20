@@ -455,40 +455,50 @@ export default function HeroSection() {
           /* En desktop manda el grid de 2 columnas: la campana inline móvil
              desaparece. El scrim ya no aplica — no hay texto sobre la figura. */
           .hero-gauss-inline { display: none; }
-          .hero-scrim { display: none; }
-
-          /* Grid real de 2 columnas: el texto vive en la izquierda (52%) y el
-             tablero DENTRO de la derecha (48%). Sin absolute, sin solape. */
+          /* ── Experimento: tablero animado al FONDO, texto centrado ──
+             El tablero vive absoluto y centrado detrás del contenido, tenue
+             (opacity + escala) para que anime sin competir; un velo radial
+             de noche protege el contraste del texto. */
           .hero-section {
-            display: grid;
-            grid-template-columns: 52% 48%;
-            align-items: center;
-          }
-          /* el tablero se centra en su columna a su tamaño intrínseco */
-          .hero-gauss-wrap {
             display: flex;
-            position: static;
-            width: auto;
+            flex-direction: column;
             justify-content: center;
-            transform: none;
-            pointer-events: none;
-            grid-column: 2;
-            grid-row: 1;
-            padding-right: 32px;
           }
-          /* la tarjeta del tablero se centra; el canvas conserva su tamaño
-             intrínseco 610x385 dentro de ella */
+          .hero-gauss-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.34;
+            transform: scale(1.28);
+          }
           .hero-gauss-wrap > div {
             margin: auto;
             flex: none;
           }
-          .hero-content {
-            grid-column: 1;
-            grid-row: 1;
-            padding: 48px 32px 48px 64px;
-            width: auto;
-            max-width: none;
+          .hero-scrim {
+            display: block;
+            background: radial-gradient(ellipse 58% 56% at 50% 50%,
+              rgba(11,20,32,0.9),
+              rgba(11,20,32,0.55) 55%,
+              rgba(11,20,32,0.15) 82%,
+              transparent 100%);
           }
+          .hero-content {
+            position: relative;
+            z-index: 3;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 48px 32px;
+            width: auto;
+            max-width: 900px;
+          }
+          .hero-subheadline, .hero-body { margin-left: auto; margin-right: auto; }
 
           .hero-kicker span { font-size: 12px !important; }
 
@@ -516,7 +526,7 @@ export default function HeroSection() {
         }
 
         @media (min-width: 1440px) {
-          .hero-content { padding-left: 88px; }
+          .hero-content { padding-left: 32px; }
         }
       `}</style>
     </section>
