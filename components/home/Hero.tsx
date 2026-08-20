@@ -869,9 +869,9 @@ export default function Hero() {
           background: "radial-gradient(ellipse 90% 36% at 50% 0%, rgba(79,209,224,0.04), transparent 70%), transparent",
         }}>
           {/* Grupo mensaje: kicker + H1 + lead */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, textAlign: "center", alignItems: "center" }}>
           {/* Kicker */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <div aria-hidden style={{ width: 20, height: 1, background: "#F2921D", flexShrink: 0 }} />
             <span style={{
               fontFamily: "var(--font-geist-mono)", fontSize: 9,
@@ -893,10 +893,11 @@ export default function Hero() {
             letterSpacing: "-0.025em",
             color: "#F2F6F9",
           }}>
-            <div style={{ fontSize: "clamp(28px, 9vw, 40px)", lineHeight: 1.05 }}>No implementes IA.</div>
+            <div style={{ fontSize: "clamp(34px, 11.5vw, 52px)", lineHeight: 1.05 }}>No implementes IA.</div>
             <div style={{
               display: "flex",
               alignItems: "center",
+              justifyContent: "center",
               flexWrap: "wrap",
               gap: "0.2em 0.28em",
               marginTop: "0.2em",
@@ -941,7 +942,7 @@ export default function Hero() {
           </div>
 
           {/* Mini-flujo — vertical en mobile */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 5, alignItems: "center" }}>
             {[
               { label: "Proceso que debe existir", accent: false },
               { label: "Personas correctas", accent: false },
