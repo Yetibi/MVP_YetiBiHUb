@@ -17,6 +17,7 @@ const NAV_LINKS = [
   { label: "El problema",   href: "#el-problema" },
   { label: "Las 3 capas",   href: "#como-funciona" },
   { label: "El enfoque",    href: "#el-enfoque" },
+  { label: "La tesis",      href: "#la-tesis" },
   { label: "Contacto",      href: "#contacto" },
 ] as const;
 

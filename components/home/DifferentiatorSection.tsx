@@ -128,7 +128,7 @@ function CadenaCard({
 
 export default function DifferentiatorSection() {
   return (
-    <section className="relative w-full" style={{ background: "#0B1420" }}>
+    <section id="la-tesis" className="relative w-full" style={{ background: "#0B1420" }}>
       <div
         className="relative mx-auto px-6 md:px-12 lg:px-16 py-16"
         style={{ maxWidth: "1280px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}
