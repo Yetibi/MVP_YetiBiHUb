@@ -347,7 +347,7 @@ export default function HeroSection() {
             fontFamily: "var(--font-mono)",
             fontSize: 9,
             letterSpacing: "1.2px",
-            color: MUTED,
+            color: "#8B95A5",
             margin: 0,
           }}
         >
@@ -500,10 +500,10 @@ export default function HeroSection() {
           }
           .hero-scrim {
             display: block;
-            background: radial-gradient(ellipse 44% 48% at 50% 48%,
-              rgba(11,20,32,0.78),
-              rgba(11,20,32,0.38) 58%,
-              rgba(11,20,32,0.05) 85%,
+            background: radial-gradient(ellipse 46% 62% at 50% 52%,
+              rgba(11,20,32,0.85),
+              rgba(11,20,32,0.6) 55%,
+              rgba(11,20,32,0.14) 82%,
               transparent 100%);
           }
           .hero-content {
