@@ -4,12 +4,18 @@ import { useIntakeForm } from "@/hooks/use-intake-form";
 import { ProgressBar } from "@/components/intake/ProgressBar";
 import { NavigationButtons } from "@/components/intake/NavigationButtons";
 import { ConfirmationScreen } from "@/components/intake/ConfirmationScreen";
-import { Step1Profile } from "@/components/intake/steps/Step1Profile";
-import { Step2Essential } from "@/components/intake/steps/Step2Essential";
-import { Step3Evidence } from "@/components/intake/steps/Step3Evidence";
-import { Step4AsisToBe } from "@/components/intake/steps/Step4AsisToBe";
-import { Step5Optional } from "@/components/intake/steps/Step5Optional";
-import { Step6Review } from "@/components/intake/steps/Step6Review";
+import { StepLibre } from "@/components/intake/steps/StepLibre";
+import { StepOpcion } from "@/components/intake/steps/StepOpcion";
+import { StepPeso } from "@/components/intake/steps/StepPeso";
+import { StepEmail } from "@/components/intake/steps/StepEmail";
+import {
+  CAMPO_PROCESO,
+  CAMPO_EJECUCION,
+  CAMPO_EXPECTATIVA,
+  SENAL_OPTIONS,
+  DATO_OPTIONS,
+  FALLA_OPTIONS,
+} from "@/lib/copy";
 import { motion, AnimatePresence, stepVariants, fadeIn } from "@/lib/motion";
 
 export function IntakeForm() {
@@ -29,29 +35,100 @@ export function IntakeForm() {
   } = useIntakeForm();
 
   if (submitted) {
-    return <ConfirmationScreen />;
+    return <ConfirmationScreen email={data.email} />;
   }
 
   function renderStep() {
     switch (step) {
       case 1:
-        return <Step1Profile data={data} update={update} />;
+        return (
+          <StepLibre
+            id="proceso"
+            kicker="Paso 1 · El proceso"
+            titulo={CAMPO_PROCESO.label}
+            ayuda={CAMPO_PROCESO.ayuda}
+            value={data.proceso}
+            onChange={(v) => update("proceso", v)}
+            maxLength={CAMPO_PROCESO.max}
+            minLength={CAMPO_PROCESO.min}
+            placeholder="Ej: Agendamiento de citas — para que ninguna silla se quede vacía…"
+            showErrors={showErrors}
+            errorMsg={`Describe el proceso en al menos ${CAMPO_PROCESO.min} caracteres.`}
+          />
+        );
       case 2:
         return (
-          <Step2Essential data={data} update={update} showErrors={showErrors} />
+          <StepLibre
+            id="ejecucion"
+            kicker="Paso 2 · La ejecución"
+            titulo={CAMPO_EJECUCION.label}
+            ayuda={CAMPO_EJECUCION.ayuda}
+            value={data.ejecucion}
+            onChange={(v) => update("ejecucion", v)}
+            maxLength={CAMPO_EJECUCION.max}
+            placeholder="Ej: La recepcionista, con una agenda en Excel y confirmaciones por WhatsApp…"
+            showErrors={showErrors}
+            errorMsg="Cuéntanos quién lo ejecuta para continuar."
+          />
         );
       case 3:
         return (
-          <Step3Evidence data={data} update={update} showErrors={showErrors} />
+          <StepOpcion
+            id="senal"
+            kicker="Paso 3 · La señal"
+            titulo="¿Cómo saben si el proceso salió bien o salió mal?"
+            options={SENAL_OPTIONS}
+            value={data.senal}
+            onChange={(v) => update("senal", v)}
+            showErrors={showErrors}
+            errorMsg="Selecciona una opción para continuar."
+          />
         );
       case 4:
         return (
-          <Step4AsisToBe data={data} update={update} showErrors={showErrors} />
+          <StepOpcion
+            id="dato"
+            kicker="Paso 4 · El dato"
+            titulo="¿Dónde vive la información de este proceso?"
+            options={DATO_OPTIONS}
+            value={data.dato}
+            onChange={(v) => update("dato", v)}
+            showErrors={showErrors}
+            errorMsg="Selecciona una opción para continuar."
+          />
         );
       case 5:
-        return <Step5Optional data={data} update={update} />;
+        return <StepPeso data={data} update={update} showErrors={showErrors} />;
       case 6:
-        return <Step6Review data={data} />;
+        return (
+          <StepOpcion
+            id="falla"
+            kicker="Paso 6 · La falla"
+            titulo="Cuando algo sale mal en este proceso, ¿qué pasa casi siempre?"
+            options={FALLA_OPTIONS}
+            value={data.falla}
+            onChange={(v) => update("falla", v)}
+            showErrors={showErrors}
+            errorMsg="Selecciona una opción para continuar."
+          />
+        );
+      case 7:
+        return (
+          <StepLibre
+            id="expectativaIa"
+            kicker="Paso 7 · La expectativa"
+            titulo={CAMPO_EXPECTATIVA.label}
+            ayuda={CAMPO_EXPECTATIVA.ayuda}
+            value={data.expectativaIa}
+            onChange={(v) => update("expectativaIa", v)}
+            maxLength={CAMPO_EXPECTATIVA.max}
+            placeholder="Ej: Que me avise cuando una cita esté en riesgo de no llenarse…"
+            showErrors={showErrors}
+            errorMsg="Cuéntanos qué esperas de la IA para continuar."
+          />
+        );
+      case 8:
+        return <StepEmail data={data} update={update} showErrors={showErrors} />;
       default:
         return null;
     }

@@ -1,4 +1,14 @@
-import type { ProfileType } from "@/types/intake";
+// ─── Copy del formulario de Aptitud del Proceso para IA · v1.0 ───────────────
+// Labels literales del insumo de construcción §1. Los `value` son el contrato
+// con lib/clasificador.ts — no se renombran sin migrar el motor.
+
+import type {
+  Senal,
+  Dato,
+  Frecuencia,
+  Antiguedad,
+  Falla,
+} from "@/types/aptitud";
 
 export const SECTORS = [
   "Manufactura e industria",
@@ -15,95 +25,65 @@ export const SECTORS = [
   "Otro",
 ] as const;
 
-export const PAIN_OPTIONS = [
-  { value: "no_data", label: "Tomamos decisiones a ojo, sin datos" },
-  { value: "data_unused", label: "Tenemos datos pero no los usamos bien" },
-  { value: "disconnected", label: "Nuestros sistemas no se hablan entre sí" },
-  { value: "no_process", label: "No tenemos procesos claros documentados" },
-  { value: "no_ai_start", label: "No sé por dónde empezar con la IA" },
-  { value: "Failure_IA_implementation", label: "Invertimos o implementamos proyectos de despliegue IA, sin obtener resultados" },
-  {
-    value: "manual_work",
-    label: "Perdemos tiempo en tareas repetitivas que podrían automatizarse",
-  },
-] as const;
+// ── Campos libres ──
 
-export const TECH_OPTIONS = [
-  "Excel / Google Sheets",
-  "ERP (SAP, Siesa, World Office u otro)",
-  "CRM (HubSpot, Salesforce u otro)",
-  "Power BI, Tableau u otra herramienta de BI",
-  "Herramientas de IA (ChatGPT, Copilot u otra)",
-  "Sin herramientas formales",
-  "No tenemos claridad de qué usamos",
-] as const;
+export const CAMPO_PROCESO = {
+  label: "¿Qué proceso quieres evaluar, y para qué existe?",
+  ayuda:
+    "En una o dos frases. Ej.: 'Agendamiento de citas — para que ninguna silla se quede vacía'.",
+  min: 10,
+  max: 300,
+} as const;
 
-export const MATURITY_LEVELS = [
-  {
-    level: 1 as const,
-    name: "Descriptivo",
-    question: "¿Qué pasó?",
-    description: "Datos históricos básicos",
-  },
-  {
-    level: 2 as const,
-    name: "Diagnóstico",
-    question: "¿Por qué pasó?",
-    description: "Análisis de causas",
-  },
-  {
-    level: 3 as const,
-    name: "Predictivo",
-    question: "¿Qué va a pasar?",
-    description: "Modelos de proyección",
-  },
-  {
-    level: 4 as const,
-    name: "Prescriptivo",
-    question: "¿Qué debo hacer?",
-    description: "Recomendaciones automatizadas",
-  },
-  {
-    level: 5 as const,
-    name: "Cognitivo",
-    question: "¿Cómo aprendo solo?",
-    description: "Sistemas que aprenden y actúan",
-  },
-] as const;
+export const CAMPO_EJECUCION = {
+  label: "¿Quién lo ejecuta y con qué herramientas?",
+  ayuda:
+    "Personas, roles y lo que usan de verdad: Excel, WhatsApp, un sistema, papel.",
+  max: 300,
+} as const;
 
-export const PROFILE_LABELS: Record<ProfileType, string> = {
-  business: "Tengo un negocio o empresa",
-  leader: "Soy líder de un área o proceso dentro de una empresa",
-  entrepreneur: "Estoy emprendiendo o quiero evaluar algo personal",
-};
+export const CAMPO_EXPECTATIVA = {
+  label: "¿Qué te gustaría que la IA hiciera en este proceso?",
+  ayuda: "En tus palabras. No hay respuesta incorrecta.",
+  max: 300,
+} as const;
 
-type ProfileCopy = {
-  step2Title: string;
-  scopeLabel: string;
-  scopePlaceholder: string;
-  painLabel: string;
-};
+// ── Opciones cerradas (discriminadores) ──
 
-export const PROFILE_COPY: Record<ProfileType, ProfileCopy> = {
-  business: {
-    step2Title: "Cuéntanos sobre tu negocio",
-    scopeLabel: "¿Qué parte del negocio vamos a diagnosticar?",
-    scopePlaceholder:
-      "Ej: el proceso de ventas, la operación logística, el área de servicio al cliente…",
-    painLabel: "¿Cuál es el dolor principal del negocio hoy?",
+export const SENAL_OPTIONS: { value: Senal; label: string }[] = [
+  { value: "queja", label: "Nos damos cuenta cuando alguien se queja o algo falla" },
+  { value: "cabeza", label: "La persona que lo ejecuta lo sabe, pero no queda registrado" },
+  { value: "registro_muerto", label: "Queda registro, pero casi nunca lo revisamos" },
+  { value: "indicadores", label: "Tenemos indicadores que revisamos con frecuencia" },
+];
+
+export const DATO_OPTIONS: { value: Dato; label: string }[] = [
+  { value: "no_existe", label: "No queda registrada — está en la cabeza de quien lo hace" },
+  { value: "suelta", label: "En papel, WhatsApp o correos sueltos" },
+  {
+    value: "dispersa",
+    label: "En varios Excel o sistemas que no se hablan; alguien los cruza a mano",
   },
-  leader: {
-    step2Title: "Cuéntanos sobre tu área",
-    scopeLabel: "¿Qué proceso o área vas a diagnosticar?",
-    scopePlaceholder:
-      "Ej: el flujo de aprobación de pedidos, el proceso de incorporación de empleados…",
-    painLabel: "¿Cuál es el mayor problema que enfrenta tu área hoy?",
-  },
-  entrepreneur: {
-    step2Title: "Cuéntanos qué quieres evaluar",
-    scopeLabel: "¿Qué idea, proceso o situación quieres evaluar?",
-    scopePlaceholder:
-      "Ej: un modelo de negocio, un proceso que quiero optimizar, una decisión que necesito fundamentar…",
-    painLabel: "¿Qué es lo que más te preocupa o no te deja avanzar hoy?",
-  },
-};
+  { value: "unica", label: "En un solo sistema o base ordenada" },
+];
+
+export const FRECUENCIA_OPTIONS: { value: Frecuencia; label: string }[] = [
+  { value: "varias_veces_dia", label: "Varias veces al día" },
+  { value: "diario", label: "Todos los días" },
+  { value: "semanal", label: "Cada semana" },
+  { value: "mensual_o_menos", label: "Una vez al mes o menos" },
+];
+
+export const ANTIGUEDAD_OPTIONS: { value: Antiguedad; label: string }[] = [
+  { value: "reciente", label: "Hace menos de un año" },
+  { value: "hace_anios", label: "Hace 1–3 años" },
+  { value: "fosil", label: "Hace más de 3 años" },
+  { value: "nunca", label: "Nunca ha cambiado desde que existe" },
+];
+
+export const FALLA_OPTIONS: { value: Falla; label: string }[] = [
+  { value: "cada_quien", label: "Cada quien lo resuelve a su manera" },
+  { value: "tarde", label: "Nos enteramos tarde, cuando ya no se puede corregir" },
+  { value: "repetido", label: "Se repite el mismo error aunque ya lo conocemos" },
+  { value: "controlado", label: "Se detecta y corrige rápido; hay un responsable claro" },
+];

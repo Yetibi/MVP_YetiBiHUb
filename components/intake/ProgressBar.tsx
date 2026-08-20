@@ -4,10 +4,10 @@ interface ProgressBarProps {
   step: number;
 }
 
+const TOTAL = 8;
+
 export function ProgressBar({ step }: ProgressBarProps) {
-  // Las capas van del paso 2 al 6 (5 capas en total)
-  const capaActual = Math.max(0, step - 1);
-  const pct = (capaActual / 5) * 100;
+  const pct = (step / TOTAL) * 100;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#243447]/95 backdrop-blur-sm border-b border-white/5">
@@ -16,18 +16,10 @@ export function ProgressBar({ step }: ProgressBarProps) {
           Yeti BI
         </span>
 
-        {step > 1 && (
-          <span className="text-xs text-white/50 tabular-nums">
-            <span className="text-white/80 font-semibold">{capaActual}</span>{" "}
-            de 5 capas evaluadas
-          </span>
-        )}
-
-        {step === 1 && (
-          <span className="text-xs text-white/40">
-            Diagnóstico AI Readiness
-          </span>
-        )}
+        <span className="text-xs text-white/50 tabular-nums">
+          <span className="text-white/80 font-semibold">Paso {step}</span> de{" "}
+          {TOTAL} · Evaluación de proceso
+        </span>
       </div>
 
       {/* Barra de progreso */}
@@ -36,10 +28,10 @@ export function ProgressBar({ step }: ProgressBarProps) {
           className="h-full bg-(--primary) transition-all duration-500 ease-out"
           style={{ width: `${pct}%` }}
           role="progressbar"
-          aria-valuenow={capaActual}
-          aria-valuemin={0}
-          aria-valuemax={5}
-          aria-label={`${capaActual} de 5 capas evaluadas`}
+          aria-valuenow={step}
+          aria-valuemin={1}
+          aria-valuemax={TOTAL}
+          aria-label={`Paso ${step} de ${TOTAL}`}
         />
       </div>
     </header>

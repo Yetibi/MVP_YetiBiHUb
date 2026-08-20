@@ -1,30 +1,24 @@
 "use server";
 
-const PROFILE_MAP: Record<string, string> = {
-  business: "negocio",
-  leader: "lider_area",
-  entrepreneur: "emprendedor",
-};
+// ─── Notificación a n8n del intake de Aptitud v1.0 ───────────────────────────
+// Fire-and-forget: nunca bloquea ni cambia el resultado del envío. Si se
+// pierde, el cron /api/cron/reintentar-intakes lo rescata (intakes en
+// "recibido" con más de 10 minutos).
+
+import type { Senal, Dato, Frecuencia, Antiguedad, Falla } from "@/types/aptitud";
 
 export interface WebhookPayload {
   intakeId: string;
-  perfil: string | null;
-  sector: string;
-  alcance: string;
   correo: string;
-  dolor_declarado: string[];
-  to_be_objetivo: string;
-  to_be_nivel: number | null;
-  tecnologia_visible: string[] | null;
-  metrica_declarada: string | null;
-  respuestas_capacidad: {
-    painDetail: string | null;
-    capacityQ1: string | null;
-    capacityQ2: string | null;
-    capacityQ3: string | null;
-  };
-  fileCount: number;
-  archivos: string[];
+  proceso: string;
+  ejecucion: string;
+  senal: Senal;
+  dato: Dato;
+  frecuencia: Frecuencia;
+  antiguedad: Antiguedad;
+  falla: Falla;
+  expectativa_ia: string;
+  sector: string | null;
 }
 
 export async function notifyWebhookAction(

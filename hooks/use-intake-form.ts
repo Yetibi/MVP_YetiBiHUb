@@ -2,26 +2,24 @@
 
 import { useState } from "react";
 import type { IntakeFormData, FormStep, StepDirection } from "@/types/intake";
+import { CAMPO_PROCESO } from "@/lib/copy";
 import { submitIntake } from "@/lib/submit-intake";
 
 const initialData: IntakeFormData = {
-  profile: null,
-  sector: "",
-  scope: "",
+  proceso: "",
+  ejecucion: "",
+  senal: null,
+  dato: null,
+  frecuencia: null,
+  antiguedad: null,
+  falla: null,
+  expectativaIa: "",
   email: "",
-  painType: [],
-  painDetail: "",
-  files: [],
-  toBe: "",
-  maturityTarget: null,
-  technology: [],
-  metric: "",
-  capacityQ1: "",
-  capacityQ2: "",
-  capacityQ3: "",
+  sector: "",
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TOTAL_STEPS = 8;
 
 export function useIntakeForm() {
   const [step, setStep] = useState<FormStep>(1);
@@ -42,22 +40,21 @@ export function useIntakeForm() {
   function canProceed(): boolean {
     switch (step) {
       case 1:
-        return data.profile !== null;
+        return data.proceso.trim().length >= CAMPO_PROCESO.min;
       case 2:
-        return (
-          !!data.sector &&
-          !!data.scope.trim() &&
-          EMAIL_RE.test(data.email) &&
-          data.painType.length > 0
-        );
+        return data.ejecucion.trim().length > 0;
       case 3:
-        return data.files.length >= 1;
+        return data.senal !== null;
       case 4:
-        return !!data.toBe.trim();
+        return data.dato !== null;
       case 5:
-        return true; // 100% opcional
+        return data.frecuencia !== null && data.antiguedad !== null;
       case 6:
-        return true;
+        return data.falla !== null;
+      case 7:
+        return data.expectativaIa.trim().length > 0;
+      case 8:
+        return EMAIL_RE.test(data.email);
       default:
         return false;
     }
@@ -70,7 +67,7 @@ export function useIntakeForm() {
     }
     setShowErrors(false);
     setDirection("forward");
-    setStep((prev) => (prev < 6 ? ((prev + 1) as FormStep) : prev));
+    setStep((prev) => (prev < TOTAL_STEPS ? ((prev + 1) as FormStep) : prev));
   }
 
   function back() {
@@ -80,6 +77,10 @@ export function useIntakeForm() {
   }
 
   async function submit() {
+    if (!canProceed()) {
+      setShowErrors(true);
+      return;
+    }
     setIsSubmitting(true);
     setSubmitError(null);
 

@@ -11,6 +11,8 @@ interface NavigationButtonsProps {
   onSubmit: () => void;
 }
 
+const TOTAL = 8;
+
 export function NavigationButtons({
   step,
   canProceed,
@@ -35,40 +37,27 @@ export function NavigationButtons({
           )}
         </div>
 
-        {/* Centro: saltar (solo paso 5) */}
-        <div className="flex-1 flex justify-center">
-          {step === 5 && (
-            <button
-              type="button"
-              onClick={onNext}
-              className="text-xs text-white/40 hover:text-white/60 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) rounded px-2 py-1"
-            >
-              Saltar este paso
-            </button>
-          )}
-        </div>
-
         {/* Siguiente / Enviar */}
-        <div className="w-40 flex justify-end">
-          {step < 6 && (
+        <div className="w-44 flex justify-end">
+          {step < TOTAL && (
             <Button
               type="button"
               onClick={onNext}
               disabled={!canProceed}
               className="bg-(--primary) text-(--background) hover:bg-(--primary-hover) disabled:opacity-40 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors"
             >
-              {step === 5 ? "Continuar →" : "Siguiente →"}
+              Siguiente →
             </Button>
           )}
 
-          {step === 6 && (
+          {step === TOTAL && (
             <Button
               type="button"
               onClick={onSubmit}
               disabled={isSubmitting}
               className="bg-(--primary) text-(--background) hover:bg-(--primary-hover) disabled:opacity-60 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors min-w-[160px]"
             >
-              {isSubmitting ? "Enviando…" : "Enviar diagnóstico"}
+              {isSubmitting ? "Enviando…" : "Solicitar veredicto"}
             </Button>
           )}
         </div>

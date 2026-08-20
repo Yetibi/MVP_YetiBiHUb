@@ -2,7 +2,11 @@
 
 import { motion } from "@/lib/motion";
 
-export function ConfirmationScreen() {
+interface ConfirmationScreenProps {
+  email: string;
+}
+
+export function ConfirmationScreen({ email }: ConfirmationScreenProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -16,15 +20,14 @@ export function ConfirmationScreen() {
 
       {/* Título */}
       <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-(--primary) mb-4">
-        Información recibida.
+        Tu veredicto está en camino.
       </h1>
 
-      {/* Subtítulo */}
+      {/* Subtítulo — el HITL como argumento de valor */}
       <p className="text-base text-white/100 max-w-sm leading-relaxed mb-10">
-        Tu información quedó guardada. El diagnóstico{" "}
-        <span className="text-(--warning)">aún no se ha procesado</span> —
-        eso ocurre en la siguiente etapa, donde el motor de análisis evalúa
-        tus respuestas y genera el reporte de AI Readiness.
+        Tu veredicto está en camino a{" "}
+        <span className="text-(--warning)">{email}</span>. Lo revisa un
+        ingeniero antes de salir.
       </p>
 
       {/* Separador */}
@@ -37,15 +40,9 @@ export function ConfirmationScreen() {
         </p>
 
         {[
-          { n: "01", text: "Revisamos que tu información esté completa." },
-          {
-            n: "02",
-            text: "El motor analiza tus 5 capas y genera el diagnóstico.",
-          },
-          {
-            n: "03",
-            text: "Recibirás el reporte con el score y las recomendaciones.",
-          },
+          { n: "01", text: "El motor evalúa tu proceso con reglas de ingeniería, no con opinión." },
+          { n: "02", text: "Un ingeniero de Yeti BI revisa y aprueba el veredicto." },
+          { n: "03", text: "Recibes el correo con el veredicto de aptitud de tu proceso." },
         ].map(({ n, text }) => (
           <div key={n} className="flex items-start gap-4">
             <span className="text-xs font-black text-(--primary)/60 tabular-nums mt-0.5">
@@ -56,13 +53,10 @@ export function ConfirmationScreen() {
         ))}
       </div>
 
-      {/* Nota de datos en memoria */}
-      <p className="text-xs text-white/20 mt-12 max-w-xs"></p>
-
       {/* Botón para volver al Home */}
       <a
         href="https://yetibi.com/"
-        className="mt-8 inline-block bg-(--primary) text-(--primary-foreground) font-semibold text-sm px-6 py-3 rounded-lg hover:bg-(--primary-hover) transition-colors"
+        className="mt-12 inline-block bg-(--primary) text-(--primary-foreground) font-semibold text-sm px-6 py-3 rounded-lg hover:bg-(--primary-hover) transition-colors"
       >
         Volver al Home
       </a>

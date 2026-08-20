@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   // 2. Verificar que el diagnóstico existe y leer estado actual
   const { data: existente, error: selectError } = await db
     .from("diagnosticos")
-    .select("id, estado_envio")
+    .select("id, intake_id, estado_envio")
     .eq("id", diagnosticoId)
     .single();
 
@@ -69,6 +69,11 @@ export async function POST(req: NextRequest) {
       { error: "Error al actualizar estado_envio", detail: updateError.message },
       { status: 500 }
     );
+  }
+
+  // 4b. Avanzar el estado del intake (recibido → … → enviado)
+  if (existente.intake_id) {
+    await db.from("intakes").update({ estado: "enviado" }).eq("id", existente.intake_id);
   }
 
   // 5. Confirmación
