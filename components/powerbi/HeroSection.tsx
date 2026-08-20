@@ -391,10 +391,10 @@ export default function HeroSection() {
           inset: 0;
           z-index: 2;
           pointer-events: none;
-          background: radial-gradient(ellipse 80% 62% at 50% 46%,
-            rgba(11,20,32,0.85),
-            rgba(11,20,32,0.6) 55%,
-            rgba(11,20,32,0.16) 85%,
+          background: radial-gradient(ellipse 84% 66% at 50% 46%,
+            rgba(11,20,32,0.88),
+            rgba(11,20,32,0.7) 55%,
+            rgba(11,20,32,0.2) 85%,
             transparent 100%);
         }
         .hero-gauss-inline { display: none; }
