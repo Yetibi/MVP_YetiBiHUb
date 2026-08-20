@@ -220,7 +220,7 @@ export default function HeroSection() {
           }}
         >
           <span className="hero-headline-line">
-            <span style={{ color: "#F28F6B" }}>No solo</span><span className="hero-headline-br"> </span>necesitas un
+            No solo<span className="hero-headline-br"> </span>necesitas un
           </span>
           {/* Espacio real entre "un" y "dashboard": sin él los lectores de
               pantalla leían "undashboard". El salto visual lo sigue dando el
@@ -493,23 +493,23 @@ export default function HeroSection() {
           }
           .hero-subheadline, .hero-body { margin-left: auto; margin-right: auto; }
 
-          .hero-kicker span { font-size: 12px !important; }
+          .hero-kicker span { font-size: 13px !important; }
 
           /* headline en 2 líneas exactas: "No solo" / "necesitas un" */
           .hero-headline-line {
-            font-size: 100px;
+            font-size: 114px;
             line-height: 0.94;
             white-space: normal;
             text-wrap: initial;
           }
           .hero-headline-br { display: block; height: 0; }
           .hero-headline-outline-line {
-            font-size: 82px;
+            font-size: 94px;
             line-height: 1.1;
           }
           .headline-outline { -webkit-text-stroke-width: 2px; }
-          .hero-subheadline { font-size: 26px; max-width: 620px; }
-          .hero-body { font-size: 18px; max-width: 620px; }
+          .hero-subheadline { font-size: 30px; max-width: 700px; }
+          .hero-body { font-size: 20px; max-width: 700px; }
 
           /* CTA y metadatos técnicos escalados en la misma proporción */
           .hero-cta span { font-size: 17px !important; padding: 18px !important; }
