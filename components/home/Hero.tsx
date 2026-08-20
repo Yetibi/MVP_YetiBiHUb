@@ -439,7 +439,7 @@ function LeftPanel({
           {/* h1 de la página — el accesible es la frase limpia; el visual va
               aria-hidden para que los brackets no rompan la lectura */}
           <h1 className="sr-only">
-            No implementes IA. Sin rediseñar antes el proceso.
+            No implementes IA. Sin rediseñar antes el proceso
           </h1>
           <div aria-hidden="true" style={{
             fontFamily: "var(--font-space-grotesk)",
@@ -462,7 +462,7 @@ function LeftPanel({
               marginTop: "0.18em",
             }}>
               <span style={{ color: "#F2921D" }}>Sin rediseñar antes</span>
-              <BracketFrame>el proceso.</BracketFrame>
+              <BracketFrame>el proceso</BracketFrame>
             </div>
           </div>
 
@@ -858,13 +858,18 @@ export default function Hero() {
 
         {/* ── Hero mobile: flujo normal, compacto ── */}
         <div style={{
-          padding: "80px 24px 40px",
+          padding: "80px 24px 32px",
+          minHeight: "100svh",
+          boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          justifyContent: "space-evenly",
+          gap: 0,
           overflowX: "hidden",
           background: "radial-gradient(ellipse 90% 36% at 50% 0%, rgba(79,209,224,0.04), transparent 70%), transparent",
         }}>
+          {/* Grupo mensaje: kicker + H1 + lead */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Kicker */}
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div aria-hidden style={{ width: 20, height: 1, background: "#F2921D", flexShrink: 0 }} />
@@ -878,7 +883,7 @@ export default function Hero() {
 
           {/* H1 — el accesible es la frase limpia; el visual va aria-hidden */}
           <h1 className="sr-only">
-            No implementes IA sin rediseñar antes el proceso.
+            No implementes IA sin rediseñar antes el proceso
           </h1>
           <div aria-hidden="true" style={{
             fontFamily: "var(--font-space-grotesk)",
@@ -897,7 +902,7 @@ export default function Hero() {
               marginTop: "0.2em",
             }}>
               <span style={{ color: "#F2921D" }}>Sin antes rediseñar</span>
-              <BracketFrame>el proceso.</BracketFrame>
+              <BracketFrame>el proceso</BracketFrame>
             </div>
           </div>
 
@@ -911,14 +916,16 @@ export default function Hero() {
             Evaluamos sus tres capas (<span style={{ color: "#F2F6F9", fontWeight: 500 }}>propósito, personas y flujo</span>)
             antes de que la tecnología amplifique lo que haya.
           </p>
+          </div>
 
-          {/* CTA principal */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 10, marginTop: 8 }}>
+          {/* CTA principal — el ancla del héroe móvil: centrado y grande */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <a
               href="/diagnostico"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-eval-cta"
+              style={{ fontSize: 18, padding: "18px 40px", width: "100%", maxWidth: 380, justifyContent: "center" }}
             >
               Evaluar mi proceso <span aria-hidden>→</span>
               <span className="sr-only"> (abre en nueva pestaña)</span>
@@ -934,7 +941,7 @@ export default function Hero() {
           </div>
 
           {/* Mini-flujo — vertical en mobile */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 8 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             {[
               { label: "Proceso que debe existir", accent: false },
               { label: "Personas correctas", accent: false },
