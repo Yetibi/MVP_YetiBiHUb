@@ -249,6 +249,16 @@ section[id] { scroll-margin-top: 80px; }
   .btn-primary:active { color: var(--primary-foreground) !important; }
 }
 
+/* ── Cards de síntoma (sección El Problema) ──────────────────── */
+.pain-card {
+  border: 1px solid #1C2836;
+  transition: border-color 0.3s ease;
+}
+.pain-card:hover {
+  border-color: rgba(242, 146, 29, 0.4);
+}
+
+
 /* ── CTA del héroe (Evaluación de Proceso) ───────────────────── */
 .hero-eval-cta {
   display: inline-flex;

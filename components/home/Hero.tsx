@@ -53,29 +53,50 @@ const PAIN_ICONS: React.FC<{ color: string }>[] = [
       <path d="M3.5 5.5l2.5-2.5 2.5 2-1.5-4.5"/>
     </svg>
   ),
-  ({ color }) => (
-    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 10a3 3 0 0 1 0-4.24l1.06-1.06A3 3 0 0 1 11.3 8.94"/>
-      <path d="M10 6a3 3 0 0 1 0 4.24l-1.06 1.06A3 3 0 0 1 4.7 7.06"/>
-      <line x1="8.5" y1="7.5" x2="7.5" y2="8.5" strokeDasharray="1.2 1.2"/>
-    </svg>
-  ),
-  ({ color }) => (
-    <svg aria-hidden width="22" height="22" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 2.5C3.5 2.5 2 4 2 6c0 1.2.6 2.2 1.5 2.8C3.2 10.5 4.5 12 6 12h4c1.5 0 2.8-1.5 2.5-3.2C13.4 8.2 14 7.2 14 6c0-2-1.5-3.5-4-3.5"/>
-      <line x1="8" y1="5" x2="8" y2="8"/>
-      <circle cx="8" cy="10" r="0.6" fill={color} stroke="none"/>
-    </svg>
-  ),
 ];
 
+// Énfasis naranja dentro de las descripciones (fuga activa)
+const Hl = ({ children }: { children: React.ReactNode }) => (
+  <span style={{ color: "#F2921D", fontWeight: 500 }}>{children}</span>
+);
+
 const PAINS = [
-  { num: "01", title: "Procesos manuales",      desc: "Tareas repetitivas que dependen de personas específicas." },
-  { num: "02", title: "Datos dispersos",         desc: "Información partida entre Excel, correos y sistemas desconectados." },
-  { num: "03", title: "Aprobaciones lentas",     desc: "Decisiones sin trazabilidad que bloquean la operación." },
-  { num: "04", title: "Reportes tardíos",        desc: "Visibilidad cuando el problema ya ocurrió." },
-  { num: "05", title: "Automatización aislada",  desc: "Flujos que no se conectan entre áreas." },
-  { num: "06", title: "IA sin gobierno",         desc: "IA desplegada sin proceso habilitado ni gobernanza genera deuda, no valor." },
+  {
+    num: "01",
+    capa: "CAPA · PERSONAS",
+    title: "El proceso vive en la cabeza de alguien",
+    desc: (
+      <>Si esa persona se va de vacaciones, el proceso se detiene. El conocimiento no está en el sistema — está en <Hl>quien lo opera</Hl>, y nadie más sabe hacerlo.</>
+    ),
+    fuga: "Fuga: dependencia de un héroe insustituible",
+  },
+  {
+    num: "02",
+    capa: "CAPA · FLUJO",
+    title: "Un Excel y un WhatsApp sostienen la operación",
+    desc: (
+      <>El proceso “oficial” está en un software, pero el que de verdad funciona vive en <Hl>un archivo personal y un grupo de chat</Hl>. Dos versiones de la verdad que nunca coinciden.</>
+    ),
+    fuga: "Fuga: información fuera del sistema, sin trazabilidad",
+  },
+  {
+    num: "03",
+    capa: "CAPA · PROPÓSITO",
+    title: "Se hace así “porque siempre se ha hecho así”",
+    desc: (
+      <>Hay pasos que nadie recuerda por qué existen, pero se siguen ejecutando. Un proceso <Hl>fósil</Hl> que consume tiempo y ya no sirve a nadie — pero ahí sigue.</>
+    ),
+    fuga: "Fuga: pasos sin propósito que igual cuestan",
+  },
+  {
+    num: "04",
+    capa: "CAPA · IMPACTO",
+    title: "Automatizaste y “liberaste horas”… ¿y luego?",
+    desc: (
+      <>Metiste tecnología, ahorraste tiempo, pero <Hl>esas horas no se tradujeron en más ingreso ni menos costo</Hl>. El resultado se siente eficiente, pero no llega a la utilidad.</>
+    ),
+    fuga: "Fuga: horas liberadas con impacto financiero cero",
+  },
 ] as const;
 
 // ─── navbar CTA extra styles (sobre .btn-primary) ─────────────────────────────
@@ -114,10 +135,9 @@ function BracketFrame({ children }: { children: React.ReactNode }) {
       color: "#4FD1E0",
       whiteSpace: "nowrap",
     }}>
-      <span aria-hidden style={{ ...corner, top: -8, left: 0, borderWidth: "2.5px 0 0 2.5px" }} />
-      <span aria-hidden style={{ ...corner, top: -8, right: 0, borderWidth: "2.5px 2.5px 0 0" }} />
-      <span aria-hidden style={{ ...corner, bottom: -8, left: 0, borderWidth: "0 0 2.5px 2.5px" }} />
-      <span aria-hidden style={{ ...corner, bottom: -8, right: 0, borderWidth: "0 2.5px 2.5px 0" }} />
+      {/* Solo diagonal: esquina superior-derecha + inferior-izquierda */}
+      <span aria-hidden style={{ ...corner, top: 0, right: 0, borderWidth: "2.5px 2.5px 0 0" }} />
+      <span aria-hidden style={{ ...corner, bottom: 0, left: 0, borderWidth: "0 0 2.5px 2.5px" }} />
       {children}
     </span>
   );
@@ -212,7 +232,7 @@ function LeftPanel({
   reduced: boolean;
 }) {
   // mínimo 26px: garantiza que "el que encuentra." + brackets quepa a 320px
-  const H1_FS = "clamp(26px, 4.5vw, 58px)";
+  const H1_FS = "clamp(28px, 4.2vw, 68px)";
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -246,12 +266,11 @@ function LeftPanel({
     };
     window.addEventListener("resize", onResize, { passive: true });
 
-    const project = (x: number, y: number, z: number) => {
-      const fov   = canvas.height * 0.9;
-      const camZ  = 0.8;
-      const scale = fov / (camZ + z);
-      const px    = canvas.width  * 0.5 + x * scale;
-      const py    = canvas.height * 0.82 + y * scale;
+    // Plano vertical: la malla cubre todo el alto del héroe; la onda desplaza
+    // cada punto levemente (la cadencia de la animación no cambia)
+    const project = (gx: number, gy: number, w: number) => {
+      const px = canvas.width  * (0.05 + gx * 0.90) + w * canvas.width  * 0.025;
+      const py = canvas.height * (0.02 + gy * 0.96) + w * canvas.height * 0.045;
       return { px, py };
     };
 
@@ -277,11 +296,7 @@ function LeftPanel({
         for (let col = 0; col <= COLS; col++) {
           const gx = col / COLS;
           const gy = row / ROWS;
-          const { px, py } = project(
-            (gx - 0.5) * 4.5,
-            wave(gx, gy, t) - 0.05,
-            gy * 2.2
-          );
+          const { px, py } = project(gx, gy, wave(gx, gy, t));
           pts[row][col] = { px, py, gy };
         }
       }
@@ -292,7 +307,7 @@ function LeftPanel({
           col === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)
         );
         const gy = row / ROWS;
-        ctx.strokeStyle = `rgba(79,209,224,${0.02 + gy * 0.04})`;
+        ctx.strokeStyle = `rgba(79,209,224,${0.03 + gy * 0.03})`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
       }
@@ -304,7 +319,7 @@ function LeftPanel({
             ? ctx.moveTo(row[col].px, row[col].py)
             : ctx.lineTo(row[col].px, row[col].py)
         );
-        ctx.strokeStyle = "rgba(79,209,224,0.025)";
+        ctx.strokeStyle = "rgba(79,209,224,0.03)";
         ctx.lineWidth = 0.6;
         ctx.stroke();
       }
@@ -319,16 +334,16 @@ function LeftPanel({
         }
       }
 
-      // Use cached gradient — recreate only when size changes
+      // Fundido en los bordes superior e inferior para integrar la malla
       if (!cachedFade) {
-        cachedFade = ctx.createLinearGradient(0, canvas.height * 0.75, 0, canvas.height * 0.85);
-        cachedFade.addColorStop(0, "#0B1420");
-        cachedFade.addColorStop(1, "transparent");
+        cachedFade = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        cachedFade.addColorStop(0, "rgba(11,20,32,1)");
+        cachedFade.addColorStop(0.14, "rgba(11,20,32,0)");
+        cachedFade.addColorStop(0.86, "rgba(11,20,32,0)");
+        cachedFade.addColorStop(1, "rgba(11,20,32,1)");
       }
-      ctx.fillStyle = "#0B1420";
-      ctx.fillRect(0, 0, canvas.width, canvas.height * 0.75);
       ctx.fillStyle = cachedFade;
-      ctx.fillRect(0, canvas.height * 0.75, canvas.width, canvas.height * 0.10);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       animId = requestAnimationFrame(draw);
     };
@@ -417,18 +432,19 @@ function LeftPanel({
           {/* h1 de la página — el accesible es la frase limpia; el visual va
               aria-hidden para que los brackets no rompan la lectura */}
           <h1 className="sr-only">
-            La IA no arregla un proceso. Amplifica el que encuentra.
+            No implementes IA. Sin rediseñar antes el proceso.
           </h1>
           <div aria-hidden="true" style={{
             fontFamily: "var(--font-space-grotesk)",
-            fontWeight: 700,
+            fontWeight: 1000,
             fontSize: H1_FS,
             lineHeight: 1.04,
             letterSpacing: "-0.025em",
             color: "#F2F6F9",
           }}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              La IA no arregla un proceso.
+            {/* Línea 1: contexto — más pequeña; el mensaje fuerte es la línea 2 */}
+            <div style={{ display: "flex", justifyContent: "center", fontSize: "0.6em" }}>
+            No implementes IA
             </div>
             <div style={{
               display: "flex",
@@ -438,18 +454,18 @@ function LeftPanel({
               gap: "0.18em 0.28em",
               marginTop: "0.18em",
             }}>
-              <span style={{ color: "#F2921D" }}>Amplifica</span>
-              <BracketFrame>el que encuentra.</BracketFrame>
+              <span style={{ color: "#F2921D" }}>Sin rediseñar antes</span>
+              <BracketFrame>el proceso.</BracketFrame>
             </div>
           </div>
 
           {/* Lead */}
           <p style={{
             fontFamily: "var(--font-geist-sans)",
-            fontSize: 17,
+            fontSize: 18,
             color: "#8B95A5",
             lineHeight: 1.65,
-            maxWidth: 590,
+            maxWidth: 620,
             margin: "28px auto 0",
             fontWeight: 400,
           }}>
@@ -536,8 +552,24 @@ function RightPanel({
 }) {
   const allVisible = activePain >= PAINS.length - 1;
 
+  // Modo teaser: mientras el panel está angosto (antes de expandirse con el
+  // scroll) se ocultan descripciones y fugas para que la columna no se corte
+  // verticalmente. Solo presentación — la animación de anchura no se toca.
+  // (Se usa ResizeObserver porque lightningcss elimina las @container queries
+  // con los targets actuales del build.)
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [narrow, setNarrow] = useState(true);
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => setNarrow(e.contentRect.width < 560));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <div
+      ref={panelRef}
       style={{
         width: "100%",
         height: "100vh",
@@ -545,24 +577,50 @@ function RightPanel({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "stretch",
-        padding: "64px 40px 40px 40px",
+        padding: "72px 36px 28px 36px",
         overflow: "hidden",
         boxSizing: "border-box",
       }}
+      className="pain-panel"
     >
       <motion.div style={{ scale: textScaleMV, transformOrigin: "center center" }}>
-        <h2 style={{
-          fontFamily: "var(--font-playfair)",
-          fontWeight: 700,
-          fontStyle: "italic",
-          fontSize: "clamp(28px,3.5vw,48px)",
-          color: "#ffffff",
-          margin: "0 0 48px 0",
-          lineHeight: 1.3,
-          textAlign: "center",
-        }}>
-          ¿Te identificas con esto?
-        </h2>
+        <div style={{ textAlign: "center", margin: "0 0 22px" }}>
+          <p style={{
+            fontFamily: "var(--font-geist-mono)",
+            fontSize: 11,
+            color: "#F2921D",
+            letterSpacing: "3px",
+            textTransform: "uppercase",
+            fontWeight: 500,
+            margin: "0 0 8px",
+          }}>
+            EL PROBLEMA
+          </p>
+          <h2 className="pain-h2" style={{
+            fontFamily: "var(--font-space-grotesk)",
+            fontWeight: 700,
+            fontSize: narrow ? 18 : "clamp(20px,2.2vw,30px)",
+            color: "#F2F6F9",
+            margin: "0 0 10px",
+            lineHeight: 1.15,
+          }}>
+            La IA no corrige un proceso roto.<br />
+            <span style={{ color: "#F2921D" }}>Lo acelera.</span>
+          </h2>
+          <p className="pain-teaser-hide" style={{
+                  ...(narrow ? { display: "none" } : null),
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: 13,
+            color: "#8B95A5",
+            lineHeight: 1.55,
+            maxWidth: 460,
+            margin: "0 auto",
+          }}>
+            Antes de automatizar, pregúntate si reconoces alguno de estos.
+            No son fallas técnicas — son <span style={{ color: "#F2F6F9", fontWeight: 500 }}>fugas de valor</span> que
+            tu operación ya normalizó.
+          </p>
+        </div>
 
         {/* Semántica de lista para los pain items */}
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -572,25 +630,35 @@ function RightPanel({
             // Andon: los dolores son fuga activa — el marcador se enciende en ámbar
             const iconColor = isActive ? "#F2921D" : "rgba(242,146,29,0.3)";
             return (
-              <li key={pain.num} style={{
+              <li key={pain.num} className="pain-card" style={{
                 background: "#141F2E",
-                border: "1px solid #1C2836",
                 borderRadius: 12,
-                padding: "14px 18px",
-                marginBottom: 10,
+                padding: "12px 16px",
+                marginBottom: 8,
                 transition: "opacity 0.4s ease",
                 opacity: isActive ? 1 : 0.2,
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 4 }}>
+                <p style={{
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: 10,
+                  fontWeight: 500,
+                  letterSpacing: "2.5px",
+                  color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.35)",
+                  margin: "0 0 5px",
+                  paddingLeft: 38,
+                  transition: "color 0.4s ease",
+                }}>
+                  {pain.capa}
+                </p>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 6 }}>
                   <span style={{ flexShrink: 0, transition: "opacity 0.4s ease" }}>
                     <Icon color={iconColor} />
                   </span>
                   <p style={{
-                    fontFamily: "var(--font-playfair)",
-                    fontWeight: 700,
-                    fontStyle: "italic",
-                    fontSize: "clamp(18px,2.2vw,32px)",
-                    color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
+                    fontFamily: "var(--font-space-grotesk)",
+                    fontWeight: 600,
+                    fontSize: "clamp(15px,1.5vw,21px)",
+                    color: isActive ? "#F2F6F9" : "rgba(242,246,249,0.5)",
                     margin: 0,
                     lineHeight: 1.2,
                     transition: "color 0.4s ease",
@@ -598,10 +666,11 @@ function RightPanel({
                     {pain.title}
                   </p>
                 </div>
-                <p style={{
+                <p className="pain-teaser-hide" style={{
+                  ...(narrow ? { display: "none" } : null),
                   fontFamily: "var(--font-geist-sans)",
                   fontWeight: 400,
-                  fontSize: "clamp(11px,1.1vw,15px)",
+                  fontSize: "clamp(11px,1vw,13px)",
                   color: isActive ? "#8B95A5" : "rgba(139,149,165,0.35)",
                   margin: 0,
                   lineHeight: 1.5,
@@ -609,6 +678,18 @@ function RightPanel({
                   transition: "color 0.4s ease",
                 }}>
                   {pain.desc}
+                </p>
+                <p className="pain-teaser-hide" style={{
+                  ...(narrow ? { display: "none" } : null),
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: "clamp(9px,0.8vw,11px)",
+                  color: isActive ? "#5D6B7A" : "rgba(93,107,122,0.35)",
+                  margin: "6px 0 0",
+                  paddingLeft: 38,
+                  transition: "color 0.4s ease",
+                }}>
+                  <span aria-hidden style={{ color: isActive ? "#F2921D" : "rgba(242,146,29,0.35)", marginRight: 8 }}>●</span>
+                  {pain.fuga}
                 </p>
               </li>
             );
@@ -658,10 +739,10 @@ function MobilePainList() {
           <li
             key={pain.num}
             ref={(el) => { itemRefs.current[i] = el; }}
+            className="pain-card"
             style={{
               display: "flex", gap: 14,
               background: "#141F2E",
-              border: "1px solid #1C2836",
               borderRadius: 12,
               padding: "14px 16px",
               marginBottom: 10,
@@ -675,8 +756,16 @@ function MobilePainList() {
             </span>
             <div>
               <p style={{
-                fontFamily: "var(--font-geist-sans)", fontWeight: 700, fontSize: 15,
-                color: isActive ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.25)",
+                fontFamily: "var(--font-geist-mono)", fontSize: 9, fontWeight: 500,
+                letterSpacing: "2px",
+                color: isActive ? "#4FD1E0" : "rgba(79,209,224,0.3)",
+                margin: "0 0 4px", transition: "color 0.45s ease",
+              }}>
+                {pain.capa}
+              </p>
+              <p style={{
+                fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: 15,
+                color: isActive ? "#F2F6F9" : "rgba(242,246,249,0.25)",
                 margin: 0, transition: "color 0.45s ease",
               }}>
                 {pain.title}
@@ -688,6 +777,14 @@ function MobilePainList() {
                 transition: "color 0.45s ease",
               }}>
                 {pain.desc}
+              </p>
+              <p style={{
+                fontFamily: "var(--font-geist-mono)", fontSize: 10,
+                color: isActive ? "#5D6B7A" : "rgba(93,107,122,0.25)",
+                margin: "6px 0 0", transition: "color 0.45s ease",
+              }}>
+                <span aria-hidden style={{ color: isActive ? "#F2921D" : "rgba(242,146,29,0.25)", marginRight: 6 }}>●</span>
+                {pain.fuga}
               </p>
             </div>
           </li>
@@ -735,7 +832,7 @@ export default function Hero() {
   );
   const rightTextScale = useTransform(scrollYProgress, [0.5, 1.0], [0.9, 1]);
 
-  const activePainRaw = useTransform(scrollYProgress, [0.4, 1.0], [0, 5.99]);
+  const activePainRaw = useTransform(scrollYProgress, [0.4, 1.0], [0, PAINS.length - 0.01]);
   useMotionValueEvent(activePainRaw, "change", (v) => {
     setActivePain(Math.floor(v));
   });
@@ -767,7 +864,7 @@ export default function Hero() {
 
           {/* H1 — el accesible es la frase limpia; el visual va aria-hidden */}
           <h1 className="sr-only">
-            La IA no arregla un proceso. Amplifica el que encuentra.
+            No implementes IA sin rediseñar antes el proceso.
           </h1>
           <div aria-hidden="true" style={{
             fontFamily: "var(--font-space-grotesk)",
@@ -777,7 +874,7 @@ export default function Hero() {
             letterSpacing: "-0.025em",
             color: "#F2F6F9",
           }}>
-            <div>La IA no arregla un proceso.</div>
+            <div style={{ fontSize: "0.68em" }}>No implementes IA.</div>
             <div style={{
               display: "flex",
               alignItems: "center",
@@ -785,8 +882,8 @@ export default function Hero() {
               gap: "0.2em 0.28em",
               marginTop: "0.2em",
             }}>
-              <span style={{ color: "#F2921D" }}>Amplifica</span>
-              <BracketFrame>el que encuentra.</BracketFrame>
+              <span style={{ color: "#F2921D" }}>Sin antes rediseñar</span>
+              <BracketFrame>el proceso.</BracketFrame>
             </div>
           </div>
 
@@ -848,13 +945,31 @@ export default function Hero() {
 
         {/* Pain items — animados con scroll via IntersectionObserver */}
         <div style={{ padding: "0 24px 56px", borderTop: "1px solid rgba(79,209,224,0.10)" }}>
-          <h2 style={{
-            fontFamily: "var(--font-geist-sans)", fontWeight: 700,
-            fontSize: 20, color: "rgba(255,255,255,0.9)",
-            margin: "32px 0 20px",
-          }}>
-            ¿Te identificas con esto?
-          </h2>
+          <div style={{ margin: "32px 0 20px" }}>
+            <p style={{
+              fontFamily: "var(--font-geist-mono)", fontSize: 10,
+              color: "#F2921D", letterSpacing: "2.5px", textTransform: "uppercase" as const,
+              fontWeight: 500, margin: "0 0 10px",
+            }}>
+              EL PROBLEMA
+            </p>
+            <h2 style={{
+              fontFamily: "var(--font-space-grotesk)", fontWeight: 700,
+              fontSize: 24, color: "#F2F6F9",
+              margin: "0 0 10px", lineHeight: 1.15,
+            }}>
+              La IA no corrige un proceso roto.<br />
+              <span style={{ color: "#F2921D" }}>Lo acelera.</span>
+            </h2>
+            <p style={{
+              fontFamily: "var(--font-geist-sans)", fontSize: 14,
+              color: "#8B95A5", lineHeight: 1.6, margin: 0,
+            }}>
+              Antes de automatizar, pregúntate si reconoces alguno de estos.
+              No son fallas técnicas — son <span style={{ color: "#F2F6F9", fontWeight: 500 }}>fugas de valor</span> que
+              tu operación ya normalizó.
+            </p>
+          </div>
           <MobilePainList />
         </div>
       </div>
