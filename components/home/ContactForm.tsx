@@ -39,23 +39,25 @@ function validate(f: Fields): FieldError {
 // ─── shared input style — underline only ─────────────────────────────────────
 
 const inputBase: React.CSSProperties = {
-  backgroundColor: "transparent",
-  border: "none",
-  borderBottom: "1px solid rgba(255,255,255,0.15)",
-  borderRadius: 0,
-  color: "#FFFFFF",
-  fontSize: 15,
-  padding: "12px 0",
+  backgroundColor: "#0B1420",
+  border: "1px solid #1C2836",
+  borderRadius: 8,
+  color: "#F2F6F9",
+  fontSize: 14,
+  padding: "10px 12px",
   width: "100%",
+  minHeight: 44,
+  boxSizing: "border-box",
   outline: "none",
   boxShadow: "none",
-  transition: "border-bottom-color 0.15s, box-shadow 0.15s",
+  transition: "border-color 0.15s, box-shadow 0.15s",
 };
 
 // Contraste mejorado: #5D6B7A (3.8:1) → #8B95A5 (~5.8:1) sobre #0B1420
 const labelStyle: React.CSSProperties = {
+  fontFamily: "var(--font-geist-mono)",
   color: "#8B95A5",
-  fontSize: 11,
+  fontSize: 10.5,
   fontWeight: 400,
   letterSpacing: "0.2em",
   textTransform: "uppercase",
@@ -72,7 +74,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col" style={{ gap: 8 }}>
+    <div className="flex flex-col" style={{ gap: 5 }}>
       <label htmlFor={id} style={labelStyle}>{label}</label>
       {children}
       {error && (
@@ -107,7 +109,7 @@ export function ContactForm() {
   function bottomBorderColor(field: keyof FieldError, focused: boolean) {
     if (errors[field]) return "#F2921D";
     if (focused) return "#4FD1E0";
-    return "rgba(255,255,255,0.15)";
+    return "#1C2836";
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -201,19 +203,19 @@ export function ContactForm() {
             onSubmit={handleSubmit}
             noValidate
             className="flex flex-col"
-            style={{ gap: 28 }}
+            style={{ gap: 12 }}
           >
             {/* Indicador de campos requeridos */}
-            <p style={{ color: "rgba(255,255,255,0.50)", fontSize: 12, margin: 0 }}>
-              Los campos marcados con <span aria-hidden style={{ color: "#4FD1E0" }}>*</span>
+            <p style={{ fontFamily: "var(--font-geist-mono)", color: "#5D6B7A", fontSize: 11, margin: 0 }}>
+              Los campos con <span aria-hidden style={{ color: "#F2921D" }}>*</span>
               <span className="sr-only">asterisco</span> son obligatorios.
             </p>
 
             {/* NOMBRE + CORREO */}
             <motion.div
               variants={rm ? undefined : fieldReveal}
-              className="grid grid-cols-1 md:grid-cols-2"
-              style={{ gap: 24 }}
+              className="grid grid-cols-1 min-[480px]:grid-cols-2"
+              style={{ gap: 12 }}
             >
               <Field id="cf-nombre" label="Nombre *" error={errors.nombre}>
                 <input
@@ -230,18 +232,16 @@ export function ContactForm() {
                   aria-describedby={errors.nombre ? "cf-nombre-err" : undefined}
                   style={{
                     ...inputBase,
-                    borderBottomColor: errors.nombre
-                      ? "#F2921D"
-                      : "rgba(255,255,255,0.15)",
+                    borderColor: errors.nombre ? "#F2921D" : "#1C2836",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { e.target.style.borderBottomColor = "#4FD1E0"; e.target.style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
-                  onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("nombre", false); e.target.style.boxShadow = "none"; }}
+                  onFocus={(e) => { e.target.style.borderColor = "#4FD1E0"; e.target.style.boxShadow = "0 0 0 1px #4FD1E0"; }}
+                  onBlur={(e) => { e.target.style.borderColor = bottomBorderColor("nombre", false); e.target.style.boxShadow = "none"; }}
                   placeholder="Ej: Ana García"
                 />
               </Field>
 
-              <Field id="cf-correo" label="Correo electrónico *" error={errors.correo}>
+              <Field id="cf-correo" label="Correo *" error={errors.correo}>
                 <input
                   id="cf-correo"
                   name="correo"
@@ -256,14 +256,12 @@ export function ContactForm() {
                   aria-describedby={errors.correo ? "cf-correo-err" : undefined}
                   style={{
                     ...inputBase,
-                    borderBottomColor: errors.correo
-                      ? "#F2921D"
-                      : "rgba(255,255,255,0.15)",
+                    borderColor: errors.correo ? "#F2921D" : "#1C2836",
                   }}
                   spellCheck={false}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { e.target.style.borderBottomColor = "#4FD1E0"; e.target.style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
-                  onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("correo", false); e.target.style.boxShadow = "none"; }}
+                  onFocus={(e) => { e.target.style.borderColor = "#4FD1E0"; e.target.style.boxShadow = "0 0 0 1px #4FD1E0"; }}
+                  onBlur={(e) => { e.target.style.borderColor = bottomBorderColor("correo", false); e.target.style.boxShadow = "none"; }}
                   placeholder="tu@empresa.co"
                 />
               </Field>
@@ -281,13 +279,11 @@ export function ContactForm() {
                   onChange={handleChange}
                   style={{
                     ...inputBase,
-                    borderBottomColor: errors.empresa
-                      ? "#F2921D"
-                      : "rgba(255,255,255,0.15)",
+                    borderColor: errors.empresa ? "#F2921D" : "#1C2836",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { e.target.style.borderBottomColor = "#4FD1E0"; e.target.style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
-                  onBlur={(e) => { e.target.style.borderBottomColor = bottomBorderColor("empresa", false); e.target.style.boxShadow = "none"; }}
+                  onFocus={(e) => { e.target.style.borderColor = "#4FD1E0"; e.target.style.boxShadow = "0 0 0 1px #4FD1E0"; }}
+                  onBlur={(e) => { e.target.style.borderColor = bottomBorderColor("empresa", false); e.target.style.boxShadow = "none"; }}
                   placeholder="Ej: Acme S.A.S."
                 />
               </Field>
@@ -295,13 +291,13 @@ export function ContactForm() {
 
             {/* MENSAJE */}
             <motion.div variants={rm ? undefined : fieldReveal}>
-              <Field id="cf-mensaje" label="Mensaje *" error={errors.mensaje}>
+              <Field id="cf-mensaje" label="¿Qué proceso quieres evaluar? *" error={errors.mensaje}>
                 <textarea
                   id="cf-mensaje"
                   name="mensaje"
                   required
                   aria-required="true"
-                  rows={4}
+                  rows={3}
                   value={fields.mensaje}
                   onChange={handleChange}
                   aria-invalid={!!errors.mensaje}
@@ -316,15 +312,14 @@ export function ContactForm() {
                   }}
                   style={{
                     ...inputBase,
-                    borderBottomColor: errors.mensaje
-                      ? "#F2921D"
-                      : "rgba(255,255,255,0.15)",
+                    borderColor: errors.mensaje ? "#F2921D" : "#1C2836",
+                    height: 64,
                     resize: "none",
                   }}
                   className="focus-visible:outline-none"
-                  onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = "#4FD1E0"; (e.target as HTMLTextAreaElement).style.boxShadow = "0 2px 0 0 #4FD1E0"; }}
-                  onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderBottomColor = bottomBorderColor("mensaje", false); (e.target as HTMLTextAreaElement).style.boxShadow = "none"; }}
-                  placeholder="¿En qué estás trabajando o qué quieres entender?…"
+                  onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = "#4FD1E0"; (e.target as HTMLTextAreaElement).style.boxShadow = "0 0 0 1px #4FD1E0"; }}
+                  onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = bottomBorderColor("mensaje", false); (e.target as HTMLTextAreaElement).style.boxShadow = "none"; }}
+                  placeholder="Ej: nuestro proceso de facturación / agendamiento / compras…"
                 />
               </Field>
             </motion.div>
@@ -379,11 +374,24 @@ export function ContactForm() {
                 type="submit"
                 disabled={formState === "submitting"}
                 aria-busy={formState === "submitting"}
-                className="btn-primary inline-flex disabled:opacity-50 disabled:cursor-not-allowed"
+                className="form-submit disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
-                  fontSize: 15,
-                  padding: "14px 28px",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   gap: 10,
+                  background: "#F2921D",
+                  color: "#0B1420",
+                  fontFamily: "var(--font-space-grotesk), var(--font-geist-sans)",
+                  fontWeight: 700,
+                  fontSize: 15,
+                  padding: "13px 20px",
+                  minHeight: 48,
+                  borderRadius: 8,
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "background 0.2s ease",
                 }}
               >
                 {formState === "submitting" ? (
@@ -394,8 +402,8 @@ export function ContactForm() {
                       style={{
                         width: 14,
                         height: 14,
-                        border: "2px solid #1c142644",
-                        borderTopColor: "#1C2836",
+                        border: "2px solid rgba(11,20,32,0.3)",
+                        borderTopColor: "#0B1420",
                         borderRadius: "50%",
                         animation: "spin 0.7s linear infinite",
                       }}

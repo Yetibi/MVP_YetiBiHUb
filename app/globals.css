@@ -183,7 +183,7 @@ textarea:focus-visible {
 }
 
 /* ── Scroll margin for anchors (nav height ~68px + buffer) ──── */
-section[id] { scroll-margin-top: 80px; }
+[id] { scroll-margin-top: 80px; }
 
 /* ── Encabezados: sin viudas ────────────────────────────────── */
 /* text-wrap: pretty reparte la última línea para que ningún título quede
@@ -379,3 +379,9 @@ section[id] { scroll-margin-top: 80px; }
   scrollbar-width: none;
 }
 .chip-row::-webkit-scrollbar { display: none; }
+
+/* ── Submit del formulario de contacto ── */
+.form-submit:hover:not(:disabled),
+.form-submit:active:not(:disabled) {
+  background: var(--warning-hover) !important;
+}

@@ -1042,9 +1042,10 @@ export default function Hero() {
       <Navbar />
       <div
         ref={containerRef}
-        id="el-problema"
         style={{ height: "200vh", position: "relative" }}
       >
+        {/* Ancla de navegación: aterriza con el panel del problema expandido */}
+        <div id="el-problema" aria-hidden style={{ position: "absolute", top: "50%", width: 1, height: 1 }} />
         <div
           style={{
             position: "sticky",
