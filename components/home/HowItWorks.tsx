@@ -385,10 +385,10 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
     <>
       <section
         id="como-funciona"
-        style={{ background: "#0B1420", padding: "56px 24px 40px", overflowX: "hidden" }}
+        style={{ background: "#0B1420", padding: "44px 20px 32px", overflowX: "hidden" }}
       >
         {/* Header */}
-        <div style={{ marginBottom: 40 }}>
+        <div style={{ marginBottom: 22 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
             <div aria-hidden style={{ width: 24, height: 1, background: "#4FD1E0" }} />
             <span style={{
@@ -423,55 +423,54 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
                   background: "#141F2E",
                   border: `1px solid ${isActive ? "rgba(79,209,224,0.30)" : "#1C2836"}`,
                   borderRadius: 12,
-                  padding: "20px 16px",
-                  marginBottom: 12,
-                  display: "flex", flexDirection: "column", gap: 12,
+                  padding: "14px 14px",
+                  marginBottom: 10,
+                  display: "flex", flexDirection: "column", gap: 8,
                   opacity: isActive ? 1 : hasSeen ? 0.22 : 0.08,
                   transform: hasSeen ? "translateX(0) scale(1)" : "translateX(32px) scale(0.97)",
                   filter: hasSeen ? "blur(0px)" : "blur(3px)",
                   transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s ease, border-color 0.45s ease",
                 }}
               >
-                {/* Número grande decorativo */}
+                {/* Número decorativo + fila icono/título */}
                 <div style={{ position: "relative" }}>
                   <span aria-hidden style={{
-                    position: "absolute", top: -8, right: 0,
+                    position: "absolute", top: -6, right: 0,
                     fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-                    fontSize: 80, lineHeight: 1,
-                    color: isActive ? "rgba(242,146,29,0.14)" : "rgba(255,255,255,0.04)",
+                    fontSize: 52, lineHeight: 1,
+                    color: isActive ? "rgba(242,146,29,0.16)" : "rgba(255,255,255,0.04)",
                     userSelect: "none", pointerEvents: "none",
                     transition: "color 0.45s ease",
                   }}>
                     {step.num}
                   </span>
 
-                  {/* Icono */}
-                  <div style={{
-                    width: 48, height: 48, borderRadius: "50%",
-                    border: `1px solid ${isActive ? "rgba(79,209,224,0.40)" : "rgba(255,255,255,0.10)"}`,
-                    background: isActive ? "rgba(79,209,224,0.09)" : "rgba(255,255,255,0.03)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    transition: "border-color 0.45s ease, background 0.45s ease",
-                  }}>
-                    {ICONS[i]}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                      border: `1px solid ${isActive ? "rgba(79,209,224,0.40)" : "rgba(255,255,255,0.10)"}`,
+                      background: isActive ? "rgba(79,209,224,0.09)" : "rgba(255,255,255,0.03)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "border-color 0.45s ease, background 0.45s ease",
+                    }}>
+                      {ICONS[i]}
+                    </div>
+                    <p style={{
+                      fontFamily: "var(--font-geist-sans)", fontSize: 16, fontWeight: 700,
+                      color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
+                      margin: 0, lineHeight: 1.25, paddingRight: 40,
+                      transition: "color 0.45s ease",
+                    }}>
+                      {step.title}
+                    </p>
                   </div>
                 </div>
 
-                {/* Título */}
-                <p style={{
-                  fontFamily: "var(--font-geist-sans)", fontSize: 20, fontWeight: 700,
-                  color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
-                  margin: 0, lineHeight: 1.2,
-                  transition: "color 0.45s ease",
-                }}>
-                  {step.title}
-                </p>
-
                 {/* Descripción */}
                 <p style={{
-                  fontFamily: "var(--font-geist-sans)", fontSize: 14,
+                  fontFamily: "var(--font-geist-sans)", fontSize: 13,
                   color: isActive ? "rgba(255,255,255,0.70)" : "rgba(255,255,255,0.25)",
-                  lineHeight: 1.65, margin: 0,
+                  lineHeight: 1.5, margin: 0,
                   transition: "color 0.45s ease",
                 }}>
                   {step.desc}
