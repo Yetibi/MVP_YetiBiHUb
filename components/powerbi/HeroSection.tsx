@@ -133,7 +133,7 @@ export default function HeroSection() {
       {/* 588x363 = 610x385 menos el cromo de la tarjeta (padding 10 + borde 1
           por lado): la pieza completa ocupa el mismo espacio que antes. */}
       <div aria-hidden="true" className="hero-gauss-wrap" style={{ zIndex: 1 }}>
-        <ParticleDashboard width={588} height={363} mouseParallax />
+        <ParticleDashboard width={1040} height={620} mouseParallax />
       </div>
 
       {/* Scrim elíptico — solo desktop, donde hay solape que proteger */}
@@ -473,8 +473,8 @@ export default function HeroSection() {
             width: auto;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.34;
-            transform: scale(1.28);
+            opacity: 0.55;
+            transform: none;
           }
           .hero-gauss-wrap > div {
             margin: auto;
@@ -482,10 +482,10 @@ export default function HeroSection() {
           }
           .hero-scrim {
             display: block;
-            background: radial-gradient(ellipse 58% 56% at 50% 50%,
-              rgba(11,20,32,0.9),
-              rgba(11,20,32,0.55) 55%,
-              rgba(11,20,32,0.15) 82%,
+            background: radial-gradient(ellipse 46% 50% at 50% 48%,
+              rgba(11,20,32,0.72),
+              rgba(11,20,32,0.34) 58%,
+              rgba(11,20,32,0.06) 85%,
               transparent 100%);
           }
           .hero-content {
