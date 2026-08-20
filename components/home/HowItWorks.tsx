@@ -13,8 +13,8 @@ import {
 const STEPS = [
   {
     num: "01",
-    title: "Responde el diagnóstico",
-    desc: "Preguntas sobre tu proceso y operación actual.",
+    title: "Cuéntanos tu proceso",
+    desc: "Preguntas sobre el proceso que quieres evaluar — cómo opera hoy, en la vida real.",
     tag: "10 min · en línea",
     alert: {
       title: "TEN UN DOCUMENTO LISTO",
@@ -24,15 +24,15 @@ const STEPS = [
   },
   {
     num: "02",
-    title: "YetibiEngine evalúa el gap",
-    desc: "Medimos el As-Is vs. To-Be en 5 capas: proceso, dato, caso de uso, capacidad y habilitación tecnológica.",
-    tag: "Automático · metodología + IA",
+    title: "Evaluamos con método, no con opinión",
+    desc: "No es un scan genérico. Tu proceso pasa por las tres capas —propósito, personas y flujo— y por la secuencia de intervención: ¿este paso debe existir? ¿se puede simplificar? ¿y solo entonces, automatizar?",
+    tag: "Automático · metodología Yeti BI",
     alert: undefined,
   },
   {
     num: "03",
-    title: "Recibes tu reporte por correo",
-    desc: "Tu diagnóstico de madurez operacional con el gap identificado y la ruta recomendada.",
+    title: "Recibes tu evaluación",
+    desc: "Dónde está la fuga de valor, qué se rediseña antes de automatizar, y si el proceso está listo para IA — o qué falta para que lo esté.",
     tag: "Reporte · tu ruta clara",
     alert: undefined,
   },
@@ -126,14 +126,11 @@ function StepsSection({ reduced }: { reduced: boolean }) {
             </span>
           </div>
           <h2 style={{ margin: 0, fontSize: "clamp(22px,3vw,38px)", lineHeight: 1.1 }}>
-            <span style={{ fontWeight: 900, color: "#fff", fontFamily: "var(--font-geist-sans)" }}>
-              Tres pasos.{" "}
+            <span style={{ fontWeight: 700, color: "#F2F6F9", fontFamily: "var(--font-space-grotesk)" }}>
+              Tres pasos. Tu proceso evaluado.{" "}
             </span>
-            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#4FD1E0" }}>
-            Resultado en tu correo.{" "}
-            </span>
-            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 800, color: "#FFFFFF" }}>
-            Sin costo, sin compromiso.
+            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 300, color: "#4FD1E0" }}>
+            Antes de implementar IA.
             </span>
           </h2>
         </div>
@@ -318,12 +315,12 @@ function StepsSection({ reduced }: { reduced: boolean }) {
               ¿QUIERES IR MÁS LEJOS?
             </p>
             <p style={{
-              fontFamily: "var(--font-geist-sans)", fontSize: 26, fontWeight: 700,
-              color: "#fff", margin: "0 0 10px", lineHeight: 1.2,
+              fontFamily: "var(--font-space-grotesk)", fontSize: 26, fontWeight: 700,
+              color: "#F2F6F9", margin: "0 0 10px", lineHeight: 1.2,
             }}>
               Asesoría personalizada{" "}
-              <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#4FD1E0" }}>
-                para ampliar tu diagnóstico.
+              <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 300, color: "#4FD1E0" }}>
+                para rediseñar el proceso.
               </span>
             </p>
             <p style={{
@@ -331,9 +328,9 @@ function StepsSection({ reduced }: { reduced: boolean }) {
               color: "#8B95A5", lineHeight: 1.6,
               margin: 0, maxWidth: 560,
             }}>
-              El reporte te da la claridad. La asesoría te da el plan.
-              Si tu diagnóstico revela oportunidades concretas,
-              podemos acompañarte — sin compromisos previos.
+              La evaluación te da la claridad. La asesoría te da el rediseño.
+              Si tu proceso revela fugas concretas, lo rediseñamos contigo —
+              antes de que la IA amplifique el problema.
             </p>
           </div>
           <div style={{ display: "flex", gap: 10, flexShrink: 0, alignItems: "center" }}>
@@ -403,14 +400,11 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
             </span>
           </div>
           <h2 style={{ margin: 0, fontSize: "clamp(22px,5vw,34px)", lineHeight: 1.15 }}>
-            <span style={{ fontWeight: 900, color: "#fff", fontFamily: "var(--font-geist-sans)" }}>
-              Tres pasos.{" "}
+            <span style={{ fontWeight: 700, color: "#F2F6F9", fontFamily: "var(--font-space-grotesk)" }}>
+              Tres pasos. Tu proceso evaluado.{" "}
             </span>
-            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 700, color: "#4FD1E0" }}>
-            Resultado en tu correo.{" "}
-            </span>
-            <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontWeight: 800, color: "#FFFFFF" }}>
-            Sin costo, sin compromiso.
+            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 300, color: "#4FD1E0" }}>
+            Antes de implementar IA.
             </span>
           </h2>
         </div>
@@ -534,19 +528,19 @@ function MobileLayout({ reduced }: { reduced: boolean }) {
           ¿QUIERES IR MÁS LEJOS?
         </p>
         <h3 style={{
-          fontFamily: "var(--font-geist-sans)", fontWeight: 900,
-          fontSize: "clamp(22px,5vw,32px)", color: "#fff", lineHeight: 1.15, margin: 0,
+          fontFamily: "var(--font-space-grotesk)", fontWeight: 700,
+          fontSize: "clamp(22px,5vw,32px)", color: "#F2F6F9", lineHeight: 1.15, margin: 0,
         }}>
           Asesoría personalizada{" "}
-          <span style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", color: "#4FD1E0" }}>
-            para ampliar tu diagnóstico.
+          <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 300, color: "#4FD1E0" }}>
+            para rediseñar el proceso.
           </span>
         </h3>
         <p style={{
           fontFamily: "var(--font-geist-sans)", fontSize: 14,
           color: "#8B95A5", lineHeight: 1.7, margin: 0,
         }}>
-          El reporte te da la claridad. La asesoría te da el plan.
+          La evaluación te da la claridad. La asesoría te da el rediseño.
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
           <a
