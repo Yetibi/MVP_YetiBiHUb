@@ -113,6 +113,24 @@ export default function HeroSection() {
     };
   }, []);
 
+  // Tablero de fondo justificado al espacio disponible del viewport
+  const [bg, setBg] = useState({ w: 1040, h: 620 });
+  useEffect(() => {
+    const AR_BG = 1040 / 620;
+    const measure = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      let w = Math.min(vw * 0.94, 1680);
+      let h = w / AR_BG;
+      const maxH = (vh - 64) * 0.92;
+      if (h > maxH) { h = maxH; w = h * AR_BG; }
+      setBg({ w: Math.round(w), h: Math.round(h) });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   return (
     <section
       className="relative overflow-hidden hero-section"
@@ -133,7 +151,7 @@ export default function HeroSection() {
       {/* 588x363 = 610x385 menos el cromo de la tarjeta (padding 10 + borde 1
           por lado): la pieza completa ocupa el mismo espacio que antes. */}
       <div aria-hidden="true" className="hero-gauss-wrap" style={{ zIndex: 1 }}>
-        <ParticleDashboard width={1040} height={620} mouseParallax />
+        <ParticleDashboard width={bg.w} height={bg.h} mouseParallax />
       </div>
 
       {/* Scrim elíptico — solo desktop, donde hay solape que proteger */}
@@ -473,7 +491,7 @@ export default function HeroSection() {
             width: auto;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.55;
+            opacity: 0.5;
             transform: none;
           }
           .hero-gauss-wrap > div {
@@ -482,10 +500,10 @@ export default function HeroSection() {
           }
           .hero-scrim {
             display: block;
-            background: radial-gradient(ellipse 46% 50% at 50% 48%,
-              rgba(11,20,32,0.72),
-              rgba(11,20,32,0.34) 58%,
-              rgba(11,20,32,0.06) 85%,
+            background: radial-gradient(ellipse 44% 48% at 50% 48%,
+              rgba(11,20,32,0.78),
+              rgba(11,20,32,0.38) 58%,
+              rgba(11,20,32,0.05) 85%,
               transparent 100%);
           }
           .hero-content {
