@@ -10,6 +10,69 @@ const C_CIAN    = '#4FD1E0'   // nodos sanos, kickers informativos, énfasis de 
 const C_NARANJA = '#F2921D'   // el líquido de las tuberías — el valor fluyendo
 const C_MORADO  = '#A78BC4'   // ruta opcional "IA que decide"
 
+// ─── Secuencia Estratégica ────────────────────────────────────────────────────
+const SEQ = [
+  { n: '1', nombre: 'Eliminar',    q: '¿debe existir?',   hot: false },
+  { n: '2', nombre: 'Simplificar', q: '¿más simple?',     hot: false },
+  { n: '3', nombre: 'Optimizar',   q: '¿mejor?',          hot: false },
+  { n: '4', nombre: 'Automatizar', q: 'aquí entra la IA', hot: true },
+  { n: '5', nombre: 'Medir',       q: '¿funcionó?',       hot: false },
+] as const
+
+function BadgeEtapa({ n, hot }: { n: string; hot?: boolean }) {
+  return (
+    <span aria-hidden style={{
+      minWidth: 18, height: 18, padding: '0 5px', borderRadius: 9,
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: 'var(--font-geist-mono)', fontSize: 9, fontWeight: 700, flexShrink: 0,
+      ...(hot
+        ? { background: '#F2921D', color: '#0B1420' }
+        : { background: 'rgba(79,209,224,0.15)', color: '#4FD1E0', border: '1px solid rgba(79,209,224,0.5)' }),
+    }}>{n}</span>
+  )
+}
+
+function SecuenciaEstrategica({ compact }: { compact?: boolean }) {
+  return (
+    <div style={{
+      background: 'rgba(242,146,29,0.06)',
+      border: '1px solid rgba(242,146,29,0.25)',
+      borderRadius: 12,
+      padding: '16px 20px',
+      marginBottom: compact ? 20 : 24,
+    }}>
+      <p style={{
+        fontFamily: 'var(--font-geist-mono)', fontSize: compact ? 9 : 10, fontWeight: 700,
+        color: '#F2921D', letterSpacing: '1.5px', textTransform: 'uppercase',
+        margin: '0 0 14px', textAlign: 'center',
+      }}>
+        LA SECUENCIA ESTRATÉGICA — el orden es ingeniería, no sugerencia
+      </p>
+      <div style={compact
+        ? { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px 10px', justifyItems: 'start' }
+        : { display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: 8 }}>
+        {SEQ.map((e, i) => (
+          <span key={e.n} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: compact ? 'flex-start' : 'center' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                <BadgeEtapa n={e.n} hot={e.hot} />
+                <span style={{
+                  fontFamily: 'var(--font-space-grotesk)', fontSize: compact ? 12 : 13, fontWeight: 600,
+                  color: e.hot ? '#F2921D' : '#F2F6F9', whiteSpace: 'nowrap',
+                }}>{e.nombre}</span>
+              </span>
+              <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: compact ? 9 : 10, color: '#5D6B7A', paddingLeft: compact ? 25 : 0 }}>{e.q}</span>
+            </span>
+            {!compact && i < SEQ.length - 1 && (
+              <span aria-hidden style={{ color: '#5D6B7A', fontFamily: 'var(--font-geist-mono)', fontSize: 12, marginTop: 2 }}>→</span>
+            )}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%'
 
 function useScramble(
@@ -137,13 +200,13 @@ export function ValueFlow() {
       <h2
         id="vf-section-title"
         style={{
-          fontSize: 'clamp(18px,2.5vw,28px)', fontWeight: 900,
-          fontFamily: 'var(--font-sans)', color: '#F2F6F9',
+          fontSize: 'clamp(18px,2.5vw,28px)', fontWeight: 700,
+          fontFamily: 'var(--font-space-grotesk)', color: '#F2F6F9',
           lineHeight: 1.12, margin: '0 0 16px',
         }}
       >
         No todo es IA.{' '}
-        <span style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic', fontWeight: 700, color: C_CIAN }}>
+        <span style={{ fontFamily: 'var(--font-space-grotesk)', fontWeight: 300, color: C_CIAN }}>
           Primero vienen las condiciones.
         </span>
       </h2>
@@ -158,8 +221,13 @@ export function ValueFlow() {
         margin: '0 0 clamp(20px,3vw,32px)',
       }}>
         El vacío del mercado no es tecnológico,{' '}
-        <span style={{ color: C_CIAN }}>es operativo.</span>
+        <span style={{ color: C_NARANJA }}>es operativo.</span>
       </p>
+
+      {/* Secuencia Estratégica — desktop */}
+      <div className="hidden md:block" style={{ maxWidth: 1100, width: '100%', margin: '0 auto' }}>
+        <SecuenciaEstrategica />
+      </div>
 
       {/* SVG diagrama — desktop only */}
       <div className="hidden md:flex" style={{ justifyContent: 'center', width: '100%' }}>
@@ -175,15 +243,18 @@ export function ValueFlow() {
         <title id={titleId}>Flujo de valor Yeti BI</title>
         <desc id={descId}>
           Proceso habilitado para tecnología y Dato confiable alimentan Automatización (RPA, SOPs, Flujos),
-          que conecta directo al ROI medible con impacto del 70–80%.
+          que conecta directo al impacto financiero con mejora del 70–80%.
           IA que Decide es una ruta opcional posterior a Automatización con impacto del 15–20%,
           solo si el diagnóstico lo justifica.
         </desc>
 
         {/* Labels de etapa */}
-        <text x="162" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5" letterSpacing="2">FUNDAMENTOS</text>
-        <text x="400" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5" letterSpacing="2">HABILITACIÓN TECNOLÓGICA</text>
-        <text x="650" y="22" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5" letterSpacing="2">IMPACTO MEDIBLE</text>
+        <text x="162" y="18" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5" letterSpacing="2">FUNDAMENTOS</text>
+        <text x="162" y="29" textAnchor="middle" fontSize="7" fontFamily="var(--font-geist-mono)" fill="#5D6B7A">etapas 1·2·3 — antes de tecnología</text>
+        <text x="400" y="18" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5" letterSpacing="2">HABILITACIÓN TECNOLÓGICA</text>
+        <text x="400" y="29" textAnchor="middle" fontSize="7" fontFamily="var(--font-geist-mono)" fill="#5D6B7A">etapa 4 — aquí, y solo aquí, la IA</text>
+        <text x="650" y="18" textAnchor="middle" fontSize="9" fontFamily="var(--font-geist-mono)" fill="#8B95A5" letterSpacing="2">IMPACTO FINANCIERO</text>
+        <text x="650" y="29" textAnchor="middle" fontSize="7" fontFamily="var(--font-geist-mono)" fill="#5D6B7A">etapa 5 — verificar el rediseño</text>
 
         {/* Divisores */}
         <line x1="320" y1="30" x2="320" y2="380" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
@@ -282,11 +353,21 @@ export function ValueFlow() {
         <text x="436" y="292" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(255,255,255,0.50)">solo si el diagnóstico</text>
         <text x="436" y="304" fontSize="8" fontFamily="var(--font-geist-mono)" fontStyle="italic" fill="rgba(255,255,255,0.50)">lo justifica</text>
 
+        {/* Badges de etapa sobre los nodos (leyenda completa en la banda) */}
+        <circle cx="26" cy="242" r="9" fill="rgba(79,209,224,0.15)" stroke="rgba(79,209,224,0.6)" strokeWidth=".8" />
+        <text x="26" y="245" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#4FD1E0">1</text>
+        <rect x="188" y="233.5" width="32" height="17" rx="8.5" fill="rgba(79,209,224,0.15)" stroke="rgba(79,209,224,0.6)" strokeWidth=".8" />
+        <text x="204" y="245" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#4FD1E0">2·3</text>
+        <circle cx="368" cy="202" r="9" fill="#F2921D" />
+        <text x="368" y="205" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#0B1420">4</text>
+        <circle cx="678" cy="228" r="9" fill="rgba(79,209,224,0.15)" stroke="rgba(79,209,224,0.6)" strokeWidth=".8" />
+        <text x="678" y="231" textAnchor="middle" fontSize="8" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#4FD1E0">5</text>
+
         {/* Leyenda */}
         <circle cx="220" cy="390" r="4" fill={C_NARANJA} />
-        <text x="230" y="394" fontSize="8" fontFamily="var(--font-geist-mono)" fill="#8B95A5">Ruta principal (automatización → ROI)</text>
-        <circle cx="460" cy="390" r="4" fill={C_MORADO} />
-        <text x="470" y="394" fontSize="8" fontFamily="var(--font-geist-mono)" fill="#8B95A5">Ruta opcional (IA, si el diagnóstico lo justifica)</text>
+        <text x="230" y="394" fontSize="8" fontFamily="var(--font-geist-mono)" fill="#8B95A5">Ruta principal (automatización → impacto financiero)</text>
+        <circle cx="510" cy="390" r="4" fill={C_MORADO} />
+        <text x="520" y="394" fontSize="8" fontFamily="var(--font-geist-mono)" fill="#8B95A5">Ruta opcional (IA, si el diagnóstico lo justifica)</text>
 
         {/* N5 ROI MEDIBLE */}
         {shouldAnimate && (
@@ -301,8 +382,9 @@ export function ValueFlow() {
         <circle cx="630" cy="270" r="32" fill="rgba(79,209,224,0.09)" stroke="rgba(79,209,224,0.10)" strokeWidth="1" />
         <circle cx="630" cy="270" r="18" fill="rgba(79,209,224,0.10)" stroke="rgba(79,209,224,0.35)" strokeWidth="1" />
         <circle cx="630" cy="270" r="7"  fill={C_CIAN} />
-        <text x="630" y="322" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-geist-mono)" fill="#F2F6F9">ROI MEDIBLE</text>
-        <text x="630" y="336" textAnchor="middle" fontSize="9"  fontFamily="var(--font-geist-mono)" fill="#8B95A5">el único resultado</text>
+        <text x="630" y="320" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="var(--font-space-grotesk)" fill="#F2921D" letterSpacing="0.5">IMPACTO FINANCIERO</text>
+        <text x="630" y="334" textAnchor="middle" fontSize="7.5" fontFamily="var(--font-geist-mono)" fill="#8B95A5">no horas liberadas —</text>
+        <text x="630" y="352" textAnchor="middle" fontSize="7.5" fontFamily="var(--font-geist-mono)" fill="#8B95A5">ingreso o ahorro que llega a la utilidad</text>
         <circle cx="584" cy="270" r="3" fill={C_NARANJA} />
       </svg>
       </div>
@@ -314,10 +396,9 @@ export function ValueFlow() {
         paddingTop: 16,
       }}>
         <p style={{
-          fontFamily: 'var(--font-playfair)',
-          fontStyle: 'italic',
+          fontFamily: 'var(--font-space-grotesk)',
+          fontWeight: 500,
           fontSize: 'clamp(13px,1.8vw,17px)',
-          fontWeight: 700,
           color: 'rgba(255,255,255,0.9)',
           lineHeight: 1.5,
           textAlign: 'center',
@@ -330,7 +411,7 @@ export function ValueFlow() {
               return (
                 <>
                   {scrambleText.slice(0, ai)}
-                  <span style={{ color: C_NARANJA, fontWeight: 900 }}>
+                  <span style={{ color: C_CIAN, fontWeight: 600 }}>
                     {scrambleText.slice(ai)}
                   </span>
                 </>
@@ -353,8 +434,12 @@ export function ValueFlow() {
         }}
       >
 
+        {/* Secuencia Estratégica — móvil */}
+        <SecuenciaEstrategica compact />
+
         {/* BLOQUE 1 — FUNDAMENTOS */}
-        <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>FUNDAMENTOS</p>
+        <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>FUNDAMENTOS</p>
+        <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapas 1·2·3 — antes de tecnología</p>
 
         <div style={{ padding: '12px 14px', borderLeft: '2px solid #4FD1E0', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_CIAN, margin: '0 0 5px' }}>★ NUESTRO DIFERENCIAL</p>
@@ -365,7 +450,10 @@ export function ValueFlow() {
         </div>
 
         <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
-          <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: '0 0 3px' }}>PROCESO</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 3px' }}>
+            <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>PROCESO</p>
+            <BadgeEtapa n="1" />
+          </div>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', margin: 0 }}>habilitado para tecnología</p>
         </div>
 
@@ -375,7 +463,10 @@ export function ValueFlow() {
         </div>
 
         <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.3)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
-          <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: '0 0 3px' }}>DATO</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 3px' }}>
+            <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>DATO</p>
+            <BadgeEtapa n="2·3" />
+          </div>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', margin: 0 }}>confiable</p>
         </div>
 
@@ -389,7 +480,8 @@ export function ValueFlow() {
         </div>
 
         {/* BLOQUE 2 — HABILITACION TECNOLOGICA */}
-        <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>HABILITACIÓN TECNOLÓGICA</p>
+        <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>HABILITACIÓN TECNOLÓGICA</p>
+        <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapa 4 — aquí, y solo aquí, la IA</p>
 
         <div style={{ padding: '12px 14px', borderLeft: '2px solid #F2921D', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_NARANJA, margin: '0 0 5px' }}>⚡ ANTES DE LA IA</p>
@@ -405,7 +497,10 @@ export function ValueFlow() {
         <div style={{ padding: 14, background: C_NODE, border: '1px solid rgba(79,209,224,0.4)', borderRadius: 10, width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <p style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>AUTOMATIZACIÓN</p>
-            <span style={{ background: 'rgba(79,209,224,0.1)', border: '1px solid rgba(79,209,224,0.3)', color: C_CIAN, fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)' }}>ROI DIRECTO</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <BadgeEtapa n="4" hot />
+              <span style={{ background: 'rgba(79,209,224,0.1)', border: '1px solid rgba(79,209,224,0.3)', color: C_CIAN, fontSize: 8, padding: '2px 7px', borderRadius: 3, fontFamily: 'var(--font-geist-mono)' }}>ROI DIRECTO</span>
+            </span>
           </div>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', margin: '4px 0 0' }}>RPA · SOPs · Flujos</p>
           <p style={{ fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 800, fontFamily: 'var(--font-geist-mono)', color: C_CIAN, marginTop: 8, marginBottom: 0 }}>70–80%</p>
@@ -458,8 +553,9 @@ export function ValueFlow() {
           <div style={{ position: 'absolute', left: '50%', bottom: 0, transform: 'translateX(-50%)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '7px solid rgba(242,146,29,0.5)', flexShrink: 0 }} />
         </div>
 
-        {/* BLOQUE 3 — IMPACTO MEDIBLE */}
-        <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10, marginTop: 0 }}>IMPACTO MEDIBLE</p>
+        {/* BLOQUE 3 — IMPACTO FINANCIERO */}
+        <p style={{ fontSize: 9, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.3)', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 2, marginTop: 0 }}>IMPACTO FINANCIERO</p>
+        <p style={{ fontSize: 8, fontFamily: 'var(--font-geist-mono)', color: '#5D6B7A', marginBottom: 10, marginTop: 0 }}>etapa 5 — verificar el rediseño</p>
 
         <div style={{ padding: '12px 14px', borderLeft: '2px solid rgba(79,209,224,0.6)', background: '#141F2E', borderRadius: '0 6px 6px 0', marginBottom: 12, width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: C_CIAN, margin: '0 0 5px' }}>◆ PROPÓSITO SISTÉMICO</p>
@@ -473,15 +569,20 @@ export function ValueFlow() {
           <div style={{ width: 52, height: 52, borderRadius: '50%', background: C_CIAN, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(79,209,224,0.3)' }}>
             <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#0B1420' }} />
           </div>
-          <p style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-geist-mono)', color: '#F2F6F9', margin: 0 }}>ROI MEDIBLE</p>
-          <p style={{ fontSize: 11, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', marginTop: 4, marginBottom: 0 }}>el único resultado</p>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
+            <BadgeEtapa n="5" />
+          </div>
+          <p style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-space-grotesk)', color: '#F2921D', margin: 0 }}>IMPACTO FINANCIERO</p>
+          <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', marginTop: 4, marginBottom: 0, lineHeight: 1.5 }}>
+            no horas liberadas —<br />ingreso o ahorro que llega a la utilidad
+          </p>
         </div>
 
         {/* Leyenda — debajo de ROI, antes del CTA */}
         <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 6, width: '100%', boxSizing: 'border-box', padding: '0 20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: C_NARANJA, flexShrink: 0 }} />
-            <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', margin: 0, wordBreak: 'break-word' }}>Ruta principal (automatización → ROI)</p>
+            <p style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', margin: 0, wordBreak: 'break-word' }}>Ruta principal (automatización → impacto financiero)</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: C_MORADO, flexShrink: 0 }} />
@@ -493,12 +594,12 @@ export function ValueFlow() {
         <div style={{ marginTop: 24, paddingTop: 20, paddingLeft: 20, paddingRight: 20, borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center', width: '100%', boxSizing: 'border-box', wordBreak: 'break-word' }}>
           <p style={{ fontSize: 12, fontFamily: 'var(--font-geist-mono)', color: '#8B95A5', lineHeight: 1.6, margin: 0 }}>
             El vacío del mercado no es tecnológico,{' '}
-            <span style={{ color: C_CIAN, fontWeight: 700 }}>es operativo.</span>
+            <span style={{ color: C_NARANJA, fontWeight: 700 }}>es operativo.</span>
           </p>
           <p style={{ fontSize: 15, fontFamily: 'var(--font-geist-mono)', color: 'rgba(255,255,255,0.9)', fontWeight: 700, marginTop: 8, marginBottom: 0 }}>
             Antes de buscar inteligencia artificial,
           </p>
-          <p style={{ fontSize: 15, fontFamily: 'var(--font-geist-mono)', color: C_NARANJA, fontWeight: 700, marginTop: 0, marginBottom: 0 }}>
+          <p style={{ fontSize: 15, fontFamily: 'var(--font-geist-mono)', color: C_CIAN, fontWeight: 600, marginTop: 0, marginBottom: 0 }}>
             busca procesos inteligentes.
           </p>
         </div>
