@@ -5,6 +5,7 @@ import { HowItWorks } from "@/components/home/HowItWorks";
 import { ValueFlow } from "@/components/home/ValueFlow";
 import { CtaFinal } from "@/components/home/CtaFinal";
 import { Footer } from "@/components/home/Footer";
+import { ScrollAncla } from "@/components/home/ScrollAncla";
 
 // ─── SEO de la página de producto (evaluación y rediseño de procesos) ────────
 // Estos metadatos describen la evaluación, no la marca — antes vivían en la
@@ -60,6 +61,7 @@ export default function Evaluacion() {
           }),
         }}
       />
+      <ScrollAncla />
       <Hero />
       <main id="main-content">
         <HowItWorks />
