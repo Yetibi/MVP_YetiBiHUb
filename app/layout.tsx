@@ -54,22 +54,21 @@ const dmSerif = DM_Serif_Display({
   weight: "400",
 });
 
+// Metadatos de MARCA: los de la evaluación viven en app/evaluacion/page.tsx.
 export const metadata: Metadata = {
   metadataBase: new URL("https://yetibi.com"),
   title: {
-    default: "Diagnóstico de Madurez Operacional | Yeti BI",
+    default: "Yeti BI — Ingeniería de procesos en la era de la IA",
     template: "%s | Yeti BI",
   },
   description:
-    "Evalúa si tu operación tiene las condiciones para desplegar IA o automatizar procesos. Diagnóstico gratuito en 10 minutos. Medellín, Colombia.",
+    "Convertimos operaciones de pymes en sistemas inteligentes: primero el proceso, después la herramienta. Medellín, Colombia.",
   keywords: [
-    "diagnóstico de madurez operacional",
-    "AI readiness pymes Colombia",
-    "automatización de procesos",
+    "ingeniería de procesos",
+    "IA para pymes Colombia",
     "consultoría BI Medellín",
-    "Power Bi",
-    "madurez analítica empresas",
-    "gap análisis procesos IA",
+    "rediseño de procesos",
+    "sistemas inteligentes",
   ],
   robots: { index: true, follow: true },
   openGraph: {
@@ -77,15 +76,16 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "https://yetibi.com",
     siteName: "Yeti BI",
-    title: "Diagnóstico de Madurez Operacional | Yeti BI",
+    title: "Yeti BI — Ingeniería de procesos en la era de la IA",
     description:
-      "Evalúa si tu operación está lista para IA o automatización. Gratis. 10 minutos.",
+      "Convertimos operaciones de pymes en sistemas inteligentes: primero el proceso, después la herramienta.",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Diagnóstico de Madurez Operacional | Yeti BI",
-    description: "Evalúa si tu operación está lista para IA. Gratis.",
+    title: "Yeti BI — Ingeniería de procesos en la era de la IA",
+    description:
+      "Primero el proceso, después la herramienta. Medellín, Colombia.",
     images: ["/og-image.png"],
   },
   alternates: { canonical: "https://yetibi.com" },
@@ -139,21 +139,6 @@ export default function RootLayout({
                 contactType: "customer service",
                 availableLanguage: "Spanish",
               },
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Service",
-              name: "Diagnóstico de Madurez Operacional",
-              description:
-                "Evaluamos el gap As-Is → To-Be para automatizar procesos o desplegar IA con éxito.",
-              provider: { "@type": "Organization", name: "Yeti BI" },
-              areaServed: { "@type": "Country", name: "Colombia" },
-              offers: { "@type": "Offer", price: "0", priceCurrency: "COP" },
             }),
           }}
         />

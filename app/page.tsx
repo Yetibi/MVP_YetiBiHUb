@@ -1,23 +1,9 @@
-import Hero from "@/components/home/Hero";
+import { redirect } from "next/navigation";
 
-import  DifferentiatorSection from "@/components/home/DifferentiatorSection"; // Asegúrate de que esta ruta sea correcta
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { ValueFlow } from "@/components/home/ValueFlow";
-import { CtaFinal } from "@/components/home/CtaFinal";
-import { Footer } from "@/components/home/Footer";
-
-
+// ─── TEMPORAL ────────────────────────────────────────────────────────────────
+// La evaluación se movió a /evaluacion. Este redirect ocupa la raíz solo
+// mientras llega el video del héroe (public/video/hero-yeti-red-neuronal.mp4);
+// la Parte 2 lo reemplaza por el Home de marca.
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <main id="main-content">
-        <HowItWorks />
-        <ValueFlow />
-        <DifferentiatorSection />
-        <CtaFinal />
-      </main>
-      <Footer />
-    </>
-  );
+  redirect("/evaluacion");
 }

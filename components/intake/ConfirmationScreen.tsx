@@ -55,7 +55,7 @@ export function ConfirmationScreen({ email }: ConfirmationScreenProps) {
 
       {/* Botón para volver al Home */}
       <a
-        href="https://yetibi.com/"
+        href="/"
         className="mt-12 inline-block bg-(--primary) text-(--primary-foreground) font-semibold text-sm px-6 py-3 rounded-lg hover:bg-(--primary-hover) transition-colors"
       >
         Volver al Home
