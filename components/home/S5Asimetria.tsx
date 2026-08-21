@@ -47,7 +47,7 @@ const BLOQUES: Bloque[] = [
     num: "02",
     clase: "e2",
     titulo: "Asimetría de visibilidad",
-    sub: "El costo que no aparece en ningún reporte",
+    sub: "El costo que se paga en silencio",
     cuerpoDesk: (
       <>
         Rediseñar cuesta y se nota: tiempo, esfuerzo, fricción interna.{" "}
@@ -134,7 +134,7 @@ export function S5Asimetria() {
           La distancia con tu competencia no crece.{" "}
           <span className="acc">Se compone.</span>
         </h2>
-        <p className="hs-bajada" style={{ maxWidth: 660 }}>
+        <p className="hs-bajada">
           <span className="s5-desk">
             El riesgo no es que tu competencia tenga mejor tecnología. Es que
             tiene menos capas entre el problema y la decisión — y esa

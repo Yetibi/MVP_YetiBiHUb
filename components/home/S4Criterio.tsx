@@ -79,7 +79,7 @@ export function S4Criterio() {
           Lo que no se puede automatizar es lo único que la competencia{" "}
           <span className="acc">no te puede copiar.</span>
         </h2>
-        <p className="hs-bajada" style={{ maxWidth: 640 }}>
+        <p className="hs-bajada">
           <span className="s4-desk">
             Tu competidor puede comprar la misma herramienta que tú, mañana, al
             mismo precio. Lo que no puede comprar es el criterio con el que la
