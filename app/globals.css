@@ -955,13 +955,31 @@ textarea:focus-visible {
   color: #8B95A5;
   margin: 0;
 }
+.s3-agua {
+  border-top: 1px dashed rgba(139,149,165,.35);
+  margin: 12px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+.s3-agua span {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #8B95A5;
+  background: #141F2E;
+  padding: 0 8px;
+  margin-top: -7px;
+  margin-right: 10px;
+}
 .s3-cierre {
   background: #1C2836;
   border: 1px solid rgba(242,143,107,.22);
   border-radius: 5px;
   padding: 28px 32px;
   max-width: 900px;
-  margin-top: 56px;
+  margin: 56px auto 0;
+  text-align: center;
   font-family: var(--font-space-grotesk);
   font-weight: 400;
   font-size: 25px;
@@ -982,17 +1000,46 @@ textarea:focus-visible {
   .s3-desk { display: none; }
   .s3-mov { display: block; }
   span.s3-mov { display: inline; }
-  .s3sec.hs-section { padding: 56px 0; }
-  .s3-madre h2 { font-size: 26px !important; }
-  .s3-madre .sub { font-size: 16px !important; }
-  .s3-puente { font-size: 14px; margin-bottom: 36px; }
+  .s3sec.hs-section { padding: 28px 0; }
+  .s3sec .hs-kicker { display: none; }
+  .s3-madre { margin-bottom: 10px; }
+  .s3-madre h2 { font-size: 22px !important; margin-bottom: 8px !important; }
+  .s3-madre .sub { font-size: 14px !important; }
+  .s3-puente { font-size: 13px; line-height: 1.45; margin-bottom: 18px; }
   .s3-estratos { grid-template-columns: 1fr; }
   .s3-eje { display: none; }
-  .s3-lista { margin-left: 0; gap: 10px; }
-  .s3-card { padding: 14px 16px; }
-  .s3-card h3 { font-size: 20px; }
-  .s3-card .preg { font-size: 14px; margin-bottom: 8px; }
-  .s3-card .cuerpo { font-size: 13px; line-height: 1.5; }
-  .s3-cierre { font-size: 17px; padding: 16px 18px; margin-top: 30px; }
-  .s3-salida { gap: 10px; }
+  .s3-lista { margin-left: 0; gap: 6px; }
+  .s3-card { padding: 9px 12px; }
+  .s3-card .lbl { font-size: 8px; letter-spacing: .16em; margin-bottom: 3px; }
+  .s3-card h3 { font-size: 16px; margin-bottom: 1px; }
+  .s3-card .preg { font-size: 12.5px; margin-bottom: 5px; }
+  .s3-card .conse { font-size: 8.5px; letter-spacing: .14em; margin: 0; }
+  .s3-card .cuerpo { display: block; font-size: 14px; line-height: 1.45; }
+  .s3-agua { margin: 8px 0; justify-content: center; }
+  .s3-agua span { margin-right: 0; }
+  .s3-cierre { font-size: 13.5px; line-height: 1.4; padding: 10px 12px; margin-top: 14px; }
+  .s3-cierre-pie { font-size: 8.5px; margin-top: 6px; }
+  .s3-salida { gap: 6px; }
+  .s3-salida .hs-apertura { font-size: 13.5px; margin-top: 14px !important; }
+  .s3-salida .hs-link { font-size: 11px; }
+}
+
+/* S3 compacto — cabe en una pantalla también en desktop (scoped ≥769px
+   para no pisar las reglas móviles) */
+@media (min-width: 769px) {
+  .s3sec.hs-section { padding: 40px 0; }
+  .s3sec .hs-kicker { margin-bottom: 10px; }
+  .s3-madre { margin-bottom: 8px; }
+  .s3-puente { font-size: 14px; line-height: 1.5; margin-bottom: 18px; }
+  .s3-puente p { margin-bottom: 6px; }
+  .s3-lista { gap: 8px; }
+  .s3-card { padding: 11px 18px; }
+  .s3-card .lbl { margin-bottom: 4px; }
+  .s3-card h3 { font-size: 18px; margin-bottom: 1px; }
+  .s3-card .preg { font-size: 13.5px; margin-bottom: 5px; }
+  .s3-card .conse { margin-bottom: 3px; }
+  .s3-card .cuerpo { font-size: 15px; line-height: 1.45; }
+  .s3-cierre { font-size: 16px; line-height: 1.35; padding: 12px 18px; margin-top: 16px; }
+  .s3-cierre-pie { margin-top: 6px; }
+  .s3-salida .hs-apertura { margin-top: 16px; font-size: 16px; }
 }

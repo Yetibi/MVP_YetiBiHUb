@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 // ─── S3 · El sistema de decisión — las 3 capas como estratos ─────────────────
@@ -18,9 +18,7 @@ interface Capa {
   titulo: string;
   pregunta: string;
   conse: string;
-  cuerpoDesk: string;
-  cuerpoMov: string;
-  nota?: string;
+  cuerpo: string;
 }
 
 const CAPAS: Capa[] = [
@@ -31,32 +29,26 @@ const CAPAS: Capa[] = [
     titulo: "Flujo",
     pregunta: "¿En qué orden ocurre?",
     conse: "LA DECISIÓN LLEGA TARDE",
-    cuerpoDesk:
-      "El evento ya pasó. La información recorre el proceso más lento de lo que avanza el problema, y para cuando llega a quien decide, la ventana de corrección se cerró.",
-    cuerpoMov: "El evento ya pasó. Cuando el dato llega, la ventana se cerró.",
-    nota: "Es la capa visible — y por eso casi siempre la única que se interviene.",
+    cuerpo:
+      "El evento ya pasó. Cuando el dato llega a quien decide, la ventana de corrección se cerró.",
   },
   {
     lbl: "CAPA 2 · PERSONAS",
     color: "var(--salmon)",
-    fondo: "#1C2836",
+    fondo: "#101A27",
     titulo: "Personas",
     pregunta: "¿Quién decide, y con qué autoridad?",
     conse: "LA DECISIÓN SUBE SIN NECESIDAD",
-    cuerpoDesk:
-      "Todo escala a gerencia porque abajo nadie tiene mandato para resolver. El trabajo no se cae en las tareas: se cae en los bordes, donde nadie es dueño y todos asumen que alguien más lo tiene.",
-    cuerpoMov: "Todo escala a gerencia porque abajo nadie tiene mandato.",
+    cuerpo: "Todo escala a gerencia porque abajo nadie tiene mandato para resolver.",
   },
   {
     lbl: "CAPA 1 · PROPÓSITO",
     color: "var(--salmon)",
-    fondo: "#1C2836",
+    fondo: "#0C1520",
     titulo: "Propósito",
     pregunta: "¿Esta decisión necesita tomarse?",
     conse: "LA DECISIÓN NO DEBERÍA EXISTIR",
-    cuerpoDesk:
-      "Aprobaciones que nunca se niegan. Reportes que nadie abre. Formatos que se llenan y se archivan. Automatizar una decisión inútil no la arregla — la vuelve una decisión inútil que ocurre más rápido y más veces.",
-    cuerpoMov: "Aprobaciones que nunca se niegan. Reportes que nadie abre.",
+    cuerpo: "Aprobaciones que nunca se niegan. Reportes que nadie abre.",
   },
 ];
 
@@ -96,7 +88,7 @@ export function S3Reencuadre() {
         <div className="s3-madre">
           <h2
             className="hs-h2"
-            style={{ fontSize: 38, maxWidth: "none", margin: "0 0 16px" }}
+            style={{ fontSize: "clamp(22px, 2.3vw, 32px)", maxWidth: "none", margin: "0 0 10px" }}
           >
             La IA no automatiza tareas. Automatiza{" "}
             <span className="acc">decisiones.</span>
@@ -106,16 +98,24 @@ export function S3Reencuadre() {
             style={{
               fontFamily: "var(--font-space-grotesk)",
               fontWeight: 400,
-              fontSize: 22,
+              fontSize: 17,
               lineHeight: 1.4,
               color: "#8B95A5",
               margin: 0,
             }}
           >
-            Por eso no evaluamos eventos — evaluamos{" "}
-            <strong style={{ color: CIAN, fontWeight: 600 }}>
-              el sistema con el que se toman las decisiones.
-            </strong>
+            <span className="s3-desk">
+              Por eso no evaluamos eventos — evaluamos{" "}
+              <strong style={{ color: CIAN, fontWeight: 500 }}>
+                el sistema con el que se toman las decisiones.
+              </strong>
+            </span>
+            <span className="s3-mov">
+              No evaluamos eventos:{" "}
+              <strong style={{ color: CIAN, fontWeight: 500 }}>
+                evaluamos el sistema que decide.
+              </strong>
+            </span>
           </p>
         </div>
 
@@ -133,10 +133,8 @@ export function S3Reencuadre() {
             del mercado optimizan la tercera.
           </p>
           <p className="s3-mov">
-            La automatización clásica repite pasos definidos. La IA agéntica lee
-            el contexto y elige el siguiente. La pregunta ya no es qué tareas
-            delegar, es{" "}
-            <strong>qué decisiones estás dispuesto a que se tomen sin ti.</strong>
+            La pregunta:{" "}
+            <strong>¿qué decisiones aceptas que se tomen sin ti?</strong>
           </p>
         </div>
 
@@ -156,8 +154,14 @@ export function S3Reencuadre() {
 
           <ol className="s3-lista">
             {CAPAS.map((c, i) => (
+              <Fragment key={c.titulo}>
+              {/* Línea de agua — arriba el software ve, abajo no */}
+              {i === 1 && (
+                <li className="s3-agua" aria-hidden="true">
+                  <span>LO QUE EL SOFTWARE ALCANZA A VER</span>
+                </li>
+              )}
               <li
-                key={c.titulo}
                 className="s3-card"
                 style={{
                   borderLeftColor: c.color,
@@ -177,16 +181,9 @@ export function S3Reencuadre() {
                   {c.pregunta}
                 </p>
                 <p className="conse">{c.conse}</p>
-                <p className="cuerpo">
-                  <span className="s3-desk">{c.cuerpoDesk}</span>
-                  <span className="s3-mov">{c.cuerpoMov}</span>
-                </p>
-                {c.nota && (
-                  <p className="cuerpo s3-desk" style={{ marginTop: 10, color: "#F2F6F9" }}>
-                    {c.nota}
-                  </p>
-                )}
+                <p className="cuerpo">{c.cuerpo}</p>
               </li>
+              </Fragment>
             ))}
           </ol>
         </div>
@@ -207,7 +204,7 @@ export function S3Reencuadre() {
 
         {/* Apertura + salida */}
         <div className="s3-salida">
-          <p className="hs-apertura" style={{ marginTop: 48 }}>
+          <p className="hs-apertura">
             ¿Cuántas decisiones de tu operación llegan tarde, suben de más, o no
             deberían existir?
           </p>
