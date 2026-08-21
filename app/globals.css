@@ -1720,3 +1720,106 @@ textarea:focus-visible {
   .s7-cierre .remate { font-size: 15.5px; margin-top: 8px; }
   .s7-salida { margin-top: 14px; font-size: 11px; }
 }
+
+/* ── S9 · Acceso — origen + tres puertas + footer ────────────────────────────
+   Sin foto ni biografía: la afirmación de origen se resuelve en tres líneas
+   y el enlace al marco responde mejor que un currículum. Solo la puerta 1
+   lleva botón sólido (única ruta sin cuello de botella). */
+.s9-origen {
+  font-family: var(--font-space-grotesk);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.5;
+  color: #8B95A5;
+  max-width: 68ch;
+  margin: 0 auto;
+  text-align: center;
+}
+.s9-origen strong { color: #F2F6F9; font-weight: 600; }
+.s9-origen-link {
+  display: block;
+  text-align: center;
+  margin-top: 22px;
+}
+.s9-puertas {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 72px 0 0;
+  padding: 0;
+}
+.s9-puerta {
+  border-radius: 5px;
+  padding: 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #141F2E;
+  border: 1px solid rgba(139,149,165,.14);
+}
+.s9-puerta.primaria {
+  background: linear-gradient(rgba(242,143,107,.05), rgba(242,143,107,.05)), #1C2836;
+  border: 1px solid rgba(242,143,107,.4);
+}
+.s9-puerta .lbl {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: #8B95A5;
+  margin: 0;
+}
+.s9-puerta.primaria .lbl { color: var(--salmon); }
+.s9-puerta h3 {
+  font-family: var(--font-space-grotesk);
+  font-weight: 700;
+  font-size: 21px;
+  color: #F2F6F9;
+  margin: 0;
+}
+.s9-puerta .cuerpo {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 1.55;
+  color: #8B95A5;
+  margin: 0;
+  flex: 1;
+}
+.s9-footer {
+  background: #141F2E;
+  border-top: 1px solid rgba(139,149,165,.18);
+  padding: 26px 0;
+}
+.s9-footer-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.s9-footer-marca {
+  font-family: var(--font-space-grotesk);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .14em;
+  color: #F2F6F9;
+}
+.s9-footer-ubica {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: #8B95A5;
+}
+
+@media (min-width: 769px) {
+  .s9sec.hs-section { padding: 72px 0; }
+}
+@media (max-width: 768px) {
+  .s9sec.hs-section { padding: 44px 0; }
+  .s9-origen { font-size: 17px; }
+  .s9-puertas { grid-template-columns: 1fr; gap: 10px; margin-top: 36px; }
+  .s9-puerta { padding: 16px 18px; gap: 8px; }
+  .s9-puerta h3 { font-size: 18px; }
+  .s9-puerta .cuerpo { font-size: 13px; }
+  .s9-footer { padding: 18px 0; }
+}

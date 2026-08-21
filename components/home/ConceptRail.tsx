@@ -15,8 +15,7 @@ const ITEMS = [
   { n: "05", label: "Asimetría competitiva", id: "asimetria" },
   { n: "06", label: "Secuencia · 6 dimensiones", id: "metodo" },
   { n: "07", label: "SOI", id: "soi" },
-  { n: "08", label: "Evidencia", id: "resultados" },
-  { n: "09", label: "Acceso", id: "contacto" },
+  { n: "08", label: "Acceso", id: "contacto" },
 ];
 
 export function ConceptRail() {

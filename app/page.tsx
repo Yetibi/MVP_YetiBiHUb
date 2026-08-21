@@ -6,7 +6,8 @@ import { S4Criterio } from "@/components/home/S4Criterio";
 import { S5Asimetria } from "@/components/home/S5Asimetria";
 import { S6Metodo } from "@/components/home/S6Metodo";
 import { S7Soi } from "@/components/home/S7Soi";
-import { S8Evidencia } from "@/components/home/S8Evidencia";
+// S8 oculta hasta definir casos publicables — no borrar
+// import { S8Evidencia } from "@/components/home/S8Evidencia";
 import { S9Acceso } from "@/components/home/S9Acceso";
 
 // Home de marca: héroe + esqueleto de 8 secciones (iterables una a una).
@@ -24,7 +25,8 @@ export default function Home() {
           <S5Asimetria />
           <S6Metodo />
           <S7Soi />
-          <S8Evidencia />
+          {/* S8 oculta hasta definir casos publicables — no borrar */}
+          {/* <S8Evidencia /> */}
           <S9Acceso />
         </div>
       </main>
