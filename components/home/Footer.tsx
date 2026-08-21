@@ -48,6 +48,13 @@ export function Footer() {
           >
             NAVEGACIÓN
           </p>
+          <Link
+            href="/evaluacion"
+            className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) rounded"
+            style={{ color: "#8B95A5", fontSize: 14 }}
+          >
+            Evaluación de procesos
+          </Link>
           <a
             href="/diagnostico"
             target="_blank"
@@ -64,8 +71,9 @@ export function Footer() {
           >
             Servicios <span translate="no">Power BI</span>
           </Link>
+          {/* Ruta+ancla para que funcione también desde el Home (/) */}
           <Link
-            href="#contacto-form"
+            href="/evaluacion#contacto-form"
             className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) rounded"
             style={{ color: "#8B95A5", fontSize: 14 }}
           >

@@ -1,9 +1,15 @@
-import { redirect } from "next/navigation";
+import { HeroMarca } from "@/components/home/HeroMarca";
+import { Footer } from "@/components/home/Footer";
 
-// ─── TEMPORAL ────────────────────────────────────────────────────────────────
-// La evaluación se movió a /evaluacion. Este redirect ocupa la raíz solo
-// mientras llega el video del héroe (public/video/hero-yeti-red-neuronal.mp4);
-// la Parte 2 lo reemplaza por el Home de marca.
+// Home de marca. Por ahora solo el héroe — las secciones (#tesis, #capas,
+// #soi, #resultados, #contacto) se construyen por separado.
 export default function Home() {
-  redirect("/evaluacion");
+  return (
+    <>
+      <main id="main-content">
+        <HeroMarca />
+      </main>
+      <Footer />
+    </>
+  );
 }
