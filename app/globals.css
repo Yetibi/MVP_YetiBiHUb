@@ -1546,3 +1546,152 @@ textarea:focus-visible {
   .s6sec .hs-link { font-size: 10.5px; }
   .s6sec .hs-apertura { font-size: 13px; margin-top: 12px !important; }
 }
+
+/* ── S7 · SOI — techo de autoridad ───────────────────────────────────────────
+   Define, no vende: cero primera persona de servicio, sin CTA. Cuatro capas
+   acumulativas (no seis) y un cierre que es advertencia, no promesa. */
+.s7-negaciones {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 36px 0 0;
+  padding: 0;
+}
+.s7-neg {
+  font-family: var(--font-geist-mono);
+  font-size: 11.5px;
+  letter-spacing: .08em;
+  color: #8B95A5;
+  border: 1px solid rgba(139,149,165,.18);
+  border-radius: 3px;
+  padding: 9px 15px;
+  text-decoration: line-through;
+  text-decoration-color: rgba(242,143,107,.55);
+  text-decoration-thickness: 1.5px;
+}
+.s7-neg-remate {
+  font-family: var(--font-space-grotesk);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #8B95A5;
+  margin: 18px 0 0;
+  max-width: 72ch;
+}
+.s7-neg-remate strong { color: #F2F6F9; font-weight: 500; }
+.s7-capas {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 44px 0 0;
+  padding: 0;
+}
+.s7-capa {
+  background: #141F2E;
+  border: 1px solid rgba(79,209,224,.18);
+  border-radius: 4px;
+  padding: 30px 32px;
+}
+.s7-capa .num {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: #8B95A5;
+  margin: 0 0 10px;
+}
+.s7-capa h3 {
+  font-family: var(--font-space-grotesk);
+  font-weight: 700;
+  font-size: 22px;
+  color: #F2F6F9;
+  margin: 0 0 4px;
+}
+.s7-capa .sub {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  color: #4FD1E0;
+  margin: 0 0 12px;
+}
+.s7-capa .cuerpo {
+  font-family: var(--font-inter);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #8B95A5;
+  margin: 0;
+}
+.s7-cierre {
+  background: #0B1420;
+  border: 1px solid rgba(242,143,107,.25);
+  border-radius: 5px;
+  max-width: 900px;
+  padding: 40px 44px;
+  margin-top: 48px;
+}
+.s7-cierre .adv {
+  font-family: var(--font-space-grotesk);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.45;
+  color: #8B95A5;
+  margin: 0;
+}
+.s7-cierre .remate {
+  font-family: var(--font-space-grotesk);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.35;
+  color: #F2F6F9;
+  margin: 18px 0 0;
+}
+.s7-salida {
+  display: inline-block;
+  font-family: var(--font-geist-mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: #8B95A5;
+  text-decoration: none;
+  margin-top: 36px;
+  transition: color .2s ease;
+}
+.s7-salida:hover { color: #4FD1E0; }
+.s7-salida:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+@media (min-width: 769px) {
+  .s7sec.hs-section { padding: 36px 0; }
+  .s7sec .hs-kicker { margin-bottom: 10px; }
+  .s7sec .hs-h2 { font-size: clamp(24px, 2.3vw, 34px) !important; margin-bottom: 10px; }
+  .s7sec .hs-bajada { max-width: 72ch; font-size: 15px; margin-bottom: 6px; }
+  .s7-negaciones { margin-top: 14px; }
+  .s7-neg { padding: 7px 12px; font-size: 10.5px; }
+  .s7-neg-remate { font-size: 15px; margin-top: 10px; }
+  .s7-capas { margin-top: 18px; gap: 8px; }
+  .s7-capa { padding: 14px 20px; }
+  .s7-capa h3 { font-size: 19px; }
+  .s7-capa .cuerpo { font-size: 13.5px; line-height: 1.45; }
+  .s7-cierre { margin-top: 16px; padding: 16px 22px; }
+  .s7-cierre .adv { font-size: 16.5px; }
+  .s7-cierre .remate { font-size: 18.5px; margin-top: 8px; }
+  .s7-salida { margin-top: 14px; font-size: 11px; }
+}
+@media (max-width: 768px) {
+  .s7sec.hs-section { padding: 32px 0; }
+  .s7sec .hs-kicker { margin-bottom: 8px; }
+  .s7sec .hs-h2 { font-size: 22px; margin-bottom: 8px; }
+  .s7sec .hs-bajada { font-size: 13px; line-height: 1.5; margin-bottom: 8px; }
+  .s7-negaciones { margin-top: 10px; gap: 6px; }
+  .s7-neg { font-size: 9.5px; padding: 5px 9px; }
+  .s7-neg-remate { font-size: 13px; margin-top: 10px; }
+  .s7-capas { grid-template-columns: 1fr; gap: 7px; margin-top: 16px; }
+  .s7-capa { padding: 11px 13px; }
+  .s7-capa .num { margin-bottom: 4px; font-size: 8.5px; }
+  .s7-capa h3 { font-size: 16.5px; margin-bottom: 2px; }
+  .s7-capa .sub { font-size: 8.5px; margin-bottom: 6px; }
+  .s7-capa .cuerpo { font-size: 12.5px; line-height: 1.45; }
+  .s7-cierre { margin-top: 14px; padding: 14px 16px; }
+  .s7-cierre .adv { font-size: 14px; }
+  .s7-cierre .remate { font-size: 15.5px; margin-top: 8px; }
+  .s7-salida { margin-top: 14px; font-size: 11px; }
+}
