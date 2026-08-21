@@ -1,105 +1,201 @@
-// ─── S6 · El método y la promesa — secuencia + 6 dimensiones + prueba ────────
-// Dimensiones 04–06 sin título deliberadamente: pendientes de definición.
+"use client";
 
-const MONO = "var(--font-geist-mono)";
-const SG = "var(--font-space-grotesk)";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
-function Phs({ n = 2 }: { n?: number }) {
-  return (
-    <div className="hs-phs" aria-label="Contenido pendiente">
-      {Array.from({ length: n }, (_, i) => (
-        <i key={i} />
-      ))}
-    </div>
-  );
-}
+// ─── S6 · El idioma del resultado ────────────────────────────────────────────
+// Registro declarativo: las dimensiones describen QUÉ se mueve, nunca quién
+// lo mueve — cero primera persona de servicio. La secuencia va comprimida
+// (el diagrama animado vive en /evaluacion). El 55% vs 20% es el único dato
+// duro de la página: cifra y redacción exactas de la fuente, no se alteran.
+
+const EASE = "cubic-bezier(0.23, 1, 0.32, 1)";
 
 const SECUENCIA = ["ELIMINAR", "SIMPLIFICAR", "OPTIMIZAR", "AUTOMATIZAR", "MEDIR"];
 
 const DIMENSIONES = [
-  { n: "DIMENSIÓN 01", titulo: "Acceso" },
-  { n: "DIMENSIÓN 02", titulo: "Calidad" },
-  { n: "DIMENSIÓN 03", titulo: "Volumen" },
-  { n: "DIMENSIÓN 04", titulo: "—" },
-  { n: "DIMENSIÓN 05", titulo: "—" },
-  { n: "DIMENSIÓN 06", titulo: "—" },
+  {
+    nombre: "CALIDAD",
+    kpi: "ERROR QUE LLEGA AL CLIENTE",
+    linea: "El error que detecta el cliente es el más caro de la cadena.",
+  },
+  {
+    nombre: "VOLUMEN",
+    kpi: "CAPACIDAD SIN COSTO FIJO NUEVO",
+    linea: "Absorber más demanda sin ampliar la estructura.",
+  },
+  {
+    nombre: "COSTO",
+    kpi: "COSTO POR TRANSACCIÓN",
+    linea: "Lo que cuesta cada vez que el proceso corre.",
+  },
+  {
+    nombre: "EXPERIENCIA",
+    kpi: "FRICCIÓN PARA CLIENTE Y EQUIPO",
+    linea: "La agilidad del proceso se siente en ambos lados del mostrador.",
+  },
+  {
+    nombre: "EXPECTATIVAS",
+    kpi: "CONFIABILIDAD DEL ESTÁNDAR",
+    linea: "Cumplir sin margen de error cambia lo que el mercado exige de la categoría.",
+  },
 ];
 
-export function S6Metodo() {
-  return (
-    <section id="metodo" className="hs-section hs-bg-noche">
-      <div className="hs-wrap">
-        <p className="hs-kicker">EL MÉTODO Y LA PROMESA</p>
-        <h2 className="hs-h2">
-          No ahorramos horas. Movemos la <span className="acc">utilidad.</span>
-        </h2>
+// Aproximación temporal del bezier del proyecto (desaceleración fuerte)
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 4);
 
-        {/* Secuencia */}
-        <div className="hs-seq" style={{ marginTop: 48 }}>
+export function S6Metodo() {
+  const reduced = useReducedMotion();
+  const [visible, setVisible] = useState(false);
+  const [cifra, setCifra] = useState(0);
+  const [vsListo, setVsListo] = useState(false);
+  const fired = useRef(false);
+  const secRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !fired.current) {
+            fired.current = true; // una sola vez
+            setVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Contador 0 → 55 en 900ms
+  useEffect(() => {
+    if (!visible) return;
+    if (reduced) {
+      setCifra(55);
+      setVsListo(true);
+      return;
+    }
+    let raf: number;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min((t - t0) / 900, 1);
+      setCifra(Math.round(easeOut(p) * 55));
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else setVsListo(true);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [visible, reduced]);
+
+  const mostrar = reduced || visible;
+
+  const cajaStyle = (i: number): CSSProperties => ({
+    opacity: mostrar ? 1 : 0,
+    transition: reduced ? "none" : `opacity .5s ${EASE} ${i * 80}ms`,
+  });
+
+  return (
+    <section ref={secRef} id="metodo" className="hs-section hs-bg-noche s6sec">
+      <div className="hs-wrap">
+        <p className="hs-kicker">EL IDIOMA DEL RESULTADO</p>
+        <h2 className="hs-h2" style={{ fontSize: "clamp(26px, 2.9vw, 42px)" }}>
+          Las horas ahorradas no son un resultado.{" "}
+          <span className="acc">La utilidad sí.</span>
+        </h2>
+        <p className="hs-bajada">
+          <span className="s6-desk">
+            Prometer &ldquo;200 horas ahorradas&rdquo; es vender un espejismo:
+            una hora liberada que nadie reasigna cuesta lo mismo que antes. Un
+            rediseño solo vale si mueve estas seis dimensiones — y todas
+            terminan en el estado de resultados.
+          </span>
+          <span className="s6-mov">
+            Una hora liberada que nadie reasigna cuesta lo mismo que antes. Un
+            rediseño solo vale si mueve estas seis dimensiones.
+          </span>
+        </p>
+
+        {/* Secuencia comprimida — cita del método, no diagrama */}
+        <ol className="hs-seq" style={{ margin: "40px 0 0", padding: 0, listStyle: "none" }}>
           {SECUENCIA.map((s, i) => (
-            <span key={s} style={{ display: "contents" }}>
+            <li key={s} style={{ display: "contents" }}>
               {i > 0 && (
-                <span className="fl" aria-hidden="true">
+                <span className="fl" aria-hidden="true" style={cajaStyle(i)}>
                   →
                 </span>
               )}
-              <span className={`sq${s === "MEDIR" ? " acc" : ""}`}>{s}</span>
-            </span>
+              <span className={`sq${s === "MEDIR" ? " acc" : ""}`} style={cajaStyle(i)}>
+                {s}
+              </span>
+            </li>
           ))}
-        </div>
+        </ol>
+        <p className="s6-secuencia-nota">
+          El orden no es negociable. Automatizar es el cuarto paso, nunca el
+          primero.
+        </p>
 
-        {/* 6 dimensiones de valor */}
-        <div className="hs-grid3" style={{ gap: 0, marginBottom: 56 }}>
+        {/* Seis dimensiones — Acceso destacada, cinco en grid */}
+        <ul className="s6-dims">
+          <li className="s6-acceso">
+            <h3>ACCESO</h3>
+            <span className="s6-kpi">LATENCIA DE DECISIÓN</span>
+            <p className="cuerpo">
+              El tiempo entre que ocurre un hecho y que llega a quien decide.
+              Decidir antes evita pérdidas que ningún ahorro de nómina
+              compensa.
+            </p>
+          </li>
           {DIMENSIONES.map((d) => (
-            <div
-              key={d.n}
+            <li key={d.nombre} className="s6-dim">
+              <h3>{d.nombre}</h3>
+              <span className="s6-kpi">{d.kpi}</span>
+              <p className="linea s6-desk">{d.linea}</p>
+            </li>
+          ))}
+        </ul>
+
+        {/* Bloque de prueba — el único dato duro de la página */}
+        <div className="s6-prueba">
+          <div aria-live="off">
+            <p className="s6-cifra" aria-hidden="true" style={{ margin: 0 }}>
+              {cifra}%
+            </p>
+            <span className="sr-only">55%</span>
+            <p
+              className="s6-vs"
               style={{
-                borderTop: "1px solid rgba(139,149,165,.18)",
-                padding: "20px 18px 26px 0",
+                margin: 0,
+                opacity: vsListo ? 1 : 0,
+                transition: reduced ? "none" : `opacity .4s ${EASE}`,
               }}
             >
-              <p style={{ fontFamily: MONO, fontSize: 10, letterSpacing: ".22em", color: "#5D6B7A", margin: "0 0 8px" }}>
-                {d.n}
-              </p>
-              <h3 style={{ fontFamily: SG, fontWeight: 700, fontSize: 19, color: d.titulo === "—" ? "#5D6B7A" : "#F2F6F9", margin: "0 0 10px" }}>
-                {d.titulo}
-              </h3>
-              <Phs />
-            </div>
-          ))}
-        </div>
-
-        {/* Bloque de prueba */}
-        <div
-          style={{
-            background: "#1C2836",
-            border: "1px solid rgba(242,143,107,.2)",
-            borderRadius: 5,
-            padding: "30px 34px",
-            display: "flex",
-            gap: 34,
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <div>
-            <p style={{ fontFamily: SG, fontWeight: 700, fontSize: 78, lineHeight: 1, color: "var(--salmon)", margin: 0 }}>
-              55%
-            </p>
-            <p style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: ".14em", color: "#5D6B7A", margin: "8px 0 0" }}>
-              FUENTE PENDIENTE DE VERIFICAR
+              vs 20%
             </p>
           </div>
-          <p style={{ fontFamily: "var(--font-inter)", fontSize: 16.5, lineHeight: 1.6, color: "#8B95A5", margin: 0, flex: 1, minWidth: 260 }}>
-            de las empresas de alto desempeño en IA rediseñaron sus procesos de
-            fondo — el triple que el resto.
+          <p className="s6-prueba-texto">
+            De las empresas que logran impacto real con IA, el 55% rediseñó sus
+            procesos de fondo. Entre las demás, solo el 20%.
+          </p>
+          <p className="s6-fuente">
+            MCKINSEY · THE STATE OF AI 2025: AGENTS, INNOVATION, AND
+            TRANSFORMATION · N=1.993
           </p>
         </div>
 
-        <p style={{ margin: "48px 0 0" }}>
+        {/* Salida + apertura */}
+        <p style={{ margin: "16px 0 0" }}>
           <a className="hs-link" href="/evaluacion">
             → EVALUAR UN PROCESO
           </a>
+        </p>
+        <p className="hs-apertura" style={{ marginTop: 10 }}>
+          ¿Cuál de estas seis dimensiones movió tu último proyecto de
+          tecnología?
         </p>
       </div>
     </section>
