@@ -545,8 +545,17 @@ textarea:focus-visible {
   .hm-linea-a { font-size: 14px; }
   .hm-linea-b { font-size: 20.5px; }
   .hm-criterio { padding: 1px 7px; }
-  .hm-criterio::before,
-  .hm-criterio::after { width: 9px; height: 9px; border-width: 2px; }
+  /* Anchos por lado — un border-width global pinta los 4 lados (cuadrados) */
+  .hm-criterio::before {
+    width: 9px; height: 9px;
+    left: -2px; bottom: -2px;
+    border-width: 0 0 2px 2px;
+  }
+  .hm-criterio::after {
+    width: 9px; height: 9px;
+    right: -2px; top: -2px;
+    border-width: 2px 2px 0 0;
+  }
   .hm-scroll { display: block; }
 }
 
