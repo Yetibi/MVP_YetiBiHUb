@@ -124,7 +124,16 @@ export function S9Acceso() {
             YETI<span style={{ color: "#4FD1E0" }}>·</span>
             <span style={{ color: "var(--salmon)" }}>BI</span>
           </span>
-          <span className="s9-footer-ubica">MEDELLÍN — COLOMBIA</span>
+          <span style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
+            <a
+              className="s9-footer-ubica"
+              href="mailto:data@yetibi.com"
+              style={{ textDecoration: "none" }}
+            >
+              DATA@YETIBI.COM
+            </a>
+            <span className="s9-footer-ubica">MEDELLÍN · BOGOTÁ — COLOMBIA</span>
+          </span>
         </div>
       </footer>
     </>

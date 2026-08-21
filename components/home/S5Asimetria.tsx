@@ -18,7 +18,7 @@ interface Bloque {
   titulo: string;
   sub: string;
   cuerpoDesk: React.ReactNode;
-  cuerpoMov: React.ReactNode;
+  cuerpoMov: React.ReactNode | null;
 }
 
 const BLOQUES: Bloque[] = [
@@ -55,13 +55,7 @@ const BLOQUES: Bloque[] = [
         un poco cada día, directo de la utilidad.
       </>
     ),
-    cuerpoMov: (
-      <>
-        Rediseñar cuesta y se nota: tiempo, esfuerzo, fricción interna.{" "}
-        <strong>No rediseñar también cuesta</strong> — pero se paga en silencio,
-        un poco cada día, directo de la utilidad.
-      </>
-    ),
+    cuerpoMov: null,
   },
   {
     num: "03",
@@ -75,13 +69,7 @@ const BLOQUES: Bloque[] = [
         que a ti hoy te cuesta desarmar.
       </>
     ),
-    cuerpoMov: (
-      <>
-        Un competidor que nació después opera con una fracción de tu nómina. No
-        es más inteligente: <strong>nunca construyó los procesos fósiles</strong>{" "}
-        que a ti hoy te cuesta desarmar.
-      </>
-    ),
+    cuerpoMov: null,
   },
 ];
 
@@ -163,8 +151,14 @@ export function S5Asimetria() {
                 </h3>
                 <p className="s5-sub">{b.sub}</p>
                 <p className="s5-cuerpo">
-                  <span className="s5-desk">{b.cuerpoDesk}</span>
-                  <span className="s5-mov">{b.cuerpoMov}</span>
+                  {b.cuerpoMov ? (
+                    <>
+                      <span className="s5-desk">{b.cuerpoDesk}</span>
+                      <span className="s5-mov">{b.cuerpoMov}</span>
+                    </>
+                  ) : (
+                    b.cuerpoDesk
+                  )}
                 </p>
               </div>
             </li>

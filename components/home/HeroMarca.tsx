@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 // ─── Héroe del Home de marca ─────────────────────────────────────────────────
@@ -12,15 +13,36 @@ const VIDEO = "/video/hero-yeti-red-neuronal.mp4";
 const POSTER = "/video/hero-yeti-red-neuronal-poster.jpg";
 
 const NAV_LINKS = [
-  { label: "La tesis", href: "#tesis" },
+  { label: "El marco", href: "/tesis" },
   { label: "Las 3 capas", href: "#capas" },
   { label: "SOI", href: "#soi" },
-  { label: "Resultados", href: "#resultados" },
+  // Restaurar "Resultados" (#resultados) en nav al reactivar S8
   { label: "Contacto", href: "#contacto" },
 ];
 
 export function HeroMarca() {
   const reducedMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // iOS puede bloquear el autoplay (Low Power Mode, o si la propiedad muted
+  // no está seteada al momento del intento) y muestra el botón de play.
+  // Fix: asegurar muted como PROPIEDAD y llamar play() al montar, con
+  // reintento en la primera interacción.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || reducedMotion) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    const intentar = () => v.play().catch(() => {});
+    intentar();
+    const alTocar = () => intentar();
+    window.addEventListener("touchstart", alTocar, { once: true, passive: true });
+    window.addEventListener("click", alTocar, { once: true });
+    return () => {
+      window.removeEventListener("touchstart", alTocar);
+      window.removeEventListener("click", alTocar);
+    };
+  }, [reducedMotion]);
 
   return (
     <section id="criterio-escaso" className="hm-section" aria-label="Yeti BI — Ingeniería de procesos en la era de la IA">
@@ -30,7 +52,9 @@ export function HeroMarca() {
         <img className="hm-video" src={POSTER} alt="" aria-hidden="true" />
       ) : (
         <video
+          ref={videoRef}
           className="hm-video"
+          src={VIDEO}
           autoPlay
           muted
           loop
@@ -38,9 +62,7 @@ export function HeroMarca() {
           preload="metadata"
           poster={POSTER}
           aria-hidden="true"
-        >
-          <source src={VIDEO} type="video/mp4" />
-        </video>
+        />
       )}
 
       {/* Gradientes de legibilidad (inferior + viñeta) */}

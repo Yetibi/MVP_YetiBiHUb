@@ -65,11 +65,11 @@ const dmSerif = DM_Serif_Display({
 export const metadata: Metadata = {
   metadataBase: new URL("https://yetibi.com"),
   title: {
-    default: "Yeti BI — Ingeniería de procesos en la era de la IA",
+    default: "Yeti BI — Primero el proceso, después la IA",
     template: "%s | Yeti BI",
   },
   description:
-    "Convertimos operaciones de pymes en sistemas inteligentes: primero el proceso, después la herramienta. Medellín, Colombia.",
+    "Ingeniería de procesos y datos que termina en impacto financiero, no en horas ahorradas. Medellín, Colombia.",
   keywords: [
     "ingeniería de procesos",
     "IA para pymes Colombia",
@@ -83,16 +83,16 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "https://yetibi.com",
     siteName: "Yeti BI",
-    title: "Yeti BI — Ingeniería de procesos en la era de la IA",
+    title: "Yeti BI — Primero el proceso, después la IA",
     description:
-      "Convertimos operaciones de pymes en sistemas inteligentes: primero el proceso, después la herramienta.",
+      "Ingeniería de procesos y datos que termina en impacto financiero, no en horas ahorradas.",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yeti BI — Ingeniería de procesos en la era de la IA",
+    title: "Yeti BI — Primero el proceso, después la IA",
     description:
-      "Primero el proceso, después la herramienta. Medellín, Colombia.",
+      "Ingeniería de procesos y datos que termina en impacto financiero, no en horas ahorradas. Medellín, Colombia.",
     images: ["/og-image.png"],
   },
   alternates: { canonical: "https://yetibi.com" },

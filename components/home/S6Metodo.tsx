@@ -47,7 +47,8 @@ const easeOut = (t: number) => 1 - Math.pow(1 - t, 4);
 export function S6Metodo() {
   const reduced = useReducedMotion();
   const [visible, setVisible] = useState(false);
-  const [cifra, setCifra] = useState(0);
+  // SSR y sin-JS muestran el valor final; el conteo es solo visual en cliente
+  const [cifra, setCifra] = useState(55);
   const [vsListo, setVsListo] = useState(false);
   const fired = useRef(false);
   const secRef = useRef<HTMLElement>(null);
@@ -71,7 +72,7 @@ export function S6Metodo() {
     return () => observer.disconnect();
   }, []);
 
-  // Contador 0 → 55 en 900ms
+  // Contador 0 → 55 en 900ms (solo visual; el DOM inicial ya dice 55)
   useEffect(() => {
     if (!visible) return;
     if (reduced) {
@@ -79,6 +80,7 @@ export function S6Metodo() {
       setVsListo(true);
       return;
     }
+    setCifra(0);
     let raf: number;
     const t0 = performance.now();
     const tick = (t: number) => {

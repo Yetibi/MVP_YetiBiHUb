@@ -105,14 +105,8 @@ export function S4Criterio() {
             </strong>
           </p>
           <p>
-            <span className="s4-desk">
-              Pero un paso solo opera en piloto automático si pasa el filtro
-              completo.{" "}
-            </span>
-            <span className="s4-mov">
-              Un paso solo opera en piloto automático si pasa el filtro
-              completo.{" "}
-            </span>
+            Pero un paso solo opera en piloto automático si pasa el filtro
+            completo.{" "}
             <strong style={{ color: "#F2F6F9", fontWeight: 500 }}>
               Un solo SÍ obliga a mantener a una persona en el flujo.
             </strong>

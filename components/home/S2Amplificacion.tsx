@@ -84,10 +84,7 @@ export function S2Amplificacion() {
         <div className="s2-split">
           {/* Ancha: el músculo */}
           <div>
-            <p className="s2-tag">
-              <span className="s2-desk">EL MÚSCULO TRANSACCIONAL</span>
-              <span className="s2-mov">MÚSCULO TRANSACCIONAL</span>
-            </p>
+            <p className="s2-tag">EL MÚSCULO TRANSACCIONAL</p>
             <div className="s2-desk">
               <p className="s2-txt">
                 Consolidar, extraer y procesar datos dispersos entre sistemas
@@ -107,10 +104,7 @@ export function S2Amplificacion() {
 
           {/* Angosta: la semilla — poco espacio, mucha densidad */}
           <div className="s2-caja">
-            <p className="s2-tag acc">
-              <span className="s2-desk">LA SEMILLA DEL CRITERIO</span>
-              <span className="s2-mov">SEMILLA DEL CRITERIO</span>
-            </p>
+            <p className="s2-tag acc">LA SEMILLA DEL CRITERIO</p>
             <div className="s2-desk">
               <p className="s2-txt">
                 El juicio, la visión sistémica y la responsabilidad no se

@@ -26,6 +26,7 @@ export default function Home() {
           <S6Metodo />
           <S7Soi />
           {/* S8 oculta hasta definir casos publicables — no borrar */}
+          {/* Restaurar "Resultados" en nav al reactivar S8 */}
           {/* <S8Evidencia /> */}
           <S9Acceso />
         </div>
