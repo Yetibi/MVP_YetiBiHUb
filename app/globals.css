@@ -868,3 +868,131 @@ textarea:focus-visible {
   .s2-pie { font-size: 9px; margin-top: 10px; }
   .s2-cita { font-size: 16px; padding: 12px 14px; margin-top: 18px; }
 }
+
+/* ── S3 · El sistema de decisión (estratos) ──────────────────────────────────
+   Frase madre + 3 capas como lista ordenada. Móvil: dos pantallas máximo,
+   tarjetas compactas (.s3-desk/.s3-mov). */
+.s3-mov { display: none; }
+.s3-madre { max-width: 900px; margin: 0 auto 26px; text-align: center; }
+.s3-puente {
+  font-family: var(--font-inter);
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: #8B95A5;
+  max-width: 720px;
+  margin: 0 auto 64px;
+  text-align: center;
+}
+.s3-puente p { margin: 0 0 14px; }
+.s3-puente p:last-child { margin-bottom: 0; }
+.s3-puente strong { color: #F2F6F9; font-weight: 500; }
+.s3-estratos { display: grid; grid-template-columns: 96px 1fr; }
+.s3-eje {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+.s3-eje span[data-rol="etiqueta"] {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  letter-spacing: .22em;
+  color: #8B95A5;
+  writing-mode: vertical-rl;
+}
+.s3-eje-linea {
+  flex: 1;
+  width: 1px;
+  margin: 14px 0;
+  background: linear-gradient(180deg, #4FD1E0, var(--salmon));
+  transform-origin: top;
+}
+.s3-lista {
+  list-style: none;
+  margin: 0 0 0 34px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.s3-card {
+  border-left: 3px solid;
+  border-radius: 0 5px 5px 0;
+  padding: 22px 26px;
+}
+.s3-card .lbl {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.s3-card h3 {
+  font-family: var(--font-space-grotesk);
+  font-weight: 700;
+  font-size: 23px;
+  color: #F2F6F9;
+  margin: 0 0 4px;
+}
+.s3-card .preg {
+  font-family: var(--font-space-grotesk);
+  font-weight: 300;
+  font-size: 16px;
+  margin: 0 0 14px;
+}
+.s3-card .conse {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: #8B95A5;
+  margin: 0 0 6px;
+}
+.s3-card .cuerpo {
+  font-family: var(--font-inter);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #8B95A5;
+  margin: 0;
+}
+.s3-cierre {
+  background: #1C2836;
+  border: 1px solid rgba(242,143,107,.22);
+  border-radius: 5px;
+  padding: 28px 32px;
+  max-width: 900px;
+  margin-top: 56px;
+  font-family: var(--font-space-grotesk);
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 1.4;
+  color: #F2F6F9;
+}
+.s3-cierre strong { color: var(--salmon); font-weight: 600; }
+.s3-cierre-pie {
+  font-family: var(--font-geist-mono);
+  font-size: 10.5px;
+  letter-spacing: .18em;
+  color: #8B95A5;
+  margin: 14px 0 0;
+}
+.s3-salida { display: flex; align-items: baseline; gap: 28px; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+  .s3-desk { display: none; }
+  .s3-mov { display: block; }
+  span.s3-mov { display: inline; }
+  .s3sec.hs-section { padding: 56px 0; }
+  .s3-madre h2 { font-size: 26px !important; }
+  .s3-madre .sub { font-size: 16px !important; }
+  .s3-puente { font-size: 14px; margin-bottom: 36px; }
+  .s3-estratos { grid-template-columns: 1fr; }
+  .s3-eje { display: none; }
+  .s3-lista { margin-left: 0; gap: 10px; }
+  .s3-card { padding: 14px 16px; }
+  .s3-card h3 { font-size: 20px; }
+  .s3-card .preg { font-size: 14px; margin-bottom: 8px; }
+  .s3-card .cuerpo { font-size: 13px; line-height: 1.5; }
+  .s3-cierre { font-size: 17px; padding: 16px 18px; margin-top: 30px; }
+  .s3-salida { gap: 10px; }
+}
