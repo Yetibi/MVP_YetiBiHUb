@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display, Roboto_Condensed, Roboto, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display, Roboto_Condensed, Roboto, JetBrains_Mono, Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,6 +44,13 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
   weight: ["300", "500", "700"],
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -112,7 +119,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} ${robotoCondensed.variable} ${roboto.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} ${robotoCondensed.variable} ${roboto.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
       <body className={`${playfair.variable} ${dmSerif.variable} min-h-full flex flex-col`}>

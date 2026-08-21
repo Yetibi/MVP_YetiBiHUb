@@ -23,7 +23,7 @@ export function HeroMarca() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section className="hm-section" aria-label="Yeti BI — Ingeniería de procesos en la era de la IA">
+    <section id="criterio-escaso" className="hm-section" aria-label="Yeti BI — Ingeniería de procesos en la era de la IA">
       {/* Fondo: video (o poster estático con movimiento reducido) */}
       {reducedMotion ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -80,7 +80,7 @@ export function HeroMarca() {
 
       {/* Kicker */}
       <p className="hm-kicker">
-        INGENIERÍA DE PROCESOS · ERA DE LA <span className="hm-ia">IA</span>
+        PRIMERO EL PROCESO · DESPUÉS LA <span className="hm-ia">IA</span>
       </p>
 
       {/* Titular */}
