@@ -53,14 +53,14 @@ export function S4Criterio() {
   const mostrar = reduced || visible;
 
   const lineaStyle: CSSProperties = {
-    ["--s4-run" as string]: mostrar ? "120px" : "0px",
+    ["--s4-run" as string]: mostrar ? "140px" : "0px",
     ["--s4-run-v" as string]: mostrar ? "130px" : "0px",
-    transition: reduced ? "none" : `width .7s ${EASE}, height .7s ${EASE}`,
+    transition: reduced ? "none" : `width .9s ${EASE}, height .9s ${EASE}`,
   };
 
   const frenoStyle: CSSProperties = {
     opacity: mostrar ? 1 : 0,
-    transition: reduced ? "none" : "opacity .2s ease 650ms",
+    transition: reduced ? "none" : "opacity .2s ease 820ms",
   };
 
   const veredictoStyle = (i: number): CSSProperties => ({
@@ -68,7 +68,7 @@ export function S4Criterio() {
     transform: mostrar ? "translateY(0)" : "translateY(6px)",
     transition: reduced
       ? "none"
-      : `opacity .4s ${EASE} ${900 + i * 120}ms, transform .4s ${EASE} ${900 + i * 120}ms`,
+      : `opacity .4s ${EASE} ${1100 + i * 120}ms, transform .4s ${EASE} ${1100 + i * 120}ms`,
   });
 
   return (

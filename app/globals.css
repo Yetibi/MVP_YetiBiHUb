@@ -1054,17 +1054,17 @@ textarea:focus-visible {
   line-height: 1.6;
   color: #8B95A5;
   max-width: 680px;
-  margin: 0 0 44px;
+  margin: 0 0 56px;
 }
-.s4-cuerpo p { margin: 0 0 12px; }
+.s4-cuerpo p { margin: 0 0 16px; }
 .s4-cuerpo p:last-child { margin-bottom: 0; }
 .s4-zona { position: relative; }
 .s4-linea {
   position: absolute;
   background: var(--salmon);
   height: 2px;
-  top: -10px;
-  left: -120px;
+  top: -1px;
+  left: 0;
   width: var(--s4-run, 0px);
 }
 .s4-freno {
@@ -1072,8 +1072,8 @@ textarea:focus-visible {
   background: var(--salmon);
   width: 2px;
   height: 14px;
-  top: -16px;
-  left: -1px;
+  top: -8px;
+  left: 139px;
 }
 .s4-lista { list-style: none; margin: 0; padding: 0; }
 .s4-card {
@@ -1123,12 +1123,12 @@ textarea:focus-visible {
   background: transparent;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 10px;
   text-decoration: none;
-  padding: 24px;
-  text-align: center;
+  padding: 20px;
+  text-align: left;
   transition: border-color .2s ease;
 }
 .s4-link:hover { border-color: rgba(79,209,224,.45); }
@@ -1145,7 +1145,7 @@ textarea:focus-visible {
   border-radius: 5px;
   padding: 24px 28px;
   max-width: 780px;
-  margin-top: 52px;
+  margin-top: 56px;
   font-family: var(--font-space-grotesk);
   font-weight: 400;
   font-size: 22px;
@@ -1157,10 +1157,16 @@ textarea:focus-visible {
   .s4-desk { display: none; }
   .s4-mov { display: block; }
   span.s4-mov { display: inline; }
-  .s4sec.hs-section { padding: 52px 0; }
-  .s4sec .hs-h2 { font-size: 26px; }
-  .s4sec .hs-bajada { font-size: 14px; margin-bottom: 20px; }
-  .s4-cuerpo { font-size: 14px; margin-bottom: 26px; }
+  .s4sec.hs-section { padding: 36px 0; }
+  .s4sec .hs-kicker { margin-bottom: 10px; }
+  .s4sec .hs-h2 { font-size: 24px; margin-bottom: 10px; }
+  .s4sec .hs-bajada { font-size: 13.5px; line-height: 1.5; margin-bottom: 14px; }
+  .s4-cuerpo { font-size: 13.5px; line-height: 1.5; margin-bottom: 20px; }
+  .s4-cuerpo p { margin-bottom: 8px; }
+  .s4-body { display: none; }
+  .s4-preg { font-size: 15px; margin-bottom: 10px; }
+  .s4-lbl { margin-bottom: 6px; }
+  .s4-veredicto { padding-top: 8px; }
   .s4-linea {
     top: -130px;
     left: -9px;
@@ -1173,8 +1179,19 @@ textarea:focus-visible {
     width: 14px;
     height: 2px;
   }
-  .s4-lista { gap: 12px; }
-  .s4-card { padding: 14px 16px; }
-  .s4-cierre { font-size: 17px; padding: 16px 18px; margin-top: 28px; }
-  .s4sec .hs-apertura { font-size: 15px; margin-top: 28px; }
+  .s4-lista { gap: 8px; }
+  .s4-card { padding: 12px 14px; }
+  .s4-link { padding: 12px 14px; }
+  .s4-cierre { font-size: 14.5px; line-height: 1.4; padding: 12px 14px; margin-top: 16px; }
+  .s4sec .hs-apertura { font-size: 14px; margin-top: 16px; }
+}
+
+/* S4 · ajustes de composición (desktop) */
+@media (min-width: 769px) {
+  .s4sec .hs-kicker { margin-bottom: 20px; }
+  .s4sec .hs-h2 { font-size: 39px; max-width: 960px; margin-bottom: 24px; }
+  .s4sec .hs-bajada { margin-bottom: 40px; }
+  .s4sec .hs-apertura { margin-top: 40px; }
+  /* Pista de la línea: la fila se indenta 140px y la línea frena CONTRA la Tarjeta 1 */
+  .s4-lista { margin-left: 140px; }
 }
