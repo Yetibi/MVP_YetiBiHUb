@@ -161,25 +161,37 @@ export function S6Metodo() {
 
         {/* Bloque de prueba — el único dato duro de la página */}
         <div className="s6-prueba">
-          <div aria-live="off">
-            <p className="s6-cifra" aria-hidden="true" style={{ margin: 0 }}>
-              {cifra}%
-            </p>
-            <span className="sr-only">55%</span>
-            <p
-              className="s6-vs"
+          <div className="s6-cifras" aria-live="off">
+            <div>
+              <p className="s6-cifra" aria-hidden="true" style={{ margin: 0 }}>
+                {cifra}%
+              </p>
+              <span className="sr-only">55%</span>
+              <p className="s6-cifra-lbl">CON IMPACTO REAL</p>
+            </div>
+            <span
+              className="s6-div"
+              aria-hidden="true"
               style={{
-                margin: 0,
+                opacity: vsListo ? 1 : 0,
+                transition: reduced ? "none" : `opacity .4s ${EASE}`,
+              }}
+            />
+            <div
+              style={{
                 opacity: vsListo ? 1 : 0,
                 transition: reduced ? "none" : `opacity .4s ${EASE}`,
               }}
             >
-              vs 20%
-            </p>
+              <p className="s6-veinte" style={{ margin: 0 }}>
+                20%
+              </p>
+              <p className="s6-cifra-lbl">EL RESTO</p>
+            </div>
           </div>
           <p className="s6-prueba-texto">
-            De las empresas que logran impacto real con IA, el 55% rediseñó sus
-            procesos de fondo. Entre las demás, solo el 20%.
+            De las empresas que logran impacto real con IA, la mayoría rediseñó
+            sus procesos de fondo. Entre las demás, solo una de cada cinco.
           </p>
           <p className="s6-fuente">
             MCKINSEY · THE STATE OF AI 2025: AGENTS, INNOVATION, AND

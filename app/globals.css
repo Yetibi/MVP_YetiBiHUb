@@ -621,7 +621,15 @@ textarea:focus-visible {
 .hs-bg-noche { background: #0B1420; }
 .hs-bg-acero { background: #1C2836; }
 .hs-bg-acero2 { background: #141F2E; }
-.hs-wrap { width: min(1480px, 92%); margin-inline: auto; padding: 0; }
+:root { --rail: 0px; }
+@media (min-width: 1000px) { :root { --rail: 118px; } }
+/* Centrado en el espacio RESTANTE (el main ya desplaza el ancho del raíl);
+   el término 100% evita desbordar por el ancho del scrollbar */
+.hs-wrap {
+  width: min(1480px, calc((100vw - var(--rail)) * 0.92), 100%);
+  margin-inline: auto;
+  padding: 0;
+}
 .hs-kicker {
   font-family: var(--font-geist-mono);
   font-size: 10.5px;
@@ -1357,9 +1365,10 @@ textarea:focus-visible {
   margin: 48px 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
+.s6-dim:last-child { grid-column: 1 / -1; }
 .s6-acceso {
   grid-column: 1 / -1;
   background: #1C2836;
@@ -1419,8 +1428,10 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 40px;
-  align-items: center;
+  align-items: start;
 }
+.s6-cifras { display: flex; align-items: flex-end; gap: 22px; }
+.s6-cifras > div { display: flex; flex-direction: column; }
 .s6-cifra {
   font-family: var(--font-space-grotesk);
   font-weight: 700;
@@ -1428,12 +1439,25 @@ textarea:focus-visible {
   line-height: 1;
   color: var(--salmon);
 }
-.s6-vs {
+.s6-veinte {
   font-family: var(--font-space-grotesk);
   font-weight: 400;
-  font-size: 30px;
+  font-size: 44px;
+  line-height: 1;
   color: #8B95A5;
-  margin-top: 6px;
+}
+.s6-div {
+  width: 1px;
+  height: 48px;
+  background: rgba(139,149,165,.3);
+  align-self: center;
+}
+.s6-cifra-lbl {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  letter-spacing: .16em;
+  color: #8B95A5;
+  margin: 8px 0 0;
 }
 .s6-prueba-texto {
   font-family: var(--font-space-grotesk);
@@ -1448,7 +1472,7 @@ textarea:focus-visible {
   font-size: 9.5px;
   letter-spacing: .12em;
   color: #8B95A5;
-  margin: 14px 0 0;
+  margin: 28px 0 0;
   grid-column: 1 / -1;
 }
 
@@ -1478,7 +1502,7 @@ textarea:focus-visible {
   .s6sec.hs-section { padding: 36px 0; }
   .s6sec .hs-kicker { margin-bottom: 12px; }
   .s6sec .hs-h2 { font-size: clamp(24px, 2.3vw, 34px) !important; margin-bottom: 12px; }
-  .s6sec .hs-bajada { font-size: 14.5px; margin-bottom: 12px; }
+  .s6sec .hs-bajada { font-size: 14.5px; max-width: 76ch; margin-bottom: 12px; }
   .s6sec .hs-seq { margin-top: 16px !important; margin-bottom: 0; }
   .s6-secuencia-nota { margin-top: 10px; font-size: 14.5px; }
   .s6-dims { margin-top: 14px; gap: 8px; }
