@@ -94,6 +94,8 @@
   --accent-foreground: #F2F6F9;
   --warning: #F28F6B;                        /* naranja Andon — tensión / fuga / CTA */
   --warning-hover: #D9714C;                  /* ocre — hover/activo del naranja */
+  --naranja: #F2921D;                        /* naranja botón — 7.8:1 sobre noche */
+  --noche: #0B1420;                          /* texto sobre naranja sólido (7.8:1) */
   --morado: #A78BC4;                         /* morado — ruta opcional IA en el flujo */
   --destructive: oklch(0.62 0.22 25);
   --border: rgba(79, 209, 224, 0.16);        /* línea cian */
@@ -193,60 +195,43 @@ textarea:focus-visible {
   h2, h3 { text-wrap: pretty; }
 }
 
-/* ── Botón primario teal vivo con hover teal oscuro (prueba) ── */
+/* ── Botón Yeti — estilo traslúcido unificado ─────────────────
+   Una sola fuente de verdad para TODOS los CTAs del sitio:
+   · .btn-yeti    = solo la piel (fondo/borde/texto/hover); cada botón
+     conserva su propio tamaño, padding y tipografía.
+   · .btn-primary = piel + tipografía/padding de CTA estándar.
+   Normal: naranja tenue traslúcido · Hover: se llena de naranja sólido
+   con texto noche (7.8:1 AAA en ambos estados). */
+.btn-yeti,
+.btn-primary {
+  background: rgba(242, 146, 29, 0.06);
+  border: 1px solid rgba(242, 146, 29, 0.5);
+  color: var(--naranja);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-yeti:hover:not(:disabled),
+.btn-yeti:active:not(:disabled),
+.btn-primary:hover:not(:disabled),
+.btn-primary:active:not(:disabled) {
+  background: var(--naranja);
+  border-color: var(--naranja);
+  color: var(--noche);
+  transform: translateY(-1px);
+}
 .btn-primary {
   display: inline-block;
   padding: 12px 24px;
   border-radius: 4px;
-  color: var(--primary-foreground);
   text-transform: uppercase;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
   font-family: var(--font-space-grotesk), var(--font-geist-sans);
   text-decoration: none;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  cursor: pointer;
-  border: none;
   white-space: nowrap;
   min-height: 44px;
   align-items: center;
-}
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #00D4C6;
-  border-radius: 4px;
-  z-index: -2;
-}
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  background-color: #00A89D;
-  transition: all 0.3s ease;
-  border-radius: 4px;
-  z-index: -1;
-}
-.btn-primary:hover::before { width: 100%; }
-/* El hover rellena con ocre (#BF7A24): el texto sigue oscuro —
-   noche sobre ocre da 5.3:1 (AA); blanco fallaría */
-.btn-primary:hover { color: var(--primary-foreground) !important; }
-.btn-primary:active { color: var(--primary-foreground) !important; }
-/* Mobile: estado pressed/tap */
-@media (hover: none) {
-  .btn-primary:active::before { width: 100%; }
-  .btn-primary:active { color: var(--primary-foreground) !important; }
 }
 
 /* ── Cards de síntoma (sección El Problema) ──────────────────── */
@@ -379,9 +364,3 @@ textarea:focus-visible {
   scrollbar-width: none;
 }
 .chip-row::-webkit-scrollbar { display: none; }
-
-/* ── Submit del formulario de contacto ── */
-.form-submit:hover:not(:disabled),
-.form-submit:active:not(:disabled) {
-  background: #00A89D !important;
-}

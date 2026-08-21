@@ -374,24 +374,19 @@ export function ContactForm() {
                 type="submit"
                 disabled={formState === "submitting"}
                 aria-busy={formState === "submitting"}
-                className="form-submit disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-yeti disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   width: "100%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 10,
-                  background: "#00D4C6",
-                  color: "#0B1420",
                   fontFamily: "var(--font-space-grotesk), var(--font-geist-sans)",
                   fontWeight: 700,
                   fontSize: 15,
                   padding: "13px 20px",
                   minHeight: 48,
                   borderRadius: 8,
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "background 0.2s ease",
                 }}
               >
                 {formState === "submitting" ? (
@@ -402,8 +397,8 @@ export function ContactForm() {
                       style={{
                         width: 14,
                         height: 14,
-                        border: "2px solid rgba(11,20,32,0.3)",
-                        borderTopColor: "#0B1420",
+                        border: "2px solid rgba(242,146,29,0.3)",
+                        borderTopColor: "currentColor",
                         borderRadius: "50%",
                         animation: "spin 0.7s linear infinite",
                       }}

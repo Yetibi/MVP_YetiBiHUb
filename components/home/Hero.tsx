@@ -215,11 +215,6 @@ function Navbar() {
         <span className="sr-only"> (abre en nueva pestaña)</span>
       </a>
 
-      {/* El CTA del navbar es el único elemento coral grande permitido:
-         acento de conversión. El resto de .btn-primary ya es teal. */}
-      <style>{`
-        /* hereda el naranja de .btn-primary; sin overrides de color */
-      `}</style>
     </nav>
   );
 }

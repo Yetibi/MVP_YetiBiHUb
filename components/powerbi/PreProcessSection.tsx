@@ -441,11 +441,9 @@ export default function PreProcessSection() {
 
       <a
         href="/powerbi/formulario"
-        className="pre-process-cta relative inline-flex items-center overflow-hidden"
+        className="btn-yeti pre-process-cta relative inline-flex items-center overflow-hidden"
         style={{
           marginTop: 36,
-          backgroundColor: "#4FD1E0",
-          color: "#0B1420",
           padding: "14px 28px",
           fontSize: 13,
           fontWeight: 700,
@@ -457,18 +455,6 @@ export default function PreProcessSection() {
       </a>
 
       <style>{`
-        .pre-process-cta::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          width: 0%;
-          background-color: #3BB8C7;
-          transition: width 0.3s ease;
-          z-index: 0;
-        }
-        .pre-process-cta:hover::before {
-          width: 100%;
-        }
         .decision-nogo-card {
           opacity: 0.7;
           transition: opacity 0.3s ease;

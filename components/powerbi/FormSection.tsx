@@ -66,10 +66,8 @@ export default function FormSection() {
           <Link
             href="/powerbi/formulario"
             aria-label="Continuar con la evaluación de viabilidad"
-            className="form-section-cta relative inline-flex items-center justify-center overflow-hidden"
+            className="btn-yeti form-section-cta relative inline-flex items-center justify-center overflow-hidden"
             style={{
-              backgroundColor: "#00D4C6",
-              color: "#0B1420",
               padding: "14px 28px",
               fontSize: 13,
               fontWeight: 700,
@@ -115,18 +113,6 @@ export default function FormSection() {
       </div>
 
       <style>{`
-        .form-section-cta::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          width: 0%;
-          background-color: #3BB8C7;
-          transition: width 0.3s ease;
-          z-index: 0;
-        }
-        .form-section-cta:hover::before {
-          width: 100%;
-        }
         .form-section-cta:focus-visible {
           outline: 2px solid #4FD1E0;
           outline-offset: 2px;
