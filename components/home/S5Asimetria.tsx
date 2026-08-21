@@ -130,7 +130,7 @@ export function S5Asimetria() {
     <section id="asimetria" className="hs-section hs-bg-acero2 s5sec">
       <div className="hs-wrap">
         <p className="hs-kicker">LA ASIMETRÍA COMPETITIVA</p>
-        <h2 className="hs-h2" style={{ fontSize: "clamp(26px, 2.9vw, 42px)" }}>
+        <h2 className="hs-h2" style={{ fontSize: "clamp(24px, 2.4vw, 34px)" }}>
           La distancia con tu competencia no crece.{" "}
           <span className="acc">Se compone.</span>
         </h2>

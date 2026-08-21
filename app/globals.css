@@ -1304,3 +1304,41 @@ textarea:focus-visible {
   .s5-cierre h3 { font-size: 21px; }
   .s5-cierre p { font-size: 14px; margin-top: 14px; }
 }
+
+/* S5 compacto — sin desborde: cabe en una pantalla desktop, mínimo en móvil */
+@media (min-width: 769px) {
+  .s5sec.hs-section { padding: 44px 0; }
+  .s5sec .hs-kicker { margin-bottom: 12px; }
+  .s5sec .hs-h2 { margin-bottom: 10px; }
+  .s5sec .hs-bajada { font-size: 15px; margin-bottom: 18px; }
+  .s5-lista { margin-top: 16px; gap: 10px; }
+  .s5-bloque { padding: 14px 22px; gap: 18px; }
+  .s5-bloque h3 { font-size: 18px; margin-bottom: 2px; }
+  .s5-num { font-size: 28px; }
+  .s5-sub { font-size: 14px; margin-bottom: 6px; }
+  .s5-cuerpo { font-size: 13.5px; line-height: 1.5; }
+  .s5-cierre { padding: 18px 26px; margin-top: 18px; }
+  .s5-cierre h3 { font-size: 20px; }
+  .s5-cierre p { font-size: 14px; margin-top: 10px; }
+}
+@media (max-width: 768px) {
+  .s5sec.hs-section { padding: 30px 0; }
+  .s5sec .hs-kicker { margin-bottom: 8px; }
+  .s5sec .hs-h2 { font-size: 22px; margin-bottom: 6px; }
+  .s5sec .hs-bajada { font-size: 13px; line-height: 1.45; margin-bottom: 6px; }
+  .s5-lista { margin-top: 12px; gap: 8px; }
+  .s5-bloque { padding: 11px 13px; }
+  .s5-num-in { font-size: 20px; margin-right: 6px; }
+  .s5-bloque h3 { font-size: 15.5px; }
+  .s5-sub { font-size: 12px; margin: 4px 0 5px; }
+  .s5-cuerpo { font-size: 12.5px; line-height: 1.45; }
+  .s5-cierre { padding: 13px 15px; margin-top: 14px; }
+  .s5-cierre h3 { font-size: 16.5px; }
+  .s5-cierre p { font-size: 12.5px; line-height: 1.5; margin-top: 8px; }
+}
+
+/* S5 móvil — sacrificio #2 del spec: subtítulos en cursiva fuera */
+@media (max-width: 768px) {
+  .s5-sub { display: none; }
+  .s5-bloque h3 { display: block; margin-bottom: 5px; }
+}
