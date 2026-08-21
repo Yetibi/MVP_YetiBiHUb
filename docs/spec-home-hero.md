@@ -21,7 +21,7 @@ Reduced motion: hook cliente (`hooks/use-reduced-motion.ts`) decide `<video>`
 vs `<img>` poster — no solo CSS.
 
 ## Tokens
-Paleta Plano Glaciar + `--salmon: #E07B30` (acento del héroe — no el naranja
+Paleta Plano Glaciar + `--salmon: #F28F6B` (acento del héroe — no el naranja
 #F2921D de otras secciones). Cromática intencional: **cian = lo ya resuelto**,
 **salmón = el diferencial**.
 
@@ -33,13 +33,13 @@ Paleta Plano Glaciar + `--salmon: #E07B30` (acento del héroe — no el naranja
   hover nieve: La tesis `#tesis` · Las 3 capas `#capas` · SOI `#soi` ·
   Resultados `#resultados` · Contacto `#contacto`. Sin CTA.
 - Kicker: `top:76px` centrado — **Geist Mono 500 · 11px · ls .26em** uppercase
-  niebla; "IA" salmón + `text-shadow: 0 0 16px rgba(224,123,48,.4)`.
+  niebla; "IA" salmón + `text-shadow: 0 0 16px rgba(242,143,107,.4)`.
 - Titular: bloque `0 30px 64px`, max 1180px, Space Grotesk ls -.02em lh 1.1.
   - Línea A 26px/400 niebla: "Hoy, cuando **construir con IA es cada vez más
     fácil,**" (negrita = cian 600). Margen inferior 6px.
   - Línea B 50px/700 nieve: "lo escaso ya no es la herramienta.<br/>Es
     [el criterio] para usarla bien."
-  - "el criterio": salmón, `text-shadow 0 0 24px rgba(224,123,48,.45)`,
+  - "el criterio": salmón, `text-shadow 0 0 24px rgba(242,143,107,.45)`,
     inline-block `padding:2px 10px`, corchetes de esquina salmón vía
     `::before` (inf-izq) / `::after` (sup-der), 13px, trazo 2.5px, offset -4px.
 

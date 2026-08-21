@@ -97,7 +97,7 @@
   --naranja: #F2921D;                        /* naranja botón — 7.8:1 sobre noche */
   --noche: #0B1420;                          /* texto sobre naranja sólido (7.8:1) */
   --morado: #A78BC4;                         /* morado — ruta opcional IA en el flujo */
-  --salmon: #E07B30;                         /* salmón — acento del Home de marca (mismo de /powerbi mockup) */
+  --salmon: #F28F6B;                         /* salmón/coral — acento del Home de marca (el mismo coral de /powerbi) */
   --destructive: oklch(0.62 0.22 25);
   --border: rgba(79, 209, 224, 0.16);        /* línea cian */
   --input: rgba(79, 209, 224, 0.12);
@@ -449,7 +449,7 @@ textarea:focus-visible {
 }
 .hm-kicker .hm-ia {
   color: var(--salmon);
-  text-shadow: 0 0 16px rgba(224,123,48,.4);
+  text-shadow: 0 0 16px rgba(242,143,107,.4);
 }
 .hm-titular {
   position: absolute;
@@ -482,7 +482,7 @@ textarea:focus-visible {
 }
 .hm-criterio {
   color: var(--salmon);
-  text-shadow: 0 0 24px rgba(224,123,48,.45);
+  text-shadow: 0 0 24px rgba(242,143,107,.45);
   display: inline-block;
   padding: 2px 10px;
   position: relative;
