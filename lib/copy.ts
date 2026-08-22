@@ -10,42 +10,54 @@ import type {
   Falla,
 } from "@/types/aptitud";
 
+// Clave estable en snake_case (viaja a Supabase/webhook); la etiqueta visible
+// puede cambiar sin romper datos históricos. Alfabético, "Otro" siempre último.
 export const SECTORS = [
-  "Manufactura e industria",
-  "Comercio y retail",
-  "Servicios profesionales",
-  "Salud y ciencias de la vida",
-  "Educación",
-  "Construcción e inmobiliaria",
-  "Logística y transporte",
-  "Tecnología y software",
-  "Agropecuario",
-  "Financiero y seguros",
-  "Ong's y fundaciones",
-  "Otro",
+  { value: "agroindustria", label: "Agroindustria" },
+  { value: "alimentos_bebidas", label: "Alimentos y bebidas" },
+  { value: "belleza_bienestar", label: "Belleza y bienestar" },
+  { value: "comercio_retail", label: "Comercio y retail" },
+  { value: "construccion_inmobiliario", label: "Construcción e inmobiliario" },
+  { value: "educacion_formacion", label: "Educación y formación" },
+  { value: "logistica_transporte", label: "Logística y transporte" },
+  { value: "manufactura_produccion", label: "Manufactura y producción" },
+  { value: "ong_fundaciones", label: "ONG y fundaciones" },
+  { value: "salud_odontologia", label: "Salud y odontología" },
+  { value: "servicios_financieros", label: "Servicios financieros" },
+  { value: "servicios_profesionales", label: "Servicios profesionales" },
+  { value: "tecnologia_software", label: "Tecnología y software" },
+  { value: "turismo_hoteleria", label: "Turismo y hotelería" },
+  { value: "otro", label: "Otro" },
 ] as const;
 
 // ── Campos libres ──
+
+export const CAMPO_NOMBRE = {
+  label: "¿Cómo te llamas?",
+  placeholder: "Nombre y apellido",
+  min: 2,
+  max: 80,
+} as const;
 
 export const CAMPO_PROCESO = {
   label: "¿Qué proceso quieres evaluar, y para qué existe?",
   ayuda:
     "En una o dos frases. Ej.: 'Agendamiento de citas — para que ninguna silla se quede vacía'.",
   min: 10,
-  max: 300,
+  max: 800,
 } as const;
 
 export const CAMPO_EJECUCION = {
   label: "¿Quién lo ejecuta y con qué herramientas?",
   ayuda:
     "Personas, roles y lo que usan de verdad: Excel, WhatsApp, un sistema, papel.",
-  max: 300,
+  max: 800,
 } as const;
 
 export const CAMPO_EXPECTATIVA = {
   label: "¿Qué te gustaría que la IA hiciera en este proceso?",
   ayuda: "En tus palabras. No hay respuesta incorrecta.",
-  max: 300,
+  max: 800,
 } as const;
 
 // ── Opciones cerradas (discriminadores) ──
@@ -87,3 +99,25 @@ export const FALLA_OPTIONS: { value: Falla; label: string }[] = [
   { value: "repetido", label: "Se repite el mismo error aunque ya lo conocemos" },
   { value: "controlado", label: "Se detecta y corrige rápido; hay un responsable claro" },
 ];
+
+// ── Etiquetas legibles (FIX 4): la clave viaja a Supabase/motor; el correo
+// interno muestra la etiqueta que vio el usuario. ──
+export function etiquetasLegibles(v: {
+  senal: string | null;
+  dato: string | null;
+  frecuencia: string | null;
+  antiguedad: string | null;
+  falla: string | null;
+  sector: string;
+}) {
+  const de = (opts: readonly { value: string; label: string }[], val: string | null) =>
+    opts.find((o) => o.value === val)?.label ?? val ?? "";
+  return {
+    senal: de(SENAL_OPTIONS, v.senal),
+    dato: de(DATO_OPTIONS, v.dato),
+    frecuencia: de(FRECUENCIA_OPTIONS, v.frecuencia),
+    antiguedad: de(ANTIGUEDAD_OPTIONS, v.antiguedad),
+    falla: de(FALLA_OPTIONS, v.falla),
+    sector: de(SECTORS, v.sector || null),
+  };
+}

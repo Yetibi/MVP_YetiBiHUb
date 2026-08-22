@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { IntakeFormData, FormStep, StepDirection } from "@/types/intake";
-import { CAMPO_PROCESO } from "@/lib/copy";
+import { CAMPO_NOMBRE, CAMPO_PROCESO } from "@/lib/copy";
 import { submitIntake } from "@/lib/submit-intake";
 
 const initialData: IntakeFormData = {
@@ -14,6 +14,7 @@ const initialData: IntakeFormData = {
   antiguedad: null,
   falla: null,
   expectativaIa: "",
+  nombre: "",
   email: "",
   sector: "",
 };
@@ -54,7 +55,10 @@ export function useIntakeForm() {
       case 7:
         return data.expectativaIa.trim().length > 0;
       case 8:
-        return EMAIL_RE.test(data.email);
+        return (
+          data.nombre.trim().length >= CAMPO_NOMBRE.min &&
+          EMAIL_RE.test(data.email)
+        );
       default:
         return false;
     }

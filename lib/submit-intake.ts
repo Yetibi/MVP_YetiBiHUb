@@ -4,6 +4,7 @@ import {
   type IntakePayload,
 } from "@/app/actions/submit-intake";
 import { notifyWebhookAction } from "@/app/actions/notify-webhook";
+import { etiquetasLegibles } from "@/lib/copy";
 import type { IntakeFormData } from "@/types/intake";
 
 // ─── Envío del intake de Aptitud v1.0 ────────────────────────────────────────
@@ -18,6 +19,7 @@ export async function submitIntake(
   data: IntakeFormData
 ): Promise<SubmitResult> {
   const payload: IntakePayload = {
+    nombre: data.nombre,
     proceso: data.proceso,
     ejecucion: data.ejecucion,
     senal: data.senal,
@@ -42,6 +44,7 @@ export async function submitIntake(
 
   const { error: intakeError } = await supabase.from("intakes").insert({
     id: intakeId,
+    nombre: data.nombre.trim(),
     correo: data.email,
     proceso: data.proceso.trim(),
     ejecucion: data.ejecucion.trim(),
@@ -68,6 +71,7 @@ export async function submitIntake(
   // resultado (el cron rescata intakes huérfanos en "recibido").
   notifyWebhookAction({
     intakeId,
+    nombre: data.nombre.trim(),
     correo: data.email,
     proceso: data.proceso.trim(),
     ejecucion: data.ejecucion.trim(),
@@ -78,6 +82,14 @@ export async function submitIntake(
     falla: data.falla!,
     expectativa_ia: data.expectativaIa.trim(),
     sector: data.sector || null,
+    legible: etiquetasLegibles({
+      senal: data.senal,
+      dato: data.dato,
+      frecuencia: data.frecuencia,
+      antiguedad: data.antiguedad,
+      falla: data.falla,
+      sector: data.sector,
+    }),
   }).catch((err) =>
     console.error("[YetiBI] notifyWebhookAction lanzó excepción inesperada:", err)
   );

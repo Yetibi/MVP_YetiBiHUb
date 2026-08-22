@@ -9,6 +9,7 @@ import type { Senal, Dato, Frecuencia, Antiguedad, Falla } from "@/types/aptitud
 
 export interface WebhookPayload {
   intakeId: string;
+  nombre: string;
   correo: string;
   proceso: string;
   ejecucion: string;
@@ -19,6 +20,16 @@ export interface WebhookPayload {
   falla: Falla;
   expectativa_ia: string;
   sector: string | null;
+  /** Etiquetas legibles para la notificación interna (FIX 4) — la clave
+      cruda sigue viajando en los campos principales. */
+  legible: {
+    senal: string;
+    dato: string;
+    frecuencia: string;
+    antiguedad: string;
+    falla: string;
+    sector: string;
+  };
 }
 
 export async function notifyWebhookAction(

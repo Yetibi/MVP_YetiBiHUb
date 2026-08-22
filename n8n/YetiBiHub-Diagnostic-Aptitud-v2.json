@@ -36,7 +36,7 @@
     {
       "parameters": {
         "toRecipients": "data@yetibi.com",
-        "subject": "=🆕 Nuevo intake — Aptitud del Proceso · Yeti BI",
+        "subject": "=Nuevo intake — Evaluación de proceso · {{ $json.nombre }} · {{ $json.sectorLegible }}",
         "bodyContent": "={{ $json.mensajeTexto }}",
         "additionalFields": {}
       },
@@ -60,7 +60,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Formatea la notificación del intake — instrumento Aptitud v1.0\nconst body = $input.item.json.body || {};\n\nconst mensajeTexto = `🆕 Nuevo intake — Aptitud del Proceso para IA\n\n📧 Correo: ${body.correo || 'N/A'}\n🏢 Sector: ${body.sector || 'N/A'}\n\n🔧 Proceso: ${body.proceso || 'N/A'}\n👤 Quién lo ejecuta: ${body.ejecucion || 'N/A'}\n\n📡 Señal: ${body.senal || 'N/A'}\n💾 Dato: ${body.dato || 'N/A'}\n🔁 Frecuencia: ${body.frecuencia || 'N/A'} · Antigüedad: ${body.antiguedad || 'N/A'}\n⚠️ Falla: ${body.falla || 'N/A'}\n\n🤖 Expectativa de IA: ${body.expectativa_ia || 'N/A'}`;\n\nreturn [{ json: { mensajeTexto } }];"
+        "jsCode": "// Notificación interna del intake — etiquetas legibles (FIX 4)\nconst body = $input.item.json.body || {};\nconst l = body.legible || {};\n\nconst mensajeTexto = `Nuevo intake — Evaluación de proceso\n\nNombre: ${body.nombre || 'N/A'}\nCorreo: ${body.correo || 'N/A'}\nSector: ${l.sector || body.sector || 'N/A'}\n\nProceso: ${body.proceso || 'N/A'}\nQuién lo ejecuta: ${body.ejecucion || 'N/A'}\n\nSeñal: ${l.senal || body.senal || 'N/A'}\nDato: ${l.dato || body.dato || 'N/A'}\nFrecuencia: ${l.frecuencia || body.frecuencia || 'N/A'} · Antigüedad: ${l.antiguedad || body.antiguedad || 'N/A'}\nFalla: ${l.falla || body.falla || 'N/A'}\n\nExpectativa de IA: ${body.expectativa_ia || 'N/A'}`;\n\nreturn [{ json: { mensajeTexto, nombre: body.nombre || '', sectorLegible: l.sector || body.sector || '' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,

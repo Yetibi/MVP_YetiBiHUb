@@ -76,8 +76,16 @@ export function StepLibre({
               </motion.p>
             )}
           </AnimatePresence>
-          <span className="text-xs text-white/25 tabular-nums ml-auto">
-            {value.length}/{maxLength}
+          <span
+            className="text-xs tabular-nums ml-auto"
+            style={{
+              color:
+                value.length >= maxLength * 0.9
+                  ? "#F28F6B"
+                  : "rgba(255,255,255,0.25)",
+            }}
+          >
+            {value.length} / {maxLength}
           </span>
         </div>
       </div>

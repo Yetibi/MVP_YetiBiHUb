@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence, fadeIn } from "@/lib/motion";
-import { SECTORS } from "@/lib/copy";
+import { CAMPO_NOMBRE, SECTORS } from "@/lib/copy";
 import type { IntakeFormData, UpdateFn } from "@/types/intake";
 
 interface StepEmailProps {
@@ -15,6 +15,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function StepEmail({ data, update, showErrors }: StepEmailProps) {
   const emailInvalid = !EMAIL_RE.test(data.email);
+  const nombreInvalid = data.nombre.trim().length < CAMPO_NOMBRE.min;
 
   return (
     <section aria-labelledby="step8-title">
@@ -33,6 +34,41 @@ export function StepEmail({ data, update, showErrors }: StepEmailProps) {
       </p>
 
       <div className="space-y-8">
+        <div>
+          <label
+            htmlFor="nombre"
+            className="block text-sm font-medium text-white/80 mb-1.5"
+          >
+            {CAMPO_NOMBRE.label} *
+          </label>
+          <Input
+            id="nombre"
+            type="text"
+            autoComplete="name"
+            maxLength={CAMPO_NOMBRE.max}
+            value={data.nombre}
+            onChange={(e) => update("nombre", e.target.value)}
+            placeholder={CAMPO_NOMBRE.placeholder}
+            className="border-white/15 text-white placeholder:text-white/25 focus-visible:ring-(--primary)"
+            aria-required="true"
+            aria-invalid={showErrors && nombreInvalid}
+          />
+          <AnimatePresence>
+            {showErrors && nombreInvalid && (
+              <motion.p
+                variants={fadeIn}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="text-xs text-red-400 mt-1.5"
+                role="alert"
+              >
+                Escribe tu nombre para continuar.
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
+
         <div>
           <label
             htmlFor="email"
@@ -84,8 +120,8 @@ export function StepEmail({ data, update, showErrors }: StepEmailProps) {
           >
             <option value="">Selecciona tu sector…</option>
             {SECTORS.map((s) => (
-              <option key={s} value={s}>
-                {s}
+              <option key={s.value} value={s.value}>
+                {s.label}
               </option>
             ))}
           </select>

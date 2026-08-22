@@ -20,6 +20,7 @@ const ANTIGUEDADES: Antiguedad[] = ["reciente", "hace_anios", "fosil", "nunca"];
 const FALLAS: Falla[] = ["cada_quien", "tarde", "repetido", "controlado"];
 
 export interface IntakePayload {
+  nombre: string;
   proceso: string;
   ejecucion: string;
   senal: Senal | null;
@@ -39,13 +40,17 @@ export type ValidateActionResult =
 export async function validateIntakeAction(
   payload: IntakePayload
 ): Promise<ValidateActionResult> {
+  const nombre = payload.nombre?.trim() ?? "";
+  if (nombre.length < 2 || nombre.length > 80) {
+    return { valid: false, error: "Escribe tu nombre (entre 2 y 80 caracteres)." };
+  }
   const proceso = payload.proceso?.trim() ?? "";
-  if (proceso.length < 10 || proceso.length > 300) {
-    return { valid: false, error: "Describe el proceso (entre 10 y 300 caracteres)." };
+  if (proceso.length < 10 || proceso.length > 800) {
+    return { valid: false, error: "Describe el proceso (entre 10 y 800 caracteres)." };
   }
   const ejecucion = payload.ejecucion?.trim() ?? "";
-  if (!ejecucion || ejecucion.length > 300) {
-    return { valid: false, error: "Cuéntanos quién ejecuta el proceso (máx. 300 caracteres)." };
+  if (!ejecucion || ejecucion.length > 800) {
+    return { valid: false, error: "Cuéntanos quién ejecuta el proceso (máx. 800 caracteres)." };
   }
   if (!payload.senal || !SENALES.includes(payload.senal)) {
     return { valid: false, error: "Falta indicar cómo saben si el proceso sale bien." };
@@ -63,8 +68,8 @@ export async function validateIntakeAction(
     return { valid: false, error: "Falta indicar qué pasa cuando algo sale mal." };
   }
   const expectativa = payload.expectativaIa?.trim() ?? "";
-  if (!expectativa || expectativa.length > 300) {
-    return { valid: false, error: "Cuéntanos qué te gustaría que la IA hiciera (máx. 300 caracteres)." };
+  if (!expectativa || expectativa.length > 800) {
+    return { valid: false, error: "Cuéntanos qué te gustaría que la IA hiciera (máx. 800 caracteres)." };
   }
   if (!EMAIL_RE.test(payload.email)) {
     return { valid: false, error: "El correo no tiene un formato válido." };

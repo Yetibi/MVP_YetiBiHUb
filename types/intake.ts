@@ -35,6 +35,7 @@ export interface IntakeFormData {
   expectativaIa: string;
 
   // Paso 8 — captura
+  nombre: string;
   email: string;
   sector: string; // opcional, solo contexto
 }
