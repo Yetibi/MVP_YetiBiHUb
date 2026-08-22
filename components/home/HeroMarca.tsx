@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useId } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { BrandMark } from "@/components/BrandMark";
+import { SECCIONES_HOME } from "@/lib/home-sections";
 
 // ─── Héroe del Home de marca ─────────────────────────────────────────────────
 // Video protagonista (Yeti-constelación), nav mínima, kicker y titular.
@@ -13,12 +14,13 @@ import { BrandMark } from "@/components/BrandMark";
 const VIDEO = "/video/hero-yeti-red-neuronal.mp4";
 const POSTER = "/video/hero-yeti-red-neuronal-poster.jpg";
 
+// Las ocho secciones del Home, en orden de lectura, más el marco extendido
+// (/tesis), que es página aparte y por eso va al final. Antes esta lista era
+// propia y solo cubría 3 de las 8 secciones; ahora sale de la misma fuente
+// que el raíl de conceptos.
 const NAV_LINKS = [
+  ...SECCIONES_HOME.map((s) => ({ label: s.navLabel, href: `#${s.id}` })),
   { label: "El marco", href: "/tesis" },
-  { label: "Las 3 capas", href: "#capas" },
-  { label: "SOI", href: "#soi" },
-  // Restaurar "Resultados" (#resultados) en nav al reactivar S8
-  { label: "Contacto", href: "#contacto" },
 ];
 
 export function HeroMarca() {
