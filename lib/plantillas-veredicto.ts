@@ -5,7 +5,7 @@ import type { Patologia, Severidad } from "@/types/aptitud";
 // la glosa y la línea de tensión NUNCA cambian — son parte del instrumento.
 
 export interface PlantillaVeredicto {
-  etiqueta: string;      // "VEREDICTO: X" — debe aparecer literal en el cuerpo
+  etiqueta: string;      // "DIAGNÓSTICO: X" — debe aparecer literal en el cuerpo
   glosa: string;         // explicación llana fija, pegada a la etiqueta
   lineaTension: string;  // el cierre fijo antes de la invitación
   guiaContraste: string; // instrucción al redactor para el párrafo 2
@@ -28,13 +28,15 @@ Lo que encontramos:
 
 [LÍNEA DE TENSIÓN]
 
-Si quieres saber qué tan grande es la fuga y cómo se cierra, esa es una conversación de diagnóstico — y es con nosotros: responde este correo, o conoce cómo trabajamos en https://yetibi.com.
+{{pregunta específica del caso — casi siempre sobre la reasignación: ¿a qué se va a reasignar el tiempo que este proceso concreto liberaría? Nunca genérica. Sin mencionar fuga, costo ni cifras.}}
 
-Yeti BI · Ingeniería operacional`;
+Responde este correo, o yetibi.com.
+
+Yeti BI · Ingeniería de procesos y datos`;
 
 export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
   inercia_activa: {
-    etiqueta: "VEREDICTO: INERCIA ACTIVA",
+    etiqueta: "DIAGNÓSTICO: INERCIA ACTIVA",
     glosa:
       "tu proceso sigue ejecutándose igual aunque el contexto para el que fue diseñado ya cambió.",
     lineaTension:
@@ -43,7 +45,7 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
       "La expectativa de IA del usuario aceleraría un diseño que nadie ha cuestionado en años; antes de amplificar, hay que preguntarse qué merece existir.",
   },
   ghost_data: {
-    etiqueta: "VEREDICTO: GHOST DATA",
+    etiqueta: "DIAGNÓSTICO: GHOST DATA",
     glosa:
       "tu operación cree tener datos de este proceso, pero nunca se registraron de forma que algo pueda aprender de ellos.",
     lineaTension:
@@ -52,7 +54,7 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
       "Lo que quiere que la IA haga presupone historia registrada; su propia respuesta ('en la cabeza de quien lo hace' / 'papel, WhatsApp, correos') muestra que esa historia no está en ningún lado consultable.",
   },
   patchwork: {
-    etiqueta: "VEREDICTO: PATCHWORK DE SISTEMAS",
+    etiqueta: "DIAGNÓSTICO: PATCHWORK DE SISTEMAS",
     glosa:
       "el dato existe, pero vive repartido en piezas que no se hablan — y una persona lo reconcilia a mano antes de cada decisión.",
     lineaTension:
@@ -61,7 +63,7 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
       "Su expectativa exige una fuente única de verdad (un solo lugar donde vive el dato oficial); hoy hay varias verdades parciales que alguien cruza a mano.",
   },
   variabilidad_artesanal: {
-    etiqueta: "VEREDICTO: VARIABILIDAD ARTESANAL",
+    etiqueta: "DIAGNÓSTICO: VARIABILIDAD ARTESANAL",
     glosa:
       "cada persona ejecuta el proceso a su manera — no hay un estándar del que la máquina pueda aprender ni contra el cual vigilar desviaciones.",
     lineaTension:
@@ -70,7 +72,7 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
       "Su expectativa presupone un 'modo correcto' definido; su respuesta 'cada quien lo resuelve a su manera' muestra que ese modo no existe todavía por escrito.",
   },
   fuga_de_decision: {
-    etiqueta: "VEREDICTO: FUGA DE DECISIÓN",
+    etiqueta: "DIAGNÓSTICO: FUGA DE DECISIÓN",
     glosa:
       "tu proceso camina y el dato existe — la pérdida está en el tiempo que tarda la señal en llegar a quien decide.",
     lineaTension:
