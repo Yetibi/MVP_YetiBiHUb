@@ -255,6 +255,13 @@ export async function POST(req: NextRequest) {
     intakeId: diagAnterior.intake_id,
     version: nuevaVersion,
     patologia: clasif.patologia,
+    severidad: clasif.severidad,
+    indicacionAjuste,
+    respuestasLibres: {
+      proceso: intake.proceso,
+      ejecucion: intake.ejecucion,
+      expectativa_ia: intake.expectativa_ia,
+    },
     asunto: resultado.veredicto.asunto,
     cuerpoTexto: resultado.veredicto.cuerpo_texto,
     cuerpoHtml: resultado.veredicto.cuerpo_html,
