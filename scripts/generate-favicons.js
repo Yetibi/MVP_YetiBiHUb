@@ -8,9 +8,11 @@ const input = path.join(__dirname, '../public/brand/appicon-512.png');
 const publicDir = path.join(__dirname, '../public');
 
 // favicon.ico, favicon-16x16, favicon-32x32 y apple-touch-icon NO se generan
-// aquí: el kit-web ya los trae en los tamaños exactos, ajustados a mano para
-// que el símbolo siga legible en tamaños mínimos. Reescalarlos desde 512
-// los empastaría.
+// aquí ni salen del símbolo horizontal completo: a 16px esa banda se deshace
+// (casi todo quedaba fondo #0B1420 y la tinta era ilegible). Usan una marca
+// mínima dedicada — el chevron de salida (cian) + la cola (naranja) sobre la
+// caja noche — que sí sobrevive a 16px. Fuente vectorial en
+// public/brand/_src/favicon-square.svg (y favicon-rounded.svg para apple-touch).
 
 async function generate() {
   // icon-192 para Android
@@ -24,10 +26,13 @@ async function generate() {
   console.log('✓ Íconos PWA regenerados en /public');
 }
 
-// PENDIENTE — og-image.png. La versión anterior se componía acá con sharp:
-// fondo #2E2640 + el cartoon + un wordmark "YETI BI" en sans-serif genérica.
-// Ese wordmark no es el del sitio (sin punto medio cian, naranja viejo #E07B30)
-// y el fondo tampoco es el de Plano Glaciar. El kit-web no incluye un
-// og-image 1200x630, así que la composición quedó sin resolver a propósito.
+// og-image.png (1200x630) — RESUELTO. Ya no es el composite viejo (fondo
+// #2E2640 + cartoon + wordmark sans genérico). Ahora es una composición de
+// marca: fondo Plano Glaciar #0B1420, el símbolo a color, el wordmark del
+// sitio YETI·BI como TEXTO (punto medio cian #4FD1E0, BI naranja #E07B30, en
+// Space Grotesk) y la tagline — sin caricatura y sin el wordmark de la "E"
+// intervenida. Es un asset estático; su fuente es
+// public/brand/_src/og-image.source.html (regenerar con Chromium headless a
+// 1200x630 si hay que reeditar). El cartoon original vive en brand/legacy/.
 
 generate().catch(console.error);

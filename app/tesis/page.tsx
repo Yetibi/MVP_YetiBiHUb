@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     title: "El marco Yeti BI — Primero el proceso, después la IA",
     description:
       "La ley de amplificación, las tres capas del sistema de decisión, los seis factores de piloto automático, la secuencia y las seis dimensiones de valor.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 
