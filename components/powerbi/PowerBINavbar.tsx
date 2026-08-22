@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { BrandMark } from "@/components/BrandMark";
 
 const NAVBAR_BTN_EXTRA: React.CSSProperties = {
   letterSpacing: "0.08em",
@@ -32,36 +32,19 @@ export function PowerBINavbar() {
         zIndex: 100,
       }}
     >
-      <Link
-        href="/"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          textDecoration: "none",
-          flexShrink: 0,
+      <BrandMark
+        symbolWidth={36}
+        wordmark={{
+          // OJO: --font-geist-sans no está definida en layout.tsx (la variable
+          // real es --font-sans), así que hoy esto hereda la tipografía del nav.
+          // Se deja igual: el wordmark no entra en este cambio.
+          fontFamily: "var(--font-geist-sans)",
+          fontSize: 13,
+          letterSpacing: "3px",
+          color: "#fff",
+          biColor: "#F28F6B",
         }}
-      >
-        <Image
-          src="/yeti-logo.png"
-          alt="Yeti BI"
-          width={32}
-          height={32}
-          style={{ objectFit: "contain" }}
-          priority
-        />
-        <span
-          style={{
-            fontFamily: "var(--font-geist-sans)",
-            fontWeight: 700,
-            fontSize: 13,
-            color: "#fff",
-            letterSpacing: "3px",
-          }}
-        >
-          <span translate="no">YETI·<span style={{ color: "#F28F6B" }}>BI</span></span>
-        </span>
-      </Link>
+      />
 
       <Link
         href="/powerbi/formulario"

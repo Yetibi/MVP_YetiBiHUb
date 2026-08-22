@@ -131,7 +131,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "Yeti BI",
               url: "https://yetibi.com",
-              logo: "https://yetibi.com/yeti-logo.png",
+              logo: "https://yetibi.com/icon-512x512.png",
               description:
                 "Consultoría de optimización de procesos y BI en Medellín, Colombia.",
               address: {

@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { NeuralNetworkBackground } from "@/components/home/NeuralNetworkBackground";
-import Link from "next/link";
+import { BrandMark } from "@/components/BrandMark";
 import { useRef, useState, useEffect } from "react";
 import {
   motion,
@@ -164,23 +163,19 @@ function Navbar() {
         zIndex: 100,
       }}
     >
-      <Link
-        href="/"
-        style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}
-      >
-        <Image src="/yeti-logo.png" alt="Yeti BI" width={32} height={32} style={{ objectFit: "contain" }} priority />
-        <span style={{
+      {/* Logo bicolor — excepción de identidad deliberada:
+          YETI nieve · cian BI ámbar */}
+      <BrandMark
+        symbolWidth={36}
+        wordmark={{
           fontFamily: "var(--font-space-grotesk)",
-          fontWeight: 700,
           fontSize: 13,
-          color: "#F2F6F9",
           letterSpacing: "3px",
-        }}>
-          {/* Logo bicolor — excepción de identidad deliberada:
-              YETI nieve · cian BI ámbar */}
-          <span translate="no">YETI<span style={{ color: "#4FD1E0" }}>·</span><span style={{ color: "#F28F6B" }}>BI</span></span>
-        </span>
-      </Link>
+          color: "#F2F6F9",
+          dotColor: "#4FD1E0",
+          biColor: "#F28F6B",
+        }}
+      />
 
       <div className="hidden md:flex" style={{ gap: 32, alignItems: "center" }}>
         {NAV_LINKS.map(({ label, href }) => (

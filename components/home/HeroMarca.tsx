@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { BrandMark } from "@/components/BrandMark";
 
 // ─── Héroe del Home de marca ─────────────────────────────────────────────────
 // Video protagonista (Yeti-constelación), nav mínima, kicker y titular.
@@ -70,19 +71,20 @@ export function HeroMarca() {
 
       {/* Nav superpuesta, sin fondo ni CTA (deliberado) */}
       <nav className="hm-nav" aria-label="Navegación principal">
-        <span
-          translate="no"
-          style={{
+        <BrandMark
+          // Wordmark más grande que en los otros headers (15–17px vs 13px),
+          // así que el símbolo sube a 38 para no perder peso al lado.
+          symbolWidth={38}
+          symbolWidthMobile={30}
+          wordmark={{
             fontFamily: "var(--font-space-grotesk)",
-            fontWeight: 700,
             fontSize: "clamp(15px, 1.2vw, 17px)",
             letterSpacing: ".14em",
             color: "#F2F6F9",
+            dotColor: "#4FD1E0",
+            biColor: "var(--salmon)",
           }}
-        >
-          YETI<span style={{ color: "#4FD1E0" }}>·</span>
-          <span style={{ color: "var(--salmon)" }}>BI</span>
-        </span>
+        />
 
         <div className="hm-links">
           {NAV_LINKS.map((l) => (

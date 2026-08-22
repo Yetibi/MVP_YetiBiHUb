@@ -1963,3 +1963,27 @@ textarea:focus-visible {
   .tz-wrap { padding: 64px 0 48px; }
   .tz-bloque { margin-top: 44px; }
 }
+
+/* ── Marca: símbolo + wordmark (components/BrandMark.tsx) ────────────────────
+   El ancho del símbolo lo fija cada llamada vía --bm-sym-w. El alto sale solo
+   del viewBox recortado (relación ≈3:1), así que a 36px de ancho el símbolo
+   mide ~12px de alto: menos que los 32px del cartoon anterior. Los headers
+   tienen height:64px fijo, así que no cambian de alto — sólo respiran más. */
+.bm {
+  display: inline-flex;
+  align-items: center;              /* centrado al eje del wordmark, no a la base */
+  gap: var(--bm-gap, 12px);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.bm-sym {
+  width: var(--bm-sym-w, 36px);
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+}
+@media (max-width: 768px) {
+  .bm { gap: var(--bm-gap-m, 10px); }
+  .bm-sym { width: var(--bm-sym-w-m, 28px); }
+}

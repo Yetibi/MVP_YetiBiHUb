@@ -1,23 +1,18 @@
 const sharp = require('sharp');
 const path = require('path');
-const fs = require('fs');
 
-const input = path.join(__dirname, '../public/yeti-logo.png');
+// Fuente: el app icon del kit-web (símbolo Plano Glaciar sobre fondo noche).
+// Antes esto apuntaba a /public/yeti-logo.png — el Yeti caricatura. No lo
+// vuelvas a apuntar ahí: ese archivo ya sólo vive en /public/brand/legacy/.
+const input = path.join(__dirname, '../public/brand/appicon-512.png');
 const publicDir = path.join(__dirname, '../public');
 
+// favicon.ico, favicon-16x16, favicon-32x32 y apple-touch-icon NO se generan
+// aquí: el kit-web ya los trae en los tamaños exactos, ajustados a mano para
+// que el símbolo siga legible en tamaños mínimos. Reescalarlos desde 512
+// los empastaría.
+
 async function generate() {
-  // favicon 32x32
-  await sharp(input).resize(32, 32).png()
-    .toFile(path.join(publicDir, 'favicon-32x32.png'));
-
-  // favicon 16x16
-  await sharp(input).resize(16, 16).png()
-    .toFile(path.join(publicDir, 'favicon-16x16.png'));
-
-  // apple-touch-icon 180x180
-  await sharp(input).resize(180, 180).png()
-    .toFile(path.join(publicDir, 'apple-touch-icon.png'));
-
   // icon-192 para Android
   await sharp(input).resize(192, 192).png()
     .toFile(path.join(publicDir, 'icon-192x192.png'));
@@ -26,32 +21,13 @@ async function generate() {
   await sharp(input).resize(512, 512).png()
     .toFile(path.join(publicDir, 'icon-512x512.png'));
 
-  // favicon.ico (32x32 PNG — compatible con browsers modernos)
-  await sharp(input).resize(32, 32).png()
-    .toFile(path.join(publicDir, 'favicon.ico'));
-
-  // OG Image 1200x630 — Yeti + fondo #2E2640
-  const yeti = await sharp(input).resize(400, 400).png().toBuffer();
-
-  await sharp({
-    create: { width: 1200, height: 630, channels: 4,
-      background: { r: 46, g: 38, b: 64, alpha: 1 } }
-  })
-  .composite([
-    { input: yeti, top: 115, left: 700 },
-    {
-      input: Buffer.from(`<svg width="640" height="220">
-        <text x="60" y="80" font-family="sans-serif" font-size="72" font-weight="900" fill="white">YETI BI</text>
-        <text x="60" y="140" font-family="sans-serif" font-size="24" fill="#E07B30">Diagnóstico de Madurez</text>
-        <text x="60" y="175" font-family="sans-serif" font-size="24" fill="#E07B30">Operacional</text>
-      </svg>`),
-      top: 205, left: 0
-    }
-  ])
-  .png()
-  .toFile(path.join(publicDir, 'og-image.png'));
-
-  console.log('✓ Todos los assets generados en /public');
+  console.log('✓ Íconos PWA regenerados en /public');
 }
+
+// PENDIENTE — og-image.png. La versión anterior se componía acá con sharp:
+// fondo #2E2640 + el cartoon + un wordmark "YETI BI" en sans-serif genérica.
+// Ese wordmark no es el del sitio (sin punto medio cian, naranja viejo #E07B30)
+// y el fondo tampoco es el de Plano Glaciar. El kit-web no incluye un
+// og-image 1200x630, así que la composición quedó sin resolver a propósito.
 
 generate().catch(console.error);

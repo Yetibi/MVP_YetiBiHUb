@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { BrandMark } from "@/components/BrandMark";
 
 export function Footer() {
   return (
@@ -20,25 +20,18 @@ export function Footer() {
       >
         {/* Izquierda: logo + tagline */}
         <div className="flex flex-col" style={{ gap: 8, minWidth: 180 }}>
-          <Link
-            href="/"
-            className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)"
-            style={{ textDecoration: "none" }}
-          >
-            <Image
-              src="/yeti-logo.png"
-              alt="Yeti BI"
-              width={40}
-              height={40}
-              style={{ objectFit: "contain" }}
-            />
-            <span
-              className="font-bold"
-              style={{ color: "#FFFFFF", fontSize: 16, letterSpacing: 3 }}
-            >
-              <span translate="no">YETI·<span style={{ color: "#4FD1E0" }}>BI</span></span>
-            </span>
-          </Link>
+          <BrandMark
+            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)"
+            symbolWidth={44}
+            symbolWidthMobile={36}
+            wordmark={{
+              className: "font-bold",
+              fontSize: 16,
+              letterSpacing: 3,
+              color: "#FFFFFF",
+              biColor: "#4FD1E0",
+            }}
+          />
           <p
             className="uppercase tracking-[0.22em]"
             style={{ color: "#5D6B7A", fontSize: 11, fontWeight: 400 }}
