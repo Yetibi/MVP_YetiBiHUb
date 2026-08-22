@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useId } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { BrandMark } from "@/components/BrandMark";
 
@@ -24,6 +24,39 @@ const NAV_LINKS = [
 export function HeroMarca() {
   const reducedMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Menú móvil. Los enlaces del nav se ocultan bajo 768px, así que sin esto
+  // el botón no llevaba a ningún lado.
+  const [menuAbierto, setMenuAbierto] = useState(false);
+  const menuId = useId();
+  const burgerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuAbierto) return;
+
+    // Escape cierra y devuelve el foco al botón, que es de donde vino.
+    const alTeclear = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuAbierto(false);
+        burgerRef.current?.focus();
+      }
+    };
+    // Tocar fuera cierra. pointerdown y no click: en iOS el click sobre un
+    // elemento no interactivo puede no propagarse.
+    const alApuntar = (e: PointerEvent) => {
+      const t = e.target as Node;
+      if (!menuRef.current?.contains(t) && !burgerRef.current?.contains(t)) {
+        setMenuAbierto(false);
+      }
+    };
+    document.addEventListener("keydown", alTeclear);
+    document.addEventListener("pointerdown", alApuntar);
+    return () => {
+      document.removeEventListener("keydown", alTeclear);
+      document.removeEventListener("pointerdown", alApuntar);
+    };
+  }, [menuAbierto]);
 
   // iOS puede bloquear el autoplay (Low Power Mode, o si la propiedad muted
   // no está seteada al momento del intento) y muestra el botón de play.
@@ -94,12 +127,38 @@ export function HeroMarca() {
           ))}
         </div>
 
-        {/* Menú móvil: botón preparado — el desplegable llega después */}
-        <button className="hm-burger" type="button" aria-label="Abrir menú">
+        {/* Menú móvil */}
+        <button
+          ref={burgerRef}
+          className={menuAbierto ? "hm-burger abierto" : "hm-burger"}
+          type="button"
+          aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={menuAbierto}
+          aria-controls={menuId}
+          onClick={() => setMenuAbierto((v) => !v)}
+        >
           <span aria-hidden="true" />
           <span aria-hidden="true" />
           <span aria-hidden="true" />
         </button>
+
+        <div
+          id={menuId}
+          ref={menuRef}
+          className={menuAbierto ? "hm-menu abierto" : "hm-menu"}
+          hidden={!menuAbierto}
+        >
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              className="hm-menu-link"
+              href={l.href}
+              onClick={() => setMenuAbierto(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
       </nav>
 
       {/* Kicker */}
