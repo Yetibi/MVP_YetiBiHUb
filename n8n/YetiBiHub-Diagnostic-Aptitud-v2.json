@@ -12,7 +12,10 @@
       "name": "Webhook Intake",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [-784, 240],
+      "position": [
+        -784,
+        240
+      ],
       "webhookId": "ae6f1eec-e207-4ead-93be-c29ced935173"
     },
     {
@@ -25,7 +28,10 @@
       "name": "Responder Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
-      "position": [544, 176]
+      "position": [
+        544,
+        176
+      ]
     },
     {
       "parameters": {
@@ -36,7 +42,10 @@
       },
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
-      "position": [288, 288],
+      "position": [
+        288,
+        288
+      ],
       "id": "a5e46811-2e81-4e2d-8159-aff122f88143",
       "name": "Notificar a Email creación registro",
       "webhookId": "1b6f4d13-a51e-4ad0-9e46-5d609be33613",
@@ -55,7 +64,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-176, 160],
+      "position": [
+        -176,
+        160
+      ],
       "id": "d9e520de-80d3-46a3-8e8e-10d546da5fee",
       "name": "Formatear mensaje code"
     },
@@ -74,7 +86,10 @@
       "name": "Llamar a Diagnostico Engine",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [-192, 576]
+      "position": [
+        -192,
+        576
+      ]
     },
     {
       "parameters": {
@@ -115,7 +130,10 @@
       "name": "Diagnostico exitoso?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [16, 528]
+      "position": [
+        16,
+        528
+      ]
     },
     {
       "parameters": {
@@ -207,7 +225,10 @@
       "name": "Inicializar contador",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [304, 512]
+      "position": [
+        304,
+        512
+      ]
     },
     {
       "parameters": {
@@ -215,19 +236,19 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict",
+            "typeValidation": "loose",
             "version": 2
           },
           "conditions": [
             {
-              "leftValue": "={{ $json.data }}",
-              "rightValue": "",
+              "leftValue": "={{ $json.data?.approved === true }}",
+              "rightValue": true,
               "operator": {
-                "type": "object",
-                "operation": "notExists",
+                "type": "boolean",
+                "operation": "true",
                 "singleValue": true
               },
-              "id": "4d32947d-67af-4dc7-8fac-f8117f64e468"
+              "id": "aprobado-explicito"
             }
           ],
           "combinator": "and"
@@ -238,7 +259,10 @@
       "name": "Hubo timeout (sin data)?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1152, 560]
+      "position": [
+        1152,
+        560
+      ]
     },
     {
       "parameters": {
@@ -259,7 +283,10 @@
       "name": "Llamar a /aprobar",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1152, 912]
+      "position": [
+        1152,
+        912
+      ]
     },
     {
       "parameters": {
@@ -290,7 +317,10 @@
       "name": "Fue no-op?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1312, 912]
+      "position": [
+        1312,
+        912
+      ]
     },
     {
       "parameters": {
@@ -304,7 +334,10 @@
       "name": "Avisar version reemplazada",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [1424, 768],
+      "position": [
+        1424,
+        768
+      ],
       "webhookId": "aa000000-0000-4000-8000-000000000001",
       "credentials": {
         "telegramApi": {
@@ -343,7 +376,10 @@
       "name": "Incrementar intento",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [1424, 544]
+      "position": [
+        1424,
+        544
+      ]
     },
     {
       "parameters": {
@@ -372,7 +408,10 @@
       "name": "Se agotaron los 3 intentos?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1712, 544]
+      "position": [
+        1712,
+        544
+      ]
     },
     {
       "parameters": {
@@ -387,7 +426,10 @@
       "name": "Marcar revision manual (timeout)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1952, 528]
+      "position": [
+        1952,
+        528
+      ]
     },
     {
       "parameters": {
@@ -401,7 +443,10 @@
       "name": "Alertar revision manual pendiente",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [2208, 528],
+      "position": [
+        2208,
+        528
+      ],
       "webhookId": "e9d4f261-d3db-4050-a0a1-b3a50b0d4279",
       "credentials": {
         "telegramApi": {
@@ -423,7 +468,10 @@
       "name": "Marcar como enviado1",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1728, 912]
+      "position": [
+        1728,
+        912
+      ]
     },
     {
       "parameters": {
@@ -434,7 +482,10 @@
       },
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
-      "position": [624, 336],
+      "position": [
+        624,
+        336
+      ],
       "id": "6f79ab9b-0ef4-4bea-87b4-d2eac7ff8eff",
       "name": "Notificar diagnostico para aprobacion",
       "webhookId": "8949b373-e7ab-44f1-8dfd-c67b90328da5",
@@ -454,7 +505,10 @@
       },
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
-      "position": [304, 752],
+      "position": [
+        304,
+        752
+      ],
       "id": "038b3cae-674b-42f0-86a8-3d8c6253f130",
       "name": "Alertar fallo de diagnostico1",
       "webhookId": "8949b373-e7ab-44f1-8dfd-c67b90328da5",
@@ -475,7 +529,10 @@
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [1952, 912],
+      "position": [
+        1952,
+        912
+      ],
       "id": "99be8c5d-271c-443f-913d-994a9ed87b29",
       "name": "Notificar envio de  diagnóstico",
       "webhookId": "79a46c51-35e8-4db6-b0c7-30bbfb28c08d",
@@ -507,7 +564,10 @@
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [624, 560],
+      "position": [
+        624,
+        560
+      ],
       "id": "59e92539-9e47-4d51-9073-9e416c4a3a16",
       "name": "Solicitar revisión - aprueba/rechaza",
       "webhookId": "3a2c6b27-0998-4f22-b967-8dd5a56cded0",
@@ -521,14 +581,19 @@
     },
     {
       "parameters": {
-        "updates": ["message"],
+        "updates": [
+          "message"
+        ],
         "additionalFields": {}
       },
       "id": "a7dda991-f9e0-4c77-8682-7c21dab82c76",
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.1,
-      "position": [1168, 1280],
+      "position": [
+        1168,
+        1280
+      ],
       "webhookId": "d8b26e74-bc1a-471f-a1c7-038c58f45755",
       "credentials": {
         "telegramApi": {
@@ -563,7 +628,10 @@
       "name": "Es comando /ajustar?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1408, 1280]
+      "position": [
+        1408,
+        1280
+      ]
     },
     {
       "parameters": {
@@ -573,7 +641,10 @@
       "name": "Parsear diagnosticoId e indicacion",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1648, 1264]
+      "position": [
+        1648,
+        1264
+      ]
     },
     {
       "parameters": {
@@ -622,7 +693,10 @@
       "name": "UUID valido y hay indicacion?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1888, 1264]
+      "position": [
+        1888,
+        1264
+      ]
     },
     {
       "parameters": {
@@ -644,7 +718,10 @@
       "name": "Llamar a /ajustar",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [2128, 1184]
+      "position": [
+        2128,
+        1184
+      ]
     },
     {
       "parameters": {
@@ -658,7 +735,10 @@
       "name": "Confirmar ajuste recibido",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [2368, 1184],
+      "position": [
+        2368,
+        1184
+      ],
       "webhookId": "f7e697d0-d827-4148-8727-be2fe8e56418",
       "credentials": {
         "telegramApi": {
@@ -696,7 +776,10 @@
       "name": "Ajuste aplicado?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [2560, 1184]
+      "position": [
+        2560,
+        1184
+      ]
     },
     {
       "parameters": {
@@ -704,7 +787,10 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [2752, 1184],
+      "position": [
+        2752,
+        1184
+      ],
       "id": "d7189313-c751-4977-9f12-77a27c2664c4",
       "name": "Preparar reaprobación directa"
     },
@@ -720,7 +806,10 @@
       "name": "Avisar formato invalido",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [2128, 1376],
+      "position": [
+        2128,
+        1376
+      ],
       "webhookId": "0db42e26-fc1f-40ca-b8f8-8a629d4895e9",
       "credentials": {
         "telegramApi": {
@@ -739,7 +828,10 @@
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [288, 64],
+      "position": [
+        288,
+        64
+      ],
       "id": "e8586869-09ea-4f10-ac0c-7eba95bb59e5",
       "name": "Notificar solicitud nuevo diagnóstico",
       "webhookId": "f7ce8efb-4f38-415d-82af-ae79c16163eb",
@@ -760,7 +852,10 @@
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [304, 1024],
+      "position": [
+        304,
+        1024
+      ],
       "id": "53cb32ba-3853-4e58-9637-b3411f36e47e",
       "name": "Notificar falla en diagnóstico",
       "webhookId": "393ceddd-90e4-4a30-88c3-3d319b5f8ec6",
@@ -785,7 +880,10 @@
       "name": "Enviar diagnostico al cliente",
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
-      "position": [1504, 912],
+      "position": [
+        1504,
+        912
+      ],
       "webhookId": "1243eba4-0471-4973-9f39-135df3071c3c",
       "credentials": {
         "microsoftOutlookOAuth2Api": {
@@ -893,14 +991,14 @@
       "main": [
         [
           {
-            "node": "Incrementar intento",
+            "node": "Llamar a /aprobar",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Llamar a /aprobar",
+            "node": "Incrementar intento",
             "type": "main",
             "index": 0
           }
@@ -970,7 +1068,9 @@
       ]
     },
     "Notificar diagnostico para aprobacion": {
-      "main": [[]]
+      "main": [
+        []
+      ]
     },
     "Solicitar revisión - aprueba/rechaza": {
       "main": [
