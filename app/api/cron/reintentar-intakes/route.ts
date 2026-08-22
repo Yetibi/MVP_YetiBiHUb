@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { detalle } from "@/lib/errores";
 
 // ─── Red de seguridad del webhook (insumo v1.0 §6.5) ─────────────────────────
 // El disparo original hacia n8n es fire-and-forget: si n8n no recibió el
@@ -40,7 +41,7 @@ export async function GET(req: NextRequest) {
     .limit(LOTE);
 
   if (error) {
-    return NextResponse.json({ error: "Error listando intakes", detail: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Error listando intakes", detail: detalle(error) }, { status: 500 });
   }
   if (!huerfanos || huerfanos.length === 0) {
     return NextResponse.json({ ok: true, procesados: 0 });
@@ -91,7 +92,7 @@ export async function GET(req: NextRequest) {
       const json = await res.json().catch(() => ({}));
       resultados.push({ intakeId: intake.id, accion: "reintentado", status: res.status, ok: json?.ok });
     } catch (err) {
-      resultados.push({ intakeId: intake.id, accion: "reintento_fallido", detail: String(err) });
+      resultados.push({ intakeId: intake.id, accion: "reintento_fallido", detail: detalle(err) });
     }
   }
 

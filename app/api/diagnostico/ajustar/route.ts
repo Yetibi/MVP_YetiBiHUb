@@ -4,6 +4,7 @@ import { redactarVeredicto, MODEL } from "@/lib/redactor-engine";
 import { emitirToken, verificarToken } from "@/lib/approval-token";
 import { clasificar } from "@/lib/clasificador";
 import type { IntakeAptitud, Veredicto } from "@/types/aptitud";
+import { detalle } from "@/lib/errores";
 
 // ─── Ajuste de REDACCIÓN (insumo v1.0 §6.2 y §7) ─────────────────────────────
 // La indicación de ajuste opera SOLO sobre la redacción — la patología asignada
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
   if (diagError || !diagAnterior) {
     const esNotFound = diagError?.code === "PGRST116" || diagError?.message?.includes("0 rows");
     return NextResponse.json(
-      { error: esNotFound ? "Diagnóstico no encontrado" : "Error al leer diagnóstico", detail: diagError?.message },
+      { error: esNotFound ? "Diagnóstico no encontrado" : "Error al leer diagnóstico", detail: detalle(diagError) },
       { status: esNotFound ? 404 : 500 }
     );
   }
@@ -146,7 +147,7 @@ export async function POST(req: NextRequest) {
 
   if (intakeError || !intakeRow) {
     return NextResponse.json(
-      { error: "No se pudo leer el intake original", detail: intakeError?.message },
+      { error: "No se pudo leer el intake original", detail: detalle(intakeError) },
       { status: 500 }
     );
   }
@@ -185,7 +186,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     return NextResponse.json(
-      { error: "Error al redactar el ajuste con Claude", detail: String(err) },
+      { error: "Error al redactar el ajuste con Claude", detail: detalle(err) },
       { status: 500 }
     );
   }
@@ -215,7 +216,7 @@ export async function POST(req: NextRequest) {
       .single();
     if (insertError || !inserted) {
       return NextResponse.json(
-        { error: "Ajuste fallido y no se pudo registrar", detail: insertError?.message },
+        { error: "Ajuste fallido y no se pudo registrar", detail: detalle(insertError) },
         { status: 500 }
       );
     }
@@ -241,7 +242,7 @@ export async function POST(req: NextRequest) {
 
   if (insertError || !inserted) {
     return NextResponse.json(
-      { error: "Error al guardar el veredicto ajustado", detail: insertError?.message },
+      { error: "Error al guardar el veredicto ajustado", detail: detalle(insertError) },
       { status: 500 }
     );
   }

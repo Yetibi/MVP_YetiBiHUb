@@ -26,6 +26,12 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=()",
   },
   {
+    // Aísla el contexto de navegación: una ventana abierta desde aquí no
+    // conserva referencia al documento, ni al revés.
+    key: "Cross-Origin-Opener-Policy",
+    value: "same-origin",
+  },
+  {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",

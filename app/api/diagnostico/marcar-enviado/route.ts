@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { detalle } from "@/lib/errores";
 
 function supabaseAdmin() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error: esNotFound ? "Diagnóstico no encontrado" : "Error al verificar diagnóstico",
-        detail: selectError?.message,
+        detail: detalle(selectError),
       },
       { status: esNotFound ? 404 : 500 }
     );
@@ -66,7 +67,7 @@ export async function POST(req: NextRequest) {
 
   if (updateError) {
     return NextResponse.json(
-      { error: "Error al actualizar estado_envio", detail: updateError.message },
+      { error: "Error al actualizar estado_envio", detail: detalle(updateError) },
       { status: 500 }
     );
   }

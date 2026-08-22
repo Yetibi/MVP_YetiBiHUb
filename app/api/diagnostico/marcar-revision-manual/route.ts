@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { detalle } from "@/lib/errores";
 
 function supabaseAdmin() {
   return createClient(
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error: esNotFound ? "Diagnóstico no encontrado" : "Error al leer diagnóstico",
-        detail: selectError?.message,
+        detail: detalle(selectError),
       },
       { status: esNotFound ? 404 : 500 }
     );
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
 
   if (updateError) {
     return NextResponse.json(
-      { error: "Error al marcar revisión manual", detail: updateError.message },
+      { error: "Error al marcar revisión manual", detail: detalle(updateError) },
       { status: 500 }
     );
   }

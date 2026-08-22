@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { verificarToken } from "@/lib/approval-token";
+import { detalle } from "@/lib/errores";
 
 // ─── Aprobación del veredicto (insumo v1.0 §7) ───────────────────────────────
 // Idempotente (aprobar dos veces = una). Guardas de precedencia:
@@ -39,7 +40,7 @@ async function aprobar(diagnosticoId: string): Promise<ResultadoAprobacion> {
       status: esNotFound ? 404 : 500,
       body: {
         error: esNotFound ? "Diagnóstico no encontrado" : "Error al leer diagnóstico",
-        detail: selectError?.message,
+        detail: detalle(selectError),
       },
     };
   }
@@ -74,7 +75,7 @@ async function aprobar(diagnosticoId: string): Promise<ResultadoAprobacion> {
   if (intakeError || !intake) {
     return {
       status: 500,
-      body: { error: "Error al leer el intake asociado", detail: intakeError?.message },
+      body: { error: "Error al leer el intake asociado", detail: detalle(intakeError) },
     };
   }
 
@@ -102,7 +103,7 @@ async function aprobar(diagnosticoId: string): Promise<ResultadoAprobacion> {
   if (updateError) {
     return {
       status: 500,
-      body: { error: "Error al aprobar diagnóstico", detail: updateError.message },
+      body: { error: "Error al aprobar diagnóstico", detail: detalle(updateError) },
     };
   }
 

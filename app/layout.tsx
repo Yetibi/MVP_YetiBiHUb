@@ -1,24 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Playfair_Display, DM_Serif_Display, Roboto_Condensed, Roboto, JetBrains_Mono, Space_Grotesk, Inter } from "next/font/google";
+// Playfair_Display, DM_Serif_Display, Roboto_Condensed y Roboto se cargaban
+// aquí, pero ninguna hoja de estilo las referenciaba: cero usos de sus
+// variables en todo el repositorio. Se retiraron. Si vuelve a hacer falta una
+// serif de display, hay que reintroducirla junto con la regla que la use.
+import { Geist, Geist_Mono, JetBrains_Mono, Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-sans",
   subsets: ["latin"],
-});
-
-const robotoCondensed = Roboto_Condensed({
-  weight: ["700", "800"],
-  subsets: ["latin"],
-  variable: "--font-roboto-condensed",
-  display: "swap",
-});
-
-const roboto = Roboto({
-  weight: ["400", "500"],
-  subsets: ["latin"],
-  variable: "--font-roboto",
-  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -33,13 +23,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  style: ["normal", "italic"],
-  weight: ["700", "900"],
-});
-
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
@@ -52,13 +35,6 @@ const inter = Inter({
   variable: "--font-inter",
   weight: ["400", "500", "600"],
   display: "swap",
-});
-
-const dmSerif = DM_Serif_Display({
-  subsets: ["latin"],
-  variable: "--font-dm-serif",
-  style: ["normal", "italic"],
-  weight: "400",
 });
 
 // Metadatos de MARCA: los de la evaluación viven en app/evaluacion/page.tsx.
@@ -119,10 +95,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${dmSerif.variable} ${robotoCondensed.variable} ${roboto.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
-      <body className={`${playfair.variable} ${dmSerif.variable} min-h-full flex flex-col`}>
+      <body className="min-h-full flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -4,6 +4,7 @@ import { clasificar } from "@/lib/clasificador";
 import { redactarVeredicto, MODEL } from "@/lib/redactor-engine";
 import { emitirToken } from "@/lib/approval-token";
 import type { IntakeAptitud } from "@/types/aptitud";
+import { detalle } from "@/lib/errores";
 
 // ─── Diagnóstico de Aptitud del Proceso para IA (insumo v1.0 §6.1) ───────────
 // Nuevo orden: leer intake → clasificar() (determinista, en código) →
@@ -102,7 +103,7 @@ export async function POST(req: NextRequest) {
     const esNotFound =
       intakeError?.code === "PGRST116" || intakeError?.message?.includes("0 rows");
     return NextResponse.json(
-      { error: esNotFound ? "Intake no encontrado" : "Error al leer intake", detail: intakeError?.message },
+      { error: esNotFound ? "Intake no encontrado" : "Error al leer intake", detail: detalle(intakeError) },
       { status: esNotFound ? 404 : 500 }
     );
   }
@@ -145,7 +146,7 @@ export async function POST(req: NextRequest) {
     resultado = await redactarVeredicto(intake, clasif);
   } catch (err) {
     return NextResponse.json(
-      { error: "Error al redactar veredicto con Claude", detail: String(err) },
+      { error: "Error al redactar veredicto con Claude", detail: detalle(err) },
       { status: 500 }
     );
   }
@@ -174,7 +175,7 @@ export async function POST(req: NextRequest) {
 
     if (insertError || !inserted) {
       return NextResponse.json(
-        { error: "Redacción fallida y no se pudo registrar", detail: insertError?.message },
+        { error: "Redacción fallida y no se pudo registrar", detail: detalle(insertError) },
         { status: 500 }
       );
     }
@@ -203,7 +204,7 @@ export async function POST(req: NextRequest) {
 
   if (insertError || !inserted) {
     return NextResponse.json(
-      { error: "Error al guardar veredicto en Supabase", detail: insertError?.message },
+      { error: "Error al guardar veredicto en Supabase", detail: detalle(insertError) },
       { status: 500 }
     );
   }
