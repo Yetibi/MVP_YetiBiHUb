@@ -94,7 +94,11 @@
   --accent-foreground: #F2F6F9;
   --warning: #F28F6B;                        /* naranja Andon — tensión / fuga / CTA */
   --warning-hover: #D9714C;                  /* ocre — hover/activo del naranja */
-  --naranja: #F2921D;                        /* naranja botón — 7.8:1 sobre noche */
+  /* Antes #F2921D (naranja brillante). Unificado al coral: el sitio usa un
+     solo naranja. El contraste no se resiente — 7.9:1 sobre noche frente a
+     los 7.8:1 anteriores. Queda con el mismo valor que --warning y --salmon;
+     se conserva el nombre para no tocar a sus consumidores. */
+  --naranja: #F28F6B;                        /* coral — 7.9:1 sobre noche */
   --noche: #0B1420;                          /* texto sobre naranja sólido (7.8:1) */
   --morado: #A78BC4;                         /* morado — ruta opcional IA en el flujo */
   --salmon: #F28F6B;                         /* salmón/coral — acento del Home de marca (el mismo coral de /powerbi) */
@@ -205,8 +209,8 @@ textarea:focus-visible {
    con texto noche (7.8:1 AAA en ambos estados). */
 .btn-yeti,
 .btn-primary {
-  background: rgba(242, 146, 29, 0.06);
-  border: 1px solid rgba(242, 146, 29, 0.5);
+  background: rgba(242, 143, 107, 0.06);
+  border: 1px solid rgba(242, 143, 107, 0.5);
   color: var(--naranja);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -241,7 +245,7 @@ textarea:focus-visible {
   transition: border-color 0.3s ease;
 }
 .pain-card:hover {
-  border-color: rgba(242, 146, 29, 0.4);
+  border-color: rgba(242, 143, 107, 0.4);
 }
 
 

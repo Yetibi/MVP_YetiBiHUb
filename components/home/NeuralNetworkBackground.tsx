@@ -4,12 +4,13 @@ import { useEffect, useRef } from "react";
 
 // ─── Red neuronal viva — efecto constelación en canvas 2D puro ───────────────
 // Decorativa (aria-hidden, pointer-events none). Nodos cian que flotan lento y
-// se conectan al acercarse; ~8% son nodos de "energía" naranja con glow, y
-// pulsos naranja ocasionales viajan por las conexiones.
+// se conectan al acercarse; ~8% son nodos de "energía" coral con glow, y
+// pulsos coral ocasionales viajan por las conexiones.
 // prefers-reduced-motion (prop reduced) → un solo frame estático, sin rAF loop.
 
 const CIAN = "79,209,224";
-const NARANJA = "242,146,29";
+// Antes 242,146,29 (naranja brillante). Coral, como el resto del acento.
+const NARANJA = "242,143,107";
 const LINK_DIST = 130;
 
 type Nodo = { x: number; y: number; vx: number; vy: number; r: number; energy: boolean };

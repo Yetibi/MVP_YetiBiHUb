@@ -869,7 +869,7 @@ export function PowerBIIntakeForm() {
                       style={{
                         width: 14,
                         height: 14,
-                        border: "2px solid rgba(242,146,29,0.3)",
+                        border: "2px solid rgba(242,143,107,0.3)",
                         borderTopColor: "currentColor",
                         borderRadius: "50%",
                         animation: "spin 0.7s linear infinite",
