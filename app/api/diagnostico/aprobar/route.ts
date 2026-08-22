@@ -68,7 +68,7 @@ async function aprobar(diagnosticoId: string): Promise<ResultadoAprobacion> {
 
   const { data: intake, error: intakeError } = await db
     .from("intakes")
-    .select("correo")
+    .select("correo, nombre")
     .eq("id", existente.intake_id)
     .single();
 

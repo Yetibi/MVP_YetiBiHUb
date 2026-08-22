@@ -473,7 +473,8 @@
       "position": [
         1728,
         912
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -524,7 +525,7 @@
     {
       "parameters": {
         "chatId": "8329441485",
-        "text": "=✅ Veredicto enviado al prospecto\n\nAsunto: {{ $('Llamar a /aprobar').item.json.veredicto.asunto }}\nCorreo: {{ $('Llamar a /aprobar').item.json.correo }}\nDiagnostico: {{ $('Llamar a /aprobar').item.json.diagnosticoId }}",
+        "text": "=Aprobado ✓ — la entrega al prospecto sale por el flujo de envío (te llega confirmación aparte).",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -897,7 +898,8 @@
           "id": "YVBr6L21Q3cFdGuI",
           "name": "Microsoft Outlook YetiBi"
         }
-      }
+      },
+      "disabled": true
     }
   ],
   "connections": {
@@ -1034,7 +1036,7 @@
         ],
         [
           {
-            "node": "Enviar diagnostico al cliente",
+            "node": "Notificar envio de  diagnóstico",
             "type": "main",
             "index": 0
           }
@@ -1084,17 +1086,6 @@
         [
           {
             "node": "Hubo timeout (sin data)?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Marcar como enviado1": {
-      "main": [
-        [
-          {
-            "node": "Notificar envio de  diagnóstico",
             "type": "main",
             "index": 0
           }
@@ -1202,17 +1193,6 @@
         [
           {
             "node": "Responder Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Enviar diagnostico al cliente": {
-      "main": [
-        [
-          {
-            "node": "Marcar como enviado1",
             "type": "main",
             "index": 0
           }

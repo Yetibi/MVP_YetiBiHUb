@@ -1,0 +1,92 @@
+{
+  "name": "YetiBiHub - Envío de veredicto",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "enviar-veredicto",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "aa11bb22-0001-4000-8000-000000000001",
+      "name": "Webhook Envío",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-400, 0],
+      "webhookId": "aa11bb22-0001-4000-8000-00000000e001"
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{ $json.body.correo }}",
+        "subject": "={{ $json.body.asunto }}",
+        "bodyContent": "={{ $json.body.cuerpoHtml || $json.body.cuerpoTexto }}",
+        "additionalFields": {
+          "bodyContentType": "html",
+          "ccRecipients": "data@yetibi.com"
+        }
+      },
+      "id": "aa11bb22-0002-4000-8000-000000000002",
+      "name": "Enviar veredicto al prospecto",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [-140, 0],
+      "webhookId": "aa11bb22-0002-4000-8000-00000000e002",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "YVBr6L21Q3cFdGuI",
+          "name": "Microsoft Outlook YetiBi"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mvp-yeti-bi-h-ub.vercel.app/api/diagnostico/marcar-enviado",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { diagnosticoId: $('Webhook Envío').item.json.body.diagnosticoId } }}",
+        "options": {}
+      },
+      "id": "aa11bb22-0003-4000-8000-000000000003",
+      "name": "Marcar como enviado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [120, 0]
+    },
+    {
+      "parameters": {
+        "chatId": "8329441485",
+        "text": "=Veredicto enviado\n\nPara: {{ $('Webhook Envío').item.json.body.correo }}\nAsunto: {{ $('Webhook Envío').item.json.body.asunto }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "aa11bb22-0004-4000-8000-000000000004",
+      "name": "Notificar envío",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [380, 0],
+      "webhookId": "aa11bb22-0004-4000-8000-00000000e004",
+      "credentials": {
+        "telegramApi": {
+          "id": "h6YXRnB2veFrtgeY",
+          "name": "Telegram account YetiBi"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Envío": {
+      "main": [[{ "node": "Enviar veredicto al prospecto", "type": "main", "index": 0 }]]
+    },
+    "Enviar veredicto al prospecto": {
+      "main": [[{ "node": "Marcar como enviado", "type": "main", "index": 0 }]]
+    },
+    "Marcar como enviado": {
+      "main": [[{ "node": "Notificar envío", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
