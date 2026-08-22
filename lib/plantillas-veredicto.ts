@@ -28,7 +28,7 @@ Lo que encontramos:
 
 [LÍNEA DE TENSIÓN]
 
-Si quieres saber qué tan grande es la fuga y cómo se cierra, esa es una conversación de diagnóstico — y es con nosotros: {{CTA con enlace de contacto/agenda}}.
+Si quieres saber qué tan grande es la fuga y cómo se cierra, esa es una conversación de diagnóstico — y es con nosotros: responde este correo, o conoce cómo trabajamos en https://yetibi.com.
 
 Yeti BI · Ingeniería operacional`;
 
