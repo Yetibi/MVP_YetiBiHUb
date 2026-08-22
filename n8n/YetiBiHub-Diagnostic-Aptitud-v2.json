@@ -60,7 +60,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Notificación interna del intake — etiquetas legibles (FIX 4)\nconst body = $input.item.json.body || {};\nconst l = body.legible || {};\n\nconst mensajeTexto = `Nuevo intake — Evaluación de proceso\n\nNombre: ${body.nombre || 'N/A'}\nCorreo: ${body.correo || 'N/A'}\nSector: ${l.sector || body.sector || 'N/A'}\n\nProceso: ${body.proceso || 'N/A'}\nQuién lo ejecuta: ${body.ejecucion || 'N/A'}\n\nSeñal: ${l.senal || body.senal || 'N/A'}\nDato: ${l.dato || body.dato || 'N/A'}\nFrecuencia: ${l.frecuencia || body.frecuencia || 'N/A'} · Antigüedad: ${l.antiguedad || body.antiguedad || 'N/A'}\nFalla: ${l.falla || body.falla || 'N/A'}\n\nExpectativa de IA: ${body.expectativa_ia || 'N/A'}`;\n\nreturn [{ json: { mensajeTexto, nombre: body.nombre || '', sectorLegible: l.sector || body.sector || '' } }];"
+        "jsCode": "// Notificación interna del intake — etiquetas legibles (FIX 4)\nconst body = $input.item.json.body || {};\nconst l = body.legible || {};\n// parse_mode HTML: escapar los tres caracteres que lo rompen\nconst h = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n\nconst mensajeTexto = `Nuevo intake — Evaluación de proceso\n\nNombre: ${h(body.nombre) || 'N/A'}\nCorreo: ${h(body.correo) || 'N/A'}\nSector: ${l.sector || body.sector || 'N/A'}\n\nProceso: ${h(body.proceso) || 'N/A'}\nQuién lo ejecuta: ${h(body.ejecucion) || 'N/A'}\n\nSeñal: ${l.senal || body.senal || 'N/A'}\nDato: ${l.dato || body.dato || 'N/A'}\nFrecuencia: ${l.frecuencia || body.frecuencia || 'N/A'} · Antigüedad: ${l.antiguedad || body.antiguedad || 'N/A'}\nFalla: ${l.falla || body.falla || 'N/A'}\n\nExpectativa de IA: ${h(body.expectativa_ia) || 'N/A'}`;\n\nreturn [{ json: { mensajeTexto, nombre: body.nombre || '', sectorLegible: l.sector || body.sector || '' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -327,7 +327,8 @@
         "chatId": "8329441485",
         "text": "=⚠️ NO se envió al prospecto: esta versión ya fue reemplazada por un ajuste.\n\n{{ $json.mensaje || '' }}\nVersión vigente: {{ $json.versionVigenteId || 'ver Supabase' }}\n\nAprueba desde la notificación de la versión nueva.",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "id": "c2f3e4d5-2222-4333-8444-955566677788",
@@ -436,7 +437,8 @@
         "chatId": "8329441485",
         "text": "=🔴 Revision manual pendiente\n\nDiagnostico {{ $('Marcar revision manual (timeout)').item.json.diagnosticoId }} quedo sin respuesta despues de 3 intentos. NO se envio al cliente. Revisalo manualmente cuando puedas.",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "id": "94183515-73d2-4ecd-aa42-52850e146d9e",
@@ -524,7 +526,8 @@
         "chatId": "8329441485",
         "text": "=✅ Veredicto enviado al prospecto\n\nAsunto: {{ $('Llamar a /aprobar').item.json.veredicto.asunto }}\nCorreo: {{ $('Llamar a /aprobar').item.json.correo }}\nDiagnostico: {{ $('Llamar a /aprobar').item.json.diagnosticoId }}",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "type": "n8n-nodes-base.telegram",
@@ -728,7 +731,8 @@
         "chatId": "={{ $('Parsear diagnosticoId e indicacion').item.json.chatId }}",
         "text": "={{ $json.ok ? `✏️ Ajuste aplicado. Nueva version: ${$json.version}${$json.interpretacionAjuste ? '\\n\\n📝 Nota del redactor: ' + $json.interpretacionAjuste : ''}\\n\\nTe va a llegar una nueva notificacion para revisar el resultado actualizado.` : `⚠️ El ajuste NO se aplico.\\n\\n${$json.error || ($json.limite_alcanzado ? 'Limite de 3 versiones alcanzado — quedo en revision manual.' : ($json.revisionManual ? 'La redaccion no paso validacion — quedo en revision manual.' : 'Sin detalle disponible'))}` }}",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "id": "56e2fb29-1e25-44fa-bcef-4d6d82f51cf1",
@@ -799,7 +803,8 @@
         "chatId": "={{ $('Parsear diagnosticoId e indicacion').item.json.chatId }}",
         "text": "⚠️ Formato no reconocido. Usa exactamente:\n/ajustar <diagnosticoId> <token> <tu indicacion>\n\nCopia el comando prellenado tal como aparece en el mensaje de revision y agrega tu indicacion al final.",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "id": "0dc53287-dc6c-43f2-8728-6d882dbfe613",
@@ -823,7 +828,8 @@
         "chatId": "8329441485",
         "text": "={{ $json.mensajeTexto }}",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "type": "n8n-nodes-base.telegram",
@@ -847,7 +853,8 @@
         "chatId": "8329441485",
         "text": "=🔴 Error al procesar el veredicto\n\nDATOS DEL INTAKE\nIntake ID: {{ $('Webhook Intake').item.json.body.intakeId }}\nCorreo del interesado: {{ $('Webhook Intake').item.json.body.correo }}\nSector: {{ $('Webhook Intake').item.json.body.sector }}\n\nERROR\n{{ $json.error || 'Sin detalle disponible' }}\nRevision manual: {{ $json.revisionManual || false }}\nErrores de validacion: {{ ($json.errores || []).join(' | ') || 'N/A' }}\n\nEl cliente NO recibio nada. Revisa la tabla intakes/diagnosticos en Supabase.",
         "additionalFields": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "type": "n8n-nodes-base.telegram",
