@@ -547,7 +547,7 @@
       "parameters": {
         "operation": "sendAndWait",
         "chatId": "8329441485",
-        "message": "={{ `Veredicto listo para revision (intento ${$json.intentoActual}/3)\n\nID: ${$json.diagnosticoId}\nPATOLOGIA: ${$json.patologia} · ${$json.severidad}\nSecundarias: ${$json.senalesSecundarias}\n\nExpectativa del prospecto:\n${($json.expectativaIa || 'N/A').substring(0, 300)}\n\nASUNTO: ${$json.asunto}\n\n${($json.diagnosticoResumido || 'Ver en Supabase').substring(0, 1800)}\n\nPara AJUSTAR copia, pega y completa:\n/ajustar ${$json.diagnosticoId} ${$json.tokenAjustar} tu indicacion aqui` }}",
+        "message": "={{ (() => { const esc = s => String(s ?? '').replace(/[_*`\\[]/g, m => '\\\\' + m); return `Veredicto listo para revision (intento ${$json.intentoActual}/3)\\n\\nID: ${$json.diagnosticoId}\\nPATOLOGIA: ${esc($json.patologia)} · ${esc($json.severidad)}\\nSecundarias: ${esc($json.senalesSecundarias)}\\n\\nExpectativa del prospecto:\\n${esc(($json.expectativaIa || 'N/A').substring(0, 300))}\\n\\nASUNTO: ${esc($json.asunto)}\\n\\n${esc(($json.diagnosticoResumido || 'Ver en Supabase').substring(0, 1800))}\\n\\nPara AJUSTAR copia, pega y completa:\\n/ajustar ${$json.diagnosticoId} ${esc($json.tokenAjustar)} tu indicacion aqui` })() }}",
         "approvalOptions": {
           "values": {
             "approveLabel": "✅ Aprobar"
