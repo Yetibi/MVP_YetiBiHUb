@@ -82,6 +82,7 @@ export const DATO_OPTIONS: { value: Dato; label: string }[] = [
 export const FRECUENCIA_OPTIONS: { value: Frecuencia; label: string }[] = [
   { value: "varias_veces_dia", label: "Varias veces al día" },
   { value: "diario", label: "Todos los días" },
+  { value: "varias_veces_semana", label: "Algunas veces por semana" },
   { value: "semanal", label: "Cada semana" },
   { value: "mensual_o_menos", label: "Una vez al mes o menos" },
 ];

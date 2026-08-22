@@ -13,6 +13,7 @@ const DATOS: Dato[] = ["no_existe", "suelta", "dispersa", "unica"];
 const FRECUENCIAS: Frecuencia[] = [
   "varias_veces_dia",
   "diario",
+  "varias_veces_semana",
   "semanal",
   "mensual_o_menos",
 ];
