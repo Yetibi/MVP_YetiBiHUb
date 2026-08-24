@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: { absolute: "El marco Yeti BI — Primero el proceso, después la IA" },
   description:
-    "El marco completo detrás de yetibi.com: la ley de amplificación, las tres capas del sistema de decisión, los seis factores de piloto automático, la secuencia y las seis dimensiones de valor.",
+    "El marco de Yeti BI: la ley de amplificación, las tres capas del sistema de decisión, los seis factores de piloto automático y las dimensiones de valor.",
   alternates: { canonical: "https://yetibi.com/tesis" },
   openGraph: {
     type: "website",
