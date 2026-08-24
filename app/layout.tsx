@@ -72,13 +72,14 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   alternates: { canonical: "https://yetibi.com" },
+  // ?v=2: rompe la caché de favicons del navegador (rebrand 2026-08-22)
   icons: {
     icon: [
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png?v=2", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-    other: [{ rel: "icon", url: "/favicon.ico" }],
+    apple: [{ url: "/apple-touch-icon.png?v=2", sizes: "180x180" }],
+    other: [{ rel: "icon", url: "/favicon.ico?v=2" }],
   },
   manifest: "/site.webmanifest",
 };
