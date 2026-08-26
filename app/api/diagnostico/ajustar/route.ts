@@ -26,18 +26,26 @@ function supabaseAdmin() {
 }
 
 function mapRowToIntake(row: Record<string, unknown>): IntakeAptitud | null {
-  const req = ["proceso", "ejecucion", "senal", "dato", "frecuencia", "antiguedad", "falla", "expectativa_ia", "correo"];
+  // to_be es el campo nuevo; expectativa_ia sobrevive solo en filas históricas
+  const toBe = (row.to_be as string | null) ?? (row.expectativa_ia as string | null);
+  const req = ["proceso", "ejecucion", "senal", "dato", "frecuencia", "antiguedad", "falla", "correo"];
   for (const c of req) if (!row[c]) return null;
+  if (!toBe) return null;
   return {
     proceso: row.proceso as string,
+    as_is: (row.as_is as string | null) ?? "",
     ejecucion: row.ejecucion as string,
     senal: row.senal as IntakeAptitud["senal"],
+    senal_detalle: (row.senal_detalle as string | null) ?? null,
     dato: row.dato as IntakeAptitud["dato"],
+    dato_detalle: (row.dato_detalle as string | null) ?? null,
     frecuencia: row.frecuencia as IntakeAptitud["frecuencia"],
     antiguedad: row.antiguedad as IntakeAptitud["antiguedad"],
+    intento_previo: (row.intento_previo as string | null) ?? null,
     falla: row.falla as IntakeAptitud["falla"],
-    expectativa_ia: row.expectativa_ia as string,
+    to_be: toBe,
     email: row.correo as string,
+    nombre: (row.nombre as string | null) ?? null,
     sector: (row.sector as string | null) ?? null,
   };
 }
@@ -259,8 +267,9 @@ export async function POST(req: NextRequest) {
     indicacionAjuste,
     respuestasLibres: {
       proceso: intake.proceso,
+      as_is: intake.as_is,
       ejecucion: intake.ejecucion,
-      expectativa_ia: intake.expectativa_ia,
+      to_be: intake.to_be,
     },
     asunto: resultado.veredicto.asunto,
     cuerpoTexto: resultado.veredicto.cuerpo_texto,

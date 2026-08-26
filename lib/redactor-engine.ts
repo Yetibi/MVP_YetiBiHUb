@@ -68,10 +68,12 @@ REGLAS DURAS — sin excepción:
    (Única excepción: en pronóstico A puedes decir que lo que falta es
    integración entre sistemas o una fuente única — sin nombrar
    herramientas concretas ni dar pasos.)
-5. El contraste con la expectativa de IA (campo expectativa_ia) es
-   OBLIGATORIO: el golpe del veredicto es mostrar que lo que quiere que
-   la IA haga exige un insumo que su proceso hoy no produce — o, en el
-   veredicto apto, que sí lo produce.
+5. El contraste entre el AS-IS y el TO-BE (campos as_is y to_be) es
+   OBLIGATORIO: el golpe del diagnóstico es mostrar que el resultado que
+   quiere lograr exige un insumo que su proceso hoy no produce — o, en el
+   diagnóstico apto, que sí lo produce. Si el usuario mencionó IA o
+   tecnología en su to-be, es decisión suya: puedes reflejarlo; nunca se
+   la sugieras tú.
 6. Usa las palabras del usuario para nombrar su proceso. Si escribió
    "agendar citas", el correo dice "tu proceso de agendar citas".
 7. Cada término técnico lleva su explicación llana pegada en la misma
@@ -192,7 +194,7 @@ const HERRAMIENTAS_NEGRAS = ["power bi", "copilot", "chatgpt", "n8n", "zapier", 
 export function validarVeredicto(
   v: VeredictoConAjuste,
   clasif: Clasificacion,
-  intake: Pick<IntakeAptitud, "proceso" | "ejecucion" | "expectativa_ia">
+  intake: Pick<IntakeAptitud, "proceso" | "ejecucion" | "as_is" | "to_be">
 ): { valido: true } | { valido: false; error: string } {
   const cuerpo = v.cuerpo_texto.toLowerCase();
   const etiqueta = PLANTILLAS[clasif.patologia].etiqueta;
@@ -213,7 +215,7 @@ export function validarVeredicto(
     }
   }
 
-  const textoUsuario = `${intake.proceso} ${intake.ejecucion} ${intake.expectativa_ia}`.toLowerCase();
+  const textoUsuario = `${intake.proceso} ${intake.as_is} ${intake.ejecucion} ${intake.to_be}`.toLowerCase();
   for (const herr of HERRAMIENTAS_NEGRAS) {
     if (cuerpo.includes(herr)) {
       return {
@@ -261,13 +263,15 @@ PLANTILLA A LLENAR:
 ${plantillaPara(clasif.patologia, clasif.severidad)}
 
 RESPUESTAS DEL USUARIO:
-- Proceso y propósito: "${intake.proceso}"
+- Proceso: "${intake.proceso}"
+- CÓMO FUNCIONA HOY, PASO A PASO (el AS-IS, en sus palabras): "${intake.as_is}"
 - Quién lo ejecuta y con qué: "${intake.ejecucion}"
-- Frecuencia: ${intake.frecuencia} · Última vez que cambió: ${intake.antiguedad}
-- Cómo saben si sale bien: ${LABELS_SENAL[intake.senal]}
-- Dónde vive el dato: ${LABELS_DATO[intake.dato]}
-- Cuando algo sale mal: ${LABELS_FALLA[intake.falla]}
-- Lo que quiere que la IA haga: "${intake.expectativa_ia}"
+- Frecuencia: ${intake.frecuencia} · Hace cuánto se hace así: ${intake.antiguedad}${intake.intento_previo ? `
+- ¿Se ha intentado cambiar antes?: "${intake.intento_previo}"` : ""}
+- Cuando algo sale mal, cómo se entera: ${LABELS_SENAL[intake.senal]}${intake.senal_detalle ? ` — amplía: "${intake.senal_detalle}"` : ""}
+- Dónde queda registrado: ${LABELS_DATO[intake.dato]}${intake.dato_detalle ? ` — amplía: "${intake.dato_detalle}"` : ""}
+- Cuando el proceso falla: ${LABELS_FALLA[intake.falla]}
+- CÓMO SE VERÍA SI FUNCIONARA COMO DEBERÍA (el TO-BE, en sus palabras): "${intake.to_be}"
 
 Llena la plantilla y entrega el resultado con la herramienta entregar_veredicto.`;
 }

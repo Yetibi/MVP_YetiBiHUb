@@ -32,6 +32,19 @@ export const SECTORS = [
 
 // ── Campos libres ──
 
+// ── Los 4 bloques del recorrido ──
+export const BLOQUES = {
+  1: { kicker: "Bloque 1 · Para escribirte", titulo: "¿A quién le enviamos el diagnóstico?" },
+  2: {
+    kicker: "Bloque 2 · Cómo es hoy",
+    titulo: "Describe el proceso como ocurre en la realidad, no como está documentado.",
+    ayuda:
+      "Si hay atajos, grupos de WhatsApp o archivos paralelos, eso es justo lo que necesitamos saber.",
+  },
+  3: { kicker: "Bloque 3 · Cómo se comporta", titulo: "Cinco preguntas cortas sobre cómo se comporta el proceso." },
+  4: { kicker: "Bloque 4 · A dónde quieres llegar", titulo: "Si este proceso funcionara como debería, ¿cómo se vería?" },
+} as const;
+
 export const CAMPO_NOMBRE = {
   label: "¿Cómo te llamas?",
   placeholder: "Nombre y apellido",
@@ -40,27 +53,63 @@ export const CAMPO_NOMBRE = {
 } as const;
 
 export const CAMPO_PROCESO = {
-  label: "¿Qué proceso quieres evaluar, y para qué existe?",
+  label: "¿Qué proceso quieres evaluar?",
+  ayuda: "Un nombre corto basta.",
+  placeholder: "Ej.: Agendamiento de citas",
+  min: 3,
+  max: 120,
+} as const;
+
+// El campo más importante del intake
+export const CAMPO_AS_IS = {
+  label: "¿Cómo funciona hoy, paso a paso?",
   ayuda:
-    "En una o dos frases. Ej.: 'Agendamiento de citas — para que ninguna silla se quede vacía'.",
-  min: 10,
-  max: 800,
+    "Cuéntalo como se lo contarías a alguien que entra mañana a hacerlo. Incluye los pasos que no están en ningún manual.",
+  min: 20,
+  max: 1200,
 } as const;
 
 export const CAMPO_EJECUCION = {
   label: "¿Quién lo ejecuta y con qué herramientas?",
   ayuda:
-    "Personas, roles y lo que usan de verdad: Excel, WhatsApp, un sistema, papel.",
+    "Personas, roles y todo lo que usan — incluidos el Excel, el cuaderno y el grupo de WhatsApp.",
+  min: 5,
   max: 800,
 } as const;
 
-export const CAMPO_EXPECTATIVA = {
-  label: "¿Qué te gustaría que la IA hiciera en este proceso?",
-  ayuda: "En tus palabras. No hay respuesta incorrecta.",
-  max: 800,
+// TO-BE — no menciona IA, automatización ni tecnología (deliberado)
+export const CAMPO_TO_BE = {
+  label: "Si este proceso funcionara como debería, ¿cómo se vería?",
+  ayuda:
+    "Descríbelo como el resultado que quieres, no como la herramienta que crees que hace falta. ¿Qué dejaría de pasar? ¿Qué podría hacer tu equipo con ese tiempo?",
+  min: 10,
+  max: 1000,
+} as const;
+
+// Ampliaciones opcionales del bloque 3
+export const AMPLIACION = {
+  senal: { label: "¿Quieres ampliar?", placeholder: "Opcional", max: 400 },
+  dato: { label: "¿Quieres ampliar?", placeholder: "Opcional", max: 400 },
+  intento: {
+    label: "¿Se ha intentado cambiar antes?",
+    ayuda: "Si probaron algo y no funcionó, eso nos dice mucho.",
+    placeholder: "Opcional",
+    max: 400,
+  },
+} as const;
+
+// ── Preguntas del bloque 3 (texto del spec) ──
+export const PREGUNTAS_B3 = {
+  senal: "Cuando algo sale mal, ¿cómo te enteras?",
+  dato: "¿Dónde queda registrado lo que pasa?",
+  frecuencia: "¿Con qué frecuencia ocurre?",
+  antiguedad: "¿Hace cuánto se hace así?",
+  falla: "Cuando el proceso falla, ¿qué pasa?",
 } as const;
 
 // ── Opciones cerradas (discriminadores) ──
+// TODO(mockup): los subtítulos explicativos de cada opción vienen del mockup
+// yetibi-formulario-mockup.html — pendientes de recibirlo.
 
 export const SENAL_OPTIONS: { value: Senal; label: string }[] = [
   { value: "queja", label: "Nos damos cuenta cuando alguien se queja o algo falla" },

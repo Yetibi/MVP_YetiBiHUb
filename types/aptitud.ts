@@ -23,15 +23,20 @@ export type Falla = "cada_quien" | "tarde" | "repetido" | "controlado";
 // ── El intake del instrumento ──
 
 export interface IntakeAptitud {
-  proceso: string;        // libre · qué proceso y para qué existe
+  proceso: string;        // libre · nombre corto del proceso
+  as_is: string;          // libre · cómo funciona hoy, paso a paso (el AS-IS)
   ejecucion: string;      // libre · quién lo ejecuta y con qué
   senal: Senal;           // discriminador
+  senal_detalle?: string | null; // ampliación opcional
   dato: Dato;             // discriminador principal
+  dato_detalle?: string | null;  // ampliación opcional
   frecuencia: Frecuencia; // pondera redacción, no clasifica
   antiguedad: Antiguedad; // discriminador
+  intento_previo?: string | null; // ¿se ha intentado cambiar antes? (opcional)
   falla: Falla;           // discriminador
-  expectativa_ia: string; // libre · el gancho — insumo central de redacción
+  to_be: string;          // libre · cómo se vería si funcionara (el TO-BE) — el gancho
   email: string;
+  nombre?: string | null;
   sector?: string | null; // opcional, solo contexto
 }
 

@@ -11,7 +11,7 @@ interface NavigationButtonsProps {
   onSubmit: () => void;
 }
 
-const TOTAL = 8;
+const TOTAL = 4;
 
 export function NavigationButtons({
   step,

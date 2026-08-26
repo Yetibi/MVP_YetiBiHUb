@@ -36,7 +36,7 @@
     {
       "parameters": {
         "toRecipients": "data@yetibi.com",
-        "subject": "=Nuevo intake — Evaluación de proceso · {{ $json.nombre }} · {{ $json.sectorLegible }}",
+        "subject": "=Nuevo intake — {{ $json.nombre }} · {{ $json.sectorLegible }}",
         "bodyContent": "={{ $json.mensajeTexto }}",
         "additionalFields": {}
       },
@@ -60,7 +60,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Notificación interna del intake — etiquetas legibles (FIX 4)\nconst body = $input.item.json.body || {};\nconst l = body.legible || {};\n// parse_mode HTML: escapar los tres caracteres que lo rompen\nconst h = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n\nconst mensajeTexto = `Nuevo intake — Evaluación de proceso\n\nNombre: ${h(body.nombre) || 'N/A'}\nCorreo: ${h(body.correo) || 'N/A'}\nSector: ${l.sector || body.sector || 'N/A'}\n\nProceso: ${h(body.proceso) || 'N/A'}\nQuién lo ejecuta: ${h(body.ejecucion) || 'N/A'}\n\nSeñal: ${l.senal || body.senal || 'N/A'}\nDato: ${l.dato || body.dato || 'N/A'}\nFrecuencia: ${l.frecuencia || body.frecuencia || 'N/A'} · Antigüedad: ${l.antiguedad || body.antiguedad || 'N/A'}\nFalla: ${l.falla || body.falla || 'N/A'}\n\nExpectativa de IA: ${h(body.expectativa_ia) || 'N/A'}`;\n\nreturn [{ json: { mensajeTexto, nombre: body.nombre || '', sectorLegible: l.sector || body.sector || '' } }];"
+        "jsCode": "// Notificación interna del intake as-is → to-be — etiquetas legibles\nconst body = $input.item.json.body || {};\nconst l = body.legible || {};\nconst h = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\nconst opt = (t, v) => v ? `\\n${t}: ${h(v)}` : '';\n\nconst mensajeTexto = `Nuevo intake — Evaluación de proceso\n\nNombre: ${h(body.nombre) || 'N/A'}\nCorreo: ${h(body.correo) || 'N/A'}\nSector: ${l.sector || body.sector || 'N/A'}\n\n— CÓMO ES HOY —\nProceso: ${h(body.proceso) || 'N/A'}\nCómo funciona hoy: ${h(body.as_is) || 'N/A'}\nQuién lo ejecuta: ${h(body.ejecucion) || 'N/A'}\n\n— CÓMO SE COMPORTA —\nCómo se entera cuando falla: ${l.senal || body.senal || 'N/A'}${opt('  Amplía', body.senal_detalle)}\nDónde queda registrado: ${l.dato || body.dato || 'N/A'}${opt('  Amplía', body.dato_detalle)}\nFrecuencia: ${l.frecuencia || body.frecuencia || 'N/A'}\nHace cuánto se hace así: ${l.antiguedad || body.antiguedad || 'N/A'}${opt('  Se intentó cambiar antes', body.intento_previo)}\nCuando falla: ${l.falla || body.falla || 'N/A'}\n\n— A DÓNDE QUIERE LLEGAR —\n${h(body.to_be) || 'N/A'}`;\n\nreturn [{ json: { mensajeTexto, nombre: body.nombre || '', sectorLegible: l.sector || body.sector || '' } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -201,8 +201,8 @@
             },
             {
               "id": "n6",
-              "name": "expectativaIa",
-              "value": "={{ $json.respuestasLibres?.expectativa_ia || '' }}",
+              "name": "toBe",
+              "value": "={{ $json.respuestasLibres?.to_be || '' }}",
               "type": "string"
             },
             {
@@ -551,7 +551,7 @@
       "parameters": {
         "operation": "sendAndWait",
         "chatId": "8329441485",
-        "message": "={{ (() => { const esc = s => String(s ?? '').replace(/[_*`\\[]/g, m => '\\\\' + m); return `${$json.ajusteAplicado ? esc($json.ajusteAplicado) + '\\n\\n' : ''}Veredicto listo para revision (intento ${$json.intentoActual}/3)\\n\\nID: ${$json.diagnosticoId}\\nPATOLOGIA: ${esc($json.patologia)} · ${esc($json.severidad)}\\nSecundarias: ${esc($json.senalesSecundarias)}\\n\\nExpectativa del prospecto:\\n${esc(($json.expectativaIa || 'N/A').substring(0, 300))}\\n\\nASUNTO: ${esc($json.asunto)}\\n\\n${esc(($json.diagnosticoResumido || 'Ver en Supabase').substring(0, 1800))}\\n\\nPara AJUSTAR copia, pega y completa:\\n/ajustar ${$json.diagnosticoId} ${esc($json.tokenAjustar)} tu indicacion aqui` })() }}",
+        "message": "={{ (() => { const esc = s => String(s ?? '').replace(/[_*`\\[]/g, m => '\\\\' + m); return `${$json.ajusteAplicado ? esc($json.ajusteAplicado) + '\\n\\n' : ''}Veredicto listo para revision (intento ${$json.intentoActual}/3)\\n\\nID: ${$json.diagnosticoId}\\nPATOLOGIA: ${esc($json.patologia)} · ${esc($json.severidad)}\\nSecundarias: ${esc($json.senalesSecundarias)}\\n\\nA dónde quiere llegar (to-be):\\n${esc(($json.toBe || 'N/A').substring(0, 300))}\\n\\nASUNTO: ${esc($json.asunto)}\\n\\n${esc(($json.diagnosticoResumido || 'Ver en Supabase').substring(0, 1800))}\\n\\nPara AJUSTAR copia, pega y completa:\\n/ajustar ${$json.diagnosticoId} ${esc($json.tokenAjustar)} tu indicacion aqui` })() }}",
         "approvalOptions": {
           "values": {
             "approveLabel": "✅ Aprobar"

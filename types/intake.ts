@@ -1,7 +1,7 @@
-// ─── Formulario del Diagnóstico de Aptitud del Proceso para IA · v1.0 ────────
-// 7 pasos + email. Sin archivos. Los campos cerrados alimentan el motor
-// determinista (lib/clasificador.ts); los libres solo dan contexto de
-// redacción. Ver types/aptitud.ts para el contrato completo del instrumento.
+// ─── Formulario de intake · as-is → to-be (4 bloques) ────────────────────────
+// Quién eres → cómo es hoy → cómo se comporta → a dónde quieres llegar.
+// Los cerrados alimentan el motor determinista (lib/clasificador.ts); los
+// libres dan el punto A y el punto B del cliente en sus propias palabras.
 
 import type {
   Senal,
@@ -12,32 +12,28 @@ import type {
 } from "@/types/aptitud";
 
 export interface IntakeFormData {
-  // Paso 1 — contexto (no clasifica)
-  proceso: string;
-
-  // Paso 2 — contexto (no clasifica)
-  ejecucion: string;
-
-  // Paso 3 — discriminador
-  senal: Senal | null;
-
-  // Paso 4 — discriminador principal
-  dato: Dato | null;
-
-  // Paso 5 — peso (5a pondera redacción, 5b discrimina)
-  frecuencia: Frecuencia | null;
-  antiguedad: Antiguedad | null;
-
-  // Paso 6 — discriminador
-  falla: Falla | null;
-
-  // Paso 7 — el gancho (insumo central de redacción)
-  expectativaIa: string;
-
-  // Paso 8 — captura
+  // Bloque 1 — para escribirte
   nombre: string;
   email: string;
-  sector: string; // opcional, solo contexto
+  sector: string; // clave snake_case, opcional
+
+  // Bloque 2 — cómo es hoy (AS-IS)
+  proceso: string;   // nombre corto
+  asIs: string;      // cómo funciona hoy, paso a paso (1200)
+  ejecucion: string; // quién lo ejecuta y con qué (800)
+
+  // Bloque 3 — cómo se comporta
+  senal: Senal | null;
+  senalDetalle: string;
+  dato: Dato | null;
+  datoDetalle: string;
+  frecuencia: Frecuencia | null;
+  antiguedad: Antiguedad | null;
+  intentoPrevio: string;
+  falla: Falla | null;
+
+  // Bloque 4 — a dónde quieres llegar (TO-BE)
+  toBe: string; // 1000
 }
 
 export type UpdateFn = <K extends keyof IntakeFormData>(
@@ -45,5 +41,5 @@ export type UpdateFn = <K extends keyof IntakeFormData>(
   value: IntakeFormData[K]
 ) => void;
 
-export type FormStep = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type FormStep = 1 | 2 | 3 | 4;
 export type StepDirection = "forward" | "backward";

@@ -4,7 +4,7 @@ interface ProgressBarProps {
   step: number;
 }
 
-const TOTAL = 8;
+const TOTAL = 4;
 
 export function ProgressBar({ step }: ProgressBarProps) {
   const pct = (step / TOTAL) * 100;
@@ -17,7 +17,7 @@ export function ProgressBar({ step }: ProgressBarProps) {
         </span>
 
         <span className="text-xs text-white/50 tabular-nums">
-          <span className="text-white/80 font-semibold">Paso {step}</span> de{" "}
+          <span className="text-white/80 font-semibold">Bloque {step}</span> de{" "}
           {TOTAL} · Evaluación de proceso
         </span>
       </div>
@@ -31,7 +31,7 @@ export function ProgressBar({ step }: ProgressBarProps) {
           aria-valuenow={step}
           aria-valuemin={1}
           aria-valuemax={TOTAL}
-          aria-label={`Paso ${step} de ${TOTAL}`}
+          aria-label={`Bloque ${step} de ${TOTAL}`}
         />
       </div>
     </header>
