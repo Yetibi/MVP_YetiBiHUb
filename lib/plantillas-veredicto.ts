@@ -51,7 +51,7 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
     lineaTension:
       "La IA no puede decidir sobre un dato que no existe. Hoy, cualquier respuesta que te dé sobre este proceso sería una opinión con buena redacción.",
     guiaContraste:
-      "Lo que quiere que la IA haga presupone historia registrada; su propia respuesta ('en la cabeza de quien lo hace' / 'papel, WhatsApp, correos') muestra que esa historia no está en ningún lado consultable.",
+      "Lo que quiere lograr presupone historia registrada; lo que él mismo respondió sobre dónde queda el dato (memoria, conversaciones, archivos sueltos) muestra que esa historia no está en ningún lado consultable. Describe la idea con tus palabras; no cites la opción del formulario entre comillas.",
   },
   patchwork: {
     etiqueta: "DIAGNÓSTICO: PATCHWORK DE SISTEMAS",
@@ -69,7 +69,7 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
     lineaTension:
       "La IA aprende patrones. Donde cada quien hace lo suyo, no hay patrón — hay estilos. Automatizar un estilo es congelar la manera de una persona y llamarla proceso.",
     guiaContraste:
-      "Su expectativa presupone un 'modo correcto' definido; su respuesta 'cada quien lo resuelve a su manera' muestra que ese modo no existe todavía por escrito.",
+      "Lo que quiere lograr presupone un modo correcto definido; lo que él mismo respondió sobre cómo se resuelve la falla (cada persona por fuera del proceso) muestra que ese modo no existe todavía por escrito. Describe la idea con tus palabras; no cites la opción del formulario entre comillas.",
   },
   fuga_de_decision: {
     etiqueta: "DIAGNÓSTICO: FUGA DE DECISIÓN",
@@ -87,14 +87,19 @@ export const PLANTILLAS: Record<Patologia, PlantillaVeredicto> = {
 export const TENSION_FUGA_BAJA =
   "Tu proceso está en el grupo minoritario que sí está en condiciones de recibir inteligencia. La pregunta ya no es si puede — es dónde te devuelve más valor, y esa respuesta no es obvia: elegir mal el punto de entrada es la forma cara de acertar la tecnología.";
 
+/** Línea de tensión efectiva por patología/severidad (la que el validador
+    exige una sola vez, en el cierre). */
+export function lineaTensionPara(patologia: Patologia, severidad: Severidad): string {
+  return patologia === "fuga_de_decision" && severidad === "baja"
+    ? TENSION_FUGA_BAJA
+    : PLANTILLAS[patologia].lineaTension;
+}
+
 /** Plantilla renderizada para el prompt: esqueleto con etiqueta, glosa,
     tensión y guía del contraste ya resueltos por patología/severidad. */
 export function plantillaPara(patologia: Patologia, severidad: Severidad): string {
   const p = PLANTILLAS[patologia];
-  const tension =
-    patologia === "fuga_de_decision" && severidad === "baja"
-      ? TENSION_FUGA_BAJA
-      : p.lineaTension;
+  const tension = lineaTensionPara(patologia, severidad);
 
   return (
     ESQUELETO

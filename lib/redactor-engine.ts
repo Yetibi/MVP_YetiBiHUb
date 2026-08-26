@@ -1,11 +1,16 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import type {
+  Antiguedad,
   Clasificacion,
+  Dato,
+  Falla,
+  Frecuencia,
   IntakeAptitud,
+  Senal,
   Veredicto,
 } from "@/types/aptitud";
-import { PLANTILLAS, plantillaPara } from "@/lib/plantillas-veredicto";
+import { PLANTILLAS, lineaTensionPara, plantillaPara } from "@/lib/plantillas-veredicto";
 
 // ─── Redactor de veredictos (insumo v1.0 §3 y §5) ────────────────────────────
 // El modelo SOLO redacta: la patología ya fue asignada por lib/clasificador.ts.
@@ -30,11 +35,13 @@ que se te entrega. La patología YA FUE DETERMINADA por el motor de
 clasificación. No la cuestionas, no la cambias, no agregas otras.
 
 RECIBES: la patología asignada con su severidad, la plantilla correspondiente,
-y las respuestas del usuario (proceso, ejecución, expectativa de IA).
+y las respuestas del usuario (proceso, as-is, ejecución, to-be).
 
-PRONÓSTICO — OBLIGATORIO después de la patología:
-Clasifica el proceso en UNO de estos tres pronósticos y hazlo explícito en
-el reporte (integrado en el párrafo de contraste, sin encabezado nuevo):
+PRONÓSTICO — CLASIFICACIÓN INTERNA, NUNCA IMPRESA:
+Clasifica internamente el proceso en UNO de estos tres pronósticos. La
+clasificación NUNCA se nombra en el reporte — ni la palabra "pronóstico",
+ni "tipo A/B/C", ni la letra. Gobierna CÓMO rematas; no aparece como
+etiqueta ni como categoría.
 
 A · Automatización simple. El trabajo es mecánico: consolidar, extraer,
     transcribir, cruzar. El dato es estructurado. No requiere criterio que
@@ -48,12 +55,21 @@ C · IA con criterio. El problema requiere juicio sobre datos no
     estructurados, y una vez resuelto el insumo, la IA aporta algo que
     ninguna otra herramienta aporta.
 
-NO apliques la advertencia contra automatizar a los tres casos por igual.
-En un proceso tipo A, advertir contra la automatización hace que el
-diagnóstico se lea como postura genérica en lugar de análisis del caso.
-Cuando el proceso es candidato, decirlo genera más credibilidad que
-advertir: en pronóstico A adapta la línea de tensión de la plantilla para
-que el remate diga exactamente eso.
+El efecto debe verse SOLO en el remate. En un proceso A, la conclusión es
+que probablemente ni siquiera necesita IA sino integración entre sistemas
+o una fuente única — dilo sin rodeos: en ese caso NO copies la línea de
+tensión de la plantilla; en su lugar escribe un remate propio de una o
+dos frases, con el mismo tono y extensión, cuya idea sea exactamente esa:
+el proceso no necesita inteligencia sino que sus sistemas se hablen o una
+sola fuente, y automatizar el cruce a mano solo lo haría más rápido.
+Formúlalo con tus palabras y con los detalles de este caso; no copies
+esta descripción. En B y C, la línea de tensión de la plantilla se usa
+tal cual y sin frases introductorias pegadas a ella.
+No apliques la advertencia contra automatizar a los tres casos por igual:
+en un proceso A, advertir contra la automatización hace que el
+diagnóstico se lea como postura genérica en lugar de análisis del caso;
+cuando el proceso es candidato, decirlo genera más credibilidad que
+advertir.
 
 REGLAS DURAS — sin excepción:
 1. NUNCA menciones herramientas, plataformas ni tecnologías concretas
@@ -94,6 +110,15 @@ REGLAS DURAS — sin excepción:
     línea sobria de contacto y la firma de la plantilla. PROHIBIDO en el
     cierre: mencionar la fuga, el costo o cálculos en pesos (el reporte
     gratuito no los calcula), urgencia, "agenda una llamada", plazos.
+11. La línea de tensión de la plantilla aparece UNA SOLA VEZ en todo el
+    reporte, exclusivamente en el cierre. No la anticipes, no la
+    parafrasees ni la cites dentro del cuerpo. Si la idea que expresa ya
+    hace falta antes, formúlala con otras palabras y reserva la línea
+    literal para el remate.
+12. El nombre técnico de la patología aparece SOLO en la etiqueta fija con
+    su glosa. En el resto del cuerpo no se repite: habla del hecho (el
+    dato repartido, la manera de cada quien, la señal que llega tarde),
+    no de la categoría.
 
 REGISTRO Y PERSONA GRAMATICAL:
 - Todo el reporte en segunda persona singular informal (tú), consistente
@@ -185,11 +210,33 @@ const FRASES_PROHIBIDAS = [
   "paso 1",
   "te recomendamos",
   "deberías implementar",
+  // Taxonomía interna de calibración: nunca al lector (regla 12 / pronóstico).
+  "pronóstico",
+];
+
+// "tipo A/B/C" con límite de palabra: "tipo asistencial" o "prototipo a" no
+// deben disparar el rechazo.
+const RE_TIPO_ABC = /\btipo [abc]\b/;
+
+// Nombres técnicos de patología: permitidos SOLO dentro de la etiqueta fija
+// (y de la línea de tensión, que en patchwork lo contiene). Se buscan sobre
+// el cuerpo con esos literales ya removidos.
+const NOMBRES_PATOLOGIA = [
+  "ghost data",
+  "patchwork",
+  "inercia activa",
+  "variabilidad artesanal",
+  "fuga de decisión",
 ];
 
 // Herramientas que como recomendación son rechazo. "Excel" se permite solo
 // si el usuario lo mencionó en sus respuestas libres.
 const HERRAMIENTAS_NEGRAS = ["power bi", "copilot", "chatgpt", "n8n", "zapier", "crm", "erp"];
+
+function contarOcurrencias(texto: string, frase: string): number {
+  if (!frase) return 0;
+  return texto.split(frase).length - 1;
+}
 
 export function validarVeredicto(
   v: VeredictoConAjuste,
@@ -197,7 +244,9 @@ export function validarVeredicto(
   intake: Pick<IntakeAptitud, "proceso" | "ejecucion" | "as_is" | "to_be">
 ): { valido: true } | { valido: false; error: string } {
   const cuerpo = v.cuerpo_texto.toLowerCase();
-  const etiqueta = PLANTILLAS[clasif.patologia].etiqueta;
+  const plantilla = PLANTILLAS[clasif.patologia];
+  const etiqueta = plantilla.etiqueta;
+  const tension = lineaTensionPara(clasif.patologia, clasif.severidad);
 
   if (!v.cuerpo_texto.includes(etiqueta)) {
     return {
@@ -206,25 +255,58 @@ export function validarVeredicto(
     };
   }
 
+  // Regla 11: la línea de tensión va una sola vez (en el cierre). No se exige
+  // ≥1 porque en pronóstico A el modelo la adapta legítimamente.
+  const vecesTension = contarOcurrencias(v.cuerpo_texto, tension);
+  if (vecesTension > 1) {
+    return {
+      valido: false,
+      error: `La línea de tensión aparece ${vecesTension} veces; debe aparecer una sola vez, en el cierre (regla dura 11).`,
+    };
+  }
+
   for (const frase of FRASES_PROHIBIDAS) {
     if (cuerpo.includes(frase)) {
       return {
         valido: false,
-        error: `El cuerpo contiene la frase prohibida "${frase}" (regla dura 2/4: sin pasos ni recomendaciones).`,
+        error: `El cuerpo contiene la frase prohibida "${frase}" (regla dura 2/4: sin pasos ni recomendaciones; la clasificación interna no se nombra).`,
+      };
+    }
+  }
+  if (RE_TIPO_ABC.test(cuerpo)) {
+    return {
+      valido: false,
+      error: 'El cuerpo nombra la clasificación interna ("tipo A/B/C"); el pronóstico gobierna el remate, no se imprime.',
+    };
+  }
+
+  // Regla 12: nombre técnico solo en la etiqueta. Se excluyen primero la
+  // etiqueta y la línea de tensión (patchwork la contiene) y se busca en el resto.
+  const cuerpoSinFijos = v.cuerpo_texto
+    .split(etiqueta).join(" ")
+    .split(tension).join(" ")
+    .toLowerCase();
+  for (const nombre of NOMBRES_PATOLOGIA) {
+    if (cuerpoSinFijos.includes(nombre)) {
+      return {
+        valido: false,
+        error: `El cuerpo repite el nombre técnico "${nombre}" fuera de la etiqueta con glosa (regla dura 12).`,
       };
     }
   }
 
+  // Con límite de palabra: "erp" como subcadena rechazaba "cuerpo",
+  // "interpretar" o "superpuesto"; "excel" rechazaba "excelente".
   const textoUsuario = `${intake.proceso} ${intake.as_is} ${intake.ejecucion} ${intake.to_be}`.toLowerCase();
   for (const herr of HERRAMIENTAS_NEGRAS) {
-    if (cuerpo.includes(herr)) {
+    if (new RegExp(`\\b${herr}\\b`).test(cuerpo)) {
       return {
         valido: false,
         error: `El cuerpo menciona la herramienta "${herr}" (regla dura 1: sin herramientas).`,
       };
     }
   }
-  if (cuerpo.includes("excel") && !textoUsuario.includes("excel")) {
+  if (/\bexcel\b/.test(cuerpo) && !/\bexcel\b/.test(textoUsuario)) {
     return {
       valido: false,
       error:
@@ -237,27 +319,67 @@ export function validarVeredicto(
 
 // ── Mensaje user (§3, interpolado) ──
 
-const LABELS_SENAL: Record<string, string> = {
-  queja: "Nos enteramos por el cliente, cuando ya reclamó",
+// Diccionarios clave → etiqueta que vio el usuario (lib/copy.ts: label + sub).
+// Tipados con la unión completa: si types/aptitud.ts gana una clave y aquí
+// falta, `tsc`/`next build` fallan. scripts/test-etiquetas.ts verifica además
+// que coincidan con las opciones del formulario. NUNCA se inyecta la clave cruda.
+export const LABELS_SENAL: Record<Senal, string> = {
   cabeza: "Alguien lo nota y avisa — depende de que una persona esté atenta",
-  registro_muerto: "Aparece en un reporte o tablero, con revisión periódica",
-  indicadores: "El sistema alerta solo, sin que nadie lo busque",
+  registro_muerto: "Aparece en un reporte o tablero — hay una revisión periódica",
+  indicadores: "El sistema alerta solo — salta una alarma sin que nadie la busque",
+  queja: "Nos enteramos por el cliente — cuando ya reclamó",
 };
-const LABELS_DATO: Record<string, string> = {
+export const LABELS_DATO: Record<Dato, string> = {
+  suelta: "En archivos sueltos — Excel, PDF, correos, carpetas",
+  dispersa: "Repartido en varias herramientas — cada una tiene su parte",
+  unica: "En un sistema único — todo queda en el mismo lugar",
   no_existe: "Casi nada queda registrado — vive en la memoria y en conversaciones",
-  suelta: "En archivos sueltos: Excel, PDF, correos, carpetas",
-  dispersa: "Repartido en varias herramientas; cada una tiene su parte",
-  unica: "En un sistema único; todo queda en el mismo lugar",
 };
-const LABELS_FALLA: Record<string, string> = {
-  cada_quien: "Alguien lo resuelve por fuera del proceso",
-  tarde: "Se descubre tarde, cuando ya no hay margen",
+export const LABELS_FRECUENCIA: Record<Frecuencia, string> = {
+  varias_veces_dia: "Varias veces al día",
+  diario: "Todos los días",
+  varias_veces_semana: "Varias veces por semana",
+  semanal: "Cada semana", // clave del formulario anterior; sobrevive en filas históricas
+  mensual_o_menos: "Algunas veces al mes",
+};
+export const LABELS_ANTIGUEDAD: Record<Antiguedad, string> = {
+  reciente: "Menos de un año",
+  hace_anios: "Entre uno y cinco años",
+  fosil: "Más de cinco años",
+  nunca: "Nunca ha cambiado desde que existe", // clave del formulario anterior
+};
+export const LABELS_FALLA: Record<Falla, string> = {
   repetido: "Hay que rehacer el trabajo",
+  tarde: "Se descubre tarde, cuando ya no hay margen",
   cliente: "Se generan errores que llegan al cliente",
-  controlado: "Se detecta y corrige rápido; hay un responsable claro",
+  cada_quien: "Alguien lo resuelve por fuera del proceso",
+  controlado: "Se detecta y corrige rápido; hay un responsable claro", // clave del formulario anterior
 };
 
-function buildUserMessage(intake: IntakeAptitud, clasif: Clasificacion): string {
+/** Traduce una clave cerrada a su etiqueta. Una clave sin traducción (fila
+    con un valor fuera del contrato) lanza en vez de imprimir "undefined";
+    el error entra al ciclo de reintento y termina en revisión manual. */
+export function etiquetaDe<K extends string>(
+  dict: Record<K, string>,
+  clave: string,
+  campo: string
+): string {
+  const label = (dict as Record<string, string>)[clave];
+  if (label === undefined) {
+    throw new Error(
+      `Clave "${clave}" del campo "${campo}" no tiene etiqueta en el motor (fuera del contrato del instrumento).`
+    );
+  }
+  return label;
+}
+
+export function buildUserMessage(intake: IntakeAptitud, clasif: Clasificacion): string {
+  const senal = etiquetaDe(LABELS_SENAL, intake.senal, "senal");
+  const dato = etiquetaDe(LABELS_DATO, intake.dato, "dato");
+  const frecuencia = etiquetaDe(LABELS_FRECUENCIA, intake.frecuencia, "frecuencia");
+  const antiguedad = etiquetaDe(LABELS_ANTIGUEDAD, intake.antiguedad, "antiguedad");
+  const falla = etiquetaDe(LABELS_FALLA, intake.falla, "falla");
+
   return `PATOLOGÍA ASIGNADA: ${clasif.patologia} · severidad ${clasif.severidad} · madurez estimada nivel ${clasif.cmmiEstimado}
 
 PLANTILLA A LLENAR:
@@ -267,11 +389,11 @@ RESPUESTAS DEL USUARIO:
 - Proceso: "${intake.proceso}"
 - CÓMO FUNCIONA HOY, PASO A PASO (el AS-IS, en sus palabras): "${intake.as_is}"
 - Quién lo ejecuta y con qué: "${intake.ejecucion}"
-- Frecuencia: ${intake.frecuencia} · Hace cuánto se hace así: ${intake.antiguedad}${intake.intento_previo ? `
+- Frecuencia: ${frecuencia} · Hace cuánto se hace así: ${antiguedad}${intake.intento_previo ? `
 - ¿Se ha intentado cambiar antes?: "${intake.intento_previo}"` : ""}
-- Cuando algo sale mal, cómo se entera: ${LABELS_SENAL[intake.senal]}${intake.senal_detalle ? ` — amplía: "${intake.senal_detalle}"` : ""}
-- Dónde queda registrado: ${LABELS_DATO[intake.dato]}${intake.dato_detalle ? ` — amplía: "${intake.dato_detalle}"` : ""}
-- Cuando el proceso falla: ${LABELS_FALLA[intake.falla]}
+- Cuando algo sale mal, cómo se entera: ${senal}${intake.senal_detalle ? ` — amplía: "${intake.senal_detalle}"` : ""}
+- Dónde queda registrado: ${dato}${intake.dato_detalle ? ` — amplía: "${intake.dato_detalle}"` : ""}
+- Cuando el proceso falla: ${falla}
 - CÓMO SE VERÍA SI FUNCIONARA COMO DEBERÍA (el TO-BE, en sus palabras): "${intake.to_be}"
 
 Llena la plantilla y entrega el resultado con la herramienta entregar_veredicto.`;
