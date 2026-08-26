@@ -94,6 +94,47 @@ const CASOS: { nombre: string; intake: IntakeAptitud }[] = [
       sector: "educacion_formacion",
     },
   },
+  {
+    nombre: "5 · Facturación en taller · EVIDENCIA ESCASA (as-is de una frase)",
+    intake: {
+      proceso: "facturación de reparaciones",
+      as_is: "Hacemos las facturas cuando el carro sale.",
+      ejecucion: "La secretaria.",
+      senal: "queja",
+      dato: "suelta",
+      frecuencia: "diario",
+      antiguedad: "hace_anios",
+      falla: "tarde",
+      to_be: "Que salgan más rápido.",
+      email: "taller@prueba.yetibi.com",
+      sector: "servicios_profesionales",
+    },
+  },
+  {
+    nombre: "6 · Admisión clínica · EVIDENCIA RICA (as-is largo + 3 ampliaciones)",
+    intake: {
+      proceso: "admisión y autorización de pacientes",
+      as_is:
+        "El paciente llega o llama para pedir cita. La auxiliar de admisión verifica en el portal de la EPS si está activo y qué plan tiene; ese portal se cae con frecuencia, así que a veces llama por teléfono a la línea de la aseguradora y espera en la fila. Si el servicio requiere autorización, arma un paquete con la orden médica escaneada, el documento del paciente y el formato de la EPS, y lo sube al portal de autorizaciones o lo manda por correo según la aseguradora — cada una tiene su canal. Luego anota en un cuaderno la fecha en que radicó, y cada dos o tres días entra a revisar si la autorización salió. Cuando sale, llama al paciente para agendar. Si el paciente llega el día de la cita sin autorización aprobada, la coordinadora decide en el momento si lo atienden y facturan después o si se reprograma.",
+      ejecucion:
+        "Dos auxiliares de admisión en jornadas partidas, una coordinadora que resuelve los casos dudosos, y el facturador que cierra al final del mes. Usan el portal de cada EPS, correo, un cuaderno de radicados y la historia clínica del software del consultorio.",
+      senal: "cabeza",
+      senal_detalle:
+        "Nos damos cuenta de que una autorización se venció porque la auxiliar que la radicó se acuerda de revisarla, no porque el sistema avise. Si esa auxiliar está de vacaciones, se pierden.",
+      dato: "dispersa",
+      dato_detalle:
+        "La radicación está en el cuaderno, la respuesta de la EPS en el correo o en el portal de cada aseguradora, y la cita en el software clínico. Nada de eso se cruza automáticamente.",
+      frecuencia: "varias_veces_dia",
+      antiguedad: "fosil",
+      intento_previo:
+        "Hace tres años compramos un módulo de autorizaciones que traía el software clínico, pero solo servía para dos EPS de las once con las que trabajamos, así que las auxiliares volvieron al cuaderno y el módulo quedó sin usar.",
+      falla: "cliente",
+      to_be:
+        "Que ninguna autorización se venza sin que alguien lo sepa antes, que la auxiliar no tenga que entrar a once portales distintos para saber el estado, y que cuando el paciente llegue ya esté claro si su servicio está autorizado o no.",
+      email: "clinica@prueba.yetibi.com",
+      sector: "salud_odontologia",
+    },
+  },
 ];
 
 const CLAVES_CRUDAS = [
@@ -109,8 +150,9 @@ function contar(t: string, f: string) { return t.split(f).length - 1; }
 
 async function main() {
   const { clasificar } = await import("../lib/clasificador");
-  const { buildUserMessage, redactarVeredicto } = await import("../lib/redactor-engine");
+  const { buildUserMessage, redactarVeredicto, evaluarEvidencia } = await import("../lib/redactor-engine");
   const { PLANTILLAS, lineaTensionPara } = await import("../lib/plantillas-veredicto");
+  const { palabrasLibres } = await import("../lib/redactor-engine");
 
   const salida: unknown[] = [];
   let fallos = 0;
@@ -144,7 +186,12 @@ async function main() {
     const etiqueta = PLANTILLAS[clasif.patologia].etiqueta;
     const tension = lineaTensionPara(clasif.patologia, clasif.severidad);
     const sinFijos = cuerpo.split(etiqueta).join(" ").split(tension).join(" ").toLowerCase();
+    const ev = evaluarEvidencia(intake);
+    const vinetas = (cuerpo.match(/^\s*[•\-]\s/gm) || []).length;
     const checks = {
+      evidencia: ev.tramo.toUpperCase(),
+      rangoEsperado: `${ev.min}-${ev.max}`,
+      vinetas,
       tensionVeces: contar(cuerpo, tension),
       tensionEnCierre: (() => {
         const i = cuerpo.indexOf(tension);
@@ -154,11 +201,15 @@ async function main() {
       tipoABC: /\btipo [abc]\b/.test(lower),
       nombresFuera: NOMBRES.filter((n) => sinFijos.includes(n)),
       palabras: cuerpo.split(/\s+/).filter(Boolean).length,
+      palabrasLibres: palabrasLibres(cuerpo, `${etiqueta} — ${PLANTILLAS[clasif.patologia].glosa}`),
       ms,
     };
     console.log(`\nASUNTO: ${v.asunto}\n\n${cuerpo}\n`);
+    const palabras = checks.palabrasLibres;
+    const enRango = palabras <= Math.round(ev.max * 1.25);
+    console.log(`evidencia: ${ev.tramo.toUpperCase()} → esperado ${ev.min}-${ev.max} · libres ${palabras} (total ${checks.palabras}) ${enRango ? "✓" : "✗ EXCEDE"} · hallazgos: ${vinetas}`);
     console.log(`checks: tensión ×${checks.tensionVeces}${checks.tensionEnCierre ? " (en cierre)" : checks.tensionVeces === 0 ? " (adaptada — verificar remate)" : " (¡NO en cierre!)"} · pronóstico: ${checks.pronostico ? "✗" : "✓"} · tipo A/B/C: ${checks.tipoABC ? "✗" : "✓"} · nombres fuera: ${checks.nombresFuera.length ? "✗ " + checks.nombresFuera.join(",") : "✓"} · ${checks.palabras} palabras · ${ms} ms`);
-    if (checks.tensionVeces > 1 || checks.pronostico || checks.tipoABC || checks.nombresFuera.length) fallos++;
+    if (checks.tensionVeces > 1 || checks.pronostico || checks.tipoABC || checks.nombresFuera.length || !enRango) fallos++;
     salida.push({ caso: nombre, clasif, ok: true, asunto: v.asunto, cuerpo_texto: cuerpo, checks, mensajeUsuario: msg });
   }
 

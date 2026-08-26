@@ -50,7 +50,12 @@ for (const [campo, opciones, dict] of pares) {
       label.startsWith(o.label),
       `${campo}.${o.value}: el motor dice "${label}", el formulario "${o.label}"`
     );
-    if (o.sub) {
+    // Excepción deliberada: dato.suelta NO replica el sub del formulario
+    // ("Excel, PDF, correos, carpetas") porque inyectar una marca comercial
+    // en el prompt hacía que el modelo la escribiera y la regla dura 1 la
+    // rechazara. El label sí debe seguir coincidiendo.
+    const SIN_SUB = new Set(["dato.suelta"]);
+    if (o.sub && !SIN_SUB.has(`${campo}.${o.value}`)) {
       assert.ok(
         label.toLowerCase().includes(o.sub.toLowerCase()),
         `${campo}.${o.value}: falta el sub "${o.sub}" en "${label}"`
@@ -59,6 +64,20 @@ for (const [campo, opciones, dict] of pares) {
   }
   paso(`${campo}: ${opciones.length} opciones del formulario traducidas (diccionario con ${Object.keys(dict).length} claves)`);
 }
+
+// Ninguna etiqueta inyectada al prompt puede nombrar una herramienta que la
+// regla dura 1 prohíbe escribir (contradicción prompt vs. validador).
+for (const [campo, , dict] of pares) {
+  for (const [clave, label] of Object.entries(dict)) {
+    for (const h of ["excel", "power bi", "copilot", "chatgpt", "n8n", "zapier"]) {
+      assert.ok(
+        !new RegExp(`\\b${h}\\b`).test(label.toLowerCase()),
+        `${campo}.${clave}: la etiqueta nombra "${h}", que el validador prohíbe: "${label}"`
+      );
+    }
+  }
+}
+paso("ninguna etiqueta del motor nombra una herramienta prohibida");
 
 // ── 2. Clave fuera del contrato → lanza ──
 assert.throws(
@@ -148,6 +167,19 @@ paso('acepta "interpretar", "cuerpo", "excelente" (límite de palabra en herrami
 const rErp = ver(base("Podrías conectar el ERP con la tienda."));
 assert.ok(!rErp.valido && /"erp"/.test(rErp.error));
 paso('sigue rechazando "ERP" como palabra');
+
+// Calibración por evidencia: el validador rechaza el exceso, no la brevedad.
+const relleno = (n: number) => Array.from({ length: n }, (_, i) => `palabra${i}`).join(" ");
+// `intake` de arriba: as_is corto, sin ampliaciones, to_be corto → ESCASA (máx 200, techo 220)
+const rLargo = ver(base(relleno(400)));
+assert.ok(!rLargo.valido && /ESCASA/.test(rLargo.error) && /máximo son 200/.test(rLargo.error), rLargo.valido ? "no rechazó" : rLargo.error);
+paso("rechaza un cuerpo que excede el tramo de evidencia (ESCASA)");
+assert.deepEqual(ver(base(relleno(120))), { valido: true });
+paso("acepta un cuerpo corto (la brevedad nunca se penaliza)");
+// ESCASA: máx 200, techo 250. ~230 palabras libres (relleno + pregunta y
+// contraste del esqueleto) = el desborde típico del modelo, debe pasar.
+assert.deepEqual(ver(base(relleno(190))), { valido: true });
+paso("acepta el desborde normal del modelo (~15%) sin mandar a revisión manual");
 
 // fuga baja: la tensión efectiva es TENSION_FUGA_BAJA
 const clasifFuga: Clasificacion = { patologia: "fuga_de_decision", severidad: "baja", cmmiEstimado: 3, senalesSecundarias: [] };

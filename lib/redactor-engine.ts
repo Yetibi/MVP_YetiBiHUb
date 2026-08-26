@@ -71,6 +71,66 @@ diagnóstico se lea como postura genérica en lugar de análisis del caso;
 cuando el proceso es candidato, decirlo genera más credibilidad que
 advertir.
 
+CALIBRA LA PROFUNDIDAD SEGÚN LA EVIDENCIA QUE RECIBISTE.
+Antes de redactar, evalúa qué tan sustancial es el insumo: la extensión y
+el detalle del as-is, si hay ampliaciones (señal, dato, intento previo), y
+qué tan específico es el to-be.
+
+- Evidencia RICA (as-is detallado con pasos, actores y herramientas, más
+  una o más ampliaciones): usa todo el rango, 280–320 palabras. Puedes
+  nombrar tres hallazgos y sostener el párrafo de contraste con detalle
+  del propio relato.
+- Evidencia MEDIA (as-is presente pero general, sin ampliaciones):
+  220–260 palabras, dos hallazgos.
+- Evidencia ESCASA (as-is de una o dos frases, campos de selección casi
+  solos): 160–200 palabras y dos hallazgos como máximo. Un reporte corto
+  y honesto vale más que uno largo construido con inferencias.
+
+NUNCA estires para llenar el esqueleto. Si el material no da para tres
+hallazgos, entrega dos. Si no da para un párrafo de contraste extenso,
+hazlo breve. Rellenar con generalidades destruye la credibilidad del
+diagnóstico completo.
+
+LO QUE FALTA ES UN HALLAZGO, NO UN HUECO:
+Cuando el usuario no pueda darte algo —no sabe cuánto tarda, no sabe con
+qué frecuencia falla, no hay registro de nada— eso es información, no una
+carencia del reporte. Nómbralo como hallazgo. Por ejemplo: que no se sepa
+cuántas veces al mes ocurre algo significa que el proceso no está siendo
+medido, y lo que no se mide no se puede mejorar sobre evidencia.
+Nunca inventes el dato faltante ni lo estimes. Nunca escribas como si lo
+tuvieras.
+
+ORDEN DE ANÁLISIS — PROPÓSITO → ACTORES → FLUJO:
+Analiza el proceso en tres niveles y en este orden:
+1. PROPÓSITO — ¿para qué existe este paso o este proceso? Si la respuesta
+   del usuario sugiere que algo se hace "porque siempre se ha hecho así",
+   ese es el hallazgo más valioso que puedes entregar.
+2. ACTORES — ¿quién hace qué, y tiene sentido que lo haga esa persona?
+   Aquí vive la mayoría de las ineficiencias: alguien que reconcilia a
+   mano, alguien que aprueba sin decidir nunca, alguien que es el único
+   que sabe.
+3. FLUJO — el orden de los pasos y los tiempos. Es la capa más visible y
+   por eso la más intervenida, pero rara vez es donde está el problema
+   real.
+Si dos de los tres niveles tienen hallazgo, prioriza el más profundo:
+propósito antes que actores, actores antes que flujo.
+
+DIMENSIONA LA BRECHA (dentro del párrafo de contraste, sin sección nueva):
+Después de mostrar qué impide llegar del as-is al to-be, dimensiona la
+distancia — sin cifras, sin tiempos, sin costos. Solo si lo que tiene
+enfrente es un paso o una reconstrucción. Usa las señales del intake:
+- Proceso reciente + falla controlada → está agregando un paso a algo que
+  apenas empieza. Dilo: es mucho más barato que desarmar años de
+  complejidad, y saberlo cambia la decisión.
+- Proceso de más de cinco años + error repetido → hay complejidad
+  acumulada que hay que desarmar antes de agregar nada encima.
+- Si declaró un intento previo → alguien ya trató y no funcionó. Eso es
+  evidencia de primera: úsala para explicar por qué el próximo intento
+  necesita algo distinto.
+Cuando la brecha sea corta, dilo sin rodeos. Decir que esto sí se
+resuelve, y que el lugar donde ponerlo probablemente ya existe, genera
+más autoridad que advertir en todos los casos.
+
 REGLAS DURAS — sin excepción:
 1. NUNCA menciones herramientas, plataformas ni tecnologías concretas
    (ni las que el usuario ya usa como recomendación, ni nuevas).
@@ -99,8 +159,11 @@ REGLAS DURAS — sin excepción:
    condescendencia, sin jerga suelta, sin lenguaje de vendedor. Prohibido:
    "solución integral", "transformación digital", "quedo atento",
    "espero que estés bien".
-9. Extensión total del cuerpo: 220–300 palabras. Ni una lista numerada.
-   Máximo un bloque de viñetas (los 2–3 hallazgos).
+9. Extensión total del cuerpo: la que fije el bloque de CALIBRA LA
+   PROFUNDIDAD según la evidencia recibida (160–200, 220–260 o 280–320
+   palabras). Nunca por encima de 320. Ni una lista numerada. Máximo un
+   bloque de viñetas (los 2–3 hallazgos, y solo los que el material
+   sostenga).
 10. El cierre tiene TRES partes, en este orden: (a) la línea de tensión
     de la plantilla (adaptada solo en pronóstico A); (b) UNA pregunta
     específica del caso — la mejor casi siempre es sobre la reasignación:
@@ -119,6 +182,12 @@ REGLAS DURAS — sin excepción:
     su glosa. En el resto del cuerpo no se repite: habla del hecho (el
     dato repartido, la manera de cada quien, la señal que llega tarde),
     no de la categoría.
+13. VISIBILIDAD NO ES RECUPERACIÓN. Si el hallazgo es que algo no se ve
+    —no hay registro, nadie se entera, el dato llega tarde— no insinúes
+    que verlo lo resuelve. Ver el problema y cerrarlo son cosas
+    distintas: un tablero que muestra la fuga no la detiene. (Esto no te
+    autoriza a proponer el mecanismo de cierre: la regla 4 sigue
+    vigente. Solo evita sugerir que la visibilidad basta.)
 
 REGISTRO Y PERSONA GRAMATICAL:
 - Todo el reporte en segunda persona singular informal (tú), consistente
@@ -176,7 +245,8 @@ const TOOL_ENTREGAR_VEREDICTO: Anthropic.Tool = {
       asunto: { type: "string", maxLength: 90 },
       cuerpo_texto: {
         type: "string",
-        description: "Versión texto plano, 220-300 palabras",
+        description:
+          "Versión texto plano. La extensión la fija el bloque CALIBRA LA PROFUNDIDAD del system según la evidencia del intake (160-200, 220-260 o 280-320 palabras). Nunca más de 320.",
       },
       cuerpo_html: {
         type: "string",
@@ -238,10 +308,27 @@ function contarOcurrencias(texto: string, frase: string): number {
   return texto.split(frase).length - 1;
 }
 
+/** Palabras del cuerpo, descontando el texto fijo que impone la plantilla
+    (etiqueta+glosa, encabezados y firma): lo que se calibra es la redacción
+    del modelo, no el boilerplate del esqueleto. */
+export function palabrasLibres(cuerpo: string, etiquetaGlosa: string): number {
+  let t = cuerpo;
+  for (const fijo of [
+    etiquetaGlosa,
+    "Lo que encontramos:",
+    "Responde este correo, o yetibi.com.",
+    "Yeti BI · Ingeniería de procesos y datos",
+  ]) {
+    t = t.split(fijo).join(" ");
+  }
+  return t.split(/\s+/).filter(Boolean).length;
+}
+
 export function validarVeredicto(
   v: VeredictoConAjuste,
   clasif: Clasificacion,
-  intake: Pick<IntakeAptitud, "proceso" | "ejecucion" | "as_is" | "to_be">
+  intake: Pick<IntakeAptitud, "proceso" | "ejecucion" | "as_is" | "to_be"> &
+    Partial<Pick<IntakeAptitud, "senal_detalle" | "dato_detalle" | "intento_previo">>
 ): { valido: true } | { valido: false; error: string } {
   const cuerpo = v.cuerpo_texto.toLowerCase();
   const plantilla = PLANTILLAS[clasif.patologia];
@@ -252,6 +339,24 @@ export function validarVeredicto(
     return {
       valido: false,
       error: `El cuerpo no contiene la etiqueta fija obligatoria "${etiqueta}".`,
+    };
+  }
+
+  // Regla 9 / calibración: la extensión escala con la evidencia. Solo se
+  // rechaza el exceso (un reporte más corto que el tramo es aceptable si el
+  // material no daba); se descuenta el texto fijo de la plantilla y se deja
+  // un 10% de tolerancia para no rebotar por dos o tres palabras.
+  // Tolerancia 25%: el modelo aterriza consistentemente ~15% por encima del
+  // rango pedido. El validador atrapa el desborde real (un reporte de evidencia
+  // escasa que se estira al doble), no la variación normal — rebotar por 15
+  // palabras solo mandaba a revisión manual reportes correctos.
+  const ev = evaluarEvidencia(intake as IntakeAptitud);
+  const libres = palabrasLibres(v.cuerpo_texto, `${etiqueta} — ${plantilla.glosa}`);
+  const techo = Math.round(ev.max * 1.25);
+  if (libres > techo) {
+    return {
+      valido: false,
+      error: `El cuerpo tiene ${libres} palabras (sin contar el texto fijo de la plantilla). La evidencia de este intake es ${ev.tramo.toUpperCase()}: el máximo son ${ev.max}. Recorta a ${ev.min}–${ev.max} sin agregar inferencias — elimina desarrollo, no hechos del intake.`,
     };
   }
 
@@ -330,7 +435,10 @@ export const LABELS_SENAL: Record<Senal, string> = {
   queja: "Nos enteramos por el cliente — cuando ya reclamó",
 };
 export const LABELS_DATO: Record<Dato, string> = {
-  suelta: "En archivos sueltos — Excel, PDF, correos, carpetas",
+  // Sin nombres de herramientas: la opción que ve el usuario dice "Excel, PDF,
+  // correos, carpetas", pero inyectar esa marca aquí empujaba al modelo a
+  // escribirla y luego la regla dura 1 rechazaba el veredicto.
+  suelta: "En archivos sueltos — documentos, correos y carpetas, cada uno por su lado",
   dispersa: "Repartido en varias herramientas — cada una tiene su parte",
   unica: "En un sistema único — todo queda en el mismo lugar",
   no_existe: "Casi nada queda registrado — vive en la memoria y en conversaciones",
@@ -373,6 +481,34 @@ export function etiquetaDe<K extends string>(
   return label;
 }
 
+/** Tramo de evidencia del intake. Se calcula en código y se inyecta como
+    instrucción explícita: dejarlo solo al criterio del modelo dentro del
+    system hacía que todos los reportes salieran en el rango largo. */
+export type TramoEvidencia = "rica" | "media" | "escasa";
+
+export function evaluarEvidencia(intake: IntakeAptitud): {
+  tramo: TramoEvidencia;
+  min: number;
+  max: number;
+  hallazgos: string;
+} {
+  const ampliaciones = [
+    intake.senal_detalle,
+    intake.dato_detalle,
+    intake.intento_previo,
+  ].filter((v) => typeof v === "string" && v.trim().length > 0).length;
+  const asIs = (intake.as_is ?? "").trim().length;
+  const toBe = (intake.to_be ?? "").trim().length;
+
+  if (asIs >= 400 && ampliaciones >= 1) {
+    return { tramo: "rica", min: 280, max: 320, hallazgos: "tres" };
+  }
+  if (asIs < 120 && ampliaciones === 0 && toBe < 120) {
+    return { tramo: "escasa", min: 160, max: 200, hallazgos: "dos como máximo" };
+  }
+  return { tramo: "media", min: 220, max: 260, hallazgos: "dos" };
+}
+
 export function buildUserMessage(intake: IntakeAptitud, clasif: Clasificacion): string {
   const senal = etiquetaDe(LABELS_SENAL, intake.senal, "senal");
   const dato = etiquetaDe(LABELS_DATO, intake.dato, "dato");
@@ -380,7 +516,17 @@ export function buildUserMessage(intake: IntakeAptitud, clasif: Clasificacion): 
   const antiguedad = etiquetaDe(LABELS_ANTIGUEDAD, intake.antiguedad, "antiguedad");
   const falla = etiquetaDe(LABELS_FALLA, intake.falla, "falla");
 
+  const ev = evaluarEvidencia(intake);
+
   return `PATOLOGÍA ASIGNADA: ${clasif.patologia} · severidad ${clasif.severidad} · madurez estimada nivel ${clasif.cmmiEstimado}
+
+EVIDENCIA DE ESTE INTAKE: ${ev.tramo.toUpperCase()}
+→ Extensión OBLIGATORIA del cuerpo: ${ev.min}–${ev.max} palabras. Hallazgos: ${ev.hallazgos}.
+${ev.tramo === "escasa"
+  ? "El usuario dio muy poco material. NO estires: un reporte corto y honesto vale más que uno largo construido con inferencias. Lo que no te dijo es un hallazgo (no está medido), no un hueco que debas rellenar."
+  : ev.tramo === "rica"
+    ? "Hay material abundante: usa las ampliaciones que declaró, no las ignores."
+    : "Material suficiente pero general: no inventes detalle que no está."}
 
 PLANTILLA A LLENAR:
 ${plantillaPara(clasif.patologia, clasif.severidad)}
@@ -443,12 +589,20 @@ OBLIGATORIO aunque el cambio haya sido mínimo) e interpretacion_ajuste.
 
 ⚠ TU INTENTO ANTERIOR FUE RECHAZADO POR EL VALIDADOR:
 ${errorPrevio}
-Corrige exactamente eso y vuelve a entregar el veredicto completo.`;
+Corrige exactamente eso y vuelve a entregar el veredicto completo.
+Al corregir, NO rompas lo que ya cumplías: sin herramientas ni marcas
+(tampoco al recortar), sin "primero/luego/después" ni pasos, la línea de
+tensión una sola vez y solo en el cierre, el nombre técnico de la
+patología solo en la etiqueta, y cuerpo_html obligatorio.`;
   }
 
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 1500,
+    // 2500, no 1500: el cuerpo (hasta 320 palabras) viaja DOS veces —
+    // cuerpo_texto y cuerpo_html. Con 1500 el modelo se quedaba sin
+    // presupuesto antes de emitir cuerpo_html y el schema fallaba con
+    // "expected string, received undefined" → revisión manual.
+    max_tokens: 2500,
     system: ajuste ? SYSTEM_REDACTOR + SYSTEM_AJUSTE_EXTRA : SYSTEM_REDACTOR,
     tools: [TOOL_ENTREGAR_VEREDICTO],
     tool_choice: { type: "tool", name: "entregar_veredicto" },
