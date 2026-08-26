@@ -18,7 +18,7 @@ export type Frecuencia =
 
 export type Antiguedad = "reciente" | "hace_anios" | "fosil" | "nunca";
 
-export type Falla = "cada_quien" | "tarde" | "repetido" | "controlado";
+export type Falla = "cada_quien" | "tarde" | "repetido" | "cliente" | "controlado";
 
 // ── El intake del instrumento ──
 

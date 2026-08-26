@@ -55,9 +55,10 @@ export function NavigationButtons({
               type="button"
               onClick={onSubmit}
               disabled={isSubmitting}
-              className="bg-(--primary) text-(--background) hover:bg-(--primary-hover) disabled:opacity-60 disabled:cursor-not-allowed font-semibold tracking-wide transition-colors min-w-[160px]"
+              className="rounded-md border border-[rgba(242,143,107,.55)] bg-[rgba(242,143,107,.08)] text-[#F28F6B] hover:bg-[#F28F6B] hover:text-[#0B1420] disabled:opacity-60 disabled:cursor-not-allowed text-[12px] tracking-[.1em] transition-colors min-w-[200px]"
+              style={{ fontFamily: "var(--font-geist-mono)" }}
             >
-              {isSubmitting ? "Enviando…" : "Solicitar veredicto"}
+              {isSubmitting ? "ENVIANDO…" : "RECIBIR MI DIAGNÓSTICO →"}
             </Button>
           )}
         </div>

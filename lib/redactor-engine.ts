@@ -238,21 +238,22 @@ export function validarVeredicto(
 // ── Mensaje user (§3, interpolado) ──
 
 const LABELS_SENAL: Record<string, string> = {
-  queja: "Nos damos cuenta cuando alguien se queja o algo falla",
-  cabeza: "La persona que lo ejecuta lo sabe, pero no queda registrado",
-  registro_muerto: "Queda registro, pero casi nunca lo revisamos",
-  indicadores: "Tenemos indicadores que revisamos con frecuencia",
+  queja: "Nos enteramos por el cliente, cuando ya reclamó",
+  cabeza: "Alguien lo nota y avisa — depende de que una persona esté atenta",
+  registro_muerto: "Aparece en un reporte o tablero, con revisión periódica",
+  indicadores: "El sistema alerta solo, sin que nadie lo busque",
 };
 const LABELS_DATO: Record<string, string> = {
-  no_existe: "No queda registrada — está en la cabeza de quien lo hace",
-  suelta: "En papel, WhatsApp o correos sueltos",
-  dispersa: "En varios Excel o sistemas que no se hablan; alguien los cruza a mano",
-  unica: "En un solo sistema o base ordenada",
+  no_existe: "Casi nada queda registrado — vive en la memoria y en conversaciones",
+  suelta: "En archivos sueltos: Excel, PDF, correos, carpetas",
+  dispersa: "Repartido en varias herramientas; cada una tiene su parte",
+  unica: "En un sistema único; todo queda en el mismo lugar",
 };
 const LABELS_FALLA: Record<string, string> = {
-  cada_quien: "Cada quien lo resuelve a su manera",
-  tarde: "Nos enteramos tarde, cuando ya no se puede corregir",
-  repetido: "Se repite el mismo error aunque ya lo conocemos",
+  cada_quien: "Alguien lo resuelve por fuera del proceso",
+  tarde: "Se descubre tarde, cuando ya no hay margen",
+  repetido: "Hay que rehacer el trabajo",
+  cliente: "Se generan errores que llegan al cliente",
   controlado: "Se detecta y corrige rápido; hay un responsable claro",
 };
 

@@ -10,15 +10,15 @@ interface Props { data: IntakeFormData; update: UpdateFn; showErrors: boolean }
 // automatización ni tecnología — si la persona la menciona, es decisión suya.
 export function Bloque4ToBe({ data, update, showErrors }: Props) {
   return (
-    <section aria-labelledby="b4-title">
-      <p className="text-xs font-semibold tracking-[0.2em] text-(--primary) uppercase mb-3">{BLOQUES[4].kicker}</p>
-      <h2 id="b4-title" className="text-2xl lg:text-3xl font-bold tracking-tight text-white mb-2">{CAMPO_TO_BE.label}</h2>
-      <p className="text-sm text-white/50 mb-10 max-w-lg leading-relaxed">{CAMPO_TO_BE.ayuda}</p>
-      <CampoTexto id="toBe" label="Cómo se vería" rows={7}
-        placeholder="Ej.: Que ninguna silla se quede vacía, que nadie tenga que llamar para confirmar, y que la recepcionista pueda…"
-        value={data.toBe} onChange={(v) => update("toBe", v)} maxLength={CAMPO_TO_BE.max}
-        minLength={CAMPO_TO_BE.min} showErrors={showErrors}
-        errorMsg="Cuéntanos cómo se vería para continuar." />
+    <section aria-labelledby="b4-kicker">
+      <span id="b4-kicker" className="block text-[10px] uppercase tracking-[.2em] text-(--primary) mb-1.5" style={{ fontFamily: "var(--font-geist-mono)" }}>{BLOQUES[4].kicker}</span>
+      <p className="text-[13px] leading-relaxed text-[#5D6B7A] mb-6">{BLOQUES[4].desc}</p>
+      <CampoTexto id="toBe" label={CAMPO_TO_BE.label} ayuda={CAMPO_TO_BE.ayuda} placeholder={CAMPO_TO_BE.placeholder} rows={7} minHeight={150}
+        value={data.toBe} onChange={(v) => update("toBe", v)} maxLength={CAMPO_TO_BE.max} minLength={CAMPO_TO_BE.min}
+        showErrors={showErrors} errorMsg="Cuéntanos cómo se vería para continuar." />
+      <p className="text-[12px] leading-relaxed text-[#5D6B7A] text-center mt-2">
+        Sin costo. Te llega por correo en unos minutos.<br />No compartimos tu información con nadie.
+      </p>
     </section>
   );
 }

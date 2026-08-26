@@ -12,7 +12,7 @@ const SENALES: Senal[] = ["queja", "cabeza", "registro_muerto", "indicadores"];
 const DATOS: Dato[] = ["no_existe", "suelta", "dispersa", "unica"];
 const FRECUENCIAS: Frecuencia[] = ["varias_veces_dia", "diario", "varias_veces_semana", "semanal", "mensual_o_menos"];
 const ANTIGUEDADES: Antiguedad[] = ["reciente", "hace_anios", "fosil", "nunca"];
-const FALLAS: Falla[] = ["cada_quien", "tarde", "repetido", "controlado"];
+const FALLAS: Falla[] = ["cada_quien", "tarde", "repetido", "cliente", "controlado"];
 
 export interface IntakePayload {
   nombre: string;

@@ -15,7 +15,7 @@ function detectarSenales(i) {
   if (i.dato === "no_existe" || i.dato === "suelta") s.push("ghost_data");
   if (i.dato === "dispersa") s.push("patchwork");
   if (i.falla === "cada_quien") s.push("variabilidad_artesanal");
-  if (i.falla === "tarde" || i.falla === "repetido") s.push("fuga_de_decision");
+  if (i.falla === "tarde" || i.falla === "cliente" || i.falla === "repetido") s.push("fuga_de_decision");
   return s;
 }
 function clasificar(i) {
@@ -31,7 +31,7 @@ function clasificar(i) {
     return construir("ghost_data", i.dato === "no_existe" ? "alta" : "media");
   if (i.dato === "dispersa") return construir("patchwork", "media");
   if (i.falla === "cada_quien") return construir("variabilidad_artesanal", "media");
-  const severidad = i.falla === "tarde" ? "alta" : i.falla === "repetido" ? "media" : "baja";
+  const severidad = i.falla === "tarde" || i.falla === "cliente" ? "alta" : i.falla === "repetido" ? "media" : "baja";
   return construir("fuga_de_decision", severidad);
 }
 
@@ -53,6 +53,9 @@ const casos = [
     { patologia: "fuga_de_decision", severidad: "alta" }],
   ["T8", { antiguedad: "reciente", senal: "indicadores", dato: "unica", falla: "controlado" },
     { patologia: "fuga_de_decision", severidad: "baja" }],
+  // Mockup: "Se generan errores que llegan al cliente" = señal tardía vía cliente → fuga alta
+  ["T9", { antiguedad: "reciente", senal: "indicadores", dato: "unica", falla: "cliente" },
+    { patologia: "fuga_de_decision", severidad: "alta" }],
 ];
 
 let ok = 0;

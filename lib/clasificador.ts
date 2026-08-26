@@ -43,7 +43,7 @@ function detectarSenales(i: CampoClasificacion): Patologia[] {
   if (i.dato === "no_existe" || i.dato === "suelta") s.push("ghost_data");
   if (i.dato === "dispersa") s.push("patchwork");
   if (i.falla === "cada_quien") s.push("variabilidad_artesanal");
-  if (i.falla === "tarde" || i.falla === "repetido") s.push("fuga_de_decision");
+  if (i.falla === "tarde" || i.falla === "cliente" || i.falla === "repetido") s.push("fuga_de_decision");
   return s;
 }
 
@@ -94,6 +94,6 @@ export function clasificar(i: CampoClasificacion): Clasificacion {
   //     El proceso camina y el dato existe; el punto es la latencia
   //     entre la señal y la decisión.
   const severidad =
-    i.falla === "tarde" ? "alta" : i.falla === "repetido" ? "media" : "baja";
+    i.falla === "tarde" || i.falla === "cliente" ? "alta" : i.falla === "repetido" ? "media" : "baja";
   return construir("fuga_de_decision", severidad);
 }

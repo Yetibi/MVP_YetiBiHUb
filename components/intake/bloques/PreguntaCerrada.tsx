@@ -2,8 +2,9 @@
 
 import { motion, AnimatePresence, fadeIn } from "@/lib/motion";
 
-// ─── Pregunta de selección única (tarjetas radio) ────────────────────────────
-// `sub` = subtítulo explicativo de la opción (viene del mockup; hoy opcional).
+// ─── Pregunta de selección única — tarjetas con punto radio (mockup) ─────────
+// Seleccionada: borde coral + tinte coral al 7%. `sub` = subtítulo que evita
+// que la persona elija al azar.
 
 export interface Opcion<V extends string> { value: V; label: string; sub?: string }
 
@@ -15,41 +16,38 @@ interface PreguntaCerradaProps<V extends string> {
   onChange: (v: V) => void;
   showErrors?: boolean;
   errorMsg?: string;
-  compacta?: boolean; // chips en fila (frecuencia/antigüedad)
 }
 
 export function PreguntaCerrada<V extends string>({
-  id, pregunta, options, value, onChange, showErrors = false, errorMsg, compacta = false,
+  id, pregunta, options, value, onChange, showErrors = false, errorMsg,
 }: PreguntaCerradaProps<V>) {
   return (
-    <fieldset>
-      <legend className="text-sm font-medium text-white/80 mb-3">
-        {pregunta} <span aria-hidden="true">*</span>
+    <fieldset className="mb-7">
+      <legend className="block text-[15.5px] font-semibold leading-snug text-[#F2F6F9] mb-3"
+        style={{ fontFamily: "var(--font-space-grotesk)" }}>
+        {pregunta}
       </legend>
-      <div className={compacta ? "flex flex-wrap gap-2" : "space-y-2.5"} role="radiogroup">
+      <div className="flex flex-col gap-2" role="radiogroup">
         {options.map((opt) => {
           const sel = value === opt.value;
           return (
             <label
               key={opt.value}
-              className={`
-                cursor-pointer border transition-all duration-200 group
-                focus-within:ring-2 focus-within:ring-(--primary)
-                ${compacta ? "px-4 py-2.5 rounded-lg text-sm" : "flex items-start gap-3.5 p-4 rounded-xl"}
-                ${sel ? "border-(--primary) bg-(--primary)/10" : "border-white/10 bg-white/3 hover:border-white/25"}
-              `}
+              className="flex items-start gap-3 rounded-md border px-3.5 py-3 cursor-pointer transition-all duration-150 active:scale-[.995] focus-within:ring-2 focus-within:ring-(--primary)"
+              style={{
+                background: sel ? "rgba(242,143,107,.07)" : "#141F2E",
+                borderColor: sel ? "#F28F6B" : "rgba(139,149,165,.18)",
+              }}
             >
               <input type="radio" name={id} value={opt.value} checked={sel}
                 onChange={() => onChange(opt.value)} className="sr-only" />
-              {!compacta && (
-                <span aria-hidden className={`mt-0.5 w-4 h-4 shrink-0 rounded-full border-2 transition-colors ${
-                  sel ? "border-(--primary) bg-(--primary)" : "border-white/30 group-hover:border-white/50"}`} />
-              )}
-              <span className={compacta ? (sel ? "text-white" : "text-white/70") : "flex flex-col gap-0.5"}>
-                <span className={`text-sm leading-relaxed ${sel ? "text-white" : "text-white/70"}`}>{opt.label}</span>
-                {!compacta && opt.sub && (
-                  <span className="text-xs text-white/40 leading-relaxed">{opt.sub}</span>
-                )}
+              <span aria-hidden className="relative mt-0.5 h-[17px] w-[17px] shrink-0 rounded-full border-[1.5px] transition-colors"
+                style={{ borderColor: sel ? "#F28F6B" : "#8B95A5" }}>
+                {sel && <span className="absolute inset-[3.5px] rounded-full" style={{ background: "#F28F6B" }} />}
+              </span>
+              <span className="text-[14.5px] leading-snug text-[#F2F6F9]">
+                {opt.label}
+                {opt.sub && <span className="block text-[12px] leading-snug text-[#8B95A5] mt-0.5">{opt.sub}</span>}
               </span>
             </label>
           );
@@ -58,7 +56,7 @@ export function PreguntaCerrada<V extends string>({
       <AnimatePresence>
         {showErrors && value === null && errorMsg && (
           <motion.p variants={fadeIn} initial="initial" animate="animate" exit="exit"
-            className="text-xs text-red-400 mt-2" role="alert">{errorMsg}</motion.p>
+            className="text-xs text-[#F28F6B] mt-2" role="alert">{errorMsg}</motion.p>
         )}
       </AnimatePresence>
     </fieldset>

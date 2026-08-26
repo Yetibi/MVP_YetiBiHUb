@@ -22,11 +22,6 @@ export const metadata: Metadata = {
 
 export default function DiagnosticoPage() {
   return (
-    <>
-      <h1 className="sr-only">
-        Evalúa tu proceso — diagnóstico de aptitud para IA, sin costo
-      </h1>
-      <IntakeForm />
-    </>
+    <IntakeForm />
   );
 }

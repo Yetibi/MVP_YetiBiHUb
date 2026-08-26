@@ -34,15 +34,13 @@ export const SECTORS = [
 
 // ── Los 4 bloques del recorrido ──
 export const BLOQUES = {
-  1: { kicker: "Bloque 1 · Para escribirte", titulo: "¿A quién le enviamos el diagnóstico?" },
-  2: {
-    kicker: "Bloque 2 · Cómo es hoy",
-    titulo: "Describe el proceso como ocurre en la realidad, no como está documentado.",
-    ayuda:
-      "Si hay atajos, grupos de WhatsApp o archivos paralelos, eso es justo lo que necesitamos saber.",
-  },
-  3: { kicker: "Bloque 3 · Cómo se comporta", titulo: "Cinco preguntas cortas sobre cómo se comporta el proceso." },
-  4: { kicker: "Bloque 4 · A dónde quieres llegar", titulo: "Si este proceso funcionara como debería, ¿cómo se vería?" },
+  1: { kicker: "01 · Para escribirte", titulo: "Evalúa un proceso de tu operación.",
+       lead: "Ocho preguntas. Te devolvemos un diagnóstico escrito de ese proceso: qué encontramos, qué lo está frenando y qué haría falta antes de automatizarlo.",
+       nota: "Responde pensando en un solo proceso concreto. Entre más específico, más útil el diagnóstico." },
+  2: { kicker: "02 · Cómo es hoy",
+       desc: "Describe el proceso como ocurre en la realidad, no como está documentado. Si hay atajos, grupos de WhatsApp o archivos paralelos, eso es justo lo que necesitamos saber." },
+  3: { kicker: "03 · Cómo se comporta", desc: "Cinco preguntas rápidas sobre el pulso del proceso." },
+  4: { kicker: "04 · A dónde quieres llegar", desc: "La última, y la más importante." },
 } as const;
 
 export const CAMPO_NOMBRE = {
@@ -52,10 +50,13 @@ export const CAMPO_NOMBRE = {
   max: 80,
 } as const;
 
+export const CAMPO_CORREO = { label: "¿A qué correo enviamos el diagnóstico?", placeholder: "tu@empresa.com" } as const;
+export const CAMPO_SECTOR = { label: "¿En qué sector opera tu empresa?", placeholder: "Selecciona una opción" } as const;
+
 export const CAMPO_PROCESO = {
   label: "¿Qué proceso quieres evaluar?",
   ayuda: "Un nombre corto basta.",
-  placeholder: "Ej.: Agendamiento de citas",
+  placeholder: "Ej: agendamiento de citas, cotización de pedidos, cierre de inventario",
   min: 3,
   max: 120,
 } as const;
@@ -65,6 +66,7 @@ export const CAMPO_AS_IS = {
   label: "¿Cómo funciona hoy, paso a paso?",
   ayuda:
     "Cuéntalo como se lo contarías a alguien que entra mañana a hacerlo. Incluye los pasos que no están en ningún manual.",
+  placeholder: "Empieza por lo que dispara el proceso y sigue hasta que termina…",
   min: 20,
   max: 1200,
 } as const;
@@ -73,6 +75,7 @@ export const CAMPO_EJECUCION = {
   label: "¿Quién lo ejecuta y con qué herramientas?",
   ayuda:
     "Personas, roles y todo lo que usan — incluidos el Excel, el cuaderno y el grupo de WhatsApp.",
+  placeholder: "Ej: la recepcionista agenda en un Excel compartido y también en una agenda de papel…",
   min: 5,
   max: 800,
 } as const;
@@ -82,20 +85,16 @@ export const CAMPO_TO_BE = {
   label: "Si este proceso funcionara como debería, ¿cómo se vería?",
   ayuda:
     "Descríbelo como el resultado que quieres, no como la herramienta que crees que hace falta. ¿Qué dejaría de pasar? ¿Qué podría hacer tu equipo con ese tiempo?",
+  placeholder: "Ej: que la información llegue antes de que haya que decidir, que nadie tenga que rehacer nada, que el equipo deje de estar pendiente de esto…",
   min: 10,
   max: 1000,
 } as const;
 
 // Ampliaciones opcionales del bloque 3
 export const AMPLIACION = {
-  senal: { label: "¿Quieres ampliar?", placeholder: "Opcional", max: 400 },
-  dato: { label: "¿Quieres ampliar?", placeholder: "Opcional", max: 400 },
-  intento: {
-    label: "¿Se ha intentado cambiar antes?",
-    ayuda: "Si probaron algo y no funcionó, eso nos dice mucho.",
-    placeholder: "Opcional",
-    max: 400,
-  },
+  senal: { label: "¿Quieres ampliar?", placeholder: "Cuéntanos el matiz, si tu caso no encaja del todo en ninguna.", max: 400 },
+  dato: { label: "¿Quieres ampliar?", placeholder: "Si hay más de un caso, o si depende del día, dínoslo aquí.", max: 400 },
+  intento: { label: "¿Se ha intentado cambiar antes?", placeholder: "Si probaron algo y no funcionó, eso nos dice mucho.", max: 400 },
 } as const;
 
 // ── Preguntas del bloque 3 (texto del spec) ──
@@ -108,46 +107,41 @@ export const PREGUNTAS_B3 = {
 } as const;
 
 // ── Opciones cerradas (discriminadores) ──
-// TODO(mockup): los subtítulos explicativos de cada opción vienen del mockup
-// yetibi-formulario-mockup.html — pendientes de recibirlo.
+// Opciones y subtítulos: yetibi-formulario-mockup.html (fuente de verdad).
+// Las claves son las del motor; nunca renombrar sin migrar el clasificador.
 
-export const SENAL_OPTIONS: { value: Senal; label: string }[] = [
-  { value: "queja", label: "Nos damos cuenta cuando alguien se queja o algo falla" },
-  { value: "cabeza", label: "La persona que lo ejecuta lo sabe, pero no queda registrado" },
-  { value: "registro_muerto", label: "Queda registro, pero casi nunca lo revisamos" },
-  { value: "indicadores", label: "Tenemos indicadores que revisamos con frecuencia" },
+export const SENAL_OPTIONS: { value: Senal; label: string; sub?: string }[] = [
+  { value: "cabeza", label: "Alguien lo nota y avisa", sub: "Depende de que una persona esté atenta" },
+  { value: "registro_muerto", label: "Aparece en un reporte o tablero", sub: "Hay una revisión periódica" },
+  { value: "indicadores", label: "El sistema alerta solo", sub: "Salta una alarma sin que nadie la busque" },
+  { value: "queja", label: "Nos enteramos por el cliente", sub: "Cuando ya reclamó" },
 ];
 
-export const DATO_OPTIONS: { value: Dato; label: string }[] = [
-  { value: "no_existe", label: "No queda registrada — está en la cabeza de quien lo hace" },
-  { value: "suelta", label: "En papel, WhatsApp o correos sueltos" },
-  {
-    value: "dispersa",
-    label: "En varios Excel o sistemas que no se hablan; alguien los cruza a mano",
-  },
-  { value: "unica", label: "En un solo sistema o base ordenada" },
+export const DATO_OPTIONS: { value: Dato; label: string; sub?: string }[] = [
+  { value: "suelta", label: "En archivos sueltos", sub: "Excel, PDF, correos, carpetas" },
+  { value: "dispersa", label: "Repartido en varias herramientas", sub: "Cada una tiene su parte" },
+  { value: "unica", label: "En un sistema único", sub: "Todo queda en el mismo lugar" },
+  { value: "no_existe", label: "Casi nada queda registrado", sub: "Vive en la memoria y en conversaciones" },
 ];
 
-export const FRECUENCIA_OPTIONS: { value: Frecuencia; label: string }[] = [
+export const FRECUENCIA_OPTIONS: { value: Frecuencia; label: string; sub?: string }[] = [
   { value: "varias_veces_dia", label: "Varias veces al día" },
   { value: "diario", label: "Todos los días" },
-  { value: "varias_veces_semana", label: "Algunas veces por semana" },
-  { value: "semanal", label: "Cada semana" },
-  { value: "mensual_o_menos", label: "Una vez al mes o menos" },
+  { value: "varias_veces_semana", label: "Varias veces por semana" },
+  { value: "mensual_o_menos", label: "Algunas veces al mes" },
 ];
 
-export const ANTIGUEDAD_OPTIONS: { value: Antiguedad; label: string }[] = [
-  { value: "reciente", label: "Hace menos de un año" },
-  { value: "hace_anios", label: "Hace 1–3 años" },
-  { value: "fosil", label: "Hace más de 3 años" },
-  { value: "nunca", label: "Nunca ha cambiado desde que existe" },
+export const ANTIGUEDAD_OPTIONS: { value: Antiguedad; label: string; sub?: string }[] = [
+  { value: "reciente", label: "Menos de un año" },
+  { value: "hace_anios", label: "Entre uno y cinco años" },
+  { value: "fosil", label: "Más de cinco años" },
 ];
 
-export const FALLA_OPTIONS: { value: Falla; label: string }[] = [
-  { value: "cada_quien", label: "Cada quien lo resuelve a su manera" },
-  { value: "tarde", label: "Nos enteramos tarde, cuando ya no se puede corregir" },
-  { value: "repetido", label: "Se repite el mismo error aunque ya lo conocemos" },
-  { value: "controlado", label: "Se detecta y corrige rápido; hay un responsable claro" },
+export const FALLA_OPTIONS: { value: Falla; label: string; sub?: string }[] = [
+  { value: "repetido", label: "Hay que rehacer el trabajo" },
+  { value: "tarde", label: "Se descubre tarde, cuando ya no hay margen" },
+  { value: "cliente", label: "Se generan errores que llegan al cliente" },
+  { value: "cada_quien", label: "Alguien lo resuelve por fuera del proceso" },
 ];
 
 // ── Etiquetas legibles (FIX 4): la clave viaja a Supabase/motor; el correo
