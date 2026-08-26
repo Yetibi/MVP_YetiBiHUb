@@ -35,7 +35,8 @@ que se te entrega. La patología YA FUE DETERMINADA por el motor de
 clasificación. No la cuestionas, no la cambias, no agregas otras.
 
 RECIBES: la patología asignada con su severidad, la plantilla correspondiente,
-y las respuestas del usuario (proceso, as-is, ejecución, to-be).
+y las respuestas del usuario (proceso, cómo funciona hoy, ejecución y
+lo que quiere lograr).
 
 PRONÓSTICO — CLASIFICACIÓN INTERNA, NUNCA IMPRESA:
 Clasifica internamente el proceso en UNO de estos tres pronósticos. La
@@ -73,16 +74,16 @@ advertir.
 
 CALIBRA LA PROFUNDIDAD SEGÚN LA EVIDENCIA QUE RECIBISTE.
 Antes de redactar, evalúa qué tan sustancial es el insumo: la extensión y
-el detalle del as-is, si hay ampliaciones (señal, dato, intento previo), y
-qué tan específico es el to-be.
+el detalle de cómo funciona hoy, si hay ampliaciones (señal, dato, intento
+previo), y qué tan específico es lo que quiere lograr.
 
-- Evidencia RICA (as-is detallado con pasos, actores y herramientas, más
+- Evidencia RICA (relato de hoy detallado con pasos, actores y herramientas, más
   una o más ampliaciones): usa todo el rango, 280–320 palabras. Puedes
   nombrar tres hallazgos y sostener el párrafo de contraste con detalle
   del propio relato.
-- Evidencia MEDIA (as-is presente pero general, sin ampliaciones):
+- Evidencia MEDIA (relato de hoy presente pero general, sin ampliaciones):
   220–260 palabras, dos hallazgos.
-- Evidencia ESCASA (as-is de una o dos frases, campos de selección casi
+- Evidencia ESCASA (relato de hoy de una o dos frases, campos de selección casi
   solos): 160–200 palabras y dos hallazgos como máximo. Un reporte corto
   y honesto vale más que uno largo construido con inferencias.
 
@@ -106,19 +107,35 @@ Analiza el proceso en tres niveles y en este orden:
    del usuario sugiere que algo se hace "porque siempre se ha hecho así",
    ese es el hallazgo más valioso que puedes entregar.
 2. ACTORES — ¿quién hace qué, y tiene sentido que lo haga esa persona?
-   Aquí vive la mayoría de las ineficiencias: alguien que reconcilia a
-   mano, alguien que aprueba sin decidir nunca, alguien que es el único
-   que sabe.
+   (Ver AUDITORÍA DE ACTORES, más abajo: es obligatoria.)
 3. FLUJO — el orden de los pasos y los tiempos. Es la capa más visible y
    por eso la más intervenida, pero rara vez es donde está el problema
    real.
 Si dos de los tres niveles tienen hallazgo, prioriza el más profundo:
 propósito antes que actores, actores antes que flujo.
 
+AUDITORÍA DE ACTORES — OBLIGATORIA ANTES DE REDACTAR:
+Lista mentalmente cada persona que aparece en el relato del usuario y
+responde por cada una:
+- ¿Qué aporta que otro no podría aportar? Si solo cambia el dato de
+  formato —transcribe, copia, reenvía— es un actor mal asignado.
+- ¿Decide algo de verdad? Si aprueba pero nunca rechaza, ese paso existe
+  por control formal, no por criterio. ESTE ES EL HALLAZGO DE MAYOR VALOR
+  QUE PUEDES ENTREGAR.
+- ¿Es el único que puede hacerlo? Si alguien concentra un conocimiento o
+  un archivo que nadie más tiene, ahí hay un punto único de falla.
+- ¿Está haciendo trabajo que no le corresponde por su rol? Un operario
+  llenando papeles, un técnico persiguiendo firmas.
+
+Si el usuario nombró TRES O MÁS actores, al menos uno de tus hallazgos
+debe ser de este nivel. La mayoría de las ineficiencias viven en la
+asignación de actores, no en el orden de los pasos.
+
 DIMENSIONA LA BRECHA (dentro del párrafo de contraste, sin sección nueva):
-Después de mostrar qué impide llegar del as-is al to-be, dimensiona la
-distancia — sin cifras, sin tiempos, sin costos. Solo si lo que tiene
-enfrente es un paso o una reconstrucción. Usa las señales del intake:
+Después de mostrar qué impide llegar de como funciona hoy a lo que quiere
+lograr, dimensiona la distancia — sin cifras, sin tiempos, sin costos.
+Solo si lo que tiene enfrente es un paso o una reconstrucción. Usa las
+señales del intake:
 - Proceso reciente + falla controlada → está agregando un paso a algo que
   apenas empieza. Dilo: es mucho más barato que desarmar años de
   complejidad, y saberlo cambia la decisión.
@@ -144,12 +161,12 @@ REGLAS DURAS — sin excepción:
    (Única excepción: en pronóstico A puedes decir que lo que falta es
    integración entre sistemas o una fuente única — sin nombrar
    herramientas concretas ni dar pasos.)
-5. El contraste entre el AS-IS y el TO-BE (campos as_is y to_be) es
+5. El contraste entre COMO FUNCIONA HOY y LO QUE QUIERE LOGRAR es
    OBLIGATORIO: el golpe del diagnóstico es mostrar que el resultado que
    quiere lograr exige un insumo que su proceso hoy no produce — o, en el
    diagnóstico apto, que sí lo produce. Si el usuario mencionó IA o
-   tecnología en su to-be, es decisión suya: puedes reflejarlo; nunca se
-   la sugieras tú.
+   tecnología en lo que quiere lograr, es decisión suya: puedes
+   reflejarlo; nunca se la sugieras tú.
 6. Usa las palabras del usuario para nombrar su proceso. Si escribió
    "agendar citas", el correo dice "tu proceso de agendar citas".
 7. Cada término técnico lleva su explicación llana pegada en la misma
@@ -182,7 +199,15 @@ REGLAS DURAS — sin excepción:
     su glosa. En el resto del cuerpo no se repite: habla del hecho (el
     dato repartido, la manera de cada quien, la señal que llega tarde),
     no de la categoría.
-13. VISIBILIDAD NO ES RECUPERACIÓN. Si el hallazgo es que algo no se ve
+13. NUNCA escribas "as-is", "to-be" ni ningún otro término en inglés en el
+    reporte. Son nombres internos de campos, no vocabulario de cara al
+    cliente. Para referirte a lo que el usuario quiere lograr, escribe
+    "lo que quieres lograr", "donde quieres llegar" o "el resultado que
+    buscas". Para referirte a cómo funciona hoy, "como funciona hoy" o
+    "lo que describes". Prohibido cualquier anglicismo evitable:
+    workflow, dashboard, insight, stack, core, pipeline, gap, feedback,
+    approach.
+14. VISIBILIDAD NO ES RECUPERACIÓN. Si el hallazgo es que algo no se ve
     —no hay registro, nadie se entera, el dato llega tarde— no insinúes
     que verlo lo resuelve. Ver el problema y cerrarlo son cosas
     distintas: un tablero que muestra la fuga no la detiene. (Esto no te
@@ -288,6 +313,22 @@ const FRASES_PROHIBIDAS = [
 // deben disparar el rechazo.
 const RE_TIPO_ABC = /\btipo [abc]\b/;
 
+// Anglicismos: nombres internos de campo y jerga que no va al cliente.
+// "as is"/"to be" con separadores flexibles (guion, espacio o guion bajo).
+// OJO: "patchwork" NO va aquí — aparece legítimamente en la etiqueta fija.
+const RE_ANGLICISMOS: { re: RegExp; termino: string }[] = [
+  { re: /\bas[\s_-]is\b/, termino: "as-is" },
+  { re: /\bto[\s_-]be\b/, termino: "to-be" },
+  { re: /\bworkflow(s)?\b/, termino: "workflow" },
+  { re: /\bdashboard(s)?\b/, termino: "dashboard" },
+  { re: /\binsight(s)?\b/, termino: "insight" },
+  { re: /\bpipeline(s)?\b/, termino: "pipeline" },
+  { re: /\bgap(s)?\b/, termino: "gap" },
+  { re: /\bfeedback\b/, termino: "feedback" },
+  { re: /\bstack\b/, termino: "stack" },
+  { re: /\bapproach\b/, termino: "approach" },
+];
+
 // Nombres técnicos de patología: permitidos SOLO dentro de la etiqueta fija
 // (y de la línea de tensión, que en patchwork lo contiene). Se buscan sobre
 // el cuerpo con esos literales ya removidos.
@@ -360,13 +401,47 @@ export function validarVeredicto(
     };
   }
 
-  // Regla 11: la línea de tensión va una sola vez (en el cierre). No se exige
-  // ≥1 porque en pronóstico A el modelo la adapta legítimamente.
+  // Regla 11: la línea de tensión va EXACTAMENTE una vez y en el cierre.
+  // El pronóstico A es la única excepción al "exactamente una": ahí el
+  // modelo escribe un remate propio, así que 0 se acepta solo si no hay
+  // ninguna paráfrasis (una paráfrasis dentro del cuerpo sí es violación).
   const vecesTension = contarOcurrencias(v.cuerpo_texto, tension);
   if (vecesTension > 1) {
     return {
       valido: false,
       error: `La línea de tensión aparece ${vecesTension} veces; debe aparecer una sola vez, en el cierre (regla dura 11).`,
+    };
+  }
+  if (vecesTension === 0) {
+    // Al parafrasear, el modelo reescribe una parte de la línea y conserva
+    // otra casi literal (no siempre la misma). Si CUALQUIER oración completa
+    // de la línea aparece en el cuerpo, la usó sin citarla entera.
+    const parafraseada = tension
+      .split(/(?<=[.!?])\s+/)
+      .map((f) => f.trim())
+      .some((f) => f.length > 20 && v.cuerpo_texto.includes(f));
+    return {
+      valido: false,
+      error: parafraseada
+        ? `La línea de tensión está PARAFRASEADA, no citada. Debe aparecer literal, palabra por palabra, y como remate: "${tension}"`
+        : `Falta la línea de tensión obligatoria. Debe cerrar el reporte, literal: "${tension}"`,
+    };
+  }
+  // Posición: debe ser el remate. La proporción del cuerpo no sirve como
+  // métrica (penaliza los reportes cortos); lo que importa es cuánto texto
+  // queda DESPUÉS de la línea: por diseño del esqueleto, solo la pregunta de
+  // cierre. Un párrafo entero después significa que se usó como argumento
+  // dentro del contraste. 400 caracteres ≈ una pregunta larga con holgura.
+  const MAX_COLA = 400;
+  const cuerpoSinFirma = v.cuerpo_texto
+    .split("Responde este correo")[0]
+    .trimEnd();
+  const posicion = cuerpoSinFirma.indexOf(tension);
+  const cola = posicion >= 0 ? cuerpoSinFirma.length - (posicion + tension.length) : 0;
+  if (posicion >= 0 && cola > MAX_COLA) {
+    return {
+      valido: false,
+      error: `La línea de tensión no es el remate: quedan ${cola} caracteres de texto después de ella (solo debe seguirle la pregunta de cierre). Va al final, después del párrafo de contraste (regla dura 11).`,
     };
   }
 
@@ -391,6 +466,17 @@ export function validarVeredicto(
     .split(etiqueta).join(" ")
     .split(tension).join(" ")
     .toLowerCase();
+
+  // Regla 13: sin anglicismos. Se mide sobre el cuerpo SIN los textos fijos,
+  // por la misma razón que la regla 12.
+  for (const { re, termino } of RE_ANGLICISMOS) {
+    if (re.test(cuerpoSinFijos)) {
+      return {
+        valido: false,
+        error: `El cuerpo usa el anglicismo "${termino}" (regla dura 13). Escríbelo en español: "lo que quieres lograr" / "como funciona hoy" según corresponda.`,
+      };
+    }
+  }
   for (const nombre of NOMBRES_PATOLOGIA) {
     if (cuerpoSinFijos.includes(nombre)) {
       return {
@@ -533,14 +619,14 @@ ${plantillaPara(clasif.patologia, clasif.severidad)}
 
 RESPUESTAS DEL USUARIO:
 - Proceso: "${intake.proceso}"
-- CÓMO FUNCIONA HOY, PASO A PASO (el AS-IS, en sus palabras): "${intake.as_is}"
+- CÓMO FUNCIONA HOY, PASO A PASO (en sus palabras): "${intake.as_is}"
 - Quién lo ejecuta y con qué: "${intake.ejecucion}"
 - Frecuencia: ${frecuencia} · Hace cuánto se hace así: ${antiguedad}${intake.intento_previo ? `
 - ¿Se ha intentado cambiar antes?: "${intake.intento_previo}"` : ""}
 - Cuando algo sale mal, cómo se entera: ${senal}${intake.senal_detalle ? ` — amplía: "${intake.senal_detalle}"` : ""}
 - Dónde queda registrado: ${dato}${intake.dato_detalle ? ` — amplía: "${intake.dato_detalle}"` : ""}
 - Cuando el proceso falla: ${falla}
-- CÓMO SE VERÍA SI FUNCIONARA COMO DEBERÍA (el TO-BE, en sus palabras): "${intake.to_be}"
+- CÓMO SE VERÍA SI FUNCIONARA COMO DEBERÍA — lo que quiere lograr (en sus palabras): "${intake.to_be}"
 
 Llena la plantilla y entrega el resultado con la herramienta entregar_veredicto.`;
 }

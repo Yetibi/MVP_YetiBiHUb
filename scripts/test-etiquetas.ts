@@ -181,6 +181,34 @@ paso("acepta un cuerpo corto (la brevedad nunca se penaliza)");
 assert.deepEqual(ver(base(relleno(190))), { valido: true });
 paso("acepta el desborde normal del modelo (~15%) sin mandar a revisión manual");
 
+// ── Anglicismos (regla dura 13) ──
+for (const [txt, term] of [["Tu to-be exige otra cosa.", "to-be"], ["El to be del proceso.", "to-be"], ["Revisa el as-is del flujo.", "as-is"], ["Ese workflow no ayuda.", "workflow"], ["Un dashboard no lo resuelve.", "dashboard"], ["Falta un insight.", "insight"], ["El gap es grande.", "gap"]] as [string, string][]) {
+  const r = ver(base(txt));
+  assert.ok(!r.valido && r.error.includes(term), `no rechazó "${term}": ${JSON.stringify(r)}`);
+}
+paso("rechaza anglicismos: to-be, to be, as-is, workflow, dashboard, insight, gap");
+// "patchwork" dentro de la etiqueta y de la línea de tensión NO se penaliza
+assert.deepEqual(ver(base("Cuerpo en español, sin jerga.")), { valido: true });
+paso('"patchwork" en la etiqueta fija no dispara el filtro de anglicismos');
+
+// ── Línea de tensión: ausencia y posición (regla dura 11) ──
+const sinTension = `Evaluamos tu proceso.\n\n${p.etiqueta} — ${p.glosa}\n\nCuerpo sin remate.\n\n¿Pregunta?\n\nResponde este correo, o yetibi.com.`;
+const rSin = ver(sinTension);
+assert.ok(!rSin.valido && /Falta la línea de tensión/.test(rSin.error), rSin.valido ? "aceptó sin tensión" : rSin.error);
+paso("rechaza la AUSENCIA de la línea de tensión (antes pasaba)");
+
+const parafraseada = `Evaluamos tu proceso.\n\n${p.etiqueta} — ${p.glosa}\n\nConectar IA sobre ese esquema no elimina la reconciliación manual; la hereda. La IA consolidará versiones que se contradicen, y lo hará con total seguridad.\n\n¿Pregunta?\n\nResponde este correo, o yetibi.com.`;
+const rPar = ver(parafraseada);
+assert.ok(!rPar.valido && /PARAFRASEADA/.test(rPar.error), rPar.valido ? "aceptó paráfrasis" : rPar.error);
+paso("detecta la línea PARAFRASEADA (el caso real de la prueba de precisión)");
+
+// Tensión al ~30% del cuerpo: usada como argumento en el contraste, no como
+// remate. Los reportes correctos la ponen entre 80% y 85%.
+const aMitad = `Evaluamos tu proceso.\n\n${p.etiqueta} — ${p.glosa}\n\n${relleno(30)}\n\n${p.lineaTension}\n\n${relleno(150)}\n\n¿Pregunta?\n\nResponde este correo, o yetibi.com.`;
+const rMit = ver(aMitad);
+assert.ok(!rMit.valido && /no es el remate/.test(rMit.error), rMit.valido ? "aceptó tensión a mitad" : rMit.error);
+paso("rechaza la línea de tensión a mitad del cuerpo (debe ser el remate)");
+
 // fuga baja: la tensión efectiva es TENSION_FUGA_BAJA
 const clasifFuga: Clasificacion = { patologia: "fuga_de_decision", severidad: "baja", cmmiEstimado: 3, senalesSecundarias: [] };
 const f = PLANTILLAS.fuga_de_decision;
