@@ -25,8 +25,11 @@ export const SECCIONES_HOME: SeccionHome[] = [
   { n: "02", id: "tesis",             railLabel: "Ley de amplificación",          navLabel: "Amplificación" },
   { n: "03", id: "capas",             railLabel: "Sistema de decisión · 3 capas", navLabel: "3 capas" },
   { n: "04", id: "piloto-automatico", railLabel: "Piloto automático",             navLabel: "Piloto automático" },
-  { n: "05", id: "asimetria",         railLabel: "Asimetría competitiva",         navLabel: "Asimetría" },
-  { n: "06", id: "metodo",            railLabel: "Secuencia · 6 dimensiones",     navLabel: "Método" },
-  { n: "07", id: "soi",               railLabel: "SOI",                           navLabel: "SOI" },
-  { n: "08", id: "contacto",          railLabel: "Acceso",                        navLabel: "Acceso" },
+  // S5Asimetria (#asimetria) desactivada en app/page.tsx hasta iterar el
+  // argumento. Al reactivarla va aquí como "05" y hay que renumerar las
+  // siguientes:
+  // { n: "05", id: "asimetria",      railLabel: "Asimetría competitiva",         navLabel: "Asimetría" },
+  { n: "05", id: "metodo",            railLabel: "Secuencia · 6 dimensiones",     navLabel: "Método" },
+  { n: "06", id: "soi",               railLabel: "SOI",                           navLabel: "SOI" },
+  { n: "07", id: "contacto",          railLabel: "Acceso",                        navLabel: "Acceso" },
 ];
