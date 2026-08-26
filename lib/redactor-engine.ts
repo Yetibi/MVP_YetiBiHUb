@@ -78,19 +78,27 @@ el detalle de cómo funciona hoy, si hay ampliaciones (señal, dato, intento
 previo), y qué tan específico es lo que quiere lograr.
 
 - Evidencia RICA (relato de hoy detallado con pasos, actores y herramientas, más
-  una o más ampliaciones): usa todo el rango, 280–320 palabras. Puedes
-  nombrar tres hallazgos y sostener el párrafo de contraste con detalle
-  del propio relato.
+  una o más ampliaciones): 280–320 palabras. Puedes nombrar tres hallazgos
+  y sostener el movimiento del contraste con detalle del propio relato.
 - Evidencia MEDIA (relato de hoy presente pero general, sin ampliaciones):
-  220–260 palabras, dos hallazgos.
+  190–220 palabras, dos hallazgos.
 - Evidencia ESCASA (relato de hoy de una o dos frases, campos de selección casi
-  solos): 160–200 palabras y dos hallazgos como máximo. Un reporte corto
+  solos): 140–170 palabras y dos hallazgos como máximo. Un reporte corto
   y honesto vale más que uno largo construido con inferencias.
 
 NUNCA estires para llenar el esqueleto. Si el material no da para tres
 hallazgos, entrega dos. Si no da para un párrafo de contraste extenso,
 hazlo breve. Rellenar con generalidades destruye la credibilidad del
 diagnóstico completo.
+
+ESA EXTENSIÓN ES PARA EL REPORTE COMPLETO, NO POR MOVIMIENTO. Los cinco
+movimientos comparten ese presupuesto: son cinco bloques BREVES, no cinco
+párrafos desarrollados. Como referencia, en el tramo alto: la lectura de
+dónde está hoy 2–3 frases, cada viñeta UNA a dos frases, el contraste un
+párrafo corto, la distancia 2–3 frases, el remate lo que fija la
+plantilla. Si al terminar te pasaste, no recortes un movimiento entero:
+comprime cada uno. Una viñeta de cuatro frases es un ensayo, no un
+hallazgo.
 
 LO QUE FALTA ES UN HALLAZGO, NO UN HUECO:
 Cuando el usuario no pueda darte algo —no sabe cuánto tarda, no sabe con
@@ -131,11 +139,12 @@ Si el usuario nombró TRES O MÁS actores, al menos uno de tus hallazgos
 debe ser de este nivel. La mayoría de las ineficiencias viven en la
 asignación de actores, no en el orden de los pasos.
 
-DIMENSIONA LA BRECHA (dentro del párrafo de contraste, sin sección nueva):
-Después de mostrar qué impide llegar de como funciona hoy a lo que quiere
-lograr, dimensiona la distancia — sin cifras, sin tiempos, sin costos.
-Solo si lo que tiene enfrente es un paso o una reconstrucción. Usa las
-señales del intake:
+DIMENSIONA LA BRECHA — TIENE MOVIMIENTO PROPIO Y ES OBLIGATORIO:
+Es el movimiento 4 de la plantilla, después del párrafo de contraste y
+antes del remate. NO lo mezcles con el contraste: ese párrafo dice qué
+impide llegar; este dice QUÉ TAN LEJOS está. Dos o tres frases, sin
+cifras, sin tiempos, sin costos. El lector debe salir sabiendo si tiene
+enfrente un paso o una reconstrucción. Usa las señales del intake:
 - Proceso reciente + falla controlada → está agregando un paso a algo que
   apenas empieza. Dilo: es mucho más barato que desarmar años de
   complejidad, y saberlo cambia la decisión.
@@ -177,10 +186,9 @@ REGLAS DURAS — sin excepción:
    "solución integral", "transformación digital", "quedo atento",
    "espero que estés bien".
 9. Extensión total del cuerpo: la que fije el bloque de CALIBRA LA
-   PROFUNDIDAD según la evidencia recibida (160–200, 220–260 o 280–320
-   palabras). Nunca por encima de 320. Ni una lista numerada. Máximo un
-   bloque de viñetas (los 2–3 hallazgos, y solo los que el material
-   sostenga).
+   PROFUNDIDAD según la evidencia recibida (140–170, 190–220 o 280–320
+   palabras). Ni una lista numerada. Máximo un bloque de viñetas (los 2–3
+   hallazgos, y solo los que el material sostenga).
 10. El cierre tiene TRES partes, en este orden: (a) la línea de tensión
     de la plantilla (adaptada solo en pronóstico A); (b) UNA pregunta
     específica del caso — la mejor casi siempre es sobre la reasignación:
@@ -271,7 +279,7 @@ const TOOL_ENTREGAR_VEREDICTO: Anthropic.Tool = {
       cuerpo_texto: {
         type: "string",
         description:
-          "Versión texto plano. La extensión la fija el bloque CALIBRA LA PROFUNDIDAD del system según la evidencia del intake (160-200, 220-260 o 280-320 palabras). Nunca más de 320.",
+          "Versión texto plano. La extensión la fija el bloque CALIBRA LA PROFUNDIDAD del system según la evidencia del intake (140-170, 190-220 o 280-320 palabras).",
       },
       cuerpo_html: {
         type: "string",
@@ -315,7 +323,7 @@ const RE_TIPO_ABC = /\btipo [abc]\b/;
 
 // Anglicismos: nombres internos de campo y jerga que no va al cliente.
 // "as is"/"to be" con separadores flexibles (guion, espacio o guion bajo).
-// OJO: "patchwork" NO va aquí — aparece legítimamente en la etiqueta fija.
+// Los nombres técnicos de patología van en NOMBRES_PATOLOGIA, no aquí.
 const RE_ANGLICISMOS: { re: RegExp; termino: string }[] = [
   { re: /\bas[\s_-]is\b/, termino: "as-is" },
   { re: /\bto[\s_-]be\b/, termino: "to-be" },
@@ -329,9 +337,11 @@ const RE_ANGLICISMOS: { re: RegExp; termino: string }[] = [
   { re: /\bapproach\b/, termino: "approach" },
 ];
 
-// Nombres técnicos de patología: permitidos SOLO dentro de la etiqueta fija
-// (y de la línea de tensión, que en patchwork lo contiene). Se buscan sobre
-// el cuerpo con esos literales ya removidos.
+// Nombres técnicos de patología: taxonomía interna, NUNCA de cara al cliente.
+// Desde que las etiquetas son lenguaje llano ("SISTEMAS QUE NO SE HABLAN"),
+// ninguna los contiene, así que ya no hay excepción: se prohíben en todo el
+// cuerpo. Se sigue midiendo sobre el texto sin la etiqueta ni la línea de
+// tensión por si una plantilla futura vuelve a introducirlos.
 const NOMBRES_PATOLOGIA = [
   "ghost data",
   "patchwork",
@@ -387,13 +397,15 @@ export function validarVeredicto(
   // rechaza el exceso (un reporte más corto que el tramo es aceptable si el
   // material no daba); se descuenta el texto fijo de la plantilla y se deja
   // un 10% de tolerancia para no rebotar por dos o tres palabras.
-  // Tolerancia 25%: el modelo aterriza consistentemente ~15% por encima del
-  // rango pedido. El validador atrapa el desborde real (un reporte de evidencia
-  // escasa que se estira al doble), no la variación normal — rebotar por 15
-  // palabras solo mandaba a revisión manual reportes correctos.
+  // Tolerancia 30% sobre el rango PEDIDO. El prompt pide ~15% menos de lo que
+  // se busca (corrección del sesgo del modelo), así que el techo cae cerca del
+  // objetivo real. Medición: un reporte rico con los 5 movimientos aterriza en
+  // 406-443 palabras sin tope; con la instrucción de comprimir baja a ~355. El
+  // techo atrapa el desborde real sin mandar a revisión manual reportes que
+  // solo exceden por el movimiento nuevo.
   const ev = evaluarEvidencia(intake as IntakeAptitud);
   const libres = palabrasLibres(v.cuerpo_texto, `${etiqueta} — ${plantilla.glosa}`);
-  const techo = Math.round(ev.max * 1.25);
+  const techo = Math.round(ev.max * 1.3);
   if (libres > techo) {
     return {
       valido: false,
@@ -461,7 +473,7 @@ export function validarVeredicto(
   }
 
   // Regla 12: nombre técnico solo en la etiqueta. Se excluyen primero la
-  // etiqueta y la línea de tensión (patchwork la contiene) y se busca en el resto.
+  // etiqueta y la línea de tensión, y se busca en el resto del cuerpo.
   const cuerpoSinFijos = v.cuerpo_texto
     .split(etiqueta).join(" ")
     .split(tension).join(" ")
@@ -590,9 +602,9 @@ export function evaluarEvidencia(intake: IntakeAptitud): {
     return { tramo: "rica", min: 280, max: 320, hallazgos: "tres" };
   }
   if (asIs < 120 && ampliaciones === 0 && toBe < 120) {
-    return { tramo: "escasa", min: 160, max: 200, hallazgos: "dos como máximo" };
+    return { tramo: "escasa", min: 140, max: 170, hallazgos: "dos como máximo" };
   }
-  return { tramo: "media", min: 220, max: 260, hallazgos: "dos" };
+  return { tramo: "media", min: 190, max: 220, hallazgos: "dos" };
 }
 
 export function buildUserMessage(intake: IntakeAptitud, clasif: Clasificacion): string {

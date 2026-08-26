@@ -136,7 +136,31 @@ const ver = (cuerpo_texto: string) =>
   validarVeredicto({ asunto: "x", cuerpo_texto, cuerpo_html: "<p>x</p>" }, clasif, intake);
 
 assert.deepEqual(ver(base("Cuerpo limpio sin nombres técnicos.")), { valido: true });
-paso("acepta un cuerpo limpio (nombre técnico solo en etiqueta y línea de tensión)");
+paso("acepta un cuerpo limpio");
+
+// Las etiquetas nuevas son lenguaje llano: ninguna contiene jerga ni inglés
+for (const [clave, pl] of Object.entries(PLANTILLAS)) {
+  for (const jerga of ["patchwork", "ghost", "inercia", "variabilidad", "fuga", "data"]) {
+    assert.ok(
+      !pl.etiqueta.toLowerCase().includes(jerga),
+      `${clave}: la etiqueta impresa contiene jerga "${jerga}": "${pl.etiqueta}"`
+    );
+  }
+  // la glosa no repite la etiqueta
+  const nombreEtiqueta = pl.etiqueta.replace("DIAGNÓSTICO: ", "").toLowerCase();
+  assert.ok(
+    !pl.glosa.toLowerCase().includes(nombreEtiqueta),
+    `${clave}: la glosa repite la etiqueta`
+  );
+  // la línea de tensión tampoco usa el vocabulario viejo
+  for (const jerga of ["patchwork", "ghost data", "inercia activa", "variabilidad artesanal"]) {
+    assert.ok(
+      !pl.lineaTension.toLowerCase().includes(jerga),
+      `${clave}: la línea de tensión usa "${jerga}"`
+    );
+  }
+}
+paso("las 5 etiquetas son lenguaje llano; glosas y líneas de tensión sin jerga");
 
 const rTension = ver(base(`Como dijimos: ${p.lineaTension}`));
 assert.ok(!rTension.valido && /línea de tensión aparece 2 veces/.test(rTension.error), "no detectó tensión repetida");
@@ -155,7 +179,7 @@ paso('acepta "tipo asistencial" / "prototipo a" (límite de palabra)');
 
 const rNombre = ver(base("El patchwork que describes obliga a cruzar a mano."));
 assert.ok(!rNombre.valido && /nombre técnico "patchwork"/.test(rNombre.error));
-paso("rechaza el nombre técnico fuera de la etiqueta");
+paso("rechaza el nombre técnico (ya no hay excepción: la etiqueta es lenguaje llano)");
 
 const rNombre2 = ver(base("Aquí hay ghost data en la práctica."));
 assert.ok(!rNombre2.valido && /ghost data/.test(rNombre2.error));
@@ -172,13 +196,13 @@ paso('sigue rechazando "ERP" como palabra');
 const relleno = (n: number) => Array.from({ length: n }, (_, i) => `palabra${i}`).join(" ");
 // `intake` de arriba: as_is corto, sin ampliaciones, to_be corto → ESCASA (máx 200, techo 220)
 const rLargo = ver(base(relleno(400)));
-assert.ok(!rLargo.valido && /ESCASA/.test(rLargo.error) && /máximo son 200/.test(rLargo.error), rLargo.valido ? "no rechazó" : rLargo.error);
+assert.ok(!rLargo.valido && /ESCASA/.test(rLargo.error) && /máximo son 170/.test(rLargo.error), rLargo.valido ? "no rechazó" : rLargo.error);
 paso("rechaza un cuerpo que excede el tramo de evidencia (ESCASA)");
 assert.deepEqual(ver(base(relleno(120))), { valido: true });
 paso("acepta un cuerpo corto (la brevedad nunca se penaliza)");
-// ESCASA: máx 200, techo 250. ~230 palabras libres (relleno + pregunta y
-// contraste del esqueleto) = el desborde típico del modelo, debe pasar.
-assert.deepEqual(ver(base(relleno(190))), { valido: true });
+// ESCASA: pide 140-170, techo 221. ~150 palabras libres = el desborde
+// típico del modelo sobre lo pedido, debe pasar.
+assert.deepEqual(ver(base(relleno(110))), { valido: true });
 paso("acepta el desborde normal del modelo (~15%) sin mandar a revisión manual");
 
 // ── Anglicismos (regla dura 13) ──
@@ -189,7 +213,7 @@ for (const [txt, term] of [["Tu to-be exige otra cosa.", "to-be"], ["El to be de
 paso("rechaza anglicismos: to-be, to be, as-is, workflow, dashboard, insight, gap");
 // "patchwork" dentro de la etiqueta y de la línea de tensión NO se penaliza
 assert.deepEqual(ver(base("Cuerpo en español, sin jerga.")), { valido: true });
-paso('"patchwork" en la etiqueta fija no dispara el filtro de anglicismos');
+paso("un cuerpo en español limpio pasa el filtro de anglicismos");
 
 // ── Línea de tensión: ausencia y posición (regla dura 11) ──
 const sinTension = `Evaluamos tu proceso.\n\n${p.etiqueta} — ${p.glosa}\n\nCuerpo sin remate.\n\n¿Pregunta?\n\nResponde este correo, o yetibi.com.`;
@@ -204,7 +228,7 @@ paso("detecta la línea PARAFRASEADA (el caso real de la prueba de precisión)")
 
 // Tensión al ~30% del cuerpo: usada como argumento en el contraste, no como
 // remate. Los reportes correctos la ponen entre 80% y 85%.
-const aMitad = `Evaluamos tu proceso.\n\n${p.etiqueta} — ${p.glosa}\n\n${relleno(30)}\n\n${p.lineaTension}\n\n${relleno(150)}\n\n¿Pregunta?\n\nResponde este correo, o yetibi.com.`;
+const aMitad = `Evaluamos tu proceso.\n\n${p.etiqueta} — ${p.glosa}\n\n${relleno(20)}\n\n${p.lineaTension}\n\n${relleno(90)}\n\n¿Pregunta?\n\nResponde este correo, o yetibi.com.`;
 const rMit = ver(aMitad);
 assert.ok(!rMit.valido && /no es el remate/.test(rMit.error), rMit.valido ? "aceptó tensión a mitad" : rMit.error);
 paso("rechaza la línea de tensión a mitad del cuerpo (debe ser el remate)");
