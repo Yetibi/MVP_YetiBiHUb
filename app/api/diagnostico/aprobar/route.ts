@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { verificarToken } from "@/lib/approval-token";
 import { detalle } from "@/lib/errores";
+import { dispararEnvioVeredicto, type ResultadoEnvio } from "@/lib/envio-veredicto";
 
 // ─── Aprobación del veredicto (insumo v1.0 §7) ───────────────────────────────
 // Idempotente (aprobar dos veces = una). Guardas de precedencia:
@@ -109,6 +110,23 @@ async function aprobar(diagnosticoId: string): Promise<ResultadoAprobacion> {
 
   await db.from("intakes").update({ estado: "aprobado" }).eq("id", existente.intake_id);
 
+  // Carril de entrega: SOLO en la aprobación fresca (la idempotencia de
+  // arriba garantiza que un segundo clic no dispare un segundo correo).
+  const v = (existente.veredicto_completo ?? {}) as {
+    asunto?: string;
+    cuerpo_html?: string;
+    cuerpo_texto?: string;
+  };
+  const envio = await dispararEnvioVeredicto({
+    diagnosticoId,
+    intakeId: existente.intake_id,
+    correo: intake.correo,
+    nombre: intake.nombre ?? null,
+    asunto: v.asunto ?? "",
+    cuerpoHtml: v.cuerpo_html ?? "",
+    cuerpoTexto: v.cuerpo_texto ?? existente.diagnostico_resumido ?? "",
+  });
+
   return {
     status: 200,
     body: {
@@ -119,6 +137,7 @@ async function aprobar(diagnosticoId: string): Promise<ResultadoAprobacion> {
       veredicto: existente.veredicto_completo,
       diagnostico_resumido: existente.diagnostico_resumido,
       correo: intake.correo,
+      envio,
     },
   };
 }
@@ -168,12 +187,17 @@ export async function GET(req: NextRequest) {
   }
 
   const r = await aprobar(ver.diagnosticoId);
+  const envio = r.body.envio as ResultadoEnvio | undefined;
   const okMsg =
     r.body.noOp === true
       ? `Sin efecto: ${r.body.mensaje}`
-      : r.status === 200
-        ? "Veredicto aprobado. n8n hará el envío al prospecto."
-        : `Error: ${r.body.error}`;
+      : r.status !== 200
+        ? `Error: ${r.body.error}`
+        : r.body.nota
+          ? "Ya estaba aprobado; no se reenvía."
+          : envio?.disparado
+            ? "Veredicto aprobado. El envío al prospecto ya salió por n8n (te llega confirmación por Telegram)."
+            : `Veredicto aprobado, pero el envío NO se disparó (${envio?.motivo ?? "desconocido"}${envio && !envio.disparado && envio.detalle ? `: ${envio.detalle}` : ""}). Revisa la configuración del carril de envío.`;
 
   return new NextResponse(
     `<!doctype html><html lang="es"><body style="font-family:monospace;background:#0B1420;color:#F2F6F9;display:flex;align-items:center;justify-content:center;min-height:100vh"><p>${okMsg}</p></body></html>`,
