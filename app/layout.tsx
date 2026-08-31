@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 // Playfair_Display, DM_Serif_Display, Roboto_Condensed y Roboto se cargaban
 // aquí, pero ninguna hoja de estilo las referenciaba: cero usos de sus
 // variables en todo el repositorio. Se retiraron. Si vuelve a hacer falta una
@@ -100,6 +101,17 @@ export default function RootLayout({
       style={{ colorScheme: "dark" }}
     >
       <body className="min-h-full flex flex-col">
+        {/* Google tag (gtag.js) — Google Ads / GA4, todas las páginas */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-SKYKSHS0LZ"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SKYKSHS0LZ');`}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
