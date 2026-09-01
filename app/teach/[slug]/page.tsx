@@ -2,8 +2,13 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/teach/supabase-server";
 import { estaAutorizado, esInterno } from "@/lib/teach/authorize";
-import { obtenerUnidadConVecinas, minutosLectura } from "@/lib/teach/unidades";
+import {
+  obtenerUnidadConVecinas,
+  minutosLectura,
+  urlAudioFirmada,
+} from "@/lib/teach/unidades";
 import { Bloques } from "@/components/teach/Bloques";
+import { FooterTeach } from "@/components/teach/FooterTeach";
 import { marcarVista } from "./actions";
 
 export default async function UnidadPage({
@@ -37,6 +42,7 @@ export default async function UnidadPage({
   const visto = prog?.visto === true;
 
   const min = minutosLectura(actual.cuerpo);
+  const audioUrl = actual.audio ? await urlAudioFirmada(actual.audio) : null;
 
   return (
     <main
@@ -75,6 +81,28 @@ export default async function UnidadPage({
       </header>
 
       <div className="teach-cuerpo">
+        <div className="teach-audio">
+          <span className="teach-audio-icono" aria-hidden="true">
+            ♪
+          </span>
+          <div className="teach-audio-cuerpo">
+            <div className="teach-audio-titulo">Audio de la unidad</div>
+            {audioUrl ? (
+              <audio
+                className="teach-audio-player"
+                controls
+                preload="none"
+                src={audioUrl}
+              >
+                Tu navegador no reproduce audio.
+              </audio>
+            ) : (
+              <div className="teach-audio-nota">
+                Próximamente — vas a poder escucharla acá.
+              </div>
+            )}
+          </div>
+        </div>
         <Bloques md={actual.cuerpo} />
       </div>
 
@@ -104,6 +132,8 @@ export default async function UnidadPage({
           <span className="teach-nav-spacer" />
         )}
       </nav>
+
+      <FooterTeach email={user.email} />
     </main>
   );
 }

@@ -9,9 +9,35 @@ export type Unidad = {
   orden: number;
   cuerpo: string;
   publicada: boolean;
+  audio: string | null;
 };
 
-export type UnidadIndice = Omit<Unidad, "cuerpo"> & { visto: boolean };
+// URL firmada del audio de la unidad (bucket privado 'teach-audio'). Se genera
+// del lado servidor; expira en 1h. Devuelve null si no hay audio o falla.
+export async function urlAudioFirmada(path: string): Promise<string | null> {
+  const { data, error } = await supabaseAdmin.storage
+    .from("teach-audio")
+    .createSignedUrl(path, 3600);
+  if (error) return null;
+  return data?.signedUrl ?? null;
+}
+
+// URL firmada del video de introducción (bucket privado 'teach-video'). Igual
+// que el audio: server-side, expira en 1h, detrás de la lista blanca.
+export async function urlVideoFirmada(
+  path = "intro.mp4",
+): Promise<string | null> {
+  const { data, error } = await supabaseAdmin.storage
+    .from("teach-video")
+    .createSignedUrl(path, 3600);
+  if (error) return null;
+  return data?.signedUrl ?? null;
+}
+
+export type UnidadIndice = Omit<Unidad, "cuerpo"> & {
+  visto: boolean;
+  minutos: number;
+};
 
 type Vecina = { slug: string; titulo: string } | null;
 
@@ -23,7 +49,7 @@ export async function listarUnidades(
 ): Promise<UnidadIndice[]> {
   let q = supabaseAdmin
     .from("unidades")
-    .select("slug, titulo, objetivo, orden, publicada")
+    .select("slug, titulo, objetivo, orden, publicada, cuerpo, audio")
     .order("orden", { ascending: true });
   if (!incluirBorradores) q = q.eq("publicada", true);
 
@@ -41,7 +67,14 @@ export async function listarUnidades(
     (vistos ?? []).filter((v) => v.visto).map((v) => v.unidad_slug),
   );
 
-  return (unidades ?? []).map((u) => ({ ...u, visto: vistoSet.has(u.slug) }));
+  return (unidades ?? []).map((u) => {
+    const { cuerpo, ...rest } = u as Unidad;
+    return {
+      ...rest,
+      visto: vistoSet.has(u.slug),
+      minutos: minutosLectura(cuerpo),
+    };
+  });
 }
 
 // Una unidad + sus vecinas (anterior/siguiente) según el orden visible para
@@ -58,7 +91,7 @@ export async function obtenerUnidadConVecinas(
 } | null> {
   let q = supabaseAdmin
     .from("unidades")
-    .select("slug, titulo, objetivo, orden, cuerpo, publicada")
+    .select("slug, titulo, objetivo, orden, cuerpo, publicada, audio")
     .order("orden", { ascending: true });
   if (!incluirBorradores) q = q.eq("publicada", true);
 
@@ -89,7 +122,7 @@ export async function obtenerUnidad(
 ): Promise<Unidad | null> {
   const { data, error } = await supabaseAdmin
     .from("unidades")
-    .select("slug, titulo, objetivo, orden, cuerpo, publicada")
+    .select("slug, titulo, objetivo, orden, cuerpo, publicada, audio")
     .eq("slug", slug)
     .maybeSingle();
   if (error) throw error;
