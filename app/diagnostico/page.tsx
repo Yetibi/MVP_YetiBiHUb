@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IntakeForm } from "@/components/intake/IntakeForm";
+import { Footer } from "@/components/Footer";
 
 // ─── SEO propio: antes heredaba el metadata del layout y canonizaba a la
 // home, lo que la sacaba del índice y contaminaba las señales de la raíz. ───
@@ -22,6 +23,9 @@ export const metadata: Metadata = {
 
 export default function DiagnosticoPage() {
   return (
-    <IntakeForm />
+    <>
+      <IntakeForm />
+      <Footer />
+    </>
   );
 }

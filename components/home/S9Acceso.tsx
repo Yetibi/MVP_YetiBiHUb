@@ -117,25 +117,6 @@ export function S9Acceso() {
         </div>
       </section>
 
-      {/* Footer — hermano de la sección, no hijo */}
-      <footer role="contentinfo" className="s9-footer">
-        <div className="hs-wrap s9-footer-fila">
-          <span className="s9-footer-marca" translate="no">
-            YETI<span style={{ color: "#4FD1E0" }}>·</span>
-            <span style={{ color: "var(--salmon)" }}>BI</span>
-          </span>
-          <span style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
-            <a
-              className="s9-footer-ubica"
-              href="mailto:data@yetibi.com"
-              style={{ textDecoration: "none" }}
-            >
-              DATA@YETIBI.COM
-            </a>
-            <span className="s9-footer-ubica">MEDELLÍN · BOGOTÁ — COLOMBIA</span>
-          </span>
-        </div>
-      </footer>
     </>
   );
 }

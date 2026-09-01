@@ -4,7 +4,7 @@ import DifferentiatorSection from "@/components/home/DifferentiatorSection";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { ValueFlow } from "@/components/home/ValueFlow";
 import { CtaFinal } from "@/components/home/CtaFinal";
-import { Footer } from "@/components/home/Footer";
+import { Footer } from "@/components/Footer";
 import { ScrollAncla } from "@/components/home/ScrollAncla";
 
 // ─── SEO de la página de producto (evaluación y rediseño de procesos) ────────

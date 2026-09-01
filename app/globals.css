@@ -2052,3 +2052,102 @@ textarea:focus-visible {
   .bm { gap: var(--bm-gap-m, 10px); }
   .bm-sym { width: var(--bm-sym-w-m, 28px); }
 }
+
+/* ── Footer único del sitio (components/Footer.tsx) ──────────────────────────
+   /, /evaluacion, /powerbi, /tesis, /diagnostico. /teach usa el suyo.
+   Contenedor a 1140px: el ancho completo dejaba el centro vacío.
+   Kickers y legal en #7A8899 (6.0:1 sobre #0B1420, AA) — el #5D6B7A anterior
+   daba 3.6:1 y no pasaba.                                                    */
+.sf {
+  background: #0B1420;
+  background-image: radial-gradient(1100px 420px at 18% 0%, rgba(79, 209, 224, .055), transparent 70%);
+  position: relative;
+  padding: clamp(52px, 6vw, 72px) 0 0;
+}
+.sf::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 209, 224, .28), transparent);
+}
+.sf-wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-inline: clamp(24px, 5vw, 64px);
+}
+.sf-cols {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  gap: clamp(24px, 3.6vw, 48px);
+  padding-bottom: 44px;
+}
+.sf-logo { margin-bottom: 14px; }
+.sf-tagline {
+  font-size: 12.5px;
+  letter-spacing: .22em;
+  color: #7A8899;
+}
+.sf-tagline .an { color: #F28F6B; }
+
+.sf-col h3 {
+  font-size: 11.5px;
+  letter-spacing: .22em;
+  color: #7A8899;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+.sf-col a {
+  display: block;
+  color: #F2F6F9;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 9px 0;
+  width: fit-content;
+  transition: color .18s ease;
+}
+.sf-col a:hover { color: #4FD1E0; }
+.sf-col a:focus-visible,
+.sf-logo:focus-visible {
+  outline: 2px solid #4FD1E0;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sf-linea { height: 1px; background: rgba(242, 246, 249, .10); }
+.sf-barra {
+  padding: 22px 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.sf-barra p { font-size: 13.5px; color: #7A8899; }
+.sf-legal { display: flex; gap: 22px; flex-wrap: wrap; }
+.sf-pend {
+  font-family: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  color: #7A8899;
+  border: 1px dashed rgba(79, 209, 224, .35);
+  border-radius: 6px;
+  padding: 7px 10px;
+  letter-spacing: .08em;
+  /* En móvil el texto largo desbordaba la caja del viewport */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 860px) {
+  .sf-cols { grid-template-columns: 1fr 1fr; gap: 34px; }
+  .sf-marca { grid-column: 1 / -1; margin-bottom: 6px; }
+}
+@media (max-width: 480px) {
+  .sf-cols { grid-template-columns: 1fr; }
+  .sf-barra { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .sf-legal { flex-direction: column; gap: 10px; width: 100%; }
+  .sf-pend { font-size: 10px; letter-spacing: .04em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sf-col a { transition: none; }
+}

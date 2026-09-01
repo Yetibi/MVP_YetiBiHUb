@@ -10,6 +10,7 @@ import { S7Soi } from "@/components/home/S7Soi";
 // S8 oculta hasta definir casos publicables — no borrar
 // import { S8Evidencia } from "@/components/home/S8Evidencia";
 import { S9Acceso } from "@/components/home/S9Acceso";
+import { Footer } from "@/components/Footer";
 
 // Home de marca: héroe + esqueleto de 8 secciones (iterables una a una).
 // El raíl de conceptos es la firma — índice de la doctrina, fijo a la izquierda.
@@ -34,6 +35,7 @@ export default function Home() {
           <S9Acceso />
         </div>
       </main>
+      <Footer />
     </>
   );
 }

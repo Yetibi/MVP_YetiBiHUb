@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Footer } from "@/components/Footer";
 
 // ─── /tesis — El marco Yeti BI (versión mínima de referencia) ────────────────
 // Página de referencia, no de venta: sin CTAs prominentes, sin formularios,
@@ -179,6 +180,7 @@ export default function Tesis() {
           </a>
         </nav>
       </div>
+      <Footer />
     </main>
   );
 }
