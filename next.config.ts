@@ -40,6 +40,12 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
       "connect-src 'self' https://*.supabase.co https://api.resend.com",
+      // El video de intro y los audios de /teach viven en buckets privados de
+      // Supabase y se sirven por URL firmada. Sin media-src caían en
+      // default-src 'self' y el navegador los bloqueaba ("Refused to load…"),
+      // dejando el <video> con error code 4 (fuente no soportada) — se veía
+      // como si el archivo estuviera roto.
+      "media-src 'self' blob: https://*.supabase.co",
       "frame-ancestors 'none'",
     ].join("; "),
   },
