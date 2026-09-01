@@ -2,17 +2,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/teach/supabase-server";
 import { estaAutorizado, esInterno } from "@/lib/teach/authorize";
-import {
-  listarUnidades,
-  obtenerUnidad,
-  minutosLectura,
-} from "@/lib/teach/unidades";
+import { listarUnidades, urlVideoFirmada } from "@/lib/teach/unidades";
+import { FooterTeach } from "@/components/teach/FooterTeach";
 
-export default async function TeachIndex({
-  searchParams,
-}: {
-  searchParams: Promise<{ u?: string }>;
-}) {
+export default async function TeachIndex() {
   const sb = await createSupabaseServer();
   const {
     data: { user },
@@ -27,23 +20,19 @@ export default async function TeachIndex({
   const interno = await esInterno(user.email);
   const unidades = await listarUnidades(interno);
 
-  // Unidad destacada en el panel: la del ?u=, si no la primera no vista.
-  const { u } = await searchParams;
-  const porParam = unidades.findIndex((x) => x.slug === u);
-  const primeraNoVista = unidades.findIndex((x) => !x.visto);
-  const idx =
-    porParam >= 0 ? porParam : primeraNoVista >= 0 ? primeraNoVista : 0;
-  const featured = unidades[idx];
-
-  const vistas = unidades.filter((x) => x.visto).length;
+  // La "siguiente" es la primera no vista (o la primera si están todas vistas).
+  const nextIdx = unidades.findIndex((u) => !u.visto);
+  const next = nextIdx >= 0 ? unidades[nextIdx] : unidades[0];
+  const vistas = unidades.filter((u) => u.visto).length;
   const total = unidades.length;
 
-  let min = 1;
-  if (featured) {
-    const full = await obtenerUnidad(featured.slug, interno);
-    if (full) min = minutosLectura(full.cuerpo);
-  }
-  const sigueDe = idx > 0 ? unidades[idx - 1] : null;
+  // Video de introducción (bucket privado, URL firmada). Autoarranca muteado
+  // al abrir la página; el usuario activa el sonido con los controles. El
+  // poster evita que se vea un recuadro negro vacío antes de reproducir.
+  const [videoUrl, posterUrl] = await Promise.all([
+    urlVideoFirmada(),
+    urlVideoFirmada("intro-poster.jpg"),
+  ]);
 
   return (
     <main
@@ -58,73 +47,106 @@ export default async function TeachIndex({
         <span className="teach-mono">{user.email}</span>
       </div>
 
-      <div className="teach-marco">
-        <nav className="teach-nav">
-          <div className="teach-nav-kicker">YETIBI TEACH</div>
-          <h1>Material de capacitación</h1>
-          <p className="teach-nav-lema">
-            La herramienta predice; el criterio lo pones tú.
-          </p>
-
-          <div className="teach-lista">
-            {unidades.map((x, i) => (
-              <Link
-                key={x.slug}
-                href={`/teach?u=${x.slug}`}
-                className={`teach-unidad${i === idx ? " activa" : ""}${
-                  x.visto ? " vista" : ""
-                }`}
-              >
-                <span className="n">{x.orden}</span>
-                <span className="t">{x.titulo}</span>
-              </Link>
-            ))}
-          </div>
-        </nav>
-
-        <section className="teach-panel">
-          {featured ? (
-            <>
-              <div className="teach-num-fondo" aria-hidden="true">
-                {featured.orden}
-              </div>
-              {!featured.publicada ? (
-                <span className="teach-estado">BORRADOR</span>
-              ) : null}
-              <div className="teach-unidad-label">
-                UNIDAD {featured.orden} · {min} MIN
-              </div>
-              <h2>{featured.titulo}</h2>
-              {featured.objetivo ? (
-                <p className="teach-objetivo">{featured.objetivo}</p>
-              ) : null}
-              <div className="teach-acciones">
-                <Link href={`/teach/${featured.slug}`} className="teach-cta">
-                  Empezar la unidad
-                </Link>
-                {sigueDe ? (
-                  <span className="teach-meta">Sigue de: {sigueDe.titulo}</span>
-                ) : null}
-              </div>
-              <div className="teach-progreso">
-                {unidades.map((x) => (
-                  <div
-                    key={x.slug}
-                    className={`teach-seg${x.visto ? " ok" : ""}`}
-                  />
-                ))}
-                <span>
-                  {vistas} de {total} completadas
-                </span>
-              </div>
-            </>
-          ) : (
-            <p className="teach-objetivo">
-              Todavía no hay unidades publicadas.
+      {/* HERO — banda oscura a sangre completa */}
+      <section className="teach-hero">
+        <div className="teach-hero-inner">
+          <div>
+            <div className="teach-hero-kick">MATERIAL DE CAPACITACIÓN</div>
+            <h1 className="teach-hero-h1">
+              Entender la IA
+              <br />
+              antes de usarla
+            </h1>
+            <p className="teach-hero-lema">
+              La herramienta predice; el criterio lo pones tú.
             </p>
-          )}
-        </section>
-      </div>
+            <p className="teach-hero-sub">
+              Siete unidades cortas sobre qué es la IA, qué puedes esperar de
+              ella, y qué no. Sin tecnicismos.
+            </p>
+            <div className="teach-hero-fila">
+              {next ? (
+                <Link href={`/teach/${next.slug}`} className="teach-cta">
+                  {nextIdx >= 0
+                    ? `Continuar en la unidad ${next.orden}`
+                    : "Repasar el material"}
+                </Link>
+              ) : null}
+              <span className="teach-cta2">Ver el video · 5 min</span>
+            </div>
+          </div>
+
+          {/* Video de introducción — arranca muteado al abrir la página */}
+          <div className="teach-video">
+            {videoUrl ? (
+              <video
+                className="teach-video-el"
+                src={videoUrl}
+                poster={posterUrl ?? undefined}
+                autoPlay
+                muted
+                playsInline
+                controls
+                preload="metadata"
+                aria-label="Video de introducción: El mecanismo y el operador"
+              >
+                Tu navegador no reproduce video.
+              </video>
+            ) : (
+              <div className="teach-video-pie">
+                YETIBI TEACH · INTRODUCCIÓN (video no disponible)
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* RECORRIDO — las 7 unidades como cards horizontales */}
+      <section className="teach-recorrido">
+        <div className="teach-recorrido-cab">
+          <h2>El recorrido</h2>
+          <div className="teach-prog">
+            {unidades.map((u) => (
+              <span
+                key={u.slug}
+                className={`teach-prog-s${u.visto ? " ok" : ""}`}
+              />
+            ))}
+            <em>
+              {vistas} / {total}
+            </em>
+          </div>
+        </div>
+
+        <div className="teach-lista">
+          {unidades.map((u, i) => {
+            const estado = u.visto ? "ok" : i === nextIdx ? "next" : "";
+            const est = u.visto
+              ? "✓ COMPLETADA"
+              : i === nextIdx
+                ? "CONTINUAR →"
+                : `${u.minutos} MIN`;
+            return (
+              <Link
+                key={u.slug}
+                href={`/teach/${u.slug}`}
+                className={`teach-u${estado ? ` ${estado}` : ""}`}
+              >
+                <span className="teach-u-n">
+                  {String(u.orden).padStart(2, "0")}
+                </span>
+                <span>
+                  <span className="teach-u-tit">{u.titulo}</span>
+                  <span className="teach-u-obj">{u.objetivo}</span>
+                </span>
+                <span className="teach-u-est">{est}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <FooterTeach email={user.email} />
     </main>
   );
 }
