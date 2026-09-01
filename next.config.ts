@@ -35,11 +35,16 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      // googletagmanager sirve gtag.js (GA4 / Google Ads, cargado en el layout
+      // raíz para todas las páginas). Sin él la CSP lo bloqueaba y no se medía
+      // nada: "Refused to load .../gtag/js?id=G-…".
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' https://*.supabase.co https://api.resend.com",
+      // GA manda los hits por fetch/beacon a google-analytics.com (y a los
+      // dominios regionales region1..N.google-analytics.com).
+      "connect-src 'self' https://*.supabase.co https://api.resend.com https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com",
       // El video de intro y los audios de /teach viven en buckets privados de
       // Supabase y se sirven por URL firmada. Sin media-src caían en
       // default-src 'self' y el navegador los bloqueaba ("Refused to load…"),
