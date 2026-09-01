@@ -30,9 +30,17 @@ export async function solicitarAcceso(
   const supabase = await createSupabaseServer();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+  // Destino /teach/auth/verify (token_hash), NO /callback (PKCE): el flujo
+  // PKCE guarda un code_verifier en cookie al pedir el enlace y lo compara al
+  // volver. Safari, con Intelligent Tracking Prevention, descarta esa cookie
+  // cuando la vuelta llega desde el cliente de correo, así que /verify daba
+  // 303 (el enlace SÍ era válido) y /token fallaba con "code challenge does
+  // not match previously saved code verifier" — y el usuario veía un mensaje
+  // de "enlace expirado" que no correspondía. verifyOtp por token_hash no
+  // depende de esa cookie y funciona igual en todos los navegadores.
   const { error } = await supabase.auth.signInWithOtp({
     email: correo,
-    options: { emailRedirectTo: `${siteUrl}/teach/auth/callback` },
+    options: { emailRedirectTo: `${siteUrl}/teach/auth/verify` },
   });
 
   if (error) {
