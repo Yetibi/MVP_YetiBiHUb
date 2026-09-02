@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { parseBloques, type Bloque } from "@/lib/teach/bloques";
 import { Revelar } from "./Revelar";
+import { IconoItem, IconoRutaSana, IconoFuga } from "./IconosDosColumnas";
 
 // Render de una unidad. Cuerpo de lectura sobre fondo claro (columna 1200/66ch);
 // destacado y cierre son bandas oscuras a sangre completa; regla es franja
@@ -19,6 +20,91 @@ export function Bloques({ md }: { md: string }) {
 
 function MD({ children }: { children: string }) {
   return <ReactMarkdown remarkPlugins={[remarkGfm]}>{children}</ReactMarkdown>;
+}
+
+/* ── Columna de contraste (:::dos-columnas) ───────────────────────────────────
+   Parte la columna en cabecera (### Título) + ítems de lista
+   ("- **Nombre** — descripción") para poder poner un ícono por ítem sin
+   agregar sintaxis nueva al markdown: el ícono se busca por el nombre en
+   negrita (ver components/teach/IconosDosColumnas.tsx).
+
+   El "✓" / "✗" del título se retira: el ícono de cabecera ya cumple esa
+   función y duplicarlo lo lee dos veces un lector de pantalla.
+   Si una columna no tiene la forma esperada, cae al render markdown de antes.
+*/
+type ItemContraste = { nombre: string; descripcion: string };
+
+function parseColumnaContraste(md: string): {
+  titulo: string | null;
+  items: ItemContraste[];
+  resto: string;
+} {
+  const lineas = md.split("\n");
+  let titulo: string | null = null;
+  const items: ItemContraste[] = [];
+  const resto: string[] = [];
+
+  for (const linea of lineas) {
+    const t = linea.trim();
+    if (!titulo) {
+      const h = t.match(/^#{2,4}\s+(.+)$/);
+      if (h) {
+        titulo = h[1].replace(/[✓✗×]/g, "").trim();
+        continue;
+      }
+    }
+    // "- **Nombre** — descripción" (guion largo, corto o dos puntos)
+    const it = t.match(/^[-*]\s+\*\*(.+?)\*\*\s*[—–:-]?\s*(.*)$/);
+    if (it) {
+      items.push({ nombre: it[1].trim(), descripcion: it[2].trim() });
+      continue;
+    }
+    if (t) resto.push(linea);
+  }
+  return { titulo, items, resto: resto.join("\n").trim() };
+}
+
+function ColumnaContraste({ contenido, lado }: { contenido: string; lado: "sana" | "falla" }) {
+  const { titulo, items, resto } = parseColumnaContraste(contenido);
+
+  // Sin ítems reconocibles: se respeta el markdown tal cual (otras unidades
+  // pueden usar :::dos-columnas para prosa, no para listas).
+  if (items.length === 0) {
+    return (
+      <div className={`teach-col teach-col-${lado}`}>
+        <MD>{contenido}</MD>
+      </div>
+    );
+  }
+
+  const kicker =
+    lado === "sana"
+      ? `RUTA SANA · ${String(items.length).padStart(2, "0")} CAPACIDADES`
+      : `FUGA · ${String(items.length).padStart(2, "0")} LÍMITES`;
+
+  return (
+    <div className={`teach-col teach-col-${lado}`}>
+      <div className="teach-col-cab">
+        {lado === "sana" ? <IconoRutaSana /> : <IconoFuga />}
+        {titulo && <h3>{titulo}</h3>}
+      </div>
+      <p className="teach-col-kicker">{kicker}</p>
+
+      {items.map((it) => (
+        <div className="teach-col-item" key={it.nombre}>
+          <span className="teach-col-ico">
+            <IconoItem nombre={it.nombre} />
+          </span>
+          <span>
+            <b>{it.nombre}</b>
+            <span>{it.descripcion}</span>
+          </span>
+        </div>
+      ))}
+
+      {resto && <MD>{resto}</MD>}
+    </div>
+  );
 }
 
 // "**Título**" en la primera línea → h3; el resto, cuerpo.
@@ -80,9 +166,7 @@ function BloqueRender({ bloque: b }: { bloque: Bloque }) {
       return (
         <Revelar className="teach-cols">
           {b.columnas.map((c, i) => (
-            <div key={i} className="teach-col">
-              <MD>{c}</MD>
-            </div>
+            <ColumnaContraste key={i} contenido={c} lado={i === 0 ? "sana" : "falla"} />
           ))}
         </Revelar>
       );

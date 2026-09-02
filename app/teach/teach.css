@@ -606,29 +606,95 @@
 }
 
 /* dos-columnas — dos cards claras que se apilan en móvil */
+/* Bloque de contraste (:::dos-columnas) — réplica de
+   Contenido-YetiBI-Teach/_ARCHIVO/diseno/dos-columnas-B.html.
+   Esquinas rectas, sin sombra: la jerarquía la da la superficie, no el relieve. */
 .teach-cols {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 .teach-col {
-  background: var(--teach-blanco);
-  border: 1px solid rgba(11, 20, 32, 0.1);
-  border-radius: 14px;
-  padding: 1.6rem 1.7rem;
-  box-shadow: 0 8px 24px rgba(11, 20, 32, 0.09), 0 1px 3px rgba(11, 20, 32, 0.06);
+  padding: 34px 32px 30px;
 }
+/* Columna sana: fondo noche. Nieve sobre #0B1420 = 15.8:1 (AAA). */
+.teach-col-sana {
+  background: var(--teach-noche);
+  color: var(--teach-nieve);
+}
+/* Columna de fuga: velo coral sobre el fondo claro de la unidad. */
+.teach-col-falla {
+  background: rgba(242, 143, 107, 0.14);
+  border: 1px solid rgba(242, 143, 107, 0.35);
+  color: var(--teach-noche);
+}
+.teach-col-cab {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+.teach-col-cab svg {
+  flex-shrink: 0;
+}
+.teach-col-sana .teach-col-cab { color: #4FD1E0; }
+/* #B9542F, no el coral puro: sobre el velo claro da 5.2:1 (AA); el coral no llega. */
+.teach-col-falla .teach-col-cab { color: #B9542F; }
+
+.teach-col-kicker {
+  font-family: var(--font-mono, ui-monospace), Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  margin: 0 0 22px;
+}
+.teach-col-sana .teach-col-kicker { color: #4FD1E0; }
+.teach-col-falla .teach-col-kicker { color: #B9542F; }
+
+.teach-col-item {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 14px;
+  padding: 13px 0;
+  align-items: start;
+}
+.teach-col-item + .teach-col-item { border-top: 1px solid rgba(242, 246, 249, 0.08); }
+.teach-col-falla .teach-col-item + .teach-col-item { border-top-color: rgba(11, 20, 32, 0.09); }
+.teach-col-ico { display: block; margin-top: 3px; }
+.teach-col-sana .teach-col-ico { color: #4FD1E0; }
+.teach-col-falla .teach-col-ico { color: #B9542F; }
+.teach-col-item b {
+  display: block;
+  font-size: 17px;
+  line-height: 1.35;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+.teach-col-item span span {
+  font-size: 15px;
+  line-height: 1.5;
+}
+/* Neblina sobre noche = 7.0:1 · #5A6575 sobre el velo claro = 6.4:1. Ambos AA. */
+.teach-col-sana .teach-col-item span span { color: var(--teach-gris-tenue); }
+.teach-col-falla .teach-col-item span span { color: #5A6575; }
+
+/* Apilado propio a 820px: a ese ancho dos columnas con 30px de canal para el
+   ícono ya comprimen la descripción a menos de 30 caracteres por línea. */
+@media (max-width: 820px) {
+  .teach-cols { grid-template-columns: 1fr; }
+}
+
 .teach-col h3 {
   font-family: var(--teach-serif);
-  font-size: 19px;
+  font-size: 23px;
   font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: var(--teach-noche);
+  line-height: 1.15;
+  color: inherit;
 }
 .teach-col p {
   margin: 0 0 0.75rem;
-  color: var(--teach-gris);
 }
+.teach-col-falla p { color: var(--teach-gris); }
+.teach-col-sana p { color: var(--teach-gris-tenue); }
 .teach-col ul,
 .teach-col ol {
   margin: 0.5rem 0 0;
