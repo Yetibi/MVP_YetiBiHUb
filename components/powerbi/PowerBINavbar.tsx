@@ -22,7 +22,7 @@ export function PowerBINavbar() {
         top: 0,
         left: 0,
         right: 0,
-        height: 64,
+        height: 78, // sube de 64: el logo apilado mide ~54px y quedaba al ras
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -32,8 +32,11 @@ export function PowerBINavbar() {
         zIndex: 100,
       }}
     >
+      {/* Logo apilado: símbolo encima del wordmark, como en el resto del sitio. */}
       <BrandMark
-        symbolWidth={36}
+        className="hm-marca"
+        symbolWidth={52}
+        symbolWidthMobile={44}
         wordmark={{
           // OJO: --font-geist-sans no está definida en layout.tsx (la variable
           // real es --font-sans), así que hoy esto hereda la tipografía del nav.

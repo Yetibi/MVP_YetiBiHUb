@@ -106,18 +106,20 @@ export function HeroMarca() {
 
       {/* Nav superpuesta, sin fondo ni CTA (deliberado) */}
       <nav className="hm-nav" aria-label="Navegación principal">
+        {/* Logo apilado: símbolo encima del wordmark. La clase hm-marca hace
+            el cambio de eje (ver globals.css) — BrandMark se comparte con
+            otros cuatro headers/footers y allí sigue en fila. */}
         <BrandMark
-          // Wordmark más grande que en los otros headers (15–17px vs 13px),
-          // así que el símbolo sube a 38 para no perder peso al lado.
-          symbolWidth={38}
-          symbolWidthMobile={30}
+          className="hm-marca"
+          symbolWidth={64}
+          symbolWidthMobile={52}
           wordmark={{
             fontFamily: "var(--font-space-grotesk)",
-            fontSize: "clamp(15px, 1.2vw, 17px)",
-            letterSpacing: ".14em",
+            fontSize: 14,
+            letterSpacing: 3,
             color: "#F2F6F9",
             dotColor: "#4FD1E0",
-            biColor: "var(--salmon)",
+            biColor: "#4FD1E0",
           }}
         />
 

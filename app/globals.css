@@ -416,8 +416,18 @@ textarea:focus-visible {
   justify-content: space-between;
   width: min(1480px, 92vw);
   margin: 0 auto;
-  padding: 22px 0;
+  padding: 14px 0;
 }
+/* Marca del héroe: símbolo ENCIMA del wordmark (el resto de headers y
+   footers comparte BrandMark y sigue en fila, por eso el cambio de eje vive
+   acá y no en .bm). El padding vertical del nav baja de 22px a 14px para
+   compensar el bloque más alto y que la barra no crezca de más. */
+.hm-marca {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
 .hm-links { display: flex; align-items: center; gap: 26px; }
 .hm-link {
   font-size: 13px;
@@ -598,7 +608,7 @@ textarea:focus-visible {
   .hm-veil::after {
     background: radial-gradient(ellipse 130% 90% at 50% 38%, transparent 58%, rgba(11,20,32,.6));
   }
-  .hm-nav { width: 100%; padding: 26px 18px 0; }
+  .hm-nav { width: 100%; padding: 16px 18px 0; }
   .hm-links { display: none; }
   .hm-burger { display: flex; }
   .hm-kicker {

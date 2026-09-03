@@ -153,7 +153,7 @@ function Navbar() {
       style={{
         position: "fixed",
         top: 0, left: 0, right: 0,
-        height: 64,
+        height: 78, // sube de 64: el logo apilado mide ~54px y quedaba al ras
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -163,10 +163,13 @@ function Navbar() {
         zIndex: 100,
       }}
     >
-      {/* Logo bicolor — excepción de identidad deliberada:
-          YETI nieve · cian BI ámbar */}
+      {/* Logo apilado: símbolo encima del wordmark (misma marca que el héroe
+          del home). La clase .hm-marca hace el cambio de eje; BrandMark se
+          comparte con los footers, que siguen en fila. */}
       <BrandMark
-        symbolWidth={36}
+        className="hm-marca"
+        symbolWidth={52}
+        symbolWidthMobile={44}
         wordmark={{
           fontFamily: "var(--font-space-grotesk)",
           fontSize: 13,
@@ -262,7 +265,7 @@ function LeftPanel({
         alignItems: "center",
         width: "100%",
         minHeight: 0,
-        paddingTop: 64,
+        paddingTop: 78, // = alto del navbar fixed
       }}>
         <div style={{
           display: "flex",

@@ -137,9 +137,9 @@ export default function HeroSection() {
       className="relative overflow-hidden hero-section"
       style={{
         minHeight: "100vh",
-        /* el navbar es fixed (64px): se reserva su alto para que el top bar
+        /* el navbar es fixed (78px): se reserva su alto para que el top bar
            técnico y el kicker no queden por debajo de él */
-        paddingTop: 64,
+        paddingTop: 78,
         boxSizing: "border-box",
         borderBottom: "1px solid rgba(255,255,255,0.08)",
         backgroundColor: "#0B1420",
