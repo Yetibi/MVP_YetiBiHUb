@@ -1390,3 +1390,115 @@
   .tl-der { border-left: 0; border-top: 1px solid rgba(242, 246, 249, .07); }
   .tl-izq { gap: 34px; }
 }
+
+/* ═══ PORTADA DEL VIDEO (hero de /teach) ═══════════════════════════════════
+   Variante A de _ARCHIVO/diseno/portada-video-final.html. HTML/CSS, no una
+   miniatura: el texto se controla y escala con el ancho.
+   Dosis de coral por encima del 3% de la carta: es deliberado — portada de
+   enganche, no pantalla de trabajo. No extender al resto de /teach. */
+.tv-portada {
+  position: absolute;
+  inset: 0;
+  background: var(--teach-noche);
+  overflow: hidden;
+}
+.tv-lienzo { position: absolute; inset: 0; opacity: .40; }
+.tv-lienzo svg { width: 100%; height: 100%; }
+.tv-diag {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(112deg, transparent 0 44%, rgba(242, 143, 107, .17) 44% 100%);
+}
+.tv-cap {
+  position: absolute;
+  left: 8%; right: 8%;
+  /* Columna en flujo anclada abajo, no centrada: el marco del hero es más
+     estrecho que el del mockup y el botón absoluto se comía la bajada. */
+  bottom: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--teach-nieve);
+  z-index: 2;
+}
+.tv-kick {
+  font-family: var(--font-mono, ui-monospace), Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .22em;
+  color: var(--teach-coral);
+  margin: 0;
+}
+.tv-h2 {
+  font-family: var(--teach-serif);
+  font-size: clamp(22px, 3.4vw, 40px);
+  line-height: 1.06;
+  margin: 0;
+  color: var(--teach-nieve);
+}
+.tv-h2 .no { color: var(--teach-coral); }
+.tv-sig {
+  font-size: clamp(13px, 1.7vw, 17.5px);
+  color: var(--teach-nieve);
+  max-width: 32ch;
+  margin: 0;
+}
+.tv-play {
+  display: inline-flex;
+  margin-top: 4px;
+  align-items: center;
+  gap: 12px;
+  background: var(--teach-coral);
+  color: var(--teach-noche);
+  padding: 12px 22px;
+  font-weight: 700;
+  font-size: 15px;
+  font-family: inherit;
+  border: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+.tv-play::before {
+  content: "";
+  border-left: 13px solid var(--teach-noche);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.tv-play:hover { filter: brightness(1.06); }
+.tv-play:focus-visible { outline: 2px solid var(--teach-nieve); outline-offset: 3px; }
+
+.tv-marca {
+  position: absolute;
+  right: 140px;
+  bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--teach-nieve);
+  z-index: 3;
+}
+.tv-marca .bi { color: var(--teach-coral); }
+.tv-dur {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  font-family: var(--font-mono, ui-monospace), Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--teach-noche);
+  background: var(--teach-coral);
+  padding: 5px 11px;
+  font-weight: 700;
+  z-index: 3;
+}
+
+@media (max-width: 620px) {
+  /* A este ancho el kicker completo se parte en tres líneas y empuja el
+     titular fuera de la caja 16:9. */
+  .tv-kick { font-size: 9.5px; letter-spacing: .14em; }
+  .tv-h2 { margin: 10px 0; }
+  .tv-play { padding: 10px 16px; font-size: 14px; }
+  .tv-cap { bottom: 14%; gap: 9px; }
+  .tv-sig { font-size: 12.5px; }
+  .tv-marca { display: none; }
+}
