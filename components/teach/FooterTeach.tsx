@@ -40,7 +40,7 @@ export function FooterTeach({ email }: { email: string }) {
           <h3>ESTE MATERIAL</h3>
           <Link href="/teach">El recorrido</Link>
           <Link href="/teach">
-            Video introductorio<span className="meta">5 MIN</span>
+            Video introductorio<span className="meta">3 MIN</span>
           </Link>
           {/* Misma ruta protegida que la tarjeta del recorrido: verifica sesión
               y lista blanca antes de firmar la URL. */}

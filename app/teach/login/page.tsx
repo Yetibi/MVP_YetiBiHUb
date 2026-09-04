@@ -32,7 +32,7 @@ const ERRORES: Record<string, string> = {
 
 const INCLUYE = [
   { n: "7", que: "unidades cortas" },
-  { n: "1", que: "video de 4 min" },
+  { n: "1", que: "video de 3 min" },
   { n: "1", que: "guía en PDF" },
 ] as const;
 

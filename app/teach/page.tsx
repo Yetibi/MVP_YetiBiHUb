@@ -72,7 +72,7 @@ export default async function TeachIndex() {
                     : "Repasar el material"}
                 </Link>
               ) : null}
-              <span className="teach-cta2">Ver el video · 5 min</span>
+              <span className="teach-cta2">Ver el video · 3 min</span>
             </div>
           </div>
 
