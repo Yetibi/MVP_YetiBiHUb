@@ -1058,6 +1058,17 @@
     grid-column: 2;
     margin-top: 6px;
   }
+  /* La acción baja bajo el texto en vez de comprimirse al lado. */
+  .teach-pdf {
+    grid-template-columns: 52px 1fr;
+    gap: 14px;
+    padding: 16px 18px;
+  }
+  .teach-pdf-accion {
+    grid-column: 2;
+    margin-top: 10px;
+    justify-self: start;
+  }
   .teach-u-n {
     font-size: 30px;
   }
@@ -1076,6 +1087,95 @@
     text-align: left;
   }
 }
+
+
+/* ═══ CIERRE DEL RECORRIDO: descarga del PDF ═══════════════════════════════
+   Réplica de _ARCHIVO/diseno/mockup-teach-pdf-recorrido.html.
+   Vive DENTRO de la sección del recorrido, no en una banda propia: el footer
+   ya es el cierre oscuro y dos bandas seguidas se ven mal. */
+.teach-sep {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 30px 0 16px;
+}
+.teach-sep .ln { flex: 1; height: 1px; background: var(--teach-borde); }
+.teach-sep span {
+  font-family: var(--font-mono, ui-monospace), Menlo, monospace;
+  font-size: 11.5px;
+  letter-spacing: .2em;
+  font-weight: 700;
+  /* Naranja oscurecido, no --teach-naranja (#F2921D): ese es color de CTA y
+     sobre el fondo claro da 2.17:1 como texto. Este da 5.02:1 (AA) y conserva
+     el carácter naranja. */
+  color: #9A5A18;
+}
+
+/* Misma grilla y comportamiento que .teach-u; se distingue por el borde cian
+   y una sombra algo más marcada. */
+.teach-pdf {
+  display: grid;
+  grid-template-columns: 74px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  background: var(--teach-blanco);
+  border: 1px solid rgba(79, 209, 224, .55);
+  border-radius: 16px;
+  padding: 20px 24px;
+  text-decoration: none;
+  color: var(--teach-noche);
+  box-shadow: 0 4px 20px rgba(14, 124, 140, .10);
+  transition: transform .18s, box-shadow .18s;
+}
+.teach-pdf:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(14, 124, 140, .16);
+}
+.teach-pdf:focus-visible {
+  outline: 2px solid var(--teach-cian-oscuro);
+  outline-offset: 3px;
+}
+
+/* Miniatura del documento, en la casilla del número de unidad. */
+.teach-doc {
+  width: 46px;
+  height: 58px;
+  background: var(--teach-nieve);
+  border: 1px solid var(--teach-borde);
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 0 3px 10px rgba(11, 20, 32, .10);
+}
+.teach-doc::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--teach-cian);
+}
+.teach-doc i { position: absolute; left: 9px; right: 7px; height: 1.5px; background: rgba(11, 20, 32, .16); }
+.teach-doc i:nth-child(1) { top: 11px; right: 20px; height: 3px; background: var(--teach-noche); }
+.teach-doc i:nth-child(2) { top: 21px; }
+.teach-doc i:nth-child(3) { top: 26px; }
+.teach-doc i:nth-child(4) { top: 31px; right: 18px; }
+.teach-doc i:nth-child(5) { top: 40px; right: 14px; height: 7px; background: var(--teach-coral); opacity: .85; }
+
+/* Borde cian, no naranja sólido: el único sólido de la pantalla sigue siendo
+   "Continuar en la unidad N" del hero. */
+.teach-pdf-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(14, 124, 140, .45);
+  color: var(--teach-cian-oscuro);
+  border-radius: 11px;
+  padding: 11px 18px;
+  font-size: 14.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  background: transparent;
+}
+.teach-pdf:hover .teach-pdf-accion { background: rgba(79, 209, 224, .10); }
 
 /* ═══ LOGIN (/teach/login) — réplica de _ARCHIVO/diseno/mockup-teach-login.html
    Modo noche completo: no hay lectura larga, es la primera impresión y la

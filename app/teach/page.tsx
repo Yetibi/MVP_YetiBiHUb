@@ -143,6 +143,29 @@ export default async function TeachIndex() {
               </Link>
             );
           })}
+
+          {/* Cierre del recorrido, DENTRO de la misma sección: el footer ya es
+              la banda oscura del final y dos bandas seguidas se ven mal. */}
+          <div className="teach-sep">
+            <span>PARA LLEVAR</span>
+            <span className="ln" />
+          </div>
+
+          <a className="teach-pdf" href="/teach/descargar">
+            {/* Miniatura del documento, en la casilla del número de unidad.
+                Decorativa: el título ya dice qué es. */}
+            <span className="teach-doc" aria-hidden="true">
+              <i /><i /><i /><i /><i />
+            </span>
+            <span>
+              <span className="teach-u-tit">Las siete unidades en un PDF</span>
+              <span className="teach-u-obj">
+                Para leer sin conexión, imprimir o compartir dentro de tu
+                equipo. 17 páginas.
+              </span>
+            </span>
+            <span className="teach-pdf-accion">↓ Descargar</span>
+          </a>
         </div>
       </section>
 

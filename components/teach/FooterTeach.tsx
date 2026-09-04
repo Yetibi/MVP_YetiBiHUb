@@ -42,9 +42,11 @@ export function FooterTeach({ email }: { email: string }) {
           <Link href="/teach">
             Video introductorio<span className="meta">5 MIN</span>
           </Link>
-          <span className="teach-footer-soon">
-            Guía en PDF<span className="meta">PRÓXIMAMENTE</span>
-          </span>
+          {/* Misma ruta protegida que la tarjeta del recorrido: verifica sesión
+              y lista blanca antes de firmar la URL. */}
+          <Link href="/teach/descargar">
+            Guía en PDF<span className="meta">17 PÁG</span>
+          </Link>
         </div>
 
         <div className="teach-footer-col">
