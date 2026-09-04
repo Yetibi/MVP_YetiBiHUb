@@ -4,6 +4,7 @@ import { createSupabaseServer } from "@/lib/teach/supabase-server";
 import { estaAutorizado, esInterno } from "@/lib/teach/authorize";
 import { listarUnidades, urlVideoFirmada } from "@/lib/teach/unidades";
 import { FooterTeach } from "@/components/teach/FooterTeach";
+import { VideoIntro, VerVideoBoton } from "@/components/teach/VideoIntro";
 
 export default async function TeachIndex() {
   const sb = await createSupabaseServer();
@@ -72,32 +73,13 @@ export default async function TeachIndex() {
                     : "Repasar el material"}
                 </Link>
               ) : null}
-              <span className="teach-cta2">Ver el video · 3 min</span>
+              <VerVideoBoton minutos="3 min" disponible={Boolean(videoUrl)} />
             </div>
           </div>
 
-          {/* Video de introducción — arranca muteado al abrir la página */}
-          <div className="teach-video">
-            {videoUrl ? (
-              <video
-                className="teach-video-el"
-                src={videoUrl}
-                poster={posterUrl ?? undefined}
-                autoPlay
-                muted
-                playsInline
-                controls
-                preload="metadata"
-                aria-label="Video de introducción: El mecanismo y el operador"
-              >
-                Tu navegador no reproduce video.
-              </video>
-            ) : (
-              <div className="teach-video-pie">
-                YETIBI TEACH · INTRODUCCIÓN (video no disponible)
-              </div>
-            )}
-          </div>
+          {/* Video + su CTA: el botón necesita el <video> para llevarlo a
+              pantalla completa, así que viven en el mismo componente cliente. */}
+          <VideoIntro videoUrl={videoUrl} posterUrl={posterUrl} />
         </div>
       </section>
 

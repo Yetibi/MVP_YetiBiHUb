@@ -202,14 +202,21 @@
 }
 
 /* marco del video (placeholder del video de introducción) */
+/* Marco coral: el borde era cian al 28% sobre un hero azul y el video se
+   fundía con el fondo. El coral es el único acento cálido de la paleta, así
+   que separa el bloque sin introducir un color nuevo.
+   El relieve son tres capas: halo coral difuso que despega del fondo, sombra
+   negra que da profundidad, y un filete claro interior que marca el canto. */
 .teach-video {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(79, 209, 224, 0.28);
+  border: 2px solid rgba(242, 143, 107, 0.55);
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    0 0 0 1px rgba(242, 143, 107, 0.18),
+    0 18px 44px rgba(242, 143, 107, 0.14),
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   aspect-ratio: 16 / 9;
   background: #08111c;
 }
