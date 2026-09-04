@@ -3,7 +3,9 @@
 import { createSupabaseServer } from "@/lib/teach/supabase-server";
 import { estaAutorizado } from "@/lib/teach/authorize";
 
-export type LoginState = { ok: boolean; mensaje: string };
+// `correo` solo se usa para mostrarlo en el estado "enviado" ("Enviamos un
+// enlace a …"). No cambia ninguna verificación.
+export type LoginState = { ok: boolean; mensaje: string; correo?: string };
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
@@ -57,5 +59,6 @@ export async function solicitarAcceso(
   return {
     ok: true,
     mensaje: "Te enviamos un enlace de acceso. Revisá tu correo.",
+    correo,
   };
 }

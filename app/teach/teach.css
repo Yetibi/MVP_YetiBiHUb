@@ -1076,3 +1076,193 @@
     text-align: left;
   }
 }
+
+/* ═══ LOGIN (/teach/login) — réplica de _ARCHIVO/diseno/mockup-teach-login.html
+   Modo noche completo: no hay lectura larga, es la primera impresión y la
+   marca vive en noche. El material sigue claro adentro.
+   Contraste sobre #0B1420: nieve 15.8:1 · neblina 7.0:1 · cian 9.4:1 ·
+   #7A8899 5.6:1. Sobre acero #141F2E: nieve 14.5:1 · neblina 6.4:1. Todos AA. */
+.tl-pantalla {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  background: var(--teach-noche);
+  background-image: radial-gradient(900px 460px at 12% 30%, rgba(79, 209, 224, .09), transparent 68%);
+  color: var(--teach-nieve);
+  --tl-pad: clamp(24px, 5vw, 72px);
+}
+
+/* ── Izquierda: marca y contexto ── */
+.tl-izq {
+  padding: clamp(40px, 5vw, 72px) var(--tl-pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.tl-centro { max-width: 44ch; }
+.tl-kicker {
+  font-family: var(--font-mono, ui-monospace), Menlo, monospace;
+  font-size: 11.5px;
+  letter-spacing: .2em;
+  color: var(--teach-cian);
+  margin: 0 0 18px;
+}
+.tl-izq h1 {
+  font-family: var(--teach-serif);
+  font-weight: 600;
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.1;
+  letter-spacing: -.015em;
+  margin: 0 0 20px;
+  color: var(--teach-nieve);
+}
+.tl-lema {
+  font-family: var(--teach-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.5;
+  border-left: 3px solid var(--teach-coral);
+  padding-left: 17px;
+  margin: 0 0 26px;
+  max-width: 31ch;
+}
+.tl-desc {
+  color: var(--teach-gris-tenue);
+  font-size: 15.5px;
+  max-width: 42ch;
+  margin: 0;
+}
+.tl-incluye { display: flex; gap: 26px; margin-top: 30px; flex-wrap: wrap; }
+.tl-incluye div { display: flex; gap: 9px; align-items: baseline; }
+.tl-incluye b {
+  font-family: var(--teach-serif);
+  font-size: 26px;
+  color: var(--teach-cian);
+  line-height: 1;
+}
+.tl-incluye span {
+  font-size: 13.5px;
+  color: var(--teach-gris-tenue);
+  line-height: 1.3;
+  max-width: 9ch;
+}
+.tl-pie { font-size: 12.5px; color: #7A8899; margin: 0; }
+
+/* ── Derecha: tarjeta ── */
+.tl-der {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(32px, 4vw, 56px) var(--tl-pad);
+  border-left: 1px solid rgba(242, 246, 249, .07);
+}
+.tl-card {
+  background: #141F2E;
+  border: 1px solid rgba(242, 246, 249, .08);
+  width: 100%;
+  max-width: 400px;
+  padding: 36px 34px;
+}
+.tl-card h2 {
+  font-family: var(--teach-serif);
+  font-size: 24px;
+  margin: 0 0 8px;
+  color: var(--teach-nieve);
+}
+.tl-ayuda {
+  color: var(--teach-gris-tenue);
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 0 0 26px;
+}
+.tl-label {
+  display: block;
+  font-family: var(--font-mono, ui-monospace), Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: #7A8899;
+  margin-bottom: 9px;
+}
+.tl-input {
+  width: 100%;
+  background: var(--teach-noche);
+  border: 1px solid rgba(242, 246, 249, .14);
+  color: var(--teach-nieve);
+  padding: 14px 16px;
+  font-size: 16px; /* 16px evita el zoom automático de iOS al enfocar */
+  font-family: inherit;
+}
+.tl-input::placeholder { color: #5D6B7A; }
+.tl-input:focus-visible {
+  outline: 2px solid var(--teach-cian);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+.tl-btn {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  background: var(--teach-naranja);
+  color: var(--teach-noche);
+  font-weight: 700;
+  font-size: 16px;
+  border: 0;
+  padding: 15px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  text-decoration: none;
+}
+.tl-btn:hover { background: var(--teach-ocre); }
+.tl-btn:disabled { opacity: .6; cursor: default; }
+.tl-btn:focus-visible { outline: 2px solid var(--teach-cian); outline-offset: 2px; }
+.tl-btn-sec {
+  background: transparent;
+  color: var(--teach-cian);
+  border: 1px solid rgba(79, 209, 224, .45);
+}
+.tl-btn-sec:hover { background: rgba(79, 209, 224, .08); }
+.tl-nota {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(242, 246, 249, .08);
+  font-size: 13px;
+  color: #7A8899;
+  line-height: 1.55;
+}
+.tl-nota-sola { border-top: 0; padding-top: 0; margin-top: 0; }
+.tl-mail, .tl-link { color: var(--teach-cian); }
+.tl-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.tl-mail:focus-visible, .tl-link:focus-visible {
+  outline: 2px solid var(--teach-cian);
+  outline-offset: 2px;
+}
+
+/* ── Estados de la tarjeta ── */
+.tl-estado {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 20px;
+  margin-bottom: 22px;
+}
+.tl-ok { background: rgba(79, 209, 224, .09); border-left: 3px solid var(--teach-cian); }
+.tl-no { background: rgba(242, 143, 107, .11); border-left: 3px solid var(--teach-coral); }
+.tl-estado .t { font-size: 15.5px; font-weight: 700; margin: 0 0 4px; }
+.tl-estado .d { font-size: 14px; color: var(--teach-gris-tenue); line-height: 1.55; margin: 0; }
+.tl-estado .d b { color: var(--teach-nieve); }
+.tl-ok .t { color: var(--teach-cian); }
+.tl-no .t { color: var(--teach-coral); }
+
+@media (max-width: 900px) {
+  .tl-pantalla { grid-template-columns: 1fr; }
+  .tl-der { border-left: 0; border-top: 1px solid rgba(242, 246, 249, .07); }
+  .tl-izq { gap: 34px; }
+}
