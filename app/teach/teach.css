@@ -1158,10 +1158,18 @@
 }
 .tl-card {
   background: #141F2E;
-  border: 1px solid rgba(242, 246, 249, .08);
+  border: 1px solid rgba(242, 246, 249, .10);
+  border-radius: 14px;
   width: 100%;
   max-width: 400px;
   padding: 36px 34px;
+  /* Relieve del sistema: sombra proyectada + luz interior de 1px, igual que
+     .teach-video y .teach-tarjeta. Sobre noche la sombra tiene que ser negra
+     y profunda; una sombra tenue no se ve sobre fondo oscuro. */
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, .45),
+    0 2px 8px rgba(0, 0, 0, .30),
+    0 0 0 1px rgba(255, 255, 255, .03) inset;
 }
 .tl-card h2 {
   font-family: var(--teach-serif);
@@ -1191,6 +1199,7 @@
   padding: 14px 16px;
   font-size: 16px; /* 16px evita el zoom automático de iOS al enfocar */
   font-family: inherit;
+  border-radius: 8px;
 }
 .tl-input::placeholder { color: #5D6B7A; }
 .tl-input:focus-visible {
@@ -1212,7 +1221,12 @@
   font-family: inherit;
   text-align: center;
   text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(242, 146, 29, .28);
+  transition: background .18s, box-shadow .18s, transform .18s;
 }
+.tl-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(242, 146, 29, .38); }
+.tl-btn:active { transform: translateY(0); }
 .tl-btn:hover { background: var(--teach-ocre); }
 .tl-btn:disabled { opacity: .6; cursor: default; }
 .tl-btn:focus-visible { outline: 2px solid var(--teach-cian); outline-offset: 2px; }
@@ -1220,7 +1234,9 @@
   background: transparent;
   color: var(--teach-cian);
   border: 1px solid rgba(79, 209, 224, .45);
+  box-shadow: none;
 }
+.tl-btn-sec:hover { box-shadow: 0 6px 18px rgba(79, 209, 224, .18); }
 .tl-btn-sec:hover { background: rgba(79, 209, 224, .08); }
 .tl-nota {
   margin: 20px 0 0;
@@ -1252,6 +1268,7 @@
   align-items: flex-start;
   padding: 20px;
   margin-bottom: 22px;
+  border-radius: 0 10px 10px 0;
 }
 .tl-ok { background: rgba(79, 209, 224, .09); border-left: 3px solid var(--teach-cian); }
 .tl-no { background: rgba(242, 143, 107, .11); border-left: 3px solid var(--teach-coral); }
