@@ -51,6 +51,9 @@ const securityHeaders = [
       // dejando el <video> con error code 4 (fuente no soportada) — se veía
       // como si el archivo estuviera roto.
       "media-src 'self' blob: https://*.supabase.co",
+      // El <noscript> de GTM carga un <iframe> de googletagmanager; sin
+      // frame-src cae en default-src 'self' y el navegador lo bloquea.
+      "frame-src 'self' https://www.googletagmanager.com",
       "frame-ancestors 'none'",
     ].join("; "),
   },

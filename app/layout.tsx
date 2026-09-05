@@ -100,7 +100,33 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
+      <head>
+        {/* Google Tag Manager — contenedor GTM-5Q74QF6L.
+            Va como <Script> y no como <script> crudo: en el App Router una
+            etiqueta <script> dentro del árbol de React no garantiza el orden
+            de carga, y next/script sí. Estrategia afterInteractive = se
+            inyecta apenas la página es interactiva, que es lo que el snippet
+            original hace desde el head. */}
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5Q74QF6L');`}
+        </Script>
+      </head>
       <body className="min-h-full flex flex-col">
+        {/* Google Tag Manager (noscript) — primer elemento del body, como pide
+            el snippet. Solo actúa si el visitante tiene JS desactivado. */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5Q74QF6L"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         {/* Google tag (gtag.js) — Google Ads / GA4, todas las páginas */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-SKYKSHS0LZ"
