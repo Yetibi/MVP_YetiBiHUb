@@ -54,6 +54,7 @@ export function Footer() {
           <h3>RECURSOS</h3>
           <Link href="/tesis">Enfoque</Link>
           <Link href="/teach">Teach</Link>
+          <a href="https://platify.yetibi.com" target="_blank" rel="noopener">Platify · Finanzas personales</a>
         </nav>
 
         <div className="sf-col">
