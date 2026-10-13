@@ -54,7 +54,7 @@ export function Footer() {
           <h3>RECURSOS</h3>
           <Link href="/tesis">Enfoque</Link>
           <Link href="/teach">Teach</Link>
-          <a href="https://pika.yetibi.com" target="_blank" rel="noopener">Pika · finanzas personales inteligentes</a>
+          <a href="https://pika.yetibi.com" target="_blank" rel="noopener" aria-label="Pika, finanzas personales inteligentes de Yeti BI">Pika · finanzas personales inteligentes</a>
         </nav>
 
         <div className="sf-col">
