@@ -2124,6 +2124,34 @@ textarea:focus-visible {
   border-radius: 4px;
 }
 
+/* Rótulo de la columna de acceso restringido. El punto cian y sus medidas son
+   los de .teach-footer-acceso (app/teach/teach.css): el sitio dice
+   "restringido" de una sola forma, aquí y en el pie de /teach. */
+.sf-col h3.sf-h3-priv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sf-punto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4FD1E0;
+  box-shadow: 0 0 0 3px rgba(79, 209, 224, .15);
+  flex: none;
+}
+/* Dice POR QUÉ está restringido. Sin esto, el rótulo informa pero no orienta:
+   quien no tiene acceso no sabe qué le falta. */
+.sf-nota {
+  font-family: var(--font-geist-mono), ui-monospace, Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  line-height: 1.5;
+  color: #5F6D80;
+  margin: 10px 0 0;
+  max-width: 30ch;
+}
+
 .sf-linea { height: 1px; background: rgba(242, 246, 249, .10); }
 .sf-barra {
   padding: 22px 0 30px;
