@@ -14,6 +14,10 @@ import { BrandMark } from "@/components/BrandMark";
 
    El logo sale de BrandMark (el componente real, no una copia) y las fuentes
    del sistema de layout.tsx. Estilos: prefijo .sf- en app/globals.css.
+
+   Las columnas son cuatro: marca, NAVEGACIÓN (lo público), ACCESO RESTRINGIDO
+   (lo que exige invitación) y CONTACTO. La separación es deliberada: quien
+   llega al pie debe poder ver de un vistazo qué puede abrir y qué no.
    ────────────────────────────────────────────────────────────────────────── */
 
 export function Footer() {
@@ -46,15 +50,43 @@ export function Footer() {
           <Link href="/powerbi">
             Servicios <span translate="no">Power BI</span>
           </Link>
+          {/* Enfoque vivía en RECURSOS. Al pasar Pika y Teach a la columna de
+              acceso restringido, esa columna quedaba con un solo enlace, así
+              que se disolvió y Enfoque entró aquí: es una página pública más. */}
+          <Link href="/tesis">Enfoque</Link>
           {/* Ruta + ancla para que también funcione desde fuera de /evaluacion */}
           <Link href="/evaluacion#contacto-form">Contacto</Link>
         </nav>
 
-        <nav className="sf-col" aria-label="Recursos">
-          <h3>RECURSOS</h3>
-          <Link href="/tesis">Enfoque</Link>
+        {/* Las tres herramientas exigen estar en una lista de invitados: Teach y
+            Pika por cookie de acceso contra la lista vigente, YAK por correo
+            autorizado y clave. Antes convivían con lo público sin distinguirse,
+            de modo que nada advertía que ahí no se entra. El punto cian y el
+            rótulo son los mismos de teach-footer-acceso, para que el sitio diga
+            "restringido" siempre igual. */}
+        <nav className="sf-col" aria-label="Herramientas de acceso restringido">
+          <h3 className="sf-h3-priv">
+            <span className="sf-punto" aria-hidden="true" />
+            ACCESO RESTRINGIDO
+          </h3>
           <Link href="/teach">Teach</Link>
-          <a href="https://pika.yetibi.com" target="_blank" rel="noopener" aria-label="Pika, finanzas personales inteligentes de Yeti BI">Pika · finanzas personales inteligentes</a>
+          <a
+            href="https://pika.yetibi.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Pika, finanzas personales inteligentes de Yeti BI. Acceso restringido"
+          >
+            Pika · finanzas personales
+          </a>
+          <a
+            href="https://yak-gestionproyectos.yetibi.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="YAK, gestión de proyectos de construcción de Yeti BI. Acceso restringido"
+          >
+            YAK · Gestión de proyectos de construcción
+          </a>
+          <p className="sf-nota">Solo para correos autorizados.</p>
         </nav>
 
         <div className="sf-col">
