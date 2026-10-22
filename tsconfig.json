@@ -30,5 +30,10 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  // scripts/ son utilidades de desarrollo: ninguna la invoca package.json y
+  // varias estan marcadas -tmp. No se despliegan, pero el type-check de
+  // `next build` las revisaba igual, asi que una de ellas -con un campo que
+  // se renombro hace tiempo- bastaba para tumbar el despliegue de produccion.
+  // Quedan en el repositorio; simplemente dejan de ser requisito para publicar.
+  "exclude": ["node_modules", "scripts"]
 }

@@ -7,21 +7,29 @@ import { SECCIONES_HOME } from "@/lib/home-sections";
 
 // ─── Héroe del Home de marca ─────────────────────────────────────────────────
 // Video protagonista (Yeti-constelación), nav mínima, kicker y titular.
-// Declarativo: sin CTA. Lógica cromática intencional — cian = lo ya resuelto
+// El titular sigue siendo declarativo: ningún botón encima del video. La
+// única puerta vive en la nav — el mismo botón que ya tiene /evaluacion —
+// porque antes quien llegaba al Home no tenía dónde hacer clic hasta la
+// séptima sección. Lógica cromática intencional — cian = lo ya resuelto
 // (construir es fácil), salmón = el diferencial (el criterio).
 // Estilos en globals.css (bloque "Hero de marca").
 
 const VIDEO = "/video/hero-yeti-red-neuronal.mp4";
 const POSTER = "/video/hero-yeti-red-neuronal-poster.jpg";
 
-// Las ocho secciones del Home, en orden de lectura, más el marco extendido
-// (/tesis), que es página aparte y por eso va al final. Antes esta lista era
-// propia y solo cubría 3 de las 8 secciones; ahora sale de la misma fuente
-// que el raíl de conceptos.
+// Las secciones del Home, en orden de lectura, más el marco extendido
+// (/tesis), que es página aparte y por eso va al final. La lista sale de la
+// misma fuente que el raíl de conceptos. Acceso (#contacto) no va en la fila:
+// su destino es el botón, y el pie ya enlaza a esa sección.
 const NAV_LINKS = [
-  ...SECCIONES_HOME.map((s) => ({ label: s.navLabel, href: `#${s.id}` })),
+  ...SECCIONES_HOME.filter((s) => s.id !== "contacto").map((s) => ({
+    label: s.navLabel,
+    href: `#${s.id}`,
+  })),
   { label: "El marco", href: "/tesis" },
 ];
+
+const CTA = { label: "Evaluar mi proceso", href: "/evaluacion" };
 
 export function HeroMarca() {
   const reducedMotion = useReducedMotion();
@@ -104,7 +112,7 @@ export function HeroMarca() {
       {/* Gradientes de legibilidad (inferior + viñeta) */}
       <div className="hm-veil" aria-hidden="true" />
 
-      {/* Nav superpuesta, sin fondo ni CTA (deliberado) */}
+      {/* Nav superpuesta, sin fondo (deliberado); la puerta va al final */}
       <nav className="hm-nav" aria-label="Navegación principal">
         {/* Logo apilado: símbolo encima del wordmark. La clase hm-marca hace
             el cambio de eje (ver globals.css) — BrandMark se comparte con
@@ -129,6 +137,9 @@ export function HeroMarca() {
               {l.label}
             </a>
           ))}
+          <a className="hm-cta" href={CTA.href}>
+            {CTA.label}
+          </a>
         </div>
 
         {/* Menú móvil */}
@@ -162,6 +173,13 @@ export function HeroMarca() {
               {l.label}
             </a>
           ))}
+          <a
+            className="hm-cta"
+            href={CTA.href}
+            onClick={() => setMenuAbierto(false)}
+          >
+            {CTA.label}
+          </a>
         </div>
       </nav>
 
