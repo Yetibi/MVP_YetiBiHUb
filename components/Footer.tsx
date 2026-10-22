@@ -79,7 +79,7 @@ export function Footer() {
             Pika · finanzas personales
           </a>
           <a
-            href="https://yak-gestionproyectos-prefactibilidad.yetibi.com"
+            href="https://yak-gestionproyectos.yetibi.com"
             target="_blank"
             rel="noopener"
             aria-label="YAK, gestión de proyectos de construcción de Yeti BI. Acceso restringido"
