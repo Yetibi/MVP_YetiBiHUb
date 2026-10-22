@@ -94,6 +94,26 @@ export default function Tesis() {
             No puede adivinar la intención detrás de un dato mal capturado —
             solo puede propagarlo.
           </p>
+          {/* Desarrollo que antes vivía en el Home (sección 02). Allá quedó el
+              titular y el diagrama; el razonamiento se lee aquí. */}
+          <p className="tz-p">
+            Consolidar, extraer y procesar datos dispersos entre sistemas que
+            no se hablan: ahí la IA es imbatible, con una escala y una
+            velocidad que ninguna estructura humana alcanza. Pero un mal
+            proceso ejecutado por una persona es un problema local.{" "}
+            <strong>El mismo proceso ejecutado por IA es un desastre escalable.</strong>
+          </p>
+          <p className="tz-p">
+            El juicio, la visión sistémica y la responsabilidad no se delegan.
+            La IA no genera criterio: <strong>multiplica el que recibe.</strong>{" "}
+            Por eso el rediseño no libera horas — cambia a qué se dedican: menos
+            tiempo produciendo datos, más tiempo pensando con ellos.
+          </p>
+          <p className="tz-p">
+            Si la semilla es pobre, la IA entrega{" "}
+            <strong>basura maravillosamente consolidada</strong>: ordenada,
+            veloz, convincente y equivocada.
+          </p>
         </section>
 
         {/* 2 · Sistema de decisión */}

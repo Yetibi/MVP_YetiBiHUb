@@ -4,9 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 // ─── S2 · La ley de amplificación ────────────────────────────────────────────
-// Split asimétrico 62/38 + bloque de inversión animado (una sola vez, con
-// pausa deliberada entre paneles para que la inversión se lea). Sin cifras
-// impresas en las barras: son proporciones relativas, no un dato.
+// Cuatro bloques: kicker, titular, el diagrama de inversión y una frase de
+// cierre. El diagrama ya era el argumento; la bajada, las dos columnas
+// (músculo transaccional / semilla del criterio) y la pregunta final lo
+// repetían en prosa y la sección pedía leer 22 cosas. Ese texto no se
+// perdió: vive en /tesis, sección 1, que es donde va quien quiere el
+// desarrollo. La animación corre una sola vez, con pausa deliberada entre
+// paneles para que la inversión se lea. Sin cifras impresas en las barras:
+// son proporciones relativas, no un dato.
 
 const EASE = "cubic-bezier(0.23, 1, 0.32, 1)";
 
@@ -69,58 +74,8 @@ export function S2Amplificacion() {
         <h2 className="hs-h2">
           La IA no es un filtro. Es un <span className="acc">megáfono.</span>
         </h2>
-        <p className="hs-bajada">
-          <span className="s2-desk">
-            No purifica lo que le entregas. Lo repite más fuerte, más rápido y
-            con más convicción. No puede adivinar la intención detrás de un dato
-            mal capturado — solo puede propagarlo.
-          </span>
-          <span className="s2-mov">
-            No purifica lo que le entregas. Lo repite más fuerte y más rápido.
-          </span>
-        </p>
 
-        {/* Columnas asimétricas 62/38 — la asimetría es el argumento */}
-        <div className="s2-split">
-          {/* Ancha: el músculo */}
-          <div>
-            <p className="s2-tag">EL MÚSCULO TRANSACCIONAL</p>
-            <div className="s2-desk">
-              <p className="s2-txt">
-                Consolidar, extraer y procesar datos dispersos entre sistemas
-                que no se hablan. Ahí la IA es imbatible: escala y velocidad que
-                ninguna estructura humana alcanza.
-              </p>
-              <p className="s2-txt">
-                Pero un mal proceso ejecutado por una persona es un problema
-                local. <strong>El mismo proceso ejecutado por IA es un desastre
-                escalable.</strong>
-              </p>
-            </div>
-            <p className="s2-txt s2-mov">Consolidar y procesar. Ahí es imbatible.</p>
-          </div>
-
-          <div className="hs-split-div" aria-hidden="true" />
-
-          {/* Angosta: la semilla — poco espacio, mucha densidad */}
-          <div className="s2-caja">
-            <p className="s2-tag acc">LA SEMILLA DEL CRITERIO</p>
-            <div className="s2-desk">
-              <p className="s2-txt">
-                El juicio, la visión sistémica y la responsabilidad no se
-                delegan.
-              </p>
-              <p className="s2-txt">
-                La IA no genera criterio: <strong>multiplica el que recibe.</strong>
-              </p>
-            </div>
-            <p className="s2-txt s2-mov">
-              No genera criterio: <strong>multiplica el que recibe.</strong>
-            </p>
-          </div>
-        </div>
-
-        {/* Bloque de inversión */}
+        {/* Bloque de inversión — el argumento entero, dibujado */}
         <div
           role="img"
           aria-label="Hoy: la mayor parte del tiempo se dedica a producir. Después del rediseño: la mayor parte se dedica a pensar."
@@ -164,25 +119,13 @@ export function S2Amplificacion() {
               </div>
             </div>
           </div>
-          <p className="s2-pie">
-            EL REDISEÑO NO LIBERA HORAS — CAMBIA A QUÉ SE DEDICAN
-          </p>
         </div>
 
-        {/* Cita de cierre */}
-        <div className="s2-cita">
-          <span className="s2-desk">
-            Si la semilla es pobre, la IA entrega{" "}
-            <strong>basura maravillosamente consolidada</strong>: ordenada,
-            veloz, convincente y equivocada.
-          </span>
-          <span className="s2-mov">
-            <strong>basura maravillosamente consolidada</strong>: ordenada,
-            veloz, convincente y equivocada.
-          </span>
-        </div>
-
-        <p className="hs-apertura">¿Qué va a encontrar la IA en tu operación?</p>
+        {/* Cierre — una sola frase, la que se recuerda */}
+        <p className="s2-cierre">
+          Si la semilla es pobre, entrega{" "}
+          <strong>basura maravillosamente consolidada.</strong>
+        </p>
       </div>
     </section>
   );
